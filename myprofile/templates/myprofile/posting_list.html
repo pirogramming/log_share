@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    {% for post in posts %}
+        <div>
+        <p>
+            제목 : {{ post.title }}
+            내용 : {{ post.contents }}
+            시작일 : {{ post.start_date }}
+            종료일 : {{ post.end_date }}
+        </p>
+        </div>
+    {% endfor %}
+
+
+</body>
+</html>
