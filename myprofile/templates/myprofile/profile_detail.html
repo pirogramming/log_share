@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block style %}
+    <style>
+
+    </style>
+{% endblock %}
+
+{% block content %}
+    <div>이름: {{ profile.user.last_name }}{{ profile.user.first_name }}</div>
+    <div>
+            {% if profile.photo %}
+            <img src="{{ profile.photo.url }}" alt="" width="50%"/>
+            {% endif %}
+    </div>
+    <div>소속: {{ profile.department }}</div>
+    <div>자기소개: </br> {{ profile.description }}</div>
+    <div>대표 URL: </br>
+        {% for site in sites %}
+            <a href="{{ site.link }}">{{ site.link }}</a>
+            </br>
+        {% endfor %}
+    </div>
+    <p><a href="mailto:{{ profile.user.email }}" class="fa-envelope"><span class="label">Email</span></a></p>
+
+    <p><a href="{% url 'myprofile:bookmark_list' profile.user.pk %}">북마크</a></p>
+
+    </hr>
+
+
+{% endblock %}

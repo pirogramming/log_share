@@ -1,0 +1,7 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    {% for bookmark in bookmarks %}
+        <p><a href="{% url 'myprofile:post_detail' bookmark.post.user.pk bookmark.post.pk %}">{{ bookmark }}</a></p>
+    {% endfor %}
+{% endblock %}
