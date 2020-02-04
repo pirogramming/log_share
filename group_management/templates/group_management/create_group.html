@@ -1,0 +1,30 @@
+<form action="" method="post" class="form-horizontal">
+    {% csrf_token %}
+    {% for error in form.non_field_errors %}
+        <div class="alert alert-danger">
+            {{ error }}
+        </div>
+    {% endfor %}
+    {% for field in form.hidden_fields %}
+        {{ field }}
+    {% endfor %}
+    {% for field in form.visible_fields %}
+        <div class="form-group">
+            {{ field.label_tag }}
+{#        <div class="col-sm-10">#}
+            {{ field }}
+            {% if field.help_text %}
+                <p class="help-block">
+                    {{ field.help_text }}
+                </p>
+            {% endif %}
+            {% for error in field.errors %}
+                <div class="alert alert-danger">
+                    {{ error }}
+                </div>
+            {% endfor %}
+{#        </div>#}
+        </div>
+    {% endfor %}
+    <input type="submit" value="그룹생성">
+</form>

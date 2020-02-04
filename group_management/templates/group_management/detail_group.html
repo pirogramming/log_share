@@ -1,0 +1,6 @@
+{{ group.name }} <br>
+{{ group.category }}<br>
+{{ group.notes }}<br>
+{{ group.is_searchable }}<br>
+
+<a href = "{% url 'group_management:request_group' group.id %}">그룹 가입 신청</a>
