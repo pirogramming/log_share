@@ -34,6 +34,7 @@ class Post(models.Model):
         ('강연', '강연'),
         ('기타', '기타'),
     )
+
     category = models.CharField(choices=categories, verbose_name='카테고리', max_length=255)
     title = models.CharField(max_length=100, verbose_name='제목')
     contents = models.TextField(null=True, verbose_name='내용')

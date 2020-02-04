@@ -1,0 +1,28 @@
+<form action="" method="get">
+    검색:
+    <input type="text" name="q" value="{{ q }}">
+    <input type="submit" value="검색">
+</form>
+<span>결과</span>
+<ul>
+    {% for result in results %}
+        <li>
+            {% if option == 1 %}
+                <h3>{{ result.title }}</h3>
+                {% for tag in result.tag.all %}
+                    <span>#{{ tag }}</span>
+                {% endfor %}
+                <div>
+                    작성자: {{ result.user }}
+                </div>
+            {% endif %}
+            {% if option == 3 %}
+                <h3>{{ result.name }}</h3>
+                <span>category: {{ result.category }}</span>
+            {% endif %}
+
+
+        </li>
+    {% endfor %}
+
+</ul>
