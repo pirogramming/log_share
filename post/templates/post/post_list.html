@@ -8,15 +8,15 @@
     <title>Document</title>
 </head>
 <body>
+    <h2><a href="{% url 'post:post_create' %}">글 작성하기</a></h2>
     {% for post in posts %}
         <div>
         <p>
-            제목 : <a href="{% url 'myprofile:post_detail' post.pk %}">{{ post.title }}</a> <br>
+            제목 : <a href="{% url 'post:post_detail' post.pk %}">{{ post.title }}</a> <br>
             작성자 : {{ post.user }}
         </p>
         </div>
     {% endfor %}
-
 
 </body>
 </html>

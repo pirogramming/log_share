@@ -42,7 +42,7 @@ INSTALLED_APPS = [
     'taggit',
 
     #my apps
-    'myprofile',
+    'post',
 
 ]
 
@@ -133,5 +133,14 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 
-#Taggit settings
+# Media files
+
+MEDIA_URL = '/media/'
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+
+
+# Taggit settings
 TAGGIT_CASE_INSENSITIVE = True
+

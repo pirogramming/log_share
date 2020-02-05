@@ -9,7 +9,7 @@
 </head>
 <body>
     <div>
-        <form action="" method="POST">
+        <form action="" method="POST" enctype="multipart/form-data">
             {% csrf_token %}
             <p>
                 {{ postform.as_p }}
