@@ -16,7 +16,8 @@
     참고 URL : {{ post.reference }} <br>
     시작일 : {{ post.start_date }} <br>
     종료일 : {{ post.end_date }} <br>
-    태그 : {{ post.tags.all }} <br>
+    {# 아래의 join:","는 각 태그의 name만을 가져오고 한줄로 join해주는 역할 #}
+    태그 : {{ post.tags.all |join:"," }} <br>
 
     <a href="{% url 'post:post_list' %}">돌아가기</a> <br>
     <a href="{% url 'post:post_update' post.pk %}">수정하기</a>
