@@ -14,5 +14,5 @@ class GroupForm(forms.ModelForm):
             'is_searchable': '검색허용',
         }
 
-    def __init__(self, username, *args, **kwargs) -> object:
+    def __init__(self, username, *args, **kwargs):# -> object:
         super(GroupForm, self).__init__(*args, **kwargs)

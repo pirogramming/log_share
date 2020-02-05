@@ -16,7 +16,6 @@ def create_group(request):
             request.POST,
         )
         if form.is_valid():
-            # groups = CustomGroup.objects.all()
             group = CustomGroup.objects.create(
                 name=form.cleaned_data['name'],
                 category=form.cleaned_data['category'],
@@ -28,7 +27,6 @@ def create_group(request):
     else:
         form = GroupForm(
             request.user,  # 여기로 get타고 들어와서 request.POST 빼버림.
-            instance=request.user,
         )
     return render(request, 'group_management/create_group.html', {
         'form': form,
@@ -36,33 +34,22 @@ def create_group(request):
 
 
 def update_group(request, pk):
-    group = CustomGroup.objects.all().filter(id=pk)[0]
+    group = get_object_or_404(CustomGroup, id=pk)
     if request.method == 'POST':
-        if group.name != request.POST['name']:
-            group.name = request.POST['name']
-
-        if request.POST['is_searchable'] == 'on':
-            _is_searchable = True
-        else:
-            _is_searchable = False
-
-        group = CustomGroup.objects.all().filter(id=pk).update(
-            category=request.POST['category'],
-            notes=request.POST['notes'],
-            is_searchable=request.POST['is_searchable'],
+        group = CustomGroup.objects.get(id=pk)
+        form = GroupForm(
+            request.user,
+            request.POST,
+            instance=group,
         )
-        return redirect('group_management:detail_group', pk)
+        if form.is_valid():
+            group = form.save()
+            return redirect('group_management:detail_group', pk)
 
     else:
         form = GroupForm(
-            request.user,  # 여기로 get타고 들어와서 request.POST 빼버림.
-            instance=request.user,
-            initial={
-                'name': group.name,
-                'category': group.category,
-                'notes': group.notes,
-                'is_searchable': group.is_searchable,
-            },
+            request.user,
+            instance=group
         )
     return render(request, 'group_management/create_group.html', {
         'form': form,
