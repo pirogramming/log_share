@@ -1,5 +1,8 @@
 from django.contrib.auth import get_user_model
+from django.contrib.auth.models import User
 from django.db import IntegrityError
+from django.db.models import Q
+from django.http import HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 
 from group_management.forms import GroupForm
@@ -65,8 +68,22 @@ def request_group(request, pk):
 
 def request_list(request, pk):
     request_messages = GroupRequest.objects.filter(group_id=pk)
+    request_messages.filter(Q(status=False) | Q(status=True)).delete()
     print([request_messages])
     context = {
         'messages': request_messages,
     }
     return render(request, 'group_management/request_list.html', context)
+
+
+def add_member(user_id, group_id):
+    group = CustomGroup.objects.all().filter(id=group_id)[0]
+    user = User.objects.all().filter(id=user_id)[0]
+    group.user_set.add(user)
+    return group.user_set.all()
+
+
+def del_member(user_id, group_id):
+    group = CustomGroup.objects.all().filter(id=group_id)[0]
+    user = User.objects.all().filter(id=user_id)[0]
+    group.user_set.remove(user)
