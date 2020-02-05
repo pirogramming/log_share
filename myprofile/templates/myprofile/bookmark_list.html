@@ -1,9 +1,13 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    {% for bookmark in bookmarks %}
-        <div><a href="{% url 'post:post_detail' bookmark.post.user.pk bookmark.post.pk %}">{{ bookmark }}</a></div>
-        <div>{{ bookmark.post.contents }}</div>
-        <hr>
-    {% endfor %}
+    {% if bookmarks %}
+        {% for bookmark in bookmarks %}
+            <div><a href="{% url 'post:post_detail' bookmark.post.user.pk bookmark.post.pk %}">{{ bookmark }}</a></div>
+            <div>{{ bookmark.post.contents }}</div>
+            <hr>
+        {% endfor %}
+    {% else %}
+        <p>북마크 없음</p>
+    {% endif %}
 {% endblock %}

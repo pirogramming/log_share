@@ -1,5 +1,4 @@
 from django.shortcuts import render
-from .models import Profile, BookMark
 from django.contrib.auth.models import User
 
 

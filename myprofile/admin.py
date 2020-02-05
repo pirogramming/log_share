@@ -6,7 +6,7 @@ admin.site.register(Profile)
 
 @admin.register(Site)
 class SiteAdmin(admin.ModelAdmin):
-    list_display = ['profile', 'link']
+    list_display = ['link', 'profile']
 
 @admin.register(BookMark)
 class BookMarkAdmin(admin.ModelAdmin):
