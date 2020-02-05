@@ -1,5 +1,4 @@
-from django.contrib import admin
-from django.urls import path, include
+from django.urls import path
 
 from group_management import views
 
@@ -11,5 +10,6 @@ urlpatterns = [
     path('list/', views.list_group, name='list_group'),
     path('detail/<int:pk>/', views.detail_group, name='detail_group'),
     path('request/<int:pk>/', views.request_group, name='request_group'),
-    path('request/list/<int:pk>/', views.request_list, name='request_list'),
+    path('request/from/<int:pk>/', views.request_from, name='request_from'),
+    path('request/to/<int:pk>/', views.request_to, name='request_to'),
 ]
