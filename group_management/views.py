@@ -35,6 +35,40 @@ def create_group(request):
     })
 
 
+def update_group(request, pk):
+    group = CustomGroup.objects.all().filter(id=pk)[0]
+    if request.method == 'POST':
+        if group.name != request.POST['name']:
+            group.name = request.POST['name']
+
+        if request.POST['is_searchable'] == 'on':
+            _is_searchable = True
+        else:
+            _is_searchable = False
+
+        group = CustomGroup.objects.all().filter(id=pk).update(
+            category=request.POST['category'],
+            notes=request.POST['notes'],
+            is_searchable=request.POST['is_searchable'],
+        )
+        return redirect('group_management:detail_group', pk)
+
+    else:
+        form = GroupForm(
+            request.user,  # 여기로 get타고 들어와서 request.POST 빼버림.
+            instance=request.user,
+            initial={
+                'name': group.name,
+                'category': group.category,
+                'notes': group.notes,
+                'is_searchable': group.is_searchable,
+            },
+        )
+    return render(request, 'group_management/create_group.html', {
+        'form': form,
+    })
+
+
 def list_group(request):
     groups = CustomGroup.objects.all()
     context = {
@@ -87,3 +121,4 @@ def del_member(user_id, group_id):
     group = CustomGroup.objects.all().filter(id=group_id)[0]
     user = User.objects.all().filter(id=user_id)[0]
     group.user_set.remove(user)
+
