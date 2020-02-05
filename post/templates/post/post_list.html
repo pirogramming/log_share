@@ -1,0 +1,8 @@
+
+{% for post in posts %}
+<div class="post_container">
+    <div><a href="{% url 'post:post_detail' post.user.pk post.pk %}"><h2>{{ post.title }}</h2></a></div>
+    <div>{{ post.category }}</div>
+    <div>{{ post.start_date }}~{{ post.end_date }}</div>
+</div>
+{% endfor %}

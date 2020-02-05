@@ -3,11 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <style>
+        .nav{
+            background-color: #c4dce8;
+            height: 50px;
+            text-align: center;
+        }
+
+    </style>
 
     {% block style %}
     {% endblock %}
+
 </head>
 <body>
+<div class="nav">
+    <a href="{% url 'main:main_front' %}">홈으로</a>
+    {% if user.is_authenticated %}
+        <a href="{% url 'myprofile:profile_detail' user.pk %}">나의 프로필</a>
+    {% endif %}
+</div>
 
 {% block content %}
 {% endblock %}

@@ -2,11 +2,15 @@
 
 {% block style %}
     <style>
-
+        .post_container{
+            border: black solid 1px;
+            margin: 10px 0;
+        }
     </style>
 {% endblock %}
 
 {% block content %}
+<div class="profile_container">
     <div>이름: {{ profile.user.last_name }}{{ profile.user.first_name }}</div>
     <div>
             {% if profile.photo %}
@@ -15,6 +19,7 @@
     </div>
     <div>소속: {{ profile.department }}</div>
     <div>자기소개: </br> {{ profile.description }}</div>
+    <div>관심태그: {{ profile.interested_tag }}</div>
     <div>대표 URL: </br>
         {% for site in sites %}
             <a href="{{ site.link }}">{{ site.link }}</a>
@@ -23,9 +28,12 @@
     </div>
     <p><a href="mailto:{{ profile.user.email }}" class="fa-envelope"><span class="label">Email</span></a></p>
 
-    <p><a href="{% url 'myprofile:bookmark_list' profile.user.pk %}">북마크</a></p>
+    {% if profile.user.pk == user.pk%}
+        <p><a href="{% url 'myprofile:bookmark_list' profile.user.pk %}">북마크</a></p>
+    {% endif %}
 
-    </hr>
+    <hr>
 
-
+    {% include 'post/post_list.html' %}
+</div>
 {% endblock %}

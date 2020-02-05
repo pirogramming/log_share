@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div>제목: {{ post.title }}</div>
+    <div>작성자: <a href="{% url 'myprofile:profile_detail' post.user.pk %}">{{ post.user.last_name }}{{ post.user.first_name }}</a></div>
+    <div>활동기간: {{ post.start_date }} ~ {{ post.end_date }}</div>
+    <div>카테고리: {{ post.category }}</div>
+    {% if post.photo %}
+        <div><img src="{{ post.photo.url }}" alt=""></div>
+    {% endif %}
+    <hr>
+    {% if post.contents %}
+        <div>{{ post.contents }}</div>
+    {% endif %}
+    <hr>
+    {% if post.reference %}
+        <div>관련 URL: <a href="{{ post.reference }}">{{ post.reference }}</a></div>
+    {% endif %}
+
+{% endblock %}
