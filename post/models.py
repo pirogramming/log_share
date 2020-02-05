@@ -23,12 +23,12 @@ class Post(models.Model):
     end_date = models.DateField(verbose_name='종료 날짜')
     photo = models.ImageField(verbose_name='대표 이미지', null=True, blank=True)
 
-    #<<<<<<bookmark 기능>>>>>>
-    like_user_set = models.ManyToManyField(settings.AUTH_USER_MODEL, blank=True, related_name='like_user_set')
+    # todo <<<<<<bookmark 기능>>>>>>
+    bookmark_user_set = models.ManyToManyField(settings.AUTH_USER_MODEL, blank=True, related_name='bookmark_user_set')
 
     def __str__(self):
         return self.title
 
     @property
-    def like_count(self):
-        return self.like_user_set.count()
+    def bookmark_count(self):
+        return self.bookmark_user_set.count()

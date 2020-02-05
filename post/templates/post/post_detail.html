@@ -17,4 +17,8 @@
         <div>관련 URL: <a href="{{ post.reference }}">{{ post.reference }}</a></div>
     {% endif %}
 
+    <!--todo 북마크 기능-->
+    {% if post.user != user %}
+        <a href="{% url 'post:post_bookmark' post.pk %}">북마크</a>
+    {% endif %}
 {% endblock %}
