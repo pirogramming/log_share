@@ -1,3 +1,4 @@
+from django.contrib.auth import get_user_model
 from django.contrib.auth.models import Group, User
 from django.db import models
 
@@ -28,5 +29,13 @@ class CustomGroup(Group):
 
 class GroupRequest(models.Model):
     group = models.ForeignKey(CustomGroup, on_delete=models.CASCADE)
-    sender = models.ForeignKey(User, on_delete=models.CASCADE)
+    sender = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
     status = models.BooleanField(null=True, blank=True)
+
+    def __str__(self):
+        return "{} -> {}".format(self.sender, self.group)
+
+    class Meta:
+        unique_together = (
+            ('group', 'sender')
+        )

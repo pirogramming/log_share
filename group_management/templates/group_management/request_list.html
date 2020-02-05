@@ -1,5 +1,5 @@
-{% for message in messages %}
-    {{ message.group }}<br>
-    {{ message.sender }}<br>
-    {{ message.status }}<br>
-{% endfor %}
+<form action="" method="post">
+    {% for message in messages %}
+        {{ message.sender }} -> {{ message.group }}: {{ message.status }}<br>
+    {% endfor %}
+</form>

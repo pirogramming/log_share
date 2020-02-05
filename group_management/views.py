@@ -1,4 +1,5 @@
 from django.contrib.auth import get_user_model
+from django.db import IntegrityError
 from django.shortcuts import render, redirect, get_object_or_404
 
 from group_management.forms import GroupForm
@@ -51,16 +52,21 @@ def request_group(request, pk):
     _group = get_object_or_404(CustomGroup, id=pk)
     users = get_user_model()
     _user_id = users.objects.filter(username=request.user)[0].id
-    request_message = GroupRequest.objects.create(
-        group_id=pk,
-        sender_id=_user_id,
-    )
-    return redirect('group_management:detail_group')
+    try:
+        request_message = GroupRequest.objects.create(
+            group_id=pk,
+            sender_id=_user_id,
+        )
+    except IntegrityError: # 이미 요청을 보낸 상태일 경우, 새로운 요청 생성하지 않고 원래 페이지로 이동.
+        return redirect('group_management:detail_group', pk)
+
+    return redirect('group_management:request_list', pk)
 
 
 def request_list(request, pk):
     request_messages = GroupRequest.objects.filter(group_id=pk)
+    print([request_messages])
     context = {
-        'messages': 'request_messages',
+        'messages': request_messages,
     }
     return render(request, 'group_management/request_list.html', context)
