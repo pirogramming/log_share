@@ -1,5 +1,8 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
+from django.urls import reverse
+
+from myprofile.models import BookMark
 
 
 def profile_detail(request, pk):
@@ -17,18 +20,6 @@ def profile_detail(request, pk):
     return render(request, 'myprofile/profile_detail.html', context)
 
 
-# pk1 - post_user(다른 사람의 포스트도 본다), pk2 - post
-# def post_detail(request, user_pk, post_pk):
-#     user = User.objects.get(pk=user_pk)
-#     post = user.post.get(pk=post_pk)
-#
-#     context = {
-#         'post': post,
-#     }
-#
-#     return render(request, 'myprofile/post_detail.html', context)
-
-
 # 해당 user의 bookmark_list
 def bookmark_list(request, pk):
     user = User.objects.get(pk=pk)
@@ -39,3 +30,11 @@ def bookmark_list(request, pk):
     }
 
     return render(request, 'myprofile/bookmark_list.html', context)
+
+
+# pk : bookmark.pk
+def bookmark_delete(request, pk):
+    bookmark = BookMark.objects.get(pk=pk)
+    bookmark.delete()
+
+    return redirect(reverse('myprofile:bookmark_list', kwargs={'pk': bookmark.user.pk}))
