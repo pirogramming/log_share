@@ -1,5 +1,5 @@
 from django.forms import ModelForm
-from .models import Post, Tag
+from .models import Post
 
 
 class PostModelForm(ModelForm):
@@ -7,7 +7,3 @@ class PostModelForm(ModelForm):
         model = Post
         fields = '__all__'
 
-class TagModelForm(ModelForm):
-    class Meta:
-        model = Tag
-        fields = ['word']

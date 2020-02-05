@@ -12,10 +12,7 @@
         <form action="" method="POST">
             {% csrf_token %}
             <p>
-                {{ form.as_p }}
-            </p>
-            <p>
-                {{ form }}
+                {{ postform.as_p }}
             </p>
             <button type="submit">제출</button>
         </form>

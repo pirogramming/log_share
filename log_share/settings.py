@@ -38,7 +38,12 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    'myprofile'
+    #3rd party apps
+    'taggit',
+
+    #my apps
+    'myprofile',
+
 ]
 
 MIDDLEWARE = [
@@ -126,3 +131,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATIC_URL = '/static/'
+
+
+#Taggit settings
+TAGGIT_CASE_INSENSITIVE = True

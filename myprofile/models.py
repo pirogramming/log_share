@@ -1,5 +1,7 @@
 from django.contrib.auth.models import User
 from django.db import models
+from taggit.managers import TaggableManager
+
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
@@ -28,7 +30,6 @@ class Post(models.Model):
     user = models.ForeignKey(User,on_delete=models.CASCADE, related_name='post')
     categories = (
         ('대외활동', '대외활동'),
-        ('동아리', '동아리'),
         ('공모전', '공모전'),
         ('스터디', '스터디'),
         ('인턴', '인턴'),
@@ -42,13 +43,7 @@ class Post(models.Model):
     start_date = models.DateField(verbose_name='시작 날짜')
     end_date = models.DateField(verbose_name='종료 날짜')
     photo = models.ImageField(verbose_name='대표 이미지', null=True, blank=True)
+    tags = TaggableManager()
 
     def __str__(self):
         return self.title
-
-class Tag(models.Model):
-    post = models.ManyToManyField(Post, related_name='tag') # tag num 정하기
-    word = models.CharField(max_length=10, verbose_name='태그명') # unique true???
-
-    def __str__(self):
-        return self.word

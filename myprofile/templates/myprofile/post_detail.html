@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+
+    제목 : {{ post.title }} <br>
+    내용 : {{ post.contents }} <br>
+    참고 URL : {{ post.reference }} <br>
+    시작일 : {{ post.start_date }} <br>
+    종료일 : {{ post.end_date }} <br>
+    태그 : {{ post.tags.all }} <br>
+
+    <a href="{% url 'myprofile:post_list' %}">돌아가기</a> <br>
+    <a href="{% url 'myprofile:post_update' post.pk %}">수정하기</a>
+    <form action="{% url 'myprofile:post_delete' post.pk %}" method="POST">
+        {% csrf_token %}
+        <button type="submit">삭제하기</button>
+    </form>
+</body>
+</html>
