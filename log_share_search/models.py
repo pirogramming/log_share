@@ -1,3 +1,4 @@
+from taggit.managers import TaggableManager
 from django.contrib.auth.models import User, Group
 from django.db import models
 
@@ -42,6 +43,7 @@ class Post(models.Model):
     start_date = models.DateField(verbose_name='시작 날짜')
     end_date = models.DateField(verbose_name='종료 날짜')
     photo = models.ImageField(verbose_name='대표 이미지', null=True)
+    tags = TaggableManager()
 
     def __str__(self):
         return self.title
