@@ -10,8 +10,14 @@
 <body>
     검색태그 : {{ tags }} <br>
 
+    {% for post in data %}
+        {% for k,v in post.items %}
+            {{ k }} : {{ v }} <br><br>
+        {% endfor %}
 
-    내용 : {{ post_data }}
+    {% endfor %}
+
+
 
 </body>
 </html>

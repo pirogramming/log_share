@@ -35,14 +35,16 @@ class Search(APIView):
             posts = Post.objects.filter(tags__name__in=tags).distinct()
             posts_data = serializers.PostSerializer(posts, many=True)
             for post in posts_data.data:
-                #want = posts_data.data[0]
-                want = post
-                print('')
-                print(want)
-                print('')
+                for k,v in post.items():
+                    print(k,v)
+                # want = post
+                # print('')
+                # print(want)
+                # print('')
 
-            context ={
-                'post_data': posts_data,
+            context = {
+                #'post_data': posts_data,
+                'data': posts_data.data,
                 'tags': tags
             }
             return render(request, 'post/searched_post_list.html',context)
