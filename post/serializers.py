@@ -18,4 +18,5 @@ from rest_framework import serializers
 class PostSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Post
-        fields = ['category','title','start_date','end_date']
+        fields = ['id','category','title','start_date','end_date']
+        #fields에 user를 가져오려고 하면 hyperlinkModelSerializer 에러가 뜬다.

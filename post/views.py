@@ -35,23 +35,20 @@ class Search(APIView):
             posts = Post.objects.filter(tags__name__in=tags).distinct()
             posts_data = serializers.PostSerializer(posts, many=True)
             for post in posts_data.data:
-                for k,v in post.items():
-                    print(k,v)
-                # want = post
-                # print('')
-                # print(want)
-                # print('')
+                #want = User
+                #print(want)
+                pass
 
             context = {
                 #'post_data': posts_data,
                 'data': posts_data.data,
-                'tags': tags
+                'tags': tags,
             }
+
             return render(request, 'post/searched_post_list.html',context)
-            #return Response(data=serializer.data, status=status.HTTP_200_OK)
         else:
             return Response(status=status.HTTP_400_BAD_REQUEST)
-    #todo 이걸 어떻게 posting_list페이지에서 구현하지?
+    #todo User값과 태그값을 받아올 수 있으면 좋은데..
 
 ### Rest API 끝 ###
 
