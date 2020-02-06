@@ -5,7 +5,7 @@
         {% for bookmark in bookmarks %}
             <div><a href="{% url 'post:post_detail' bookmark.post.user.pk bookmark.post.pk %}">{{ bookmark }}</a></div>
             <div>{{ bookmark.post.contents }}</div>
-            <div><a href="{% url 'myprofile:bookmark_delete' bookmark.pk %}">삭제</a></div>
+            <div><a href="{% url 'myprofile:bookmark_delete' bookmark.pk %}">북마크 취소</a></div>
             <hr>
         {% endfor %}
     {% else %}

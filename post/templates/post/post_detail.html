@@ -2,9 +2,8 @@
 
 {% block content %}
     <div>제목: {{ post.title }}</div>
-    <!--todo 북마크 기능-->
     {% if post.user != user %}
-        <a href="{% url 'post:post_bookmark' post.pk %}">북마크</a>
+        <a href="{% url 'post:post_bookmark' post.pk %}">북마크 {{ post.bookmark.count }}개</a>
     {% endif %}
     <div>작성자: <a href="{% url 'myprofile:profile_detail' post.user.pk %}">{{ post.user.last_name }}{{ post.user.first_name }}</a></div>
     <div>활동기간: {{ post.start_date }} ~ {{ post.end_date }}</div>
@@ -21,4 +20,18 @@
         <div>관련 URL: <a href="{{ post.reference }}">{{ post.reference }}</a></div>
     {% endif %}
 
+    <!--todo ajax 북마크 기능-->
+    <!--
+    <input type="button" class="bookmark" name="{{ post.id }}" value="BookMark">
+    <p id="count-{{ post.id }}">{{ post.bookmark.count }}개</p>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script type="text/javascript">
+        $(".bookmark").click(
+            function () {
+                var pk = $(this).attr()
+            }
+        )
+    </script>
+    -->
 {% endblock %}
