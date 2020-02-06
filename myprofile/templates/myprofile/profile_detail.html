@@ -11,20 +11,25 @@
 
 {% block content %}
 <div class="profile_container">
-    <div>이름: {{ profile.user.last_name }}{{ profile.user.first_name }}</div>
+    <div>이름: {{ profile.name }}</div>
     <div>
-            {% if profile.photo %}
+         {% if profile.photo %}
             <img src="{{ profile.photo.url }}" alt="" width="50%"/>
-            {% endif %}
+         {% endif %}
     </div>
     <div>소속: {{ profile.department }}</div>
     <div>자기소개: </br> {{ profile.description }}</div>
     <div>관심태그: {{ profile.interested_tag }}</div>
-    <div>대표 URL: </br>
-        {% for site in sites %}
-            <a href="{{ site.link }}">{{ site.link }}</a>
-            </br>
-        {% endfor %}
+    <div>
+        대표 URL
+        <br>
+        네이버 URL:{{ profile.naver }}
+        <br>
+        다음 URL:{{ profile.daum }}
+        <br>
+        github URL:{{ profile.github }}
+        <br>
+        other URL:{{ profile.other_url }}
     </div>
     <p><a href="mailto:{{ profile.user.email }}" class="fa-envelope"><span class="label">Email</span></a></p>
 

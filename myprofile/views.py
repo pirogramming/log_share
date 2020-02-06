@@ -8,12 +8,10 @@ from myprofile.models import BookMark
 def profile_detail(request, pk):
     user = User.objects.get(pk=pk)
     profile = user.profile  # onetoone relationship
-    sites = profile.site.all()  # objects.all()할 필요없이 이미 site에 모델 객체들이 있음
     posts = user.post.all()
 
     context = {
         'profile': profile,
-        'sites': sites,
         'posts': posts,
     }
 

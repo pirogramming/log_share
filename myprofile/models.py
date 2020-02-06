@@ -9,22 +9,26 @@ from post.models import Post
 class Profile(models.Model):
     # (in database) ForeignKey - user,profile
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
+    name = models.CharField(max_length=20)
     photo = models.ImageField(null=True, blank=True, verbose_name='프로필사진')
     department = models.CharField(max_length=100, verbose_name='소속')
     description = models.TextField(max_length=200, null=True, verbose_name='한줄소개')
-    #관심태그 추가했음
     interested_tag = models.CharField(max_length=255, null=True, blank=True, verbose_name='관심태그')
+    naver = models.URLField(verbose_name='네이버 URL', null=True, blank=True)
+    daum = models.URLField(verbose_name='다음 URL', null=True, blank=True)
+    github = models.URLField(verbose_name='깃 URL', null=True, blank=True)
+    other_url = models.URLField(verbose_name='기타 URL', null=True, blank=True)
 
     def __str__(self):
         return str(self.user) + ' profile'
 
 
-class Site(models.Model):
-    profile = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='site')
-    link = models.URLField(verbose_name='대표 URL')
-
-    def __str__(self):
-        return self.link
+# class Site(models.Model):
+#     profile = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='site')
+#     link = models.URLField(verbose_name='대표 URL')
+#
+#     def __str__(self):
+#         return self.link
 
 
 # todo model change - ForeignKey

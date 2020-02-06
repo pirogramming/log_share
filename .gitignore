@@ -297,6 +297,9 @@ pyvenv.cfg
 .venv
 env/
 venv/
+myvenv/
+.myvenv
+myvenv.bak/
 ENV/
 env.bak/
 venv.bak/

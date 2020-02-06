@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <form action="" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <h2>로그인 정보 입력</h2>
+            USERNAME:
+            <br>
+            <input name="username" type="text">
+            <br>
+            PASSWORD:
+            <br>
+            <input name="password1" type="password">
+            <br>
+            Confirm PASSWORD:
+            <br>
+            <input name="password2" type="password">
+            <br>
+            <hr>
+        <h2>상세정보 입력</h2>
+        {{ form.as_p }}
+        <input type="submit" value="가입"/>
+    </form>
+{% endblock %}
