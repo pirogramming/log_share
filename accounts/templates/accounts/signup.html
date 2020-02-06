@@ -1,10 +1,50 @@
 {% extends "accounts/layout.html" %}
+
 {% block content %}
-    <form action="" method="post">
-        {% csrf_token %}
-        <table>
-            {{ form.as_table }}
-        </table>
-        <input type="submit"/>
-    </form>
+    <div class="container">
+    <h1>회원 가입을 해보자!</h1>
+        <form method="POST" action="{% url 'signup' %}">
+            {% csrf_token %}
+            <hr>
+            <h2>로그인 정보 입력</h2>
+            USERNAME:
+            <br>
+            <input name="username" type="text">
+            <br>
+            PASSWORD:
+            <br>
+            <input name="password1" type="password">
+            <br>
+            Confirm PASSWORD:
+            <br>
+            <input name="password2" type="password">
+            <br>
+            <hr>
+            <h2>회원 정보 입력</h2>
+            <br>
+            이름:
+            <br>
+            <input name="name" type="text">
+            <br>
+            부서:
+            <br>
+            <input name="department" type="text">
+            <br>
+            한줄 소개:
+            <br>
+            <input name="description" type="text">
+            <br>
+            <div>
+                대표 url 입력
+                <div>네이버 url: <br><input name="naver" type="text"></div>
+                 <div>다음 url: <br><input name="daum" type="text"></div>
+                 <div>git url: <br><input name="github" type="text"></div>
+            </div>
+            <br>
+{#            프로필 사진 : <input type="image" name="photo">#}
+            <input type="submit" class="btn btn-primary" value="sign up">
+        </form>
+
+
+    </div>
 {% endblock %}

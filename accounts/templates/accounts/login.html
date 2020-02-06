@@ -1,8 +1,19 @@
-<form action="" method="post">
-    {% csrf_token %}
-    <table>
-        {{ form.as_table }}
-    </table>
-    <input type="submit">
+{% extends "accounts/layout.html" %}
+{% block content %}
+    <div class="container">
+    <h1>로그인을 해보자.</h1>
+        <form method="POST" action="{% url 'login' %}">
+            {% csrf_token %}
+            USERNAME:
+            <br>
+            <input name="username" type="text">
+            <br>
+            PASSWORD:
+            <br>
+            <input name="password" type="password">
+            <br><br>
+            <input type="submit" class="btn btn-primary" value="sign up">
 
-</form>
+        </form>
+    </div>
+{% endblock %}

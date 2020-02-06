@@ -16,12 +16,14 @@ Including another URLconf
 from django.contrib import admin
 from django.shortcuts import redirect
 from django.urls import path, include
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('accounts/', include('accounts.urls')),
     path('blog/', include('blog.urls')),
-
-    path('', lambda req: redirect('blog:post_list')),  # URL Reverse
     path('', lambda req: redirect('blog:post_list'), name='root'),
+    # static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT),
 ]
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

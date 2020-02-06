@@ -1,43 +1,70 @@
-from django.conf import settings
-from django.contrib.auth import login as auth_login
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.models import User
-from django.views.generic import CreateView
 from django.shortcuts import redirect, render
-from .forms import SignupForm
+from django.contrib.auth.models import User
+from django.contrib import auth
 
 
-'''
-def signup(request):
-    if request.method == 'POST':
-        form = SignupForm(request.POST)
-        if form.is_valid():
-            user = form.save()
-            auth_login(request, user)  # 로그인 처리
-            return redirect(settings.LOGIN_URL)
+# Create your views here.
+from .models import Profile
+
+def login(request):
+    if request.method=="POST":
+        username=request.POST['username']
+        password = request.POST["password"]
+        user=auth.authenticate(request,username=username,password=password)
+        if user is not None:
+            auth.login(request, user)
+            return redirect('/')
+        else:
+            return render(request,'accounts/login.html',{'error':'login error'})
     else:
-        form = SignupForm()
-    return render(request, 'accounts/signup.html', {
-        'form': form,
-    })
-'''
+        return render(request,'accounts/login.html')
 
-class SignupView(CreateView):
-    model = User
-    form_class = SignupForm
-    template_name = 'accounts/signup.html'
+def logout(request):
+    auth.logout(request)
+    return redirect('/')
 
-    def get_success_url(self):
-        return resolve_url('profile')
 
-    def form_valid(self, form):
-        user = form.save()
-        auth_login(self.request, user)
-        return redirect(self.get_success_url())
+from .models import Profile
 
-signup = SignupView.as_view()
 
+# def signup(request):
+#     if request.user.is_authenticated:
+#         return redirect('posts:list')
+#
+#     if request.method == 'POST':
+#         signup_form = UserCreationForm(request.POST)
+#         if signup_form.is_valid():
+#             user = signup_form.save()
+#             Profile.objects.create(user=user)  # 프로필 생성
+#             auth_login(request, user)
+#             return redirect('posts:list')
+#
+#     else:
+#         signup_form = UserCreationForm()
+#
+#     return render(request, 'accounts/signup.html', {'signup_form': signup_form})
+
+def signup(request):
+    if request.method == "POST":
+        if request.POST["password1"] == request.POST["password2"]:
+            user = User.objects.create_user(
+                username=request.POST["username"],
+                password=request.POST["password1"])
+            name = request.POST["name"]
+            department=request.POST["department"]
+            description=request.POST["description"]
+            naver=request.POST["naver"]
+            daum = request.POST["daum"]
+            # photo=request.POST["photo"]
+            github = request.POST["github"]
+            profile = Profile(user=user, name=name,department=department,description=description,naver=naver,daum=daum,github=github)
+            profile.save()
+            auth.login(request,user)
+            return redirect('/')
+    return render(request, 'accounts/signup.html')
 
 @login_required
 def profile(request):
     return render(request, 'accounts/profile.html')
+
