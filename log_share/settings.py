@@ -39,12 +39,12 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     #3rd part apps
-    'rest_framework',
     'taggit',
+    'rest_framework',
 
     #my apps
-    'log_share_search',
-    'tutorial',
+    # 'log_share_search',
+    # 'tutorial',
 ]
 
 
