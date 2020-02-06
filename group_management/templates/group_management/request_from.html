@@ -1,0 +1,5 @@
+<form action="" method="post">
+    {% for message in messages %}
+        {{ message.sender }} -> {{ message.group }}: {{ message.status }}<br>
+    {% endfor %}
+</form>
