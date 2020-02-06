@@ -95,7 +95,7 @@ def request_group(request, pk):
     except IntegrityError: # 이미 요청을 보낸 상태일 경우, 새로운 요청 생성하지 않고 원래 페이지로 이동.
         return redirect('group_management:detail_group', pk)
 
-    return redirect('group_management:request_to', pk)
+    return redirect('group_management:request_from', _user_id)
 
 
 def request_to(request, pk):
