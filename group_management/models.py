@@ -27,6 +27,7 @@ class CustomGroup(Group):
         return self.name
 
 
+
 class GroupRequest(models.Model):
     group = models.ForeignKey(CustomGroup, on_delete=models.CASCADE)
     sender = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)

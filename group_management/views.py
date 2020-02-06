@@ -1,4 +1,5 @@
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Permission
+from django.contrib.contenttypes.models import ContentType
 from django.db import IntegrityError
 from django.db.models import Q
 from django.http import HttpResponse
@@ -20,6 +21,19 @@ def create_group(request):
                 notes=form.cleaned_data['notes'],
                 is_searchable=form.cleaned_data['is_searchable'],
             )
+
+            content_type = ContentType.objects.get(app_label='group_management', model='CustomGroup')
+            codename = 'can_manage_'+str(group.id)
+            print('codename: ', codename)
+            permission = Permission.objects.create(codename=codename,
+                                                   name=codename,
+                                                   content_type=content_type)
+            manager = User.objects.get(username=request.user)
+            group.permissions.add(permission)
+            group.user_set.add(manager)
+            # manager.groups.add(group)
+            manager.user_permissions.add(permission) # manager.has_perms('can_manage_groupid') = True
+
             return redirect('group_management:detail_group', group.pk)
 
     else:
@@ -114,4 +128,7 @@ def del_member(user_id, group_id):
     user = get_object_or_404(User, id=user_id)
     group.user_set.remove(user)
     return group.user_set.all()
+
+
+
 
