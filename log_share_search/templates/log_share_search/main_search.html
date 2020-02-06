@@ -3,26 +3,50 @@
     <input type="text" name="q" value="{{ q }}">
     <input type="submit" value="검색">
 </form>
-<span>결과</span>
+
+current user: {{ request.user.username }}
+<br>
+<br>
+{{ request.user.username }}의 그룹
 <ul>
-    {% for result in results %}
+    {% for group in request.user.groups.all %}
         <li>
-            {% if option == 1 %}
-                <h3>{{ result.title }}</h3>
-                {% for tag in result.tag.all %}
-                    <span>#{{ tag }}</span>
-                {% endfor %}
-                <div>
-                    작성자: {{ result.user }}
-                </div>
-            {% endif %}
-            {% if option == 3 %}
-                <h3>{{ result.name }}</h3>
-                <span>category: {{ result.category }}</span>
-            {% endif %}
-
-
+            {{ group.name }}
         </li>
     {% endfor %}
+</ul>
+
+<hr>
+<ul>
+    {% if results %}
+
+        {% for result in results %}
+            <li>
+                {% if option == 1 %}
+                    <a href="#"><h3>title: {{ result.title }}</h3></a>
+                    {% for tag in result.tag.all %}
+                        <span>#{{ tag }}</span>
+                    {% endfor %}
+                    <div>
+                        <a href="#">작성자: {{ result.user }}</a>
+                    </div>
+                {% endif %}
+                {% if option == 2 %}
+                    <a href="#"><h3>{{ result.username }}</h3></a>
+                    {# 나와 관련된 그룹 리스트? {% for foo in result. %}#}
+
+                    {#                #}
+                    {#                {% endfor %}#}
+
+                {% endif %}
+                {% if option == 3 %}
+                    <h3>{{ result.name }}</h3>
+                    <span>category: {{ result.category }}</span>
+                {% endif %}
+
+
+            </li>
+        {% endfor %}
+    {% endif %}
 
 </ul>
