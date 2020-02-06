@@ -40,6 +40,7 @@ INSTALLED_APPS = [
 
     #3rd party apps
     'taggit',
+    'rest_framework',
 
     #my apps
     'post',

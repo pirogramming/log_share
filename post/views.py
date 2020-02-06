@@ -1,9 +1,57 @@
+from django.contrib.auth.models import User, Group
 from django.shortcuts import render, redirect
+from rest_framework import viewsets, status
+from rest_framework.response import Response
+from rest_framework.views import APIView
 
+from . import serializers
 from .forms import PostModelForm
 from .models import Post
+#from .serializers import UserSerializer, GroupSerializer
 
+### Rest API 파트 ###
 
+# class UserViewSet(viewsets.ModelViewSet):
+#     '''
+#     API endpoint that allows users to be viewed or edited.
+#     '''
+#     queryset = User.objects.all().order_by('-date_joined')
+#     serializer_class = UserSerializer
+#
+# class GroupViewSet(viewsets.ModelViewSet):
+#     '''
+#     API endpoint that allows groups to be viewed or edited.
+#     '''
+#     queryset = Group.objects.all()
+#     serializer_class = GroupSerializer
+
+class Search(APIView):
+
+    def get(self, request, format=None):
+        #get의 첫번째 인자는 어떤 variable인지, 두번째인자는 default값
+        tags = request.query_params.get('tags', None).split(",")
+        #표시할 검색결과가 있을 때
+        if tags is not None:
+            posts = Post.objects.filter(tags__name__in=tags).distinct()
+            posts_data = serializers.PostSerializer(posts, many=True)
+            for post in posts_data.data:
+                #want = posts_data.data[0]
+                want = post
+                print('')
+                print(want)
+                print('')
+
+            context ={
+                'post_data': posts_data,
+                'tags': tags
+            }
+            return render(request, 'post/searched_post_list.html',context)
+            #return Response(data=serializer.data, status=status.HTTP_200_OK)
+        else:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+    #todo 이걸 어떻게 posting_list페이지에서 구현하지?
+
+### Rest API 끝 ###
 
 def post_list(request):
     posts = Post.objects.all() # 실제로는 내가 속한 그룹 인원들의 게시물만 가져와야함.
@@ -15,7 +63,6 @@ def post_list(request):
     '''
     #qs = str(Post.tags.all()) 이렇게 할 시 포스트 모델에 존재하는 모든 태그를 가져올 수 있다.
 
-    #만약 태그를 눌러 a태그링크로 검색했다면....
 
 
     context = {
@@ -33,8 +80,8 @@ def post_create(request):
         if postform.is_valid():
             #포스트모델폼의 정보가 유효하면, post에 할당한 뒤 FK를 접속한 유저로 지정하여 저장한다.
             post = postform.save(commit=False)
-            post.user = request.user
-            post.save()
+            #post.user = request.user
+            post = postform.save()
             return redirect('post:post_list')
     else:
         postform = PostModelForm()
@@ -74,3 +121,6 @@ def post_delete(request, pk):
         if request.user == post.user:
             post.delete()
             return redirect('post:post_list')
+    #todo 태그가 참조하는 게시물이 하나도 없으면 태그가 삭제되는 기능
+
+

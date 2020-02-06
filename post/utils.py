@@ -14,3 +14,5 @@ def date_upload_to(instance, filename):
     ymd_path,
     uuid_name + extension,
   ])
+
+
