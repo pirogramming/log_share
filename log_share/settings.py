@@ -37,11 +37,14 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'log_share_search',
-    'taggit',
-    'tutorial',
-    'rest_framework',
 
+    #3rd part apps
+    'rest_framework',
+    'taggit',
+
+    #my apps
+    'log_share_search',
+    'tutorial',
 ]
 
 
@@ -79,6 +82,17 @@ WSGI_APPLICATION = 'log_share.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': 'log_share',
+#         'USER': 'root',
+#        'PASSWORD': '111111',
+#         'HOST': 'localhost',
+#         'PORT': '3306',
+#     }
+# }
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
@@ -89,7 +103,6 @@ DATABASES = {
         'PORT': '3306',
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
@@ -129,13 +142,3 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-
-MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-
-TAGGIT_CASE_INSENSITIVE = True
-
-REST_FRAMEWORK = {
-    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
-    'PAGE_SIZE': 10
-}
