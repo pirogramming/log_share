@@ -4,7 +4,6 @@ from django.db import models
 
 
 class CustomGroup(Group):
-    # todo: group 관리자 정하기
     categories = (
         ('art', '문화/예술/공연'),
         ('volunteer', '봉사/사회활동'),
@@ -25,7 +24,6 @@ class CustomGroup(Group):
 
     def __str__(self):
         return self.name
-
 
 
 class GroupRequest(models.Model):

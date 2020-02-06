@@ -104,7 +104,7 @@ def request_to(request, pk):
     context = {
         'messages': request_messages,
     }
-    return render(request, 'group_management/request_list.html', context)
+    return render(request, 'group_management/request_to.html', context)
 
 
 def request_from(request, pk):
@@ -113,7 +113,7 @@ def request_from(request, pk):
     context = {
         'messages': request_messages,
     }
-    return render(request, 'group_management/request_list.html', context)
+    return render(request, 'group_management/request_from.html', context)
 
 
 def add_member(user_id, group_id):
