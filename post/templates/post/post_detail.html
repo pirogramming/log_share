@@ -7,7 +7,7 @@
     {% if post.user != user %}
         <a href="{% url 'post:post_bookmark' post.pk %}">북마크 {{ post.bookmark.count }}개</a>
     {% endif %}
-    작성자 : {{ post.user }} <br>
+    <div>작성자: <a href="{% url 'myprofile:profile_detail' user.pk %}">{{ user.user_profile.name }}</a></div>
     평점 : {{ post.score }} <br>
     내용 : {{ post.contents }} <br>
     참고 URL : {{ post.reference }} <br>

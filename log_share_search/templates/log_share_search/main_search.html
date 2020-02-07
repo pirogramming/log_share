@@ -1,13 +1,16 @@
+{% extends 'base.html' %}
+
+{% block content %}
 <form action="" method="get">
     검색:
     <input type="text" name="q" value="{{ q }}">
     <input type="submit" value="검색">
 </form>
 
-current user: {{ request.user.username }}
+current user: {{ request.user.user_profile.name }}
 <br>
 <br>
-{{ request.user.username }}의 그룹
+{{ request.user.user_profile.name }}의 그룹
 <ul>
     {% for group in request.user.groups.all %}
         <li>
@@ -23,16 +26,16 @@ current user: {{ request.user.username }}
         {% for result in results %}
             <li>
                 {% if option == 1 %}
-                    <a href="#"><h3>title: {{ result.title }}</h3></a>
+                    title: <a href="{% url 'post:post_detail' result.pk %}"><h3>{{ result.title }}</h3></a>
                     {% for tag in result.tag.all %}
                         <span>#{{ tag }}</span>
                     {% endfor %}
                     <div>
-                        <a href="#">작성자: {{ result.user }}</a>
+                        작성자: <a href="{% url 'myprofile:profile_detail' result.user.pk %}">{{ result.user.user_profile.name }}</a>
                     </div>
                 {% endif %}
                 {% if option == 2 %}
-                    <a href="#"><h3>{{ result.username }}</h3></a>
+                    <a href="{% url 'myprofile:profile_detail' result.pk %}"><h3>{{ result.user_profile.name }}({{ result.username }})</h3></a>
                     {# 나와 관련된 그룹 리스트? {% for foo in result. %}#}
 
                     {#                #}
@@ -50,3 +53,4 @@ current user: {{ request.user.username }}
     {% endif %}
 
 </ul>
+{% endblock %}

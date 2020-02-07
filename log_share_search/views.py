@@ -1,5 +1,9 @@
+from django.contrib.auth.models import User
 from django.db.models import Q
 from django.shortcuts import render
+
+from group_management.models import CustomGroup
+from post.models import Post
 from .models import *
 
 
@@ -27,7 +31,7 @@ def main_search(request, option):
 
             qs = Post.objects.filter(
                 Q(user__groups__in=user.groups.all()) & # 나와 관련된 유저들
-                (Q(title__icontains=q) | Q(tag__word__icontains=q) | Q(contents__icontains=q))
+                (Q(title__icontains=q) | Q(tags__name__icontains=q) | Q(contents__icontains=q))
             ).distinct() # 중복 제거
             # qs = relate_post.objects.filter(
             #     # 포스트 내용 필요한가? 내용 미리보기 필요할듯..(해당 키워드가 담긴 문장을 보여준다던지..)
@@ -37,14 +41,14 @@ def main_search(request, option):
             # 필터링 종류 #
             # 그룹 필터링
             qs = User.objects.filter(
-                Q(groups__in=user.groups.all()),
-                Q(username__icontains=q)
+                Q(groups__in=user.groups.all()) &
+                (Q(user_profile__name__icontains=q) | Q(username__icontains=q))
             )
         elif option == 3:  # 그룹명에 q가 포함된 그룹
             # 필터링 종류 #
             # 그룹 카테고리
             # if request.user.groups in filtered_group: 해당 그룹원의 최신 포스팅도 같이?
-            qs = Custom_Group.objects.filter(
+            qs = CustomGroup.objects.filter(
                 Q(name__icontains=q) & Q(is_searchable=True)
             )
 

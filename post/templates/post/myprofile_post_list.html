@@ -1,6 +1,3 @@
-{% extends 'base.html' %}
-
-{% block content %}
     <h2><a href="{% url 'post:post_create' %}">글 작성하기</a></h2>
     {% for post in posts %}
         <div>
@@ -11,5 +8,3 @@
         </p>
         </div>
     {% endfor %}
-{% endblock %}
-

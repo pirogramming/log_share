@@ -6,7 +6,7 @@ from .utils import date_upload_to
 
 
 class Post(models.Model):
-    user = models.ForeignKey(User,on_delete=models.CASCADE, related_name='post')
+    user = models.ForeignKey(User,on_delete=models.CASCADE, related_name='user_post')
     categories = (
         ('대외활동', '대외활동'),
         ('공모전', '공모전'),
@@ -24,7 +24,7 @@ class Post(models.Model):
     photo = models.ImageField(upload_to=date_upload_to, verbose_name='대표 이미지', null=True, blank=True)
     tags = TaggableManager()
     #todo 별점 매기기 기능 추가?
-    SCORE_CHOICES = zip(range(1,5), range(1,5))
+    SCORE_CHOICES = zip(range(1,6), range(1,6))
     score = models.IntegerField(choices=SCORE_CHOICES)
 
     def __str__(self):

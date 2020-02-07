@@ -8,8 +8,8 @@ from myprofile.models import BookMark
 @login_required
 def profile_detail(request, pk):
     user = User.objects.get(pk=pk)
-    profile = user.profile  # onetoone relationship
-    posts = user.post.all()
+    profile = user.user_profile  # onetoone relationship
+    posts = user.user_post.all()
 
     context = {
         'profile': profile,
@@ -22,7 +22,7 @@ def profile_detail(request, pk):
 # 해당 user의 bookmark_list
 def bookmark_list(request, pk):
     user = User.objects.get(pk=pk)
-    bookmarks = user.bookmark.all()
+    bookmarks = user.user_bookmark.all()
 
     context = {
         'bookmarks': bookmarks,
