@@ -35,8 +35,10 @@ class Search(APIView):
             posts = Post.objects.filter(tags__name__in=tags).distinct()
             posts_data = serializers.PostSerializer(posts, many=True)
             # for post in posts_data.data:
-            #     want = User
+            #     want = post
+            #     print('')
             #     print(want)
+            #     print('')
             #     pass
 
             context = {
