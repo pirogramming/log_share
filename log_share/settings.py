@@ -11,8 +11,10 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
 import os
-
+from django.urls import reverse_lazy
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
+
+
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
@@ -26,7 +28,6 @@ SECRET_KEY = 'mcpbqgams#0ku14#-^a8g_5ka73vtq)q2@m@-qkd1j#w9yky#j'
 DEBUG = True
 
 ALLOWED_HOSTS = []
-
 
 # Application definition
 
@@ -45,6 +46,13 @@ INSTALLED_APPS = [
     #my apps
     'log_share_search',
     # 'post',
+
+    # app
+    'group_management',
+    'myprofile',
+    'accounts',
+    'main',
+    'post',
 ]
 
 
@@ -64,7 +72,7 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
-            os.path.join(BASE_DIR,'templates',)
+            os.path.join(BASE_DIR, 'log_share', 'templates')
         ],
         'APP_DIRS': True,
         'OPTIONS': {
@@ -79,7 +87,6 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'log_share.wsgi.application'
-
 
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
@@ -100,9 +107,9 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'log_share',
         'USER': 'root',
-        'PASSWORD': 'admin',
+        'PASSWORD': '123123',
         'HOST': 'localhost',
-        'PORT': '3306',
+        'PORT': '3306'
     }
 }
 
@@ -124,7 +131,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/3.0/topics/i18n/
 
@@ -138,21 +144,22 @@ USE_L10N = True
 
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATIC_URL = '/static/'
 
 
-# Media files
-
+#image
 MEDIA_URL = '/media/'
-
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
+#login & logout
+from django.conf.global_settings import LOGIN_REDIRECT_URL
 
+LOGIN_URL = reverse_lazy('login')
+LOGIN_REDIRECT_URL = '/../../'  #move to main
+LOGOUT_REDIRECT_URL = reverse_lazy('login')
 
 # Taggit settings
 TAGGIT_CASE_INSENSITIVE = True
-

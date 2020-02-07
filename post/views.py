@@ -126,3 +126,14 @@ def post_delete(request, pk):
     #todo 태그가 참조하는 게시물이 하나도 없으면 태그가 삭제되는 기능
 
 
+
+# pk: post_pk, 해당 post의 bookmark
+@login_required
+def post_bookmark(request, pk):
+    post = get_object_or_404(Post, pk=pk)
+    # post.bookmark_user_set : 해당 post의 bookmarks
+    bookmark, bookmark_created = BookMark.objects.get_or_create(user=request.user, post=post)
+    # 기존에 있는 북마크이면 북마크 취소하기
+    if not bookmark_created:
+        bookmark.delete()
+    return redirect(reverse('post:post_detail', kwargs={'user_pk': post.user.pk, 'post_pk': post.pk}))

@@ -17,12 +17,19 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
+from django.conf import settings
+from django.conf.urls.static import static
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('accounts/', include('accounts.urls')),
+    path('profile/', include('myprofile.urls')),
+    path('', include('main.urls')),
+    path('post/',include('post.urls')),
+    path('group/', include('group_management.urls'))
     # path('post/', include('post.urls')),
     path('search/', include('log_share_search.urls')),
 ]
 
-urlpatterns += static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

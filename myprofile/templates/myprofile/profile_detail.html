@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block style %}
+    <style>
+        .post_container{
+            border: black solid 1px;
+            margin: 10px 0;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+<div class="profile_container">
+    <div>이름: {{ profile.name }}</div>
+    <div>
+         {% if profile.photo %}
+            <img src="{{ profile.photo.url }}" alt="" width="50%"/>
+         {% endif %}
+    </div>
+    <div>소속: {{ profile.department }}</div>
+    <div>자기소개: </br> {{ profile.description }}</div>
+    <div>관심태그: {{ profile.interested_tag }}</div>
+    <div>
+        대표 URL
+        <div>네이버 URL: <a href="{{ profile.naver }}">{{ profile.naver }}</a></div>
+        <div>다음 URL: <a href="{{ profile.daum }}">{{ profile.daum }}</a></div>
+        <div>github URL: <a href="{{ profile.github }}">{{ profile.github }}</a></div>
+        <div>other URL: <a href="{{ profile.other_url }}">{{ profile.other_url }}</a></div>
+    </div>
+    <p><a href="mailto:{{ profile.user.email }}" class="fa-envelope"><span class="label">Email</span></a></p>
+
+    {% if profile.user.pk == user.pk%}
+        <p><a href="{% url 'myprofile:bookmark_list' profile.user.pk %}">북마크</a></p>
+    {% endif %}
+
+    <hr>
+
+    {% include 'post/post_list.html' %}
+</div>
+{% endblock %}
