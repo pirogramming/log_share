@@ -29,6 +29,7 @@ class Search(APIView):
 
     def get(self, request, format=None):
         #get의 첫번째 인자는 어떤 variable인지, 두번째인자는 default값
+        print(request.query_params)
         tags = request.query_params.get('tags', None).split(",")
         #표시할 검색결과가 있을 때
         if tags is not None:

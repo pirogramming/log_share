@@ -43,8 +43,8 @@ INSTALLED_APPS = [
     'rest_framework',
 
     #my apps
-
-    'post',
+    'log_share_search',
+    # 'post',
 ]
 
 
