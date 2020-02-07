@@ -22,15 +22,32 @@
     <div>관심태그: {{ profile.interested_tag }}</div>
     <div>
         대표 URL
-        <div>네이버 URL: <a href="{{ profile.naver }}">{{ profile.naver }}</a></div>
-        <div>다음 URL: <a href="{{ profile.daum }}">{{ profile.daum }}</a></div>
-        <div>github URL: <a href="{{ profile.github }}">{{ profile.github }}</a></div>
-        <div>other URL: <a href="{{ profile.other_url }}">{{ profile.other_url }}</a></div>
+        <div>네이버 URL:
+            {% if profile.naver != None %}
+                <a href="{{ profile.naver }}">{{ profile.naver }}</a>
+            {% endif %}
+        </div>
+        <div>다음 URL:
+            {% if profile.daum != None %}
+                <a href="{{ profile.daum }}">{{ profile.daum }}</a>
+            {% endif %}
+        </div>
+        <div>github URL:
+            {% if profile.github != None %}
+                <a href="{{ profile.github }}">{{ profile.github }}</a>
+            {% endif %}
+        </div>
+        <div>other URL:
+            {% if profile.other_url != None %}
+                <a href="{{ profile.other_url }}">{{ profile.other_url }}</a>
+            {% endif %}
+        </div>
     </div>
     <p><a href="mailto:{{ profile.user.email }}" class="fa-envelope"><span class="label">Email</span></a></p>
 
     {% if profile.user.pk == user.pk%}
         <p><a href="{% url 'myprofile:bookmark_list' profile.user.pk %}">북마크</a></p>
+        <div><a href="{% url 'myprofile:profile_edit' profile.user.pk %}">프로필 수정하기</a></div>
     {% endif %}
 
     <hr>
