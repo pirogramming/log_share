@@ -34,14 +34,14 @@ class Search(APIView):
         if tags is not None:
             posts = Post.objects.filter(tags__name__in=tags).distinct()
             posts_data = serializers.PostSerializer(posts, many=True)
-            for post in posts_data.data:
-                #want = User
-                #print(want)
-                pass
+            # for post in posts_data.data:
+            #     want = User
+            #     print(want)
+            #     pass
 
             context = {
                 #'post_data': posts_data,
-                'data': posts_data.data,
+                'posts_data': posts_data.data,
                 'tags': tags,
             }
 
@@ -79,7 +79,7 @@ def post_create(request):
         if postform.is_valid():
             #포스트모델폼의 정보가 유효하면, post에 할당한 뒤 FK를 접속한 유저로 지정하여 저장한다.
             post = postform.save(commit=False)
-            #post.user = request.user
+            post.user = request.user
             post = postform.save()
             return redirect('post:post_list')
     else:

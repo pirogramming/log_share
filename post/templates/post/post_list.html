@@ -13,7 +13,8 @@
         <div>
         <p>
             제목 : <a href="{% url 'post:post_detail' post.pk %}">{{ post.title }}</a> <br>
-            작성자 : {{ post.user }}
+            작성자 : {{ post.user }} <br>
+            평점 : {{ post.score }} <br>
         </p>
         </div>
     {% endfor %}
