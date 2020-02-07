@@ -1,10 +1,13 @@
+from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect, render
 from django.contrib.auth.models import User
 from django.contrib import auth
 
-from accounts.forms import SignupForm
+from accounts.forms import SignupModelForm, CreateUserForm
 from myprofile.models import Profile
+
+from django.contrib.auth.forms import UserCreationForm
 
 
 def login(request):
@@ -28,39 +31,34 @@ def logout(request):
 
 def signup(request):
     if request.method == "POST":
-        if request.POST["password1"] == request.POST["password2"]:
-            user = User.objects.create_user(
-                username=request.POST["username"],
-                password=request.POST["password1"],
-                last_name=request.POST["last_name"],
-                first_name=request.POST["first_name"],
-                email=request.POST["email"],
-            )
-
-        form = SignupForm(
+        user_form = CreateUserForm(request.POST)
+        profile_form = SignupModelForm(
             request.POST,
             request.FILES,
         )
 
-        if form.is_valid():
+        if user_form.is_valid() and profile_form.is_valid():
+            user = user_form.save()
 
             profile = Profile.objects.create(
                 user=user,
                 name=user.last_name+user.first_name,
-                department=form.cleaned_data['department'],
-                description=form.cleaned_data['description'],
-                naver=form.cleaned_data['naver'],
-                daum=form.cleaned_data['daum'],
-                github=form.cleaned_data['github'],
-                photo=form.cleaned_data['photo'],
-                other_url=form.cleaned_data['other_url'],
-                interested_tag=form.cleaned_data['interested_tag'],
+                department=profile_form.cleaned_data['department'],
+                description=profile_form.cleaned_data['description'],
+                naver=profile_form.cleaned_data['naver'],
+                daum=profile_form.cleaned_data['daum'],
+                github=profile_form.cleaned_data['github'],
+                photo=profile_form.cleaned_data['photo'],
+                other_url=profile_form.cleaned_data['other_url'],
+                interested_tag=profile_form.cleaned_data['interested_tag'],
             )
             return redirect('/')
 
     elif request.method == "GET":
-        form = SignupForm()
+        user_form = CreateUserForm()
+        profile_form = SignupModelForm()
 
     return render(request, 'accounts/signup.html', {
-        'form': form,
+        'user_form':user_form,
+        'profile_form': profile_form,
     })

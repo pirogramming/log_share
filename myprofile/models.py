@@ -12,7 +12,7 @@ class Profile(models.Model):
     name = models.CharField(max_length=20)
     photo = models.ImageField(null=True, blank=True, verbose_name='프로필사진')
     department = models.CharField(max_length=100, verbose_name='소속')
-    description = models.TextField(max_length=200, null=True, verbose_name='한줄소개')
+    description = models.TextField(max_length=200, null=True, blank=True, verbose_name='한줄소개')
     interested_tag = models.CharField(max_length=255, null=True, blank=True, verbose_name='관심태그')
     naver = models.URLField(verbose_name='네이버 URL', null=True, blank=True)
     daum = models.URLField(verbose_name='다음 URL', null=True, blank=True)

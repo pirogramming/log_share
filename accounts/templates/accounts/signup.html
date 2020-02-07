@@ -1,18 +1,15 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <form action="" method="post" enctype="multipart/form-data">
+    <form action="" method="post">
         {% csrf_token %}
-        <h2>로그인 정보 입력</h2>
-            <div>USERNAME: <input name="username" type="text"></div>
-            <div>PASSWORD: <input name="password1" type="password"></div>
-            <div>Confirm PASSWORD: <input name="password2" type="password"></div>
-            <hr>
-        <h2>상세정보 입력</h2>
-            <div>성: <input name="last_name" type="text"></div>
-            <div>이름: <input name="first_name" type="text"></div>
-            <div>이메일: <input name="email" type="email"></div>
-        {{ form.as_p }}
-        <input type="submit" value="가입"/>
+        <table>
+            {{ user_form.as_table }}
+        </table>
+
+        <table>
+            {{ profile_form.as_table }}
+        </table>
+        <input type="submit"/>
     </form>
 {% endblock %}
