@@ -1,6 +1,8 @@
 from django.conf import settings
 from django.db import models
 from django.contrib.auth.models import User
+
+from myprofile.utils import date_upload_to
 from post.models import Post
 
 
@@ -9,8 +11,8 @@ from post.models import Post
 class Profile(models.Model):
     # (in database) ForeignKey - user,profile
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='user_profile')
-    name = models.CharField(max_length=20)
-    photo = models.ImageField(null=True, blank=True, verbose_name='프로필사진')
+    name = models.CharField(max_length=20, verbose_name='이름')
+    photo = models.ImageField(upload_to=date_upload_to, null=True, blank=True, verbose_name='프로필사진')
     department = models.CharField(max_length=100, verbose_name='소속')
     description = models.TextField(max_length=200, null=True, blank=True, verbose_name='한줄소개')
     interested_tag = models.CharField(max_length=255, null=True, blank=True, verbose_name='관심태그')

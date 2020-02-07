@@ -17,7 +17,7 @@ class Post(models.Model):
     )
     category = models.CharField(choices=categories, verbose_name='카테고리', max_length=5)
     title = models.CharField(max_length=100, verbose_name='제목')
-    contents = models.TextField(null=True, verbose_name='내용')
+    contents = models.TextField(null=True, blank=True, verbose_name='내용')
     reference = models.URLField(verbose_name='관련 URL', null=True, blank=True)
     start_date = models.DateField(verbose_name='시작 날짜')
     end_date = models.DateField(verbose_name='종료 날짜')
@@ -25,7 +25,7 @@ class Post(models.Model):
     tags = TaggableManager()
     #todo 별점 매기기 기능 추가?
     SCORE_CHOICES = zip(range(1,6), range(1,6))
-    score = models.IntegerField(choices=SCORE_CHOICES)
+    score = models.IntegerField(choices=SCORE_CHOICES, verbose_name='추천도')
 
     def __str__(self):
         return self.title

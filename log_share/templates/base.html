@@ -20,7 +20,8 @@
 <div class="nav">
     <a href="{% url 'main:main_front' %}">홈으로</a>
     {% if user.is_authenticated %}
-        <a href="{% url 'myprofile:profile_detail' user.pk %}">나의 프로필</a>
+        <a href="{% url 'myprofile:profile_detail' request.user.pk %}">나의 프로필</a>
+        <a href="{% url 'post:post_create' %}">글 작성하기</a>
     {% endif %}
 </div>
 

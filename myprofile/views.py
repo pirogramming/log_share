@@ -36,4 +36,4 @@ def bookmark_delete(request, pk):
     bookmark = BookMark.objects.get(pk=pk)
     bookmark.delete()
 
-    return redirect(reverse('myprofile:bookmark_list', kwargs={'pk': bookmark.user.pk}))
+    return redirect('myprofile:bookmark_list', bookmark.user.pk)

@@ -1,5 +1,4 @@
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.models import User, Group
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
 from rest_framework import viewsets, status
@@ -96,6 +95,7 @@ def post_create(request):
     return render(request, 'post/post_create.html', context)
 
 
+# pk: post_pk
 def post_detail(request, pk):
     post = Post.objects.get(id=pk)
     user = post.user  # 해당 포스트의 user
@@ -130,16 +130,14 @@ def post_delete(request, pk):
         if request.user == post.user:
             post.delete()
             return redirect('myprofile:profile_detail', request.user.pk)
-    # todo 태그가 참조하는 게시물이 하나도 없으면 태그가 삭제되는 기능
 
 
 # pk: post_pk, 해당 post의 bookmark
 @login_required
 def post_bookmark(request, pk):
     post = get_object_or_404(Post, pk=pk)
-    # post.bookmark_user_set : 해당 post의 bookmarks
     bookmark, bookmark_created = BookMark.objects.get_or_create(user=request.user, post=post)
     # 기존에 있는 북마크이면 북마크 취소하기
     if not bookmark_created:
         bookmark.delete()
-    return redirect(reverse('post:post_detail', kwargs={'user_pk': post.user.pk, 'post_pk': post.pk}))
+    return redirect('post:post_detail', post.pk)

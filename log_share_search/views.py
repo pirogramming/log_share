@@ -54,7 +54,7 @@ def main_search(request, option):
 
     return render(request, 'log_share_search/main_search.html', {
         'request': request,
-        'results': qs,
+        'results': qs,   # 1: post, 2: user
         'q': q,
         'option': option,
     })
