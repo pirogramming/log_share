@@ -35,14 +35,16 @@ class Search(APIView):
         if tags is not None:
             posts = Post.objects.filter(tags__name__in=tags).distinct()
             posts_data = serializers.PostSerializer(posts, many=True)
-            for post in posts_data.data:
-                #want = User
-                #print(want)
-                pass
+            # for post in posts_data.data:
+            #     want = post
+            #     print('')
+            #     print(want)
+            #     print('')
+            #     pass
 
             context = {
                 #'post_data': posts_data,
-                'data': posts_data.data,
+                'posts_data': posts_data.data,
                 'tags': tags,
             }
 
