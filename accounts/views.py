@@ -31,28 +31,32 @@ def signup(request):
         if request.POST["password1"] == request.POST["password2"]:
             user = User.objects.create_user(
                 username=request.POST["username"],
-                password=request.POST["password1"]
+                password=request.POST["password1"],
+                last_name=request.POST["last_name"],
+                first_name=request.POST["first_name"],
+                email=request.POST["email"],
             )
 
-    form = SignupForm(
-        request.POST,
-        request.FILES,
-    )
-    if form.is_valid():
-        # user.last_name = form.cleaned_data['name'][:1]
-        profile = Profile.objects.create(
-            user=user,
-            name=form.cleaned_data['name'],
-            department=form.cleaned_data['department'],
-            description=form.cleaned_data['description'],
-            naver=form.cleaned_data['naver'],
-            daum=form.cleaned_data['daum'],
-            github=form.cleaned_data['github'],
-            photo=form.cleaned_data['photo'],
-            other_url=form.cleaned_data['other_url'],
-            interested_tag=form.cleaned_data['interested_tag'],
+        form = SignupForm(
+            request.POST,
+            request.FILES,
         )
-        return redirect('/')
+
+        if form.is_valid():
+
+            profile = Profile.objects.create(
+                user=user,
+                name=user.last_name+user.first_name,
+                department=form.cleaned_data['department'],
+                description=form.cleaned_data['description'],
+                naver=form.cleaned_data['naver'],
+                daum=form.cleaned_data['daum'],
+                github=form.cleaned_data['github'],
+                photo=form.cleaned_data['photo'],
+                other_url=form.cleaned_data['other_url'],
+                interested_tag=form.cleaned_data['interested_tag'],
+            )
+            return redirect('/')
 
     elif request.method == "GET":
         form = SignupForm()
@@ -60,8 +64,3 @@ def signup(request):
     return render(request, 'accounts/signup.html', {
         'form': form,
     })
-
-
-@login_required
-def profile(request):
-    return render(request, 'myprofile/profile_detail.html')

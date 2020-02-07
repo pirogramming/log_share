@@ -23,13 +23,6 @@ class Profile(models.Model):
         return str(self.user) + ' profile'
 
 
-# class Site(models.Model):
-#     profile = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='site')
-#     link = models.URLField(verbose_name='대표 URL')
-#
-#     def __str__(self):
-#         return self.link
-
 
 # todo model change - ForeignKey
 # 두번째 방법) BookMark 모델 필요없이 Post모델에 user = ManyToMany(User)

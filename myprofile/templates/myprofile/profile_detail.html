@@ -22,14 +22,10 @@
     <div>관심태그: {{ profile.interested_tag }}</div>
     <div>
         대표 URL
-        <br>
-        네이버 URL:{{ profile.naver }}
-        <br>
-        다음 URL:{{ profile.daum }}
-        <br>
-        github URL:{{ profile.github }}
-        <br>
-        other URL:{{ profile.other_url }}
+        <div>네이버 URL: <a href="{{ profile.naver }}">{{ profile.naver }}</a></div>
+        <div>다음 URL: <a href="{{ profile.daum }}">{{ profile.daum }}</a></div>
+        <div>github URL: <a href="{{ profile.github }}">{{ profile.github }}</a></div>
+        <div>other URL: <a href="{{ profile.other_url }}">{{ profile.other_url }}</a></div>
     </div>
     <p><a href="mailto:{{ profile.user.email }}" class="fa-envelope"><span class="label">Email</span></a></p>
 

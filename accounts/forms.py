@@ -5,4 +5,4 @@ from myprofile.models import Profile
 class SignupForm(forms.ModelForm):
     class Meta:
         model = Profile
-        fields = ('name', 'department', 'description', 'photo', 'interested_tag', 'naver', 'daum', 'github', 'other_url')
+        fields = ('department', 'description', 'photo', 'interested_tag', 'naver', 'daum', 'github', 'other_url')

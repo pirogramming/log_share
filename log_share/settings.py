@@ -134,7 +134,9 @@ STATIC_URL = '/static/'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
+#login & logout
+from django.conf.global_settings import LOGIN_REDIRECT_URL
 
 LOGIN_URL = reverse_lazy('login')
-# LOGIN_REDIRECT_URL = reverse_lazy('profile')
+LOGIN_REDIRECT_URL = '/../../'  #move to main
 LOGOUT_REDIRECT_URL = reverse_lazy('login')
