@@ -4,7 +4,10 @@
     <form action="" method="post" enctype="multipart/form-data">
         {% csrf_token %}
         <table>
-            {{ profile_form.as_table }}
+            {{ user_change_form.as_p }}
+        </table>
+        <table>
+            {{ profile_form.as_p }}
         </table>
         <input type="submit" value="수정하기"/>
     </form>

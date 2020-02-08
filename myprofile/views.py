@@ -2,16 +2,16 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 
-from accounts.forms import SignupModelForm
+from accounts.forms import SignupModelForm, CustomUserChangeForm
 from myprofile.models import BookMark, Profile
 
 
-# user_pk
+# <<<<<<<<<<<<<<user_pk>>>>>>>>>>>>>>
 @login_required
 def profile_detail(request, pk):
     user = User.objects.get(pk=pk)
-    profile = user.user_profile  # onetoone relationship
-    posts = user.user_post.all()
+    profile = user.user_profile  # user -> profile
+    posts = user.user_post.all()  # user -> post
 
     context = {
         'profile': profile,
@@ -27,25 +27,35 @@ def profile_edit(request, pk):
     profile = user.user_profile
 
     if request.method == "POST":
+        user_change_form = CustomUserChangeForm(
+            request.POST,
+            instance=user
+        )
         profile_form = SignupModelForm(
             request.POST,
             request.FILES,
             instance=profile
         )
 
-        if profile_form.is_valid():
+        if user_change_form.is_valid() and profile_form.is_valid():
+            user_change_form.save()
             profile = profile_form.save()
-            return redirect('myprofile:profile_detail', profile.user.pk)
+            profile.name = request.user.last_name + request.user.first_name  # user의 이름 -> profile.name
+            profile = profile.save()
+
+            return redirect('myprofile:profile_detail', request.user.pk)
 
     elif request.method == "GET":
+        user_change_form = CustomUserChangeForm(instance=user)
         profile_form = SignupModelForm(instance=profile)
 
     return render(request, 'myprofile/profile_edit.html', {
+        'user_change_form': user_change_form,
         'profile_form': profile_form,
     })
 
 
-# 해당 user의 bookmark_list
+# user_pk / 해당 user의 bookmark_list
 def bookmark_list(request, pk):
     user = User.objects.get(pk=pk)
     bookmarks = user.user_bookmark.all()
