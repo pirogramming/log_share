@@ -1,13 +1,10 @@
-from django.conf import settings
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.forms import PasswordChangeForm
 from django.shortcuts import redirect, render
-from django.contrib.auth.models import User
 from django.contrib import auth
+from django.contrib.auth import login as auth_login, update_session_auth_hash
 
 from accounts.forms import SignupModelForm, CreateUserForm
 from myprofile.models import Profile
-
-from django.contrib.auth.forms import UserCreationForm
 
 
 def login(request):
@@ -29,6 +26,7 @@ def logout(request):
     return redirect('/')
 
 
+
 def signup(request):
     if request.method == "POST":
         user_form = CreateUserForm(request.POST)
@@ -39,6 +37,7 @@ def signup(request):
 
         if user_form.is_valid() and profile_form.is_valid():
             user = user_form.save()
+            auth_login(request, user)  #로그인 처리
 
             profile = Profile.objects.create(
                 user=user,
@@ -61,4 +60,23 @@ def signup(request):
     return render(request, 'accounts/signup.html', {
         'user_form':user_form,
         'profile_form': profile_form,
+    })
+
+
+#비밀번호 변경
+def password_change(request):
+    if request.method == 'POST':
+        password_change_form = PasswordChangeForm(request.user, request.POST)
+
+        if password_change_form.is_valid():
+            # 비번 변경 후 자동 로그인 추가
+            user = password_change_form.save()
+            update_session_auth_hash(request, user)
+            # 여기까지
+            return redirect('/', request.user.username)
+
+    else:
+        password_change_form = PasswordChangeForm(request.user)
+    return render(request, 'accounts/password_change_form.html', {
+        'password_change_form': password_change_form
     })
