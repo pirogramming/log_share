@@ -7,9 +7,14 @@ from myprofile.models import BookMark, Profile
 
 
 # user_pk
-@login_required
+@login_required  # login_required
 def profile_detail(request, pk):
+    # 본인 or 관련 그룹원
+    if request.user.id != pk:
+        raise NotImplementedError
     user = User.objects.get(pk=pk)
+    if request.user.id in [for user.id for user in user.groups.users.all()]:
+        raise NotImplementedError
     profile = user.user_profile  # onetoone relationship
     posts = user.user_post.all()
 
