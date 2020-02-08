@@ -52,6 +52,7 @@
         <div><a href="{% url 'myprofile:profile_edit' profile.user.pk %}">프로필 수정하기</a></div>
         <div><a href="{% url "password_change" %}">비밀밀호 변경</a></div>
     {% endif %}
+    <a href="{% url "password_change" %}">비밀밀호 변경</a>
 
 
     <hr>

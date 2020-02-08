@@ -8,7 +8,6 @@ from django.urls import reverse_lazy
 from django.contrib import messages
 
 
-
 def login(request):
     if request.method == "POST":
         username = request.POST['username']
