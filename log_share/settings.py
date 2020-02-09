@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 
 import os
 from django.urls import reverse_lazy
+from django.contrib.messages import constants as messages_constants
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 
 
@@ -104,12 +105,8 @@ WSGI_APPLICATION = 'log_share.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'log_share',
-        'USER': 'root',
-        'PASSWORD': '123123',
-        'HOST': 'localhost',
-        'PORT': '3306'
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
 
@@ -163,3 +160,17 @@ LOGOUT_REDIRECT_URL = reverse_lazy('login')
 
 # Taggit settings
 TAGGIT_CASE_INSENSITIVE = True
+MESSAGE_LEVEL = messages_constants.DEBUG
+
+# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+# 메일을 호스트하는 서버
+EMAIL_PORT = '587'
+# gmail과의 통신하는 포트
+EMAIL_HOST_USER = 'bobbeta22@gmail.com'
+# 발신할 이메일
+EMAIL_HOST_PASSWORD = 'tn340115'
+# 발신할 메일의 비밀번호
+EMAIL_USE_TLS = True
+# EMAIL_USE_SSL = True
+DEFAULT_FROM_EMAIL = '이수경 <bobbeta22@gmail.com>'
