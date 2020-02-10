@@ -9,16 +9,28 @@ from myprofile.models import BookMark, Profile
 # <<<<<<<<<<<<<<user_pk>>>>>>>>>>>>>>
 @login_required
 def profile_detail(request, pk):
-    user = User.objects.get(pk=pk)
-    profile = user.user_profile  # user -> profile
-    posts = user.user_post.all()  # user -> post
+    # 본인 or 관련 그룹원
+    try:
+        user = User.objects.get(pk=pk)  # 프로필의 user
+        for group in request.user.groups.all():
+            ans = user in group.user_set.all()
+        # 들어가려는 프로필이 본인의 프로필이 아니면서(타인의 프로필이면서) 프로필 user가 request.user의 그룹에 포함되지 않다면
+        if request.user.id != user.pk and not ans:
+            raise NotImplementedError
 
-    context = {
-        'profile': profile,
-        'posts': posts,
-    }
+    except NotImplementedError:
+        return redirect('myprofile:profile_detail', request.user.id)  #자기 프로필로
 
-    return render(request, 'myprofile/profile_detail.html', context)
+    else:
+        profile = user.user_profile  # user -> profile
+        posts = user.user_post.all()  # user -> post
+
+        context = {
+           'profile': profile,
+           'posts': posts,
+        }
+
+        return render(request, 'myprofile/profile_detail.html', context)
 
 
 @login_required

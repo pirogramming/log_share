@@ -9,6 +9,7 @@
 {% if user != request.user %}
     <input type="button" class="bookmark" name="{{ post.id }}" value="BookMark">
     <p class="bookmark_count" id="count-{{ post.id }}">북마크{{ post.bookmark.count }}개</p>
+
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
     <script type="text/javascript">
             $(".bookmark").click(function() {
@@ -32,7 +33,9 @@
                 });
             })
     </script>
+
 {% endif %}
+
     <div>작성자: <a href="{% url 'myprofile:profile_detail' user.pk %}">{{ user.user_profile.name }}</a></div>
     <div>평점 : {{ post.score }}</div>
     <div>내용 : {{ post.contents }}</div>
