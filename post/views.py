@@ -1,7 +1,7 @@
 from django.contrib.auth.decorators import login_required
-from django.core.serializers import json
+import simplejson as json
 from django.http import HttpResponse
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, redirect, get_object_or_404, render_to_response
 from django.urls import reverse
 from django.views.decorators.http import require_POST
 from rest_framework import viewsets, status
@@ -135,38 +135,21 @@ def post_delete(request, pk):
             return redirect('myprofile:profile_detail', request.user.pk)
 
 
-# pk: post_pk, 해당 post의 bookmark
 @login_required
-def post_bookmark(request, pk):
+@require_POST  # 해당 뷰는 POST method 만 받는다.
+def post_bookmark(request):
+    pk = request.POST.get('pk', None)
     post = get_object_or_404(Post, pk=pk)
     bookmark, bookmark_created = BookMark.objects.get_or_create(user=request.user, post=post)
     # 기존에 있는 북마크이면 북마크 취소하기
     if not bookmark_created:
         bookmark.delete()
-    return redirect('post:post_detail', post.pk)
+        message = "북마크 취소"
+    else:
+        message = "북마크"
 
-
-# todo bookmark
-# @login_required
-# @require_POST    # 해당 뷰는 POST method 만 받는다.
-# def post_bookmark(request):
-#     pk =request.POST.get('pk', None)
-#     post=get_object_or_404(Post, pk=pk)
-#     bookmark, bookmark_created = BookMark.objects.get_or_create(user=request.user, post=post)
-#     # 기존에 있는 북마크이면 북마크 취소하기
-#     if not bookmark_created:
-#         bookmark.delete()
-#         message="북마크 취소"
-#     else:
-#         message="북마크"
-#
-#     context={
-#         'bookmark_count':post.bookmark.count(),
-#         'message':message,
-#     }
-#
-#     return HttpResponse(json.dumps(context), context_type="application/json")  # context를 json 타입으로
-
-
-
-
+    context = {
+        'bookmark_count': post.bookmark.count(),
+        'message': message,
+    }
+    return HttpResponse(json.dumps(context), content_type="application/json")  # context를 json 타입으로

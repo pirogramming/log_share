@@ -5,6 +5,7 @@
     <h1>로그인을 해보자.</h1>
         <form method="POST" action="{% url 'login' %}">
             {% csrf_token %}
+            <div>{{ error }}</div>
             USERNAME:
             <br>
             <input name="username" type="text">

@@ -29,9 +29,15 @@ class CustomUserChangeForm(UserChangeForm):
     class Meta:
         model = get_user_model()  # settings.py에서 설정된 User 모델을 갖고옴
         fields = ['last_name', 'first_name', 'email']
+        labels = ['']
 
-    def save(self, commit=True):
-        pass
+    def __init__(self, *args, **kwargs):
+        super(UserChangeForm, self).__init__(*args, **kwargs)
+        f = self.fields.get('user_permissions', None)
+        self.fields.get('password').label = ''
+        self.fields.get('password').help_text = ''
+        if f is not None:
+            f.queryset = f.queryset.select_related('content_type')
 
 
 class SignupModelForm(forms.ModelForm):
