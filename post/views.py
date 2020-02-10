@@ -1,5 +1,6 @@
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User, Group
+from django.core.exceptions import ObjectDoesNotExist
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
 from rest_framework import viewsets, status
@@ -40,17 +41,21 @@ class Search(APIView):
         if tags is not None:
             posts = Post.objects.filter(tags__name__in=tags).distinct()
             posts_data = serializers.PostSerializer(posts, many=True)
-            # for post in posts_data.data:
-            #     want = post
-            #     print('')
-            #     print(want)
-            #     print('')
-            #     pass
+            for post in posts_data.data:
+                # from taggit.models import Tag
+                # tag_names = [tag.name for tag in Tag.objects.all()]
+                # want = tag_names
+                # print('')
+                # print(want)
+                # print('')
+                pass
+
+            post_writer = User.objects.get(id=post['user']).user_profile.name
 
             context = {
                 # 'post_data': posts_data,
                 'posts_data': posts_data.data,
-                'tags': tags,
+                'post_writer': post_writer,
             }
 
             return render(request, 'post/searched_post_list.html', context)
@@ -97,7 +102,10 @@ def post_create(request):
 
 
 def post_detail(request, pk):
-    post = Post.objects.get(id=pk)
+    try :
+        post = Post.objects.get(id=pk)
+    except ObjectDoesNotExist:
+        post = None
     user = post.user  # 해당 포스트의 user
 
     context = {

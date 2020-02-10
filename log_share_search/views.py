@@ -1,6 +1,6 @@
 from django.contrib.auth.models import User
 from django.db.models import Q
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 
 from group_management.models import CustomGroup
 from post.models import Post
@@ -26,8 +26,6 @@ def main_search(request, option):
             # 그룹 필터링
             # 기간 필터링(시간, 최신순)
             # 포스트 카테고리
-            print(user.username)
-            print(user.groups.all())
 
             qs = Post.objects.filter(
                 Q(user__groups__in=user.groups.all()) & # 나와 관련된 유저들
@@ -52,12 +50,42 @@ def main_search(request, option):
                 Q(name__icontains=q) & Q(is_searchable=True)
             )
 
+
+
     return render(request, 'log_share_search/main_search.html', {
         'request': request,
         'results': qs,
         'q': q,
         'option': option,
     })
+
+def tag_search(request, tag_name):
+    '''
+    :param tag_name:
+    specific tag_name at post_detail or post_list,
+    to search related posts directly.
+    :return:
+    main_search(option 1 -title, contents, tag-) post list
+    '''
+    user = request.user
+    q=tag_name
+
+    qs = None
+    qs = Post.objects.filter(
+        Q(user__groups__in=user.groups.all()) &
+        Q(tags__name__icontains=q)
+    ).distinct()  # 중복 제거
+
+    return render(request, 'log_share_search/main_search.html', {
+        'request': request,
+        'results': qs,
+        'q': q,
+        'option': 1,
+    })
+
+
+
+
 
 # 피드 - 최근 포스팅
 # 그룹 -
