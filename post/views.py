@@ -30,6 +30,8 @@ from .models import Post
 #     '''
 #     queryset = Group.objects.all()
 #     serializer_class = GroupSerializer
+from .utils import remove_all_tags_without_objects
+
 
 class Search(APIView):
 
@@ -137,8 +139,10 @@ def post_delete(request, pk):
     elif request.method == 'POST':
         if request.user == post.user:
             post.delete()
+            remove_all_tags_without_objects()
             return redirect('myprofile:profile_detail', request.user.pk)
     # todo 태그가 참조하는 게시물이 하나도 없으면 태그가 삭제되는 기능
+
 
 
 # pk: post_pk, 해당 post의 bookmark
