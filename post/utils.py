@@ -1,6 +1,8 @@
 import os
 from uuid import uuid4
 from django.utils import timezone
+from taggit.models import Tag
+
 
 def date_upload_to(instance, filename):
   # upload_to="%Y/%m/%d" 처럼 날짜로 세분화
@@ -16,3 +18,11 @@ def date_upload_to(instance, filename):
   ])
 
 
+def remove_all_tags_without_objects():
+  for tag in Tag.objects.all():
+    if tag.taggit_taggeditem_items.count() == 0:
+      # print(f'Removing: {tag}')
+      tag.delete()
+    else:
+      # print(f'Keeping: {tag}')
+      pass

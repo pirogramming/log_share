@@ -1,5 +1,6 @@
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User, Group
+from django.core.exceptions import ObjectDoesNotExist
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
 from rest_framework import viewsets, status
@@ -29,6 +30,8 @@ from .models import Post
 #     '''
 #     queryset = Group.objects.all()
 #     serializer_class = GroupSerializer
+from .utils import remove_all_tags_without_objects
+
 
 class Search(APIView):
 
@@ -40,17 +43,21 @@ class Search(APIView):
         if tags is not None:
             posts = Post.objects.filter(tags__name__in=tags).distinct()
             posts_data = serializers.PostSerializer(posts, many=True)
-            # for post in posts_data.data:
-            #     want = post
-            #     print('')
-            #     print(want)
-            #     print('')
-            #     pass
+            for post in posts_data.data:
+                # from taggit.models import Tag
+                # tag_names = [tag.name for tag in Tag.objects.all()]
+                # want = tag_names
+                # print('')
+                # print(want)
+                # print('')
+                pass
+
+            post_writer = User.objects.get(id=post['user']).user_profile.name
 
             context = {
                 # 'post_data': posts_data,
                 'posts_data': posts_data.data,
-                'tags': tags,
+                'post_writer': post_writer,
             }
 
             return render(request, 'post/searched_post_list.html', context)
@@ -97,7 +104,10 @@ def post_create(request):
 
 
 def post_detail(request, pk):
-    post = Post.objects.get(id=pk)
+    try :
+        post = Post.objects.get(id=pk)
+    except ObjectDoesNotExist:
+        post = None
     user = post.user  # 해당 포스트의 user
 
     context = {
@@ -129,8 +139,10 @@ def post_delete(request, pk):
     elif request.method == 'POST':
         if request.user == post.user:
             post.delete()
+            remove_all_tags_without_objects()
             return redirect('myprofile:profile_detail', request.user.pk)
     # todo 태그가 참조하는 게시물이 하나도 없으면 태그가 삭제되는 기능
+
 
 
 # pk: post_pk, 해당 post의 bookmark

@@ -32,6 +32,11 @@ current user: {{ request.user.user_profile.name }}
                     {% endfor %}
                     <div>
                         작성자: <a href="{% url 'myprofile:profile_detail' result.user.pk %}">{{ result.user.user_profile.name }}</a>
+                        태그 :
+                        {% for post_tag in result.tags.all %}
+                            <a href="{% url 'search:tag_search' post_tag  %}">#{{ post_tag }}</a>
+                        {% endfor %}
+
                     </div>
                 {% endif %}
                 {% if option == 2 %}

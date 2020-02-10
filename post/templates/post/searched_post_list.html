@@ -10,6 +10,8 @@
         {% for k,v in post.items %}
             {% if k == 'title' %}
                 {{ k }} : <a href="{% url 'post:post_detail' post.id %}">{{ v }}</a>
+            {% elif k == 'user' %}
+                {{ k }} : <a href="{% url 'myprofile:profile_detail' post.user %}">{{ post_writer }}</a>
             {% else %}
                 {{ k }} : {{ v }}
             {% endif %}
