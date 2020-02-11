@@ -13,13 +13,17 @@ from group_management.models import CustomGroup
 def profile_detail(request, pk):
     # 본인 or 관련 그룹원
     try:
+        ans = False
         user = User.objects.get(pk=pk)  # 프로필의 user
         # 들어가려는 프로필이 본인의 프로필이 아니면서(타인의 프로필이면서) 프로필 user가 request.user의 그룹에 포함되지 않다면
         if request.user.id != user.pk:
             for group in request.user.user_groups.all():
-                ans = user in group.members.all()
-                if ans == False:
-                    raise NotImplementedError
+                if user in group.members.all():
+                    ans = True
+                    break
+
+            if ans == False:
+                raise NotImplementedError
 
     except NotImplementedError:
         return render(request, 'http404.html')
