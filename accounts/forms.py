@@ -1,4 +1,5 @@
 from django import forms
+from django.contrib.auth.forms import UserCreationForm, PasswordChangeForm
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from django.contrib.auth.models import User
@@ -44,3 +45,10 @@ class SignupModelForm(forms.ModelForm):
     class Meta:
         model = Profile
         fields = ('department', 'description', 'photo', 'interested_tag', 'naver', 'daum', 'github', 'other_url')
+
+
+class password_changeForm(PasswordChangeForm):  # 내장 회원가입 폼을 상속받아서 확장한다.
+    class Meta:
+        model = User
+        fields = ("old_password","new_password1","new_password2")
+        labels={"old_password":"기존 비밀번호","new_password1":"새 비밀번호","new_password2":"새 비밀번호 확인"}

@@ -1,10 +1,12 @@
-from django.contrib.auth.forms import PasswordChangeForm
 from django.shortcuts import redirect, render
 from django.contrib import auth
 from django.contrib.auth import login as auth_login, update_session_auth_hash
-
-from accounts.forms import SignupModelForm, CreateUserForm
+from django.contrib.auth.views import PasswordResetView, PasswordResetConfirmView, PasswordChangeView
+from accounts.forms import SignupModelForm, CreateUserForm, password_changeForm
 from myprofile.models import Profile
+from django.urls import reverse_lazy
+from django.contrib import messages
+
 
 
 def login(request):
@@ -66,8 +68,7 @@ def signup(request):
 #비밀번호 변경
 def password_change(request):
     if request.method == 'POST':
-        password_change_form = PasswordChangeForm(request.user, request.POST)
-
+        password_change_form = password_changeForm(request.user, request.POST)
         if password_change_form.is_valid():
             # 비번 변경 후 자동 로그인 추가
             user = password_change_form.save()
@@ -76,7 +77,26 @@ def password_change(request):
             return redirect('/', request.user.username)
 
     else:
-        password_change_form = PasswordChangeForm(request.user)
+        password_change_form = password_changeForm(request.user)
     return render(request, 'accounts/password_change_form.html', {
         'password_change_form': password_change_form
     })
+
+class MyPasswordResetView(PasswordResetView):
+    success_url = reverse_lazy('login')
+    template_name = 'accounts/password_reset_form.html'
+    # email_template_name = ...
+    # html_email_template_name = ...
+
+    def form_valid(self, form):
+        messages.info(self.request, '암호 변경 메일을 발송했습니다.')
+        return super().form_valid(form)
+
+
+class MyPasswordResetConfirmView(PasswordResetConfirmView):
+    success_url = reverse_lazy('login')
+    template_name = 'accounts/password_reset_confirm.html'
+
+    def form_valid(self, form):
+        messages.info(self.request, '암호 리셋을 완료했습니다.')
+        return super().form_valid(form)

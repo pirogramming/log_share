@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 
 import os
 from django.urls import reverse_lazy
+from django.contrib.messages import constants as messages_constants
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 
 
@@ -87,12 +88,8 @@ WSGI_APPLICATION = 'log_share.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'log_share',
-        'USER': 'root',
-        'PASSWORD': '123',
-        'HOST': 'localhost',
-        'PORT': '3306'
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
 
@@ -146,3 +143,4 @@ LOGOUT_REDIRECT_URL = reverse_lazy('login')
 
 # Taggit settings
 TAGGIT_CASE_INSENSITIVE = True
+MESSAGE_LEVEL = messages_constants.DEBUG

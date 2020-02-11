@@ -14,6 +14,7 @@ def main_search(request, option):
 
     qs = None
     # 검색창 옆에 필터 선택 -> request로 받고, 그 값에 따라 결과값 필터링 **
+    result = dict()
     if q:  # q가 있으면
         # 필터링 종류
         # option |     참조
@@ -35,6 +36,7 @@ def main_search(request, option):
             #     # 포스트 내용 필요한가? 내용 미리보기 필요할듯..(해당 키워드가 담긴 문장을 보여준다던지..)
             #     Q(title__icontains=q) | Q(tag__word__icontains=q) | Q(contents__icontains=q)
             # ).distinct()
+            results['posts'] = qs
         elif option == 2:  # 이름에 q 포함 + 접속 유저와 관련된 그룹원
             # 필터링 종류 #
             # 그룹 필터링
@@ -42,6 +44,7 @@ def main_search(request, option):
                 Q(groups__in=user.groups.all()) &
                 (Q(user_profile__name__icontains=q) | Q(username__icontains=q))
             )
+            results['users'] = qs
         elif option == 3:  # 그룹명에 q가 포함된 그룹
             # 필터링 종류 #
             # 그룹 카테고리
@@ -49,14 +52,16 @@ def main_search(request, option):
             qs = CustomGroup.objects.filter(
                 Q(name__icontains=q) & Q(is_searchable=True)
             )
+            results['custom_groups'] = qs
 
 
 
     return render(request, 'log_share_search/main_search.html', {
         'request': request,
-        'results': qs,   # 1: post, 2: user
+        # 'results': qs,   # 1: post, 2: user
+        'results': results,
         'q': q,
-        'option': option,
+        # 'option': option,
     })
 
 def tag_search(request, tag_name):
@@ -89,4 +94,3 @@ def tag_search(request, tag_name):
 
 # 피드 - 최근 포스팅
 # 그룹 -
-
