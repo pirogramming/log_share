@@ -1,5 +1,7 @@
-<form action="" method="post">
-    {% for message in messages %}
-        {{ message.sender }} -> {{ message.group }}: {{ message.status }} <br>
-    {% endfor %}
-</form>
+{% for message in messages %}
+    {{ message.sender }} -> {{ message.group }}: {{ message.status }}
+    <button type="button" class="allow_button" data-id="{{ message.id }}">수락</button>
+    <button type="button" class="disallow_button" data-id="{{ message.id }}">거절</button>
+{#    {% include 'group_management/deal_request.html' %}#}
+    <br>
+{% endfor %}

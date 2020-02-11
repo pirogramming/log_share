@@ -1,0 +1,5 @@
+{% for group in groups %}
+    <a href="{% url 'group_management:detail_group' group.id %}">
+        {{ forloop.counter }} . {{ group }}
+    </a>
+{% endfor %}

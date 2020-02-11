@@ -1,7 +1,6 @@
-{{ group.name }} <br>
-{{ group.category }}<br>
-{{ group.notes }}<br>
-{{ group.is_searchable }}<br>
+그룹명: {{ group.group_name }} <br>
+카테고리: {{ group.group_category }}<br>
+그룹 설명:{{ group.notes }}<br>
+검색 허용: {{ group.is_searchable }}<br>
 
 <a href="{% url 'group_management:request_group' group.id %}">가입신청</a><br>
-<a href="{% url 'group_management:update_group' group.id %}">그룹정보변경</a>

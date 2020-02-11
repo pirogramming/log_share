@@ -1,9 +1,9 @@
 from django.contrib.auth import get_user_model
-from django.contrib.auth.models import Group, User
+from django.contrib.auth.models import User
 from django.db import models
 
 
-class CustomGroup(Group):
+class CustomGroup(models.Model):
     categories = (
         ('art', '문화/예술/공연'),
         ('volunteer', '봉사/사회활동'),
@@ -14,16 +14,20 @@ class CustomGroup(Group):
         ('play', '친목'),
         ('etc', '기타'),
     )
-    category = models.CharField(max_length=50, default='etc', choices=categories, verbose_name='카테고리')
+    members = models.ManyToManyField(User, verbose_name='그룹멤버', related_name='user_groups')
+    manager = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='그룹장', related_name='user_manage_groups')
+    group_name = models.CharField(max_length=50, unique=True, verbose_name='그룹명')
+    group_category = models.CharField(max_length=50, default='etc', choices=categories, verbose_name='카테고리')
     notes = models.TextField(blank=True, verbose_name='그룹설명')
     is_searchable = models.BooleanField(verbose_name='검색허용')
+    access_code = models.CharField(max_length=50, blank=True, verbose_name='그룹검색코드')
 
     class Meta:
         verbose_name_plural = "groups"
-        ordering = ['name']
+        ordering = ['group_name']
 
     def __str__(self):
-        return self.name
+        return self.group_name
 
 
 class GroupRequest(models.Model):
