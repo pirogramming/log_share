@@ -27,6 +27,7 @@ class InfiniteScroll{
             if(xmlhttp.readyState == XMLHttpRequest.DONE){
                 if(xmlhttp.status == 200){
                     this.pNum++;
+                    //해당 페이지의 포스트를 가져옴
                     const childItems = this.getChildItemsByAjaxHTML(xmlhttp.responseText);
                     this.appendNewItems(childItems);
                 }
