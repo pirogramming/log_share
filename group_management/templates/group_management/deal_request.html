@@ -1,0 +1,15 @@
+{#<script>#}
+{#    const allow_buttons = document.querySelectorAll('.allow_button');#}
+{#    allow_buttons.forEach(function (button) {#}
+{#        button.addEventListener('click', function (event) {#}
+{#            // console.log(event)#}
+{#            var message_id = event.target.dataset.id * 1;#}
+{#            var url = "{% url 'group_management:allow_request' 123 %}".replace('123', message_id);#}
+{#            alert(message_id);#}
+{#            alert(url);#}
+{#            axios.get(url).then(function(response){#}
+{#                console.log(response)#}
+{#            })#}
+{#        })#}
+{#    })#}
+{#</script>#}
