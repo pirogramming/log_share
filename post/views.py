@@ -8,7 +8,7 @@ from rest_framework import viewsets, status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from myprofile.models import BookMark
+from myprofile.models import BookMark, Profile
 from . import serializers
 from .forms import PostModelForm
 from .models import Post
@@ -81,15 +81,18 @@ class Search(APIView):
 
 
 def post_scroll_list(request, pk):
-    posts = Post.objects.all().order_by('created_at').reverse()
-    paginator = Paginator(posts, 10)
-    page = request.GET.get('page')
-    pageposts = paginator.get_page(page)  # 10개만큼 포스트 출력
-    context = {
-        'posts': posts,
-        'pageposts': pageposts,
-    }
-    return render(request, 'post/myprofile_post_list.html')
+    profile = Profile.objects.get(pk=pk)
+    user = profile.user
+    posts = user.user_post.order_by('start_date')
+    return render(request, 'post/myprofile_post_list.html', {'posts':posts})
+    # paginator = Paginator(posts, 10)
+    # page = request.GET.get('page')
+    # pageposts = paginator.get_page(page)  # 10개만큼 포스트 출력
+    # context = {
+    #     'posts': posts,
+    #     'pageposts': pageposts,
+    # }
+    # return render(request, 'post/myprofile_post_list.html')
 
 
 def post_create(request):

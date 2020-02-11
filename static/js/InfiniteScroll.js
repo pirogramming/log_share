@@ -12,11 +12,12 @@ class InfiniteScroll{
         this.detectScroll();
     }
 
+    //스크롤 감지 -> 새로운 포스트 가져오기
     detectScroll(){
         window.onscroll = (ev) => {
             if((window.innerHeight + window.pageYOffset) >= document.body.offsetHeight && this.pNum <= this.rastPage)
                 this.getNewPost();
-        }
+        };
     }
     getNewPost(){
         if(this.enable === false) return false;
@@ -38,4 +39,17 @@ class InfiniteScroll{
         xmlhttp.send();
     }
 
+    getChildItemsByAjaxHTML(HTMLText){
+        const newHTML = document.createElement('html');
+        newHTML.innerHTML = HTMLText;
+        const childItems = newHTML.querySelectorAll(`#${this.wrapperId} > *`);
+        return childItems;
+    }
+
+    //새로운 포스트를 올려준다.
+    appendNewItems(items){
+        items.forEach(item => {
+            this.wNode.appendChild(item);
+        });
+    }
 }
