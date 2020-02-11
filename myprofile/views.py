@@ -8,7 +8,6 @@ from accounts.forms import SignupModelForm, CustomUserChangeForm
 from myprofile.models import BookMark, Profile
 from group_management.models import CustomGroup
 
-
 # <<<<<<<<<<<<<<profile user_pk>>>>>>>>>>>>>>
 @login_required
 def profile_detail(request, pk):

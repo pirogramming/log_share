@@ -1,6 +1,6 @@
 from django.urls import path
 
-from log_share_search import views
+from search import views
 
 app_name = 'search'
 

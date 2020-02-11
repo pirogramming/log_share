@@ -43,7 +43,7 @@ INSTALLED_APPS = [
     'rest_framework',
 
     #my apps
-    'log_share_search',
+    'search',
     'group_management',
     'myprofile',
     'accounts',
@@ -90,7 +90,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'log_share',
         'USER': 'root',
-        'PASSWORD': 'admin',
+        'PASSWORD': '123',
         'HOST': 'localhost',
         'PORT': '3306'
     }
