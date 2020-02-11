@@ -47,7 +47,7 @@
     <button><a href="{% url 'post:post_list' %}">피드로 돌아가기</a></button>
     <br>
     <button><a href="{% url 'post:post_update' post.pk %}">수정하기</a></button>
-    <form action="{% url 'post:post_delete' post.pk %}" method="POST">
+    <form action="{% url 'myprofile:profile_detail' post.user.pk %}" method="POST">
         {% csrf_token %}
         <button type="submit">삭제하기</button>
     </form>

@@ -1,11 +1,50 @@
 {# my activity under myprofile #}
-{% for post in posts %}
-        <div>
+<div id="post-list-wrapper">
+{% for post in pageposts %}
+        <li>
             <div>제목 : <a href="{% url 'post:post_detail' post.pk %}">{{ post.title }}</a></div>
             <div>작성자 : {{ post.user.user_profile.name }}</div>
             <div>활동기간: {{ post.start_date }} ~ {{ post.end_date }}</div>
             <div>태그: {{ post.tags.all |join:"," }}</div>
             <div>평점 : {{ post.score }}</div>
-        </div>
+        </li>
     <br>
 {% endfor %}
+</div>
+<!--
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<script type="text/javascript">
+    let isEnd = false;
+
+    $(function () {
+        $(window).scroll(function () {
+            let $window = $(this);
+            let scrollTop = $window.scrollTop();
+            let windowHeight = $window.height();
+            let documentHeight = $(document).height();
+
+            console.log("documentHeight:" + documentHeight + " | scrollTop:" + scrollTop+ " | windowHeight:" + windowHeight);
+            // scrollbar의 thumb가 바닥 전 30px까지 도달 하면 리스트를 가져온다.
+            if(scrollTop + windowHeight + 30 > documentHeight){
+                fetchList();
+            }
+        })
+        fetchList();
+    })
+
+    let fetchList = function () {
+        if(isEnd == true){
+            return;
+        }
+        // 방명록 리스트를 가져올 때 시작 번호
+        let startNo = $("#post-list li").last().data("no") || 0;
+        $.ajax({
+            url:"{% url 'post:post_scroll_list' profile.user.pk %}",
+            type:"GET",
+            dataType:"json",
+
+
+        })
+    }
+</script>
+-->

@@ -19,7 +19,7 @@
     <a href="{% url 'main:main_front' %}"><img class="nav_logo" src="../../media/로고 글씨 하얀.png" alt=""/></a>
 
     <div class="nav_menu">
-    <a href="{% url 'post:post_list' %}">홈</a>
+    <a href="{% url 'main:main_front' %}">홈</a>
     <a href="#">그룹</a>
 
     {% if user.is_authenticated %}
@@ -32,13 +32,6 @@
 </div>
 
 <div class="body_container">
-<div class="left_nav">
-    {% if request.user.user_profile.photo %}
-        <div><img src="{{ request.user.user_profile.photo.url }}" alt="" width="80px"/></div>
-    {% endif %}
-    <div>{{ request.user.user_profile.name }}</div>
-    <div><a href="{% url 'myprofile:bookmark_list' request.user.pk %}">북마크</a></div>
-</div>
 
 {% block content %}
 {% endblock %}

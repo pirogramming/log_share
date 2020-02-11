@@ -1,0 +1,46 @@
+* {
+    background-color: #e8eaf6;
+    padding: 0;
+    margin: 0;
+}
+
+a {
+    text-decoration: none;
+    background-color: transparent;
+}
+
+.body_container {
+    padding: 20px 10%;
+}
+
+.nav {
+    background-color: #1a237e;
+    height: 80px;
+}
+
+.nav_menu {
+    background-color: transparent;
+    height: 80px;
+    float: right;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.nav_menu a {
+    padding: 0 10px;
+    color: white;
+    font-size: 20px;
+}
+
+.nav_logo {
+    background-color: #1a237e;
+    height: 80px;
+    display: inline-block;
+    float: left;
+    margin: 0 0 0 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
