@@ -1,13 +1,16 @@
 from django.contrib.auth.decorators import login_required
+import simplejson as json
+from django.core.paginator import Paginator
+from django.http import HttpResponse
 from django.contrib.auth.models import User, Group
 from django.core.exceptions import ObjectDoesNotExist
 from django.shortcuts import render, redirect, get_object_or_404
-from django.urls import reverse
+from django.views.decorators.http import require_POST
 from rest_framework import viewsets, status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from myprofile.models import BookMark
+from myprofile.models import BookMark, Profile
 from . import serializers
 from .forms import PostModelForm
 from .models import Post
@@ -68,21 +71,36 @@ class Search(APIView):
 
 ### Rest API 끝 ###
 
-def post_list(request):
-    posts = Post.objects.all()  # 실제로는 내가 속한 그룹 인원들의 게시물만 가져와야함.
-    # posts = Post.objects.filter(tags__name__in=["찾을태그"])
-    '''
-    만약 ["찾을태그1","찾을태그2"]식으로 여러개의 태그를 넣어 검색할 경우
-    태그 1과 태그 2를 동시에 가지고 있는 게시물은 두 번 조회될 수 있다(쿼리셋에 2번이나 들어오게 된다)
-    이때는 쿼리문 제일 끝에 .distinct()를 붙여주면 포스트의 중복을 막을 수 있다.
-    '''
-    # qs = str(Post.tags.all()) 이렇게 할 시 포스트 모델에 존재하는 모든 태그를 가져올 수 있다.
+# def post_list(request):
+#     posts = Post.objects.all()  # 실제로는 내가 속한 그룹 인원들의 게시물만 가져와야함.
+#     # posts = Post.objects.filter(tags__name__in=["찾을태그"])
+#     '''
+#     만약 ["찾을태그1","찾을태그2"]식으로 여러개의 태그를 넣어 검색할 경우
+#     태그 1과 태그 2를 동시에 가지고 있는 게시물은 두 번 조회될 수 있다(쿼리셋에 2번이나 들어오게 된다)
+#     이때는 쿼리문 제일 끝에 .distinct()를 붙여주면 포스트의 중복을 막을 수 있다.
+#     '''
+#     # qs = str(Post.tags.all()) 이렇게 할 시 포스트 모델에 존재하는 모든 태그를 가져올 수 있다.
+#
+#     context = {
+#         'posts': posts,
+#     }
+#
+#     return render(request, 'post/post_list.html', context)
 
-    context = {
-        'posts': posts,
-    }
 
-    return render(request, 'post/post_list.html', context)
+def post_scroll_list(request, pk):
+    profile = Profile.objects.get(pk=pk)
+    user = profile.user
+    posts = user.user_post.order_by('start_date')
+    return render(request, 'post/myprofile_post_list.html', {'posts':posts})
+    # paginator = Paginator(posts, 10)
+    # page = request.GET.get('page')
+    # pageposts = paginator.get_page(page)  # 10개만큼 포스트 출력
+    # context = {
+    #     'posts': posts,
+    #     'pageposts': pageposts,
+    # }
+    # return render(request, 'post/myprofile_post_list.html')
 
 
 def post_create(request):
@@ -103,6 +121,7 @@ def post_create(request):
     return render(request, 'post/post_create.html', context)
 
 
+# pk: post_pk
 def post_detail(request, pk):
     try :
         post = Post.objects.get(id=pk)
@@ -141,17 +160,24 @@ def post_delete(request, pk):
             post.delete()
             remove_all_tags_without_objects()
             return redirect('myprofile:profile_detail', request.user.pk)
-    # todo 태그가 참조하는 게시물이 하나도 없으면 태그가 삭제되는 기능
-
 
 
 # pk: post_pk, 해당 post의 bookmark
 @login_required
-def post_bookmark(request, pk):
+@require_POST  # 해당 뷰는 POST method 만 받는다.
+def post_bookmark(request):
+    pk = request.POST.get('pk', None)
     post = get_object_or_404(Post, pk=pk)
-    # post.bookmark_user_set : 해당 post의 bookmarks
     bookmark, bookmark_created = BookMark.objects.get_or_create(user=request.user, post=post)
     # 기존에 있는 북마크이면 북마크 취소하기
     if not bookmark_created:
         bookmark.delete()
-    return redirect(reverse('post:post_detail', kwargs={'user_pk': post.user.pk, 'post_pk': post.pk}))
+        message = "북마크 취소"
+    else:
+        message = "북마크"
+
+    context = {
+        'bookmark_count': post.bookmark.count(),
+        'message': message,
+    }
+    return HttpResponse(json.dumps(context), content_type="application/json")  # context를 json 타입으로

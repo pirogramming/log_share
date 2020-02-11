@@ -1,6 +1,3 @@
-
-/static
-/media
 .idea
 .idea/
 
@@ -15,10 +12,9 @@ __pycache__/
 local_settings.py
 db.sqlite3
 db.sqlite3-journal
-media
 
 # If your build process includes running collectstatic, then you probably don't need or want to include staticfiles/
-# in your Git repository. Update and uncomment the following line accordingly.
+# in your Git repository. Update and uncont the following line accordingly.
 # <django-project-name>/staticfiles/
 
 ### Django.Python Stack ###

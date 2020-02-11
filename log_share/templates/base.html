@@ -1,31 +1,45 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
-    <style>
-        .nav{
-            background-color: #c4dce8;
-            height: 50px;
-            text-align: center;
-        }
+    <title>Log share</title>
 
-    </style>
-
-    {% block style %}
-    {% endblock %}
-
+    <link rel="stylesheet" href="{% static 'css/base.css' %}?8">
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
 </head>
+
 <body>
+
 <div class="nav">
-    <a href="{% url 'main:main_front' %}">홈으로</a>
+    <a href="{% url 'main:main_front' %}"><img class="nav_logo" src="../../media/로고 글씨 하얀.png" alt=""/></a>
+
+    <div class="nav_menu">
+    <a href="{% url 'main:main_front' %}">홈</a>
+    <a href="#">그룹</a>
+
     {% if user.is_authenticated %}
-        <a href="{% url 'myprofile:profile_detail' user.pk %}">나의 프로필</a>
+        <a href="{% url 'myprofile:profile_detail' request.user.pk %}">프로필</a>
+        <a href="#">계정관리</a>
+        <a href="{% url 'post:post_create' %}">글 작성하기</a>
+        <a href="{% url 'logout' %}">로그아웃</a>
     {% endif %}
+    </div>
 </div>
+
+<div class="body_container">
 
 {% block content %}
 {% endblock %}
+</div>
+
+<footer>
+
+</footer>
 
 </body>
 </html>

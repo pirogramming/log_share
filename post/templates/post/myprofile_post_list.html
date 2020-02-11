@@ -1,10 +1,19 @@
-    <h2><a href="{% url 'post:post_create' %}">글 작성하기</a></h2>
-    {% for post in posts %}
-        <div>
-        <p>
-            제목 : <a href="{% url 'post:post_detail' post.pk %}">{{ post.title }}</a> <br>
-            작성자 : {{ post.user }} <br>
-            평점 : {{ post.score }} <br>
-        </p>
-        </div>
-    {% endfor %}
+{# my activity under myprofile #}
+<div id="post-list-wrapper">
+{% for post in posts %}
+    <div>제목 : <a href="{% url 'post:post_detail' post.pk %}">{{ post.title }}</a></div>
+    <div>작성자 : {{ post.user.user_profile.name }}</div>
+    <div>활동기간: {{ post.start_date }} ~ {{ post.end_date }}</div>
+    <div>태그: {{ post.tags.all |join:"," }}</div>
+    <div>평점 : {{ post.score }}</div>
+    <br>
+{% endfor %}
+</div>
+
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<script type="text/javascript">
+    var postWrapperId = 'post-list-wrapper';
+    var paginatePath = '?page=';
+    var lastPage = {{ pageposts.paginator.num_pages }};
+    new InfiniteScroll(paginatePath, postWrapperId, lastPage);
+</script>
