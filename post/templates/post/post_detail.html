@@ -5,7 +5,9 @@
 {% if post.photo %}
         <img src="{{ post.photo.url }}" style="max-width: 100%; max-height: 400px"><br>
 {% endif %}
+
     <div>제목 : {{ post.title }}</div>
+
 {% if user != request.user %}
     <input type="button" class="bookmark" name="{{ post.id }}" value="BookMark">
     <p class="bookmark_count" id="count-{{ post.id }}">북마크{{ post.bookmark.count }}개</p>
@@ -48,7 +50,7 @@
         {% for post_tag in post.tags.all %}
             <a href="{% url 'search:tag_search' post_tag  %}">#{{ post_tag }}</a>
         {% endfor %} <br>
-    <button><a href="{% url 'post:post_list' %}">피드로 돌아가기</a></button>
+    <button><a href="{% url 'myprofile:profile_detail' user.pk %}">돌아가기</a></button>
     <br>
     <button><a href="{% url 'post:post_update' post.pk %}">수정하기</a></button>
     <form action="{% url 'post:post_delete' post.pk %}" method="POST">

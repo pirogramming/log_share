@@ -1,0 +1,13 @@
+{% if posts %}
+    {% for post in posts %}
+        <div>제목 : <a href="{% url 'post:post_detail' post.pk %}">{{ post.title }}</a></div>
+        <div>작성자 : {{ post.user.user_profile.name }}</div>
+        <div>활동기간: {{ post.start_date }} ~ {{ post.end_date }}</div>
+        태그 :
+        {% for post_tag in post.tags.all %}
+            <a href="{% url 'search:tag_search' post_tag %}">#{{ post_tag }}</a>
+        {% endfor %} <br>
+        <div>평점 : {{ post.score }}</div>
+        <br>
+    {% endfor %}
+{% endif %}

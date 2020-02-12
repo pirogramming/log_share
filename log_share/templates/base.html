@@ -24,8 +24,8 @@
 
     {% if user.is_authenticated %}
         <a href="{% url 'myprofile:profile_detail' request.user.pk %}">프로필</a>
+        <a href="{% url 'post:post_list' %}">활동보기</a>
         <a href="#">계정관리</a>
-        <a href="{% url 'post:post_create' %}">글 작성하기</a>
         <a href="{% url 'logout' %}">로그아웃</a>
     {% endif %}
     </div>

@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div>
+        {% if posts %}
+            {% for post in posts %}
+                <div>제목 : <a href="{% url 'post:post_detail' post.pk %}">{{ post.title }}</a></div>
+                <div>작성자 : {{ post.user.user_profile.name }}</div>
+                <div>활동기간: {{ post.start_date }} ~ {{ post.end_date }}</div>
+                태그 :
+                {% for post_tag in post.tags.all %}
+                    <a href="{% url 'search:tag_search' post_tag %}">#{{ post_tag }}</a>
+                {% endfor %} <br>
+                <div>평점 : {{ post.score }}</div>
+                <br>
+            {% endfor %}
+        {% endif %}
+    </div>
+
+    <div id="post_list_ajax"></div>  {# ajax 결과물 추가할 곳 #}
+    <input id="page" type="hidden" value="2">  {# 첫 next_page == 2 #}
+    <button id="callmorepost" type="button">More Post</button>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script type="text/javascript">
+
+        $('#callmorepost').click(function () {
+            var page = $("#page").val();
+            callMorePostAjax(page);
+            $("#page").val(parseInt(page) + 1);
+        });
+
+        $(window).scroll(function () {
+            var scrollHeight = $(window).scrollTop() + $(window).height();
+            var documentHeight = $(document).height();
+
+            if (scrollHeight + 10 >= documentHeight) {
+                var page = $("#page").val();
+                var end_page = {{ posts.paginator.num_pages }};
+                if (page > end_page) {  //더이상 스크롤 할 페이지가 없는 경우
+                    return;
+                }
+                callMorePostAjax(page);
+                $("#page").val(parseInt(page) + 1);
+            }
+        });
+
+        // 스크롤 내린 다음 페이지를 가져온다(포스트를 보이게 한다)
+        function callMorePostAjax(page) {
+            var end_page = {{ posts.paginator.num_pages }};
+
+            if (page > end_page) {
+                return;
+            }
+            //ajax가 서버에게 전달하는 data
+            $.ajax({
+                type: 'POST', //데이터를 전송하는 방법
+                url: "{% url 'post:post_list_ajax' %}",
+                data: {
+                    'page': page,  //가져와야하는 페이지 보냄
+                    'csrfmiddlewaretoken': '{{ csrf_token }}'
+                },
+                success: addMorePostAjax,  //받아온 dataType를 어디에 둘것인가
+                dataType: 'html',
+                error: function (request, status, error) {
+                    alert('오류발생');
+                },
+            });
+        }
+
+        function addMorePostAjax(data, textStatus, jqXHR) {
+            $('#post_list_ajax').append(data);  //dev post_list_ajax 자리에 포스트를 올린다.
+        }
+    </script>
+
+{% endblock %}

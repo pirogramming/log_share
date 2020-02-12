@@ -9,17 +9,15 @@
          {% endif %}
     </div>
     <div>소속: {{ profile.department }}</div>
-    <div>자기소개: </br> {{ profile.description }}</div>
-    <div>관심태그: {{ profile.interested_tag }}</div>
-    <div>
-        최근 태그 리스트 :
-        {% for tag_name, tag_count in recent_tags_count.items %}
-            {% if tag_count >= 2 %} <!--숫자는 추후 조정-->
-                <span style="font-size: x-large">{{ tag_name }}</span>
-            {% else %}
-                <span>{{ tag_name }} </span>
-            {% endif %}
-        {% endfor %}
+    <div>자기소개: </br>
+        {% if profile.description != None %}
+            {{ profile.description }}
+        {% endif %}
+    </div>
+    <div>관심태그:
+        {% if profile.interested_tag != None%}
+            {{ profile.interested_tag }}
+        {% endif %}
     </div>
     <div>
         대표 URL
@@ -48,14 +46,25 @@
     <p><a href="mailto:{{ profile.user.email }}" class="fa-envelope"><span class="label">Email</span></a></p>
 
     {% if profile.user.pk == user.pk%}
-        <p><a href="{% url 'myprofile:bookmark_list' profile.user.pk %}">북마크</a></p>
+        <div><a href="{% url 'myprofile:bookmark_list' profile.user.pk %}">북마크</a></div>
+        <div><a href="{% url 'post:post_create' %}">글 작성하기</a></div>
+        <br>
         <div><a href="{% url 'myprofile:profile_edit' profile.user.pk %}">프로필 수정하기</a></div>
         <div><a href="{% url "password_change" %}">비밀밀호 변경</a></div>
     {% endif %}
 
-
     <hr>
-
+    <div>
+        최근 태그 리스트 :
+        {% for tag_name, tag_count in recent_tags_count.items %}
+            {% if tag_count >= 2 %} <!--숫자는 추후 조정-->
+                <span style="font-size: x-large">{{ tag_name }}</span>
+            {% else %}
+                <span>#{{ tag_name }} </span>
+            {% endif %}
+        {% endfor %}
+    </div>
+    <br>
     {% include 'post/myprofile_post_list.html' %}
 </div>
 {% endblock %}
