@@ -2,6 +2,10 @@
 
 {% block content %}
     <style>
+        :root {
+            --primary-2: #1E88E5;
+        }
+
         .content div {
             border: 1px solid #3c3c3c;
         }
@@ -9,6 +13,7 @@
         .content-search {
             text-align: center;
         }
+
     </style>
 
     <div class="content row">
@@ -34,44 +39,61 @@
         <div class="content-main col-8 row">
             <div class="content-search col-12">
                 <form action="" method="get">
-                    검색:
-                    <input type="text" name="q" id="searchInput" value="{{ q }}">
-                    <input type="submit" value="검색">
+
+                    <div class="input-group">
+                        <input type="text" name="q" id="searchInput" class="form-control" value="{{ q }}">
+                        <div class="input-group-append">
+                            <button class="btn btn-secondary" type="submit">
+                                <i class="fa fa-search"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                        <label class="btn btn-primary">
+                            <input type="radio" name="options" value="posts" checked> 제목 + 내용
+                        </label>
+                        <label class="btn btn-primary">
+                            <input type="radio" name="options" value="users"> 태그
+                        </label>
+                        <label class="btn btn-primary">
+                            <input type="radio" name="options" value="custom_groups"> 작성자
+                        </label>
+                    </div>
                 </form>
+
             </div>
             <div class="content-feed col-12">
                 {% include 'search/main_search.html' %}
             </div>
         </div>
-
     </div>
     <hr>
 
 
     <script>
         $(function () {    //화면 다 뜨면 시작
+
+
             $("#searchInput").autocomplete({
                 source: function (request, response) {
                     var q = $("#searchInput").val()
-                    {#var option = #}
+                    var option = $('input[name="options"]:checked').val();
                     $.ajax({
                         type: 'get',
                         url: "{% url 'search:search_auto' %}",
                         dataType: "json",
                         data: {
                             'q': q,
-                            {#'option': option,#}
+                            'option': option,
                         },
                         success: function (data) {
                             console.log(data) //바보 멍충이 으아아ㅏ
                             //서버에서 json 데이터 response 후 목록에 추가
                             response(
                                 $.map(data.results, function (result) {    //json[i] 번째 에 있는게 item 임.
-                                    {#console.log('in item', item)#}
-                                    {#console.log(item.id)#}
                                     return {
-                                        label: result.title,    //UI 에서 보여지는 글자, 실제 검색어랑 비교 대상
-                                        value: result.title,    //그냥 사용자 설정값?
+                                        label: result.name,    //UI 에서 보여지는 글자, 실제 검색어랑 비교 대상
+                                        value: result.name,    //그냥 사용자 설정값?
                                         {#test: item + "test"    //이런식으로 사용#}
                                     }
                                 })

@@ -9,10 +9,11 @@ from .models import *
 
 
 # Create your views here.
-def main_search(request, option):
+def main_search(request):
     q = request.GET.get('q', '')  # GET request의 인자중에 q 값이 있으면 가져오고, 없으면 빈 문자열 넣기
+    option = request.GET.get('options', '')
     user = request.user
-
+    print(request)
     qs = None
     # 검색창 옆에 필터 선택 -> request로 받고, 그 값에 따라 결과값 필터링 **
     results = dict()
@@ -23,7 +24,7 @@ def main_search(request, option):
         #   2    |  사람명 검색
         #   3    |  그룹명 + 카테고리 필터
         # user.groups.all() with reqeust.user.
-        if option == 1:  # 제목에 q가 포함되어 있는 레코드만 필터링 + 나랑 관련된 사람.
+        if option == 'posts':  # 제목에 q가 포함되어 있는 레코드만 필터링 + 나랑 관련된 사람.
             # 필터링 종류 #
             # 그룹 필터링
             # 기간 필터링(시간, 최신순)
@@ -31,27 +32,27 @@ def main_search(request, option):
 
             qs = Post.objects.filter(
                 Q(user__user_groups__in=user.user_groups.all()) &  # 나와 관련된 유저들
-                (Q(title__icontains=q) | Q(contents__icontains=q)) | Q(tags__name__in=q)
+                (Q(title__icontains=q) | Q(contents__icontains=q) | Q(tags__name__icontains=q))
             ).distinct()  # 중복 제거
             # qs = relate_post.objects.filter(
             #     # 포스트 내용 필요한가? 내용 미리보기 필요할듯..(해당 키워드가 담긴 문장을 보여준다던지..)
             #     Q(title__icontains=q) | Q(tag__word__icontains=q) | Q(contents__icontains=q)
             # ).distinct()
             results['posts'] = qs
-        elif option == 2:  # 이름에 q 포함 + 접속 유저와 관련된 그룹원
+        elif option == 'users':  # 이름에 q 포함 + 접속 유저와 관련된 그룹원
             # 필터링 종류 #
             # 그룹 필터링
             qs = User.objects.filter(
-                Q(user_groups__in=user.groups.all()) &
+                Q(user_groups__in=user.user_groups.all()) &
                 (Q(user_profile__name__icontains=q) | Q(username__icontains=q))
             )
             results['users'] = qs
-        elif option == 3:  # 그룹명에 q가 포함된 그룹
+        elif option == 'custom_groups':  # 그룹명에 q가 포함된 그룹
             # 필터링 종류 #
             # 그룹 카테고리
             # if request.user.groups in filtered_group: 해당 그룹원의 최신 포스팅도 같이?
             qs = CustomGroup.objects.filter(
-                Q(name__icontains=q) & Q(is_searchable=True)
+                Q(group_name__icontains=q) & Q(is_searchable=True)
             )
             results['custom_groups'] = qs
 
@@ -95,22 +96,68 @@ def search_auto(request):
     results = dict()
     user = request.user
     q = request.GET.get('q', '')
-    qs = Post.objects.filter(
-        Q(user__user_groups__in=user.user_groups.all()) &  # 나와 관련된 유저들
-        (Q(title__icontains=q) | Q(contents__icontains=q)) | Q(tags__name__in=q)
-    ).distinct()  # 중복 제거
-    results['posts'] = qs
-    results = [
-        {
-            'id': post.id,
-            'title': post.title,
-        } for post in qs
-    ]
+    option = request.GET['option']
 
+    # qs = Post.objects.filter(
+    #     Q(user__user_groups__in=user.user_groups.all()) &  # 나와 관련된 유저들
+    #     (Q(title__icontains=q) | Q(contents__icontains=q)) | Q(tags__name__in=q)
+    # ).distinct()  # 중복 제거
+
+    if option == 'posts':  # 제목에 q가 포함되어 있는 레코드만 필터링 + 나랑 관련된 사람.
+        # 필터링 종류 #
+        # 그룹 필터링
+        # 기간 필터링(시간, 최신순)
+        # 포스트 카테고리
+
+        qs = Post.objects.filter(
+            Q(user__user_groups__in=user.user_groups.all()) &  # 나와 관련된 유저들
+            (Q(title__icontains=q) | Q(contents__icontains=q) | Q(tags__name__icontains=q))
+        ).distinct()  # 중복 제거
+        # qs = relate_post.objects.filter(
+        #     # 포스트 내용 필요한가? 내용 미리보기 필요할듯..(해당 키워드가 담긴 문장을 보여준다던지..)
+        #     Q(title__icontains=q) | Q(tag__word__icontains=q) | Q(contents__icontains=q)
+        # ).distinct()
+
+        results = [
+            {
+                'id': post.id,
+                'name': post.title,
+            } for post in qs
+        ]
+
+    elif option == 'users':  # 이름에 q 포함 + 접속 유저와 관련된 그룹원
+        # 필터링 종류 #
+        # 그룹 필터링
+        qs = User.objects.filter(
+            Q(user_groups__in=user.user_groups.all()) &
+            (Q(user_profile__name__icontains=q) | Q(username__icontains=q))
+        )
+
+        results = [
+            {
+                'id': user.id,
+                'name': user.user_profile.name,
+            } for user in qs
+        ]
+
+    elif option == 'custom_groups':  # 그룹명에 q가 포함된 그룹
+        # 필터링 종류 #
+        # 그룹 카테고리
+        # if request.user.groups in filtered_group: 해당 그룹원의 최신 포스팅도 같이?
+        qs = CustomGroup.objects.filter(
+            Q(group_name__icontains=q) & Q(is_searchable=True)
+        )
+
+        results = [
+            {
+                'id': group.id,
+                'name': group.group_name,
+            } for group in qs
+        ]
+    print('Ajax응답', results)
     data = {
         'results': results,
     }
-    print(request)
     return JsonResponse(
         data,
         json_dumps_params={'ensure_ascii': False}
