@@ -31,7 +31,7 @@ def main_search(request, option):
 
             qs = Post.objects.filter(
                 Q(user__user_groups__in=user.user_groups.all()) &  # 나와 관련된 유저들
-                (Q(title__icontains=q) | Q(contents__icontains=q))
+                (Q(title__icontains=q) | Q(contents__icontains=q)) | Q(tags__name__in=q)
             ).distinct()  # 중복 제거
             # qs = relate_post.objects.filter(
             #     # 포스트 내용 필요한가? 내용 미리보기 필요할듯..(해당 키워드가 담긴 문장을 보여준다던지..)
@@ -97,7 +97,7 @@ def search_auto(request):
     q = request.GET.get('q', '')
     qs = Post.objects.filter(
         Q(user__user_groups__in=user.user_groups.all()) &  # 나와 관련된 유저들
-        (Q(title__icontains=q) | Q(contents__icontains=q)) | Q(tag__name=q)
+        (Q(title__icontains=q) | Q(contents__icontains=q)) | Q(tags__name__in=q)
     ).distinct()  # 중복 제거
     results['posts'] = qs
     results = [
