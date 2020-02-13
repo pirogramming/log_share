@@ -17,7 +17,6 @@ from . import serializers
 from .forms import PostModelForm
 from .models import Post
 
-
 # from .serializers import UserSerializer, GroupSerializer
 
 ### Rest API 파트 ###
@@ -94,7 +93,7 @@ def post_scroll_list(request, pk):
     profile = Profile.objects.get(pk=pk)
     user = profile.user
     posts = user.user_post.order_by('start_date')
-    return render(request, 'post/myprofile_post_list.html', {'posts':posts})
+    return render(request, 'post/myprofile_post_list.html', {'posts': posts})
     # paginator = Paginator(posts, 10)
     # page = request.GET.get('page')
     # pageposts = paginator.get_page(page)  # 10개만큼 포스트 출력
@@ -125,7 +124,7 @@ def post_create(request):
 
 # pk: post_pk
 def post_detail(request, pk):
-    try :
+    try:
         post = Post.objects.get(id=pk)
     except ObjectDoesNotExist:
         post = None
@@ -135,6 +134,7 @@ def post_detail(request, pk):
         'post': post,
         'user': user,
     }
+    print(context)
     return render(request, 'post/post_detail.html', context)
 
 

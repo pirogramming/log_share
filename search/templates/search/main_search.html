@@ -1,64 +1,22 @@
-{% extends 'base.html' %}
-
-{% block content %}
-    <form action="" method="get">
-        검색:
-        <input type="text" name="q" value="{{ q }}">
-        <input type="submit" value="검색">
-    </form>
-
-    current user: {{ request.user.user_profile.name }}
-    <br>
-    <br>
-    {{ request.user.user_profile.name }}의 그룹
-    <ul>
-        {% for group in request.user.groups.all %}
+<ul>
+    {% if results %}
+        {% for option, qs in results.items %}
             <li>
-                {{ group.name }}
+                {% for result in qs %}
+                    {% if option == 'posts' %}
+                        {% include 'search/result_post.html' %}
+                    {% endif %}
+                    {% if option == 'users' %}
+                        {% include 'search/result_user.html' %}
+                    {% endif %}
+                    {% if option == 'custom_groups' %}
+                        {% include 'search/result_group.html' %}
+                    {% endif %}
+                {% endfor %}
+
             </li>
         {% endfor %}
-    </ul>
+    {% endif %}
 
-    <hr>
-    <ul>
-        {% if results %}
-            {% for option, qs in results.items %}
-                <li>
-                    {% for result in qs %}
-                        {% if option == 'posts' %}
-                            title: <a href="{% url 'post:post_detail' result.pk %}"><h3>{{ result.title }}</h3></a>
-                            {% for tag in result.tag.all %}
-                                <span>#{{ tag }}</span>
-                            {% endfor %}
-                            <div>
-                                작성자: <a
-                                    href="{% url 'myprofile:profile_detail' result.user.pk %}">{{ result.user.user_profile.name }}</a>
-                                태그 :
-                                {% for post_tag in result.tags.all %}
-                                    <a href="{% url 'search:tag_search' post_tag %}">#{{ post_tag }}</a>
-                                {% endfor %}
+</ul>
 
-                            </div>
-                        {% endif %}
-                        {% if option == 'users' %}
-                            <a href="{% url 'myprofile:profile_detail' result.pk %}">
-                                <h3>{{ result.user_profile.name }}({{ result.username }})</h3></a>
-                            {# 나와 관련된 그룹 리스트? {% for foo in result. %}#}
-
-                            {#                #}
-                            {#                {% endfor %}#}
-
-                        {% endif %}
-                        {% if option == 'custom_groups' %}
-                            <h3>{{ result.name }}</h3>
-                            <span>category: {{ result.category }}</span>
-                        {% endif %}
-
-                    {% endfor %}
-
-                </li>
-            {% endfor %}
-        {% endif %}
-
-    </ul>
-{% endblock %}

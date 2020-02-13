@@ -48,7 +48,7 @@
         {% for post_tag in post.tags.all %}
             <a href="{% url 'search:tag_search' post_tag  %}">#{{ post_tag }}</a>
         {% endfor %} <br>
-    <button><a href="{% url 'post:post_list' %}">피드로 돌아가기</a></button>
+
     <br>
     <button><a href="{% url 'post:post_update' post.pk %}">수정하기</a></button>
     <form action="{% url 'post:post_delete' post.pk %}" method="POST">

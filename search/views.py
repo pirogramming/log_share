@@ -1,5 +1,6 @@
 from django.contrib.auth.models import User
 from django.db.models import Q
+from django.http import JsonResponse
 from django.shortcuts import render, redirect
 
 from group_management.models import CustomGroup
@@ -29,9 +30,9 @@ def main_search(request, option):
             # 포스트 카테고리
 
             qs = Post.objects.filter(
-                Q(user__user_groups__in=user.user_groups.all()) & # 나와 관련된 유저들
-                (Q(title__icontains=q) | Q(tags__name__icontains=q) | Q(contents__icontains=q))
-            ).distinct() # 중복 제거
+                Q(user__user_groups__in=user.user_groups.all()) &  # 나와 관련된 유저들
+                (Q(title__icontains=q) | Q(contents__icontains=q))
+            ).distinct()  # 중복 제거
             # qs = relate_post.objects.filter(
             #     # 포스트 내용 필요한가? 내용 미리보기 필요할듯..(해당 키워드가 담긴 문장을 보여준다던지..)
             #     Q(title__icontains=q) | Q(tag__word__icontains=q) | Q(contents__icontains=q)
@@ -54,16 +55,14 @@ def main_search(request, option):
             )
             results['custom_groups'] = qs
 
-
-    print(results)
-
-    return render(request, 'search/main_search.html', {
+    return render(request, 'search/main.html', {
         'request': request,
         # 'results': qs,   # 1: post, 2: user
         'results': results,
         'q': q,
         # 'option': option,
     })
+
 
 def tag_search(request, tag_name):
     '''
@@ -74,24 +73,45 @@ def tag_search(request, tag_name):
     main_search(option 1 -title, contents, tag-) post list
     '''
     user = request.user
-    q=tag_name
+    q = tag_name
 
     qs = None
     qs = Post.objects.filter(
-        Q(user__groups__in=user.groups.all()) &
+        Q(user__user_groups__in=user.user_groups.all()) &
         Q(tags__name__icontains=q)
     ).distinct()  # 중복 제거
-
-    return render(request, 'search/main_search.html', {
+    results = {'posts': qs}
+    return render(request, 'search/main.html', {
         'request': request,
-        'results': qs,
+        'results': results,
         'q': q,
         'option': 1,
     })
 
 
-
-
-
 # 피드 - 최근 포스팅
 # 그룹 -
+def search_auto(request):
+    results = dict()
+    user = request.user
+    q = request.GET.get('q', '')
+    qs = Post.objects.filter(
+        Q(user__user_groups__in=user.user_groups.all()) &  # 나와 관련된 유저들
+        (Q(title__icontains=q) | Q(contents__icontains=q)) | Q(tag__name=q)
+    ).distinct()  # 중복 제거
+    results['posts'] = qs
+    results = [
+        {
+            'id': post.id,
+            'title': post.title,
+        } for post in qs
+    ]
+
+    data = {
+        'results': results,
+    }
+    print(request)
+    return JsonResponse(
+        data,
+        json_dumps_params={'ensure_ascii': False}
+    )
