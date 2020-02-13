@@ -27,7 +27,7 @@ def create_group(request):
                 access_code=form.cleaned_data['access_code'],
             )
             group.members.add(request.user)
-            return redirect('group_management:manage_detail', group.pk)
+            return redirect('group_management:detail_group', group.pk)
     else:
         form = GroupForm(
             request.user,  # 여기로 get타고 들어와서 request.POST 빼버림.
@@ -46,26 +46,13 @@ def manage_list(request):
     return render(request, 'group_management/list_group_for_manager.html', context)
 
 
-def manage_detail(request, pk):
-    group = get_object_or_404(CustomGroup, id=pk)
-    try:
-        if request.user != group.manager:
-            raise NotImplementedError
-    except NotImplementedError:
-        return HttpResponse(404)
-    context = {
-        'group': group,
-    }
-    return render(request, 'group_management/detail_group_for_manager.html', context)
-
-
 def update_group(request, pk):
     group = get_object_or_404(CustomGroup, id=pk)
     try:
         if request.user != group.manager:
             raise NotImplementedError
     except NotImplementedError:
-        return redirect('group_management:manage_detail', pk)
+        return redirect('group_management:detail_group', pk)
     if request.method == 'POST':
         form = GroupForm(
             request.user,
@@ -74,7 +61,7 @@ def update_group(request, pk):
         )
         if form.is_valid():
             group = form.save()
-            return redirect('group_management:manage_detail', pk)
+            return redirect('group_management:detail_group', pk)
 
     else:
         form = GroupForm(
@@ -88,16 +75,19 @@ def update_group(request, pk):
 
 @login_required()
 def request_to(request):
-    manager = request.user
-    groups = manager.user_manage_groups.all()
-    context = {}
-    for group in groups:
-        request_messages = GroupRequest.objects.filter(group=group)
-        request_messages.filter(Q(status=False) | Q(status=True)).delete()
-        context = {
-            'messages': request_messages,
-        }
-    return render(request, 'group_management/request_to.html', context)
+    if request.method == 'POST':
+        pass
+    else:
+        manager = request.user
+        groups = manager.user_manage_groups.all()
+        context = {}
+        for group in groups:
+            request_messages = GroupRequest.objects.filter(group=group)
+            request_messages.filter(Q(status=False) | Q(status=True)).delete()
+            context = {
+                'messages': request_messages,
+            }
+        return render(request, 'group_management/request_to.html', context)
 
 
 def allow_request(request, pk):
@@ -198,8 +188,30 @@ def add_member(user_id, group_id):
 def del_member(user_id, group_id):
     group = get_object_or_404(CustomGroup, id=group_id)
     user = get_object_or_404(User, id=user_id)
-    group.user_set.remove(user)
-    return group.user_set.all()
+    group.members.remove(user)
+    return group.members.all()
 
 
+def delete_group(request, pk):
+    group = get_object_or_404(CustomGroup, id=pk)
+    if request.method == 'POST':
+        print(group)
+        GroupRequest.objects.filter(group=group).delete()
+        group.delete()
+        return redirect('group_management:all_group')
+    else:
+        try:
+            if request.user != group.manager:
+                raise NotImplementedError
+        except NotImplementedError:
+            return HttpResponse(404)
+        context = {
+            'group': group,
+        }
+    return render(request, 'group_management/delete_group.html', context)
 
+
+def secede_group(request, pk):
+    user_id = request.user.id
+    del_member(user_id, pk)
+    return redirect('group_management:detail_group', pk)

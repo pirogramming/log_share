@@ -1,6 +1,28 @@
-그룹명: {{ group.group_name }} <br>
-카테고리: {{ group.group_category }}<br>
-그룹 설명:{{ group.notes }}<br>
-검색 허용: {{ group.is_searchable }}<br>
+{% extends 'base.html' %}
 
-<a href="{% url 'group_management:request_group' group.id %}">가입신청</a><br>
+{% block content %}
+    그룹명: {{ group.group_name }} <br>
+    카테고리: {{ group.get_group_category_display }}<br>
+    그룹 설명:{{ group.notes }}<br>
+    검색 허용: {{ group.is_searchable }}<br>
+    {% if request.user == group.manager %}
+        그룹 검색 코드:{{ group.access_code }}<br>
+    {% endif %}
+    <br>
+    {% if request.user == group.manager %}
+        <a href="{% url 'group_management:update_group' group.id %}">그룹 정보 변경</a><br>
+        <a href="{% url 'group_management:delete_group' group.id %}">그룹 삭제</a>
+    {% elif request.user in group.members.all %}
+        <a href="{% url 'group_management:secede_group' group.id %}">그룹 탈퇴</a>
+    {% else %}
+        <a href="{% url 'group_management:request_group' group.id %}">가입 신청</a><br>
+    {% endif %}
+
+    <hr>
+    {% if request.user in group.members.all %}
+        {% for member in group.members.all %}
+            {{ member }}<br>
+        {% endfor %}
+    {% endif %}
+{% endblock %}
+
