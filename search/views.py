@@ -14,7 +14,7 @@ def main_search(request, option):
 
     qs = None
     # 검색창 옆에 필터 선택 -> request로 받고, 그 값에 따라 결과값 필터링 **
-    result = dict()
+    results = dict()
     if q:  # q가 있으면
         # 필터링 종류
         # option |     참조
