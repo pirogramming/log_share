@@ -56,7 +56,7 @@ def main_search(request, option):
 
 
 
-    return render(request, 'log_share_search/main_search.html', {
+    return render(request, 'search/main_search.html', {
         'request': request,
         # 'results': qs,   # 1: post, 2: user
         'results': results,
@@ -81,7 +81,7 @@ def tag_search(request, tag_name):
         Q(tags__name__icontains=q)
     ).distinct()  # 중복 제거
 
-    return render(request, 'log_share_search/main_search.html', {
+    return render(request, 'search/main_search.html', {
         'request': request,
         'results': qs,
         'q': q,

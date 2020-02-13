@@ -1,28 +1,47 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    그룹명: {{ group.group_name }} <br>
-    카테고리: {{ group.get_group_category_display }}<br>
-    그룹 설명:{{ group.notes }}<br>
-    검색 허용: {{ group.is_searchable }}<br>
-    {% if request.user == group.manager %}
-        그룹 검색 코드:{{ group.access_code }}<br>
-    {% endif %}
-    <br>
-    {% if request.user == group.manager %}
-        <a href="{% url 'group_management:update_group' group.id %}">그룹 정보 변경</a><br>
-        <a href="{% url 'group_management:delete_group' group.id %}">그룹 삭제</a>
-    {% elif request.user in group.members.all %}
-        <a href="{% url 'group_management:secede_group' group.id %}">그룹 탈퇴</a>
-    {% else %}
-        <a href="{% url 'group_management:request_group' group.id %}">가입 신청</a><br>
-    {% endif %}
+    <div class="container">
+        <div class="row row-cols-sm-2">
+            <div class="col group_detail">
+                그룹명: {{ group.group_name }} <br>
+                카테고리: {{ group.get_group_category_display }}<br>
+                그룹 설명:{{ group.notes }}<br>
+                검색 허용: {{ group.is_searchable }}<br>
+                {% if request.user == group.manager %}
+                    그룹 검색 코드:{{ group.access_code }}<br>
+                {% endif %}
+                <br>
+                {% if request.user == group.manager %}
+                    <a href="{% url 'group_management:update_group' group.id %}">그룹 정보 변경</a><br>
+                    <a href="{% url 'group_management:delete_group' group.id %}">그룹 삭제</a>
+                {% elif request.user in group.members.all %}
+                    <a href="{% url 'group_management:secede_group' group.id %}">그룹 탈퇴</a>
+                {% else %}
+                    <a href="{% url 'group_management:request_group' group.id %}">가입 신청</a><br>
+                {% endif %}
 
-    <hr>
-    {% if request.user in group.members.all %}
-        {% for member in group.members.all %}
-            {{ member }}<br>
-        {% endfor %}
-    {% endif %}
+            </div>
+
+            <div class="col group_member_list">
+                {% if request.user in group.members.all %}
+                    <form action="" method="get">
+                        검색:
+                        <input type="text" name="q" value="{{ q }}">
+                        <input type="submit" value="검색">
+                    </form>
+                    <br>
+
+                    {% for member in members %}
+                        <a href="{% url 'myprofile:profile_detail' member.pk %}">
+                            {{ member.user_profile.name }}({{ member.username }})</a><br>
+                    {% endfor %}
+                {% endif %}
+
+            </div>
+        </div>
+    </div>
+
+
 {% endblock %}
 

@@ -130,8 +130,15 @@ def all_group(request):
 
 def detail_group(request, pk):
     group = get_object_or_404(CustomGroup, id=pk)
+    q = request.GET.get('q', '')  # GET request의 인자중에 q 값이 있으면 가져오고, 없으면 빈 문자열 넣기
+    user = request.user
+
+    qs = group.members.all()
+    if q:
+        qs = group.members.filter(Q(username__icontains=q) | Q(user_profile__name__icontains=q))
     context = {
         'group': group,
+        'members': qs,
     }
     return render(request, 'group_management/detail_group.html', context)
 
