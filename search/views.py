@@ -29,7 +29,7 @@ def main_search(request, option):
             # 포스트 카테고리
 
             qs = Post.objects.filter(
-                Q(user__groups__in=user.groups.all()) & # 나와 관련된 유저들
+                Q(user__user_groups__in=user.user_groups.all()) & # 나와 관련된 유저들
                 (Q(title__icontains=q) | Q(tags__name__icontains=q) | Q(contents__icontains=q))
             ).distinct() # 중복 제거
             # qs = relate_post.objects.filter(
@@ -41,7 +41,7 @@ def main_search(request, option):
             # 필터링 종류 #
             # 그룹 필터링
             qs = User.objects.filter(
-                Q(groups__in=user.groups.all()) &
+                Q(user_groups__in=user.groups.all()) &
                 (Q(user_profile__name__icontains=q) | Q(username__icontains=q))
             )
             results['users'] = qs
@@ -55,8 +55,9 @@ def main_search(request, option):
             results['custom_groups'] = qs
 
 
+    print(results)
 
-    return render(request, 'log_share_search/main_search.html', {
+    return render(request, 'search/main_search.html', {
         'request': request,
         # 'results': qs,   # 1: post, 2: user
         'results': results,
@@ -81,7 +82,7 @@ def tag_search(request, tag_name):
         Q(tags__name__icontains=q)
     ).distinct()  # 중복 제거
 
-    return render(request, 'log_share_search/main_search.html', {
+    return render(request, 'search/main_search.html', {
         'request': request,
         'results': qs,
         'q': q,
