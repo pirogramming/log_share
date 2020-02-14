@@ -9,7 +9,8 @@ urlpatterns = [
     path('manage/list/',  views.manage_list, name='mangage_list'), # 내가 관리자인 그룹 리스트
     path('update/<int:pk>/', views.update_group, name='update_group'), # 그룹 정보 변경
     path('request/to/', views.request_to, name='request_to'), # 현재유저가 그룹장인 그룹으로 온 요청 리스트
-    path('manage/members/<int:pk>/', views.manage_members, name='manage_members'), # pk group의 members list
+    path('request/to/allow/', views.allow_request, name='allow_request'),
+    path('request/to/disallow/', views.disallow_request, name='disallow_request'),
 
     path('all/', views.all_group, name='all_group'), # 내가 가입한 그룹 리스트
     path('detail/<int:pk>/', views.detail_group, name='detail_group'), # 그룹 상세 정보

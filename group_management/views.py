@@ -4,6 +4,7 @@ from django.db import IntegrityError
 from django.db.models import Q
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
+from django.views.decorators.http import require_POST
 from django.views.generic import DetailView
 
 from group_management.forms import GroupForm, RequestWithCodeForm
@@ -90,17 +91,32 @@ def request_to(request):
         return render(request, 'group_management/request_to.html', context)
 
 
-def allow_request(request, pk):
-    print('aaa')
+@login_required
+@require_POST
+def allow_request(request):
+    pk = request.POST.get('pk', None)
     message = get_object_or_404(GroupRequest, id=pk)
     sender = message.sender
     group = message.group
     group.members.add(sender)
-    print(group.members.all())
     GroupRequest.objects.filter(id=pk).delete()
-    return JsonResponse({
-        'messages': GroupRequest.objects.all(),
-    })
+    context = {
+        'messages': GroupRequest.objects.filter(group=group)
+    }
+    return HttpResponse(context)
+
+
+@login_required
+@require_POST
+def disallow_request(request):
+    pk = request.POST.get('pk', None)
+    message = get_object_or_404(GroupRequest, id=pk)
+    group = message.group
+    GroupRequest.objects.filter(id=pk).delete()
+    context = {
+        'messages': GroupRequest.objects.filter(group=group)
+    }
+    return HttpResponse(context)
 
 
 def manage_members(request, pk):

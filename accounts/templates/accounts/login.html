@@ -3,7 +3,7 @@
 {% block content %}
     <div class="container">
     <h1>로그인을 해보자.</h1>
-        <form method="POST" action="{% url 'login' %}">
+        <form method="POST" action="{% url 'accounts:login' %}">
             {% csrf_token %}
             <div>{{ error }}</div>
             USERNAME:
@@ -17,6 +17,6 @@
             <input type="submit" class="btn btn-primary" value="sign up">
 
         </form>
-    <a href="{% url "password_reset" %}">암호를 잊으셨나요?</a>
+    <a href="{% url "accounts:password_reset" %}">암호를 잊으셨나요?</a>
     </div>
 {% endblock %}
