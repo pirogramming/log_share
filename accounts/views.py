@@ -8,7 +8,6 @@ from django.urls import reverse_lazy
 from django.contrib import messages
 
 
-
 def login(request):
     if request.method == "POST":
         username = request.POST['username']
@@ -16,7 +15,7 @@ def login(request):
         user = auth.authenticate(request, username=username, password=password)
         if user is not None:
             auth.login(request, user)
-            return redirect('/')
+            return redirect('myprofile:profile_detail', user.pk)
         else:
             return render(request, 'accounts/login.html', {'error': 'login error'})
     else:
@@ -32,18 +31,32 @@ def logout(request):
 def signup(request):
     if request.method == "POST":
         user_form = CreateUserForm(request.POST)
+
+        if user_form.is_valid():
+            user = user_form.save()
+            auth_login(request, user)  # 로그인 처리
+            return redirect('accounts:signup_profile')
+
+    elif request.method == "GET":
+        user_form = CreateUserForm()
+
+    return render(request, 'accounts/signup.html', {
+        'user_form': user_form,
+    })
+
+
+def signup_profile(request):
+    if request.method == "POST":
         profile_form = SignupModelForm(
             request.POST,
             request.FILES,
         )
 
-        if user_form.is_valid() and profile_form.is_valid():
-            user = user_form.save()
-            auth_login(request, user)  #로그인 처리
-
+        if profile_form.is_valid():
+            user = request.user
             profile = Profile.objects.create(
                 user=user,
-                name=user.last_name+user.first_name,
+                name=user.last_name + user.first_name,
                 department=profile_form.cleaned_data['department'],
                 description=profile_form.cleaned_data['description'],
                 naver=profile_form.cleaned_data['naver'],
@@ -53,17 +66,14 @@ def signup(request):
                 other_url=profile_form.cleaned_data['other_url'],
                 interested_tag=profile_form.cleaned_data['interested_tag'],
             )
-            return redirect('/')
+            return redirect('myprofile:profile_detail', user.pk)
 
     elif request.method == "GET":
-        user_form = CreateUserForm()
         profile_form = SignupModelForm()
 
-    return render(request, 'accounts/signup.html', {
-        'user_form':user_form,
+    return render(request, 'accounts/signup_profile.html', {
         'profile_form': profile_form,
     })
-
 
 #비밀번호 변경
 def password_change(request):
@@ -82,21 +92,21 @@ def password_change(request):
         'password_change_form': password_change_form
     })
 
+#todo
 class MyPasswordResetView(PasswordResetView):
-    success_url = reverse_lazy('login')
+    success_url = reverse_lazy('accounts:login')
     template_name = 'accounts/password_reset_form.html'
-    # email_template_name = ...
-    # html_email_template_name = ...
-
     def form_valid(self, form):
         messages.info(self.request, '암호 변경 메일을 발송했습니다.')
         return super().form_valid(form)
 
 
 class MyPasswordResetConfirmView(PasswordResetConfirmView):
-    success_url = reverse_lazy('login')
+    success_url = reverse_lazy('accounts:login')
     template_name = 'accounts/password_reset_confirm.html'
 
     def form_valid(self, form):
         messages.info(self.request, '암호 리셋을 완료했습니다.')
         return super().form_valid(form)
+
+

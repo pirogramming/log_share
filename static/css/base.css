@@ -124,11 +124,11 @@ body {
     list-style: none;
 }
 footer{
+    background-color: white;
+
     position: absolute;
     bottom: 0;
     width: 100%;
-    background-color: white;
-
     height: 80px;
     border:solid 0.7px gray;
     text-align: center;
