@@ -1,17 +1,91 @@
+<style>
+    .post_list {
+        background-color: white;
+        border-radius: 5px;
+        padding: 10px 20px;
+        padding-bottom: 30px;
+        box-shadow: 2px 2px 2px #b0bec9;
+    }
+
+    .post_list div {
+        background-color: transparent;
+    }
+
+    .post_list div a {
+        text-decoration: none;
+        color: black;
+    }
+
+    .post_list div a:hover {
+        color: #514aac;
+        font-weight: bold;
+    }
+
+    .post_list_ajax {
+        background-color: white;
+        border-radius: 5px;
+        padding: 10px 20px;
+        box-shadow: 2px 2px 2px #b0bec9;
+        padding-bottom: 30px;
+    }
+
+    .post_list_ajax div {
+        background-color: transparent;
+    }
+
+    .post_list_ajax div a {
+        text-decoration: none;
+        color: black;
+    }
+
+    .post_list_ajax div a:hover {
+        color: #514aac;
+        font-weight: bold;
+    }
+    .post_score{
+        display: inline;
+    }
+    input{
+        background-image: url("/media/baseline_bookmark_border_black_18dp.png");
+        background-repeat: no-repeat;
+        padding: 5px 19px;
+        border-radius: 5px;
+        display: inline;
+        float: right;
+    }
+    input:hover{
+        background-image: url("/media/baseline_bookmark_black_18dp.png");
+        background-repeat: no-repeat;
+    }
+    .post_email{
+        display: inline;
+        float: right;
+        margin-right: 10px;
+    }
+</style>
+
+
 {% extends 'base.html' %}
 
 {% block content %}
     <div>
         {% if posts %}
             {% for post in posts %}
-                <div>제목 : <a href="{% url 'post:post_detail' post.pk %}">{{ post.title }}</a></div>
-                <div>작성자 : {{ post.user.user_profile.name }}</div>
-                <div>활동기간: {{ post.start_date }} ~ {{ post.end_date }}</div>
-                태그 :
-                {% for post_tag in post.tags.all %}
-                    <a href="{% url 'search:tag_search' post_tag %}">#{{ post_tag }}</a>
-                {% endfor %} <br>
-                <div>평점 : {{ post.score }}</div>
+                <div class="post_list">
+                    <div class="post_title">제목 : <a href="{% url 'post:post_detail' post.pk %}">{{ post.title }}</a></div>
+                    <div>작성자 : <a href="{% url 'myprofile:profile_detail' post.user.pk %}">{{ post.user.user_profile.name }}</a></div>
+                    <div>활동기간: {{ post.start_date }} ~ {{ post.end_date }}</div>
+                    <div class="post_tag">
+                        태그 :
+                        {% for post_tag in post.tags.all %}
+                            <a href="{% url 'search:tag_search' post_tag %}">#{{ post_tag }}</a>
+                        {% endfor %}
+                    </div>
+                    <div class="post_contents">내용: {{ post.contents|truncatechars:85}}</div>
+                    <div class="post_score">평점 : {{ post.score }}</div>
+                    <input type="submit" class="bookmark" name="{{ post.id }}" value="">
+                    <div class="post_email"><a href="mailto:{{ post.user.email }}" class="fa-envelope">Email</a></div>
+                </div>
                 <br>
             {% endfor %}
         {% endif %}
@@ -23,9 +97,34 @@
 
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
     <script type="text/javascript">
+        //<<<<<북마크>>>>>>>>
+        $(".bookmark").click(function () {
+            var pk = $(this).attr('name');
+            $.ajax({
+                //bookmark button 클릭 -> ajax로 서버와 통신하기
+                type: "POST", //데이터를 전송하는 방법
+                url: "{% url 'post:post_bookmark' %}",  //통신할 url
+                data: {'pk': pk, 'csrfmiddlewaretoken': '{{ csrf_token }}'}, // 서버로 데이터 전송시 옵션
+                dataType: "json", //전달받은 데이터 타입 = json -> {'bookmark_count':post.bookmark.count(), 'message':message,}
+                                  // 서버측에서 전송한 Response 데이터 형식 (json)
+                // 통신 성공 -> 북마크 처리(response 처리)
+                success: function (response) {
+                    alert(response.message);
+                },
+                error: function (request, status, error) {
+                    alert("로그인이 필요합니다.")
+                    window.location.replace("/accounts/login/")
+                },
+            });
+        });
 
+        //<<<<<<무한 스크롤>>>>>>>>
         $('#callmorepost').click(function () {
             var page = $("#page").val();
+            var end_page = {{ posts.paginator.num_pages }};
+            if (page > end_page) {  //더이상 스크롤 할 페이지가 없는 경우
+                alert('더이상 페이지가 없습니다.')
+            }
             callMorePostAjax(page);
             $("#page").val(parseInt(page) + 1);
         });
@@ -34,7 +133,7 @@
             var scrollHeight = $(window).scrollTop() + $(window).height();
             var documentHeight = $(document).height();
 
-            if (scrollHeight + 10 >= documentHeight) {
+            if (scrollHeight + 100 >= documentHeight) {
                 var page = $("#page").val();
                 var end_page = {{ posts.paginator.num_pages }};
                 if (page > end_page) {  //더이상 스크롤 할 페이지가 없는 경우

@@ -1,7 +1,58 @@
 {% for message in messages %}
-    {{ message.sender }} -> {{ message.group }}: {{ message.status }}
-    <button type="button" class="allow_button" data-id="{{ message.id }}">수락</button>
-    <button type="button" class="disallow_button" data-id="{{ message.id }}">거절</button>
+    <div>
+        <span>{{ message.sender }}</span> -->
+        <span>{{ message.group }}</span> :
+        <span class="is_allowed">{{ message.status }}</span>
+    </div>
+    <form action="" class="group_request_form" method="post">
+    {% csrf_token %}
+        <button type="button" class="allow_button" data-id="{{ message.id }}">수락</button>
+        <button type="button" class="disallow_button" data-id="{{ message.id }}">거절</button>
+    </form>
 {#    {% include 'group_management/deal_request.html' %}#}
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script async type="text/javascript">
+        $(".allow_button").click(function(){
+            var pk = $(this).attr('data-id')
+            $.ajax({
+                type: "POST",
+                url: "{% url 'group_management:allow_request' pk %}",
+                data: {
+                    'pk': pk,
+                    'csrfmiddlewaretoken': '{{ csrf_token }}'
+                },
+                dataType: "json",
+                success: function(response){  //통신 성공시 메시지 출력
+                    alert("수락하였습니다.");
+                    $(".is_allowed").html('멤버 등록 완료');
+                    $(".group_request_form").html('');
+                },
+                error : function(request, status, error) { //통신 실패시 요청관리페이지로 리다이렉트
+                    alert("잘못된 요청입니다. error:"+error)
+                },
+            });
+        })
+        $(".disallow_button").click(function(){
+            var pk = $(this).attr('data-id')
+            $.ajax({
+                type: "POST",
+                url: "{% url 'group_management:disallow_request' pk %}",
+                data: {
+                    'pk': pk,
+                    'csrfmiddlewaretoken': '{{ csrf_token }}'
+                },
+                dataType: "json",
+                success: function(response){  //통신 성공시 메시지 출력
+                    alert("거절하였습니다.");
+                    $(".is_allowed").html('멤버 등록 거절');
+                    $(".group_request_form").html('');
+                },
+                error : function(request, status, error) { //통신 실패시 요청관리페이지로 리다이렉트
+                    alert("잘못된 요청입니다. error:"+error)
+                },
+            });
+        })
+    </script>
+
     <br>
 {% endfor %}

@@ -148,7 +148,7 @@ def post_bookmark(request):
         'bookmark_count': post.bookmark.count(),
         'message': message,
     }
-    return HttpResponse(json.dumps(context), content_type="application/json")  # context를 json 타입으로
+    return HttpResponse(json.dumps(context), content_type="application/json")  # context를 json 타입으로(json.dumps() - string일 때 괜찮고,
 
 
 # 활동보기

@@ -1,20 +1,26 @@
 {# profile_detail -> posts, profile #}
 
-<div>
-    {% if posts %}
-        {% for post in posts %}
-            <div>제목 : <a href="{% url 'post:post_detail' post.pk %}">{{ post.title }}</a></div>
+
+{% if posts %}
+    {% for post in posts %}
+        <div class="profile_post_list">
+            <div class="profile_post_title">제목 : <a href="{% url 'post:post_detail' post.pk %}">{{ post.title }}</a>
+            </div>
             <div>작성자 : {{ post.user.user_profile.name }}</div>
             <div>활동기간: {{ post.start_date }} ~ {{ post.end_date }}</div>
-            태그 :
-            {% for post_tag in post.tags.all %}
-                <a href="{% url 'search:tag_search' post_tag %}">#{{ post_tag }}</a>
-            {% endfor %} <br>
+            <div class="profile_post_tag">
+                태그 :
+                {% for post_tag in post.tags.all %}
+                    <a href="{% url 'search:tag_search' post_tag %}">#{{ post_tag }}</a>
+                {% endfor %}
+            </div>
+            <div class="profile_post_contents">내용: {{ post.contents|truncatechars:85 }}</div>
             <div>평점 : {{ post.score }}</div>
-            <br>
-        {% endfor %}
-    {% endif %}
-</div>
+        </div>
+        <br>
+    {% endfor %}
+{% endif %}
+
 
 <div id="profile_post_list_ajax"></div>  {# ajax 결과물 추가할 곳 #}
 <input id="page" type="hidden" value="2">  {# 첫 next_page == 2 #}
@@ -26,6 +32,10 @@
 
     $('#callmorepost').click(function () {
         var page = $("#page").val();
+        var end_page = {{ posts.paginator.num_pages }};
+        if (page > end_page) {  //더이상 스크롤 할 페이지가 없는 경우
+            alert('더이상 페이지가 없습니다.')
+        }
         callMorePostAjax(page);
         $("#page").val(parseInt(page) + 1);
     });
@@ -34,7 +44,7 @@
         var scrollHeight = $(window).scrollTop() + $(window).height();
         var documentHeight = $(document).height();
 
-        if (scrollHeight + 10 >= documentHeight) {
+        if (scrollHeight + 100 >= documentHeight) {
             var page = $("#page").val();
             var end_page = {{ posts.paginator.num_pages }};
             if (page > end_page) {  //더이상 스크롤 할 페이지가 없는 경우
