@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     # 3rd party apps
     'taggit',
     'rest_framework',
+    'django_summernote',
 
     # my apps
     'search',

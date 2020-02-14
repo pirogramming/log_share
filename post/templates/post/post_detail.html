@@ -71,6 +71,7 @@
 
 {% extends 'base.html' %}
 
+
 <!--인자: post 작성한 user, post-->
 {% block content %}
     <div class="post_detail_container">
@@ -112,7 +113,7 @@
 
         <div class="post_detail_user">작성자: <a href="{% url 'myprofile:profile_detail' user.pk %}">{{ user.user_profile.name }}</a></div>
         <div>평점 : {{ post.score }}</div>
-        <div>내용 : {{ post.contents }}</div>
+        <div>내용 : {{ post.contents | safe }}</div>
         <div class="post_detail_url">참고 URL :
             {% if post.reference %}
                 <a href="{{ post.reference }}">{{ post.reference }}</a>

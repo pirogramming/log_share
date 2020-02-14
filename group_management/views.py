@@ -167,8 +167,20 @@ def delete_member(request):
     return HttpResponse(context, content_type="application/json")
 
 
+def search_group(request):
+    user = request.user
+    qs = None
+    q = request.GET.get('q', '')  # GET request의 인자중에 q 값이 있으면 가져오고, 없으면 빈 문자열 넣기
+    if q:
+        qs = CustomGroup.objects.filter(Q(group_name__icontains=q) & Q(is_searchable=1))
+    context = {
+        'groups' : qs,
+    }
+    return render(request, 'group_management/search_group.html', context)
+
 def all_group(request):
-    groups = CustomGroup.objects.all()
+    user = request.user
+    groups = user.user_groups.all()
     context = {
         'groups': groups,
     }

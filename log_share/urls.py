@@ -27,6 +27,9 @@ urlpatterns = [
     path('post/',include('post.urls')),
     path('group/', include('group_management.urls')),
     path('search/', include('search.urls')),
+
+    #3rd party apps
+    path('summernote/', include('django_summernote.urls')),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
