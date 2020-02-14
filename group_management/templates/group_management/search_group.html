@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block header %}
+    <link rel="stylesheet" href="css/all_group.css">
+{% endblock %}
+
+
+{% block content %}
+    <form action="" method="get">
+        검색:
+        <input type="text" name="q" value="{{ q }}">
+        <input type="submit" value="검색">
+    </form>
+
+    {% for group in groups %}
+        <div>
+            <a href="{% url 'group_management:detail_group' group.id %}">{{ group.group_name }}</a>
+            카테고리 - {{ group.group_category }}
+
+        </div>
+    {% endfor %}
+
+
+
+{% endblock %}

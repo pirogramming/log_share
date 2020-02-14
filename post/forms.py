@@ -1,4 +1,6 @@
 from django.forms import ModelForm
+from django_summernote.widgets import SummernoteWidget
+
 from .models import Post
 
 
@@ -8,6 +10,9 @@ class PostModelForm(ModelForm):
         fields = [
             'category','title','contents','reference','start_date','end_date','photo','tags','score'
         ]
+        widgets = {
+            'contents': SummernoteWidget(),
+        }
         '''
         #todo 사진 변경시에 원래 있던 사진 삭제를 자동으로 해주는 기능.
         templates/django/forms/widgets/clearable_file_input.html 에서 checkbox='checked', input='hidden' 만들었어서 상관없긴한데..

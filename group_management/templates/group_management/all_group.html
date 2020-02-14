@@ -1,5 +1,31 @@
-{% for group in groups %}
-    <a href="{% url 'group_management:detail_group' group.id %}">
-        {{ forloop.counter }} . {{ group }}
-    </a>
-{% endfor %}
+{% extends 'base.html' %}
+
+{% block header %}
+    <style>
+        .my_groups{
+            border: 2px solid black;
+            margin: 80px 50px;
+            padding: 20px;
+        }
+        .my_group{
+            border: 1px solid red;
+            margin: 10px 0;
+            padding : 10px;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+
+    <div class="my_groups">
+        {% for group in groups %}
+            <div class="my_group">
+                <p><a href="{% url 'group_management:detail_group' group.id %}">{{ group.group_name }}
+                </a>(관리자:{{ group.manager }})</p>
+                <p>카테고리 : {{ group.group_category }}</p>
+                <p>{{ group.notes }}</p>
+            </div>
+        {% endfor %}
+    </div>
+
+{% endblock %}
