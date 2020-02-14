@@ -1,0 +1,107 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+
+
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <style>
+        :root {
+            --primary-2: #1E88E5;
+        }
+
+        .content div {
+            border: 1px solid #3c3c3c;
+        }
+
+        .content-search {
+            text-align: center;
+        }
+
+    </style>
+
+    <div class="content row">
+        <div class="content-side col-4 row">
+            <div class="content-profile col-12">
+                current user: {{ request.user.user_profile.name }}
+                <br>
+                <br>
+                {{ request.user.user_profile.name }}의 그룹
+                <ul>
+                    {% for group in request.user.groups.all %}
+                        <li>
+                            {{ group.name }}
+                        </li>
+                    {% endfor %}
+                </ul>
+
+            </div>
+            <div class="content-filter col-12">
+                <div class="content-filter-item row">
+                    <div class="filter-date col-12">
+                        <span>시작: </span>
+                        <input type="date">
+                        <span>끝: </span>
+                        <input type="date">
+                    </div>
+                    <div class="filter-group col-12">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <label class="input-group-text" for="inputGroupSelect01">Options</label>
+                            </div>
+                            <select class="custom-select" id="inputGroupSelect01">
+                                <option selected>Choose...</option>
+                                {% for group in groups %}
+                                    <option value="{{ group.id }}">
+                                        <p>{{ group.group_name }}</p>
+                                    </option>
+                                {% endfor %}
+
+                            </select>
+                        </div>
+                    </div>
+                    <div class="filter-category col-12">
+                        카테고리
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="content-main col-8 row">
+            <div class="content-search col-12">
+                <form action="" method="get">
+
+                    <div class="input-group">
+                        <input type="text" name="q" id="searchInput" class="form-control" value="{{ q }}">
+                        <div class="input-group-append">
+                            <button class="btn btn-secondary" type="submit">
+                                <i class="fa fa-search"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                        <label class="btn btn-primary">
+                            <input type="radio" name="options" value="posts" checked> 제목 + 내용
+                        </label>
+                        <label class="btn btn-primary">
+                            <input type="radio" name="options" value="users"> 태그
+                        </label>
+                        <label class="btn btn-primary">
+                            <input type="radio" name="options" value="custom_groups"> 작성자
+                        </label>
+                    </div>
+                </form>
+
+            </div>
+            <div class="content-feed col-12">
+                {% include 'search/main_search.html' %}
+            </div>
+        </div>
+    </div>
+    <hr>
+
+
+    {% include "search/Search_Ajax.html" %}
+{% endblock %}
