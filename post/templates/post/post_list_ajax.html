@@ -1,0 +1,20 @@
+{% if posts %}
+    {% for post in posts %}
+        <div class="post_list_ajax">
+            <div>제목 : <a href="{% url 'post:post_detail' post.pk %}">{{ post.title }}</a></div>
+            <div>작성자 : <a href="{% url 'myprofile:profile_detail' post.user.pk %}">{{ post.user.user_profile.name }}</a></div>
+            <div>활동기간: {{ post.start_date }} ~ {{ post.end_date }}</div>
+            <div>
+                태그 :
+                {% for post_tag in post.tags.all %}
+                    <a href="{% url 'search:tag_search' post_tag %}">#{{ post_tag }}</a>
+                {% endfor %}
+            </div>
+            <div>내용: {{ post.contents|truncatechars:85 }}</div>
+            <div class="post_score">평점 : {{ post.score }}</div>
+            <input type="submit" class="bookmark" name="{{ post.id }}" value="">
+            <div class="post_email"><a href="mailto:{{ post.user.email }}" class="fa-envelope">Email</a></div>
+        </div>
+        <br>
+    {% endfor %}
+{% endif %}

@@ -1,58 +1,146 @@
+<style>
+    .post_detail_container{
+        background-color: white;
+        border-radius: 5px;
+        padding: 20px 20px;
+        box-shadow: 2px 2px 2px #b0bec9;
+    }
+    .post_detail_container div{
+        background-color: transparent;
+    }
+    .post_detail_container p{
+        background-color: transparent;
+    }
+    .post_detail_container form {
+        background-color: transparent;
+    }
+
+    .post_detail_container .post_detail_user a{
+        text-decoration: none;
+        color: black;
+    }
+    .post_detail_container .post_detail_url a{
+        text-decoration: none;
+        color: black;
+    }
+    .post_detail_container .post_detail_tag a{
+        text-decoration: none;
+        color: black;
+    }
+    .post_detail_container button{
+        display: inline;
+        margin: 0 10px;
+        background-color: #666ad1;
+        color: white;
+        padding: 5px 5px;
+        border-radius: 5px;
+    }
+    .post_detail_container button:hover{
+        background-color: #534bae;
+    }
+    .post_detail_container form{
+        display: inline;
+    }
+    .post_detail_container button a{
+        text-decoration: none;
+        color: white;
+    }
+    .post_detail_container .post_detail_user a:hover{
+        color: #514aac;
+        font-weight: bold;
+    }
+    .post_detail_container .post_detail_url a:hover{
+        color: #514aac;
+        font-weight: bold;
+    }
+    .post_detail_container .post_detail_tag a:hover{
+        color: #514aac;
+        font-weight: bold;
+    }
+    .post_detail_container input{
+        background-image: url("/media/baseline_bookmark_border_black_18dp.png");
+        background-repeat: no-repeat;
+        padding: 5px 19px;
+        border-radius: 5px;
+    }
+    .post_detail_container input:hover{
+        background-image: url("/media/baseline_bookmark_black_18dp.png");
+        background-repeat: no-repeat;
+    }
+</style>
+
 {% extends 'base.html' %}
 
 <!--인자: post 작성한 user, post-->
 {% block content %}
-{% if post.photo %}
-        <img src="{{ post.photo.url }}" style="max-width: 100%; max-height: 400px"><br>
-{% endif %}
-    <div>제목 : {{ post.title }}</div>
-{% if user != request.user %}
-    <input type="button" class="bookmark" name="{{ post.id }}" value="BookMark">
-    <p class="bookmark_count" id="count-{{ post.id }}">북마크{{ post.bookmark.count }}개</p>
+    <div class="post_detail_container">
+        {% if post.photo %}
+            <img src="{{ post.photo.url }}" style="max-width: 100%; max-height: 400px"><br>
+        {% endif %}
 
-    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-    <script type="text/javascript">
-            $(".bookmark").click(function() {
-                var pk = $(this).attr('name');
-                $.ajax({
-                    //bookmark button 클릭 -> ajax로 서버와 통신하기
-                    type:"POST", //데이터를 전송하는 방법
-                    url:"{% url 'post:post_bookmark' %}",  //통신할 url
-                    data:{'pk':pk, 'csrfmiddlewaretoken':'{{ csrf_token }}'}, // 서버로 데이터 전송시 옵션
-                    dataType:"json", //전달받은 데이터 타입 = json -> {'bookmark_count':post.bookmark.count(), 'message':message,}
-                                     // 서버측에서 전송한 Response 데이터 형식 (json)
-                    // 통신 성공 -> 북마크 처리(response 처리)
-                    success: function (response) {
-                        alert(response.message);
-                        $("#count-"+pk).html("북마크" + response.bookmark_count+"개");
-                    },
-                    error:function (request, status, error) {
-                        alert("로그인이 필요합니다.")
-                        window.location.replace("/accounts/login/")
-                    },
-                });
-            })
-    </script>
+        <div>제목 : {{ post.title }}</div>
 
-{% endif %}
+        {% if user != request.user %}
+            <input type="submit" class="bookmark" name="{{ post.id }}" value="">
+            <p class="bookmark_count" id="count-{{ post.id }}">북마크{{ post.bookmark.count }}개</p>
 
-    <div>작성자: <a href="{% url 'myprofile:profile_detail' user.pk %}">{{ user.user_profile.name }}</a></div>
-    <div>평점 : {{ post.score }}</div>
-    <div>내용 : {{ post.contents }}</div>
-    <div>참고 URL : {{ post.reference }}</div>
-    <div>활동기간: {{ post.start_date }} ~ {{ post.end_date }}</div>
-    <div>카테고리: {{ post.category }}</div>
-    {# 아래의 join:","는 각 태그의 name만을 가져오고 한줄로 join해주는 역할 #}
-    {#태그 : {{ post.tags.all |join:"," }} <br>#}
-    태그 :
+            <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+            <script type="text/javascript">
+                $(".bookmark").click(function () {
+                    var pk = $(this).attr('name');
+                    $.ajax({
+                        //bookmark button 클릭 -> ajax로 서버와 통신하기
+                        type: "POST", //데이터를 전송하는 방법
+                        url: "{% url 'post:post_bookmark' %}",  //통신할 url
+                        data: {'pk': pk, 'csrfmiddlewaretoken': '{{ csrf_token }}'}, // 서버로 데이터 전송시 옵션
+                        dataType: "json", //전달받은 데이터 타입 = json -> {'bookmark_count':post.bookmark.count(), 'message':message,}
+                                          // 서버측에서 전송한 Response 데이터 형식 (json)
+                        // 통신 성공 -> 북마크 처리(response 처리)
+                        success: function (response) {
+                            alert(response.message);
+                            $("#count-" + pk).html("북마크" + response.bookmark_count + "개");
+                        },
+                        error: function (request, status, error) {
+                            alert("로그인이 필요합니다.")
+                            window.location.replace("/accounts/login/")
+                        },
+                    });
+                })
+            </script>
+
+        {% endif %}
+
+        <div class="post_detail_user">작성자: <a href="{% url 'myprofile:profile_detail' user.pk %}">{{ user.user_profile.name }}</a></div>
+        <div>평점 : {{ post.score }}</div>
+        <div>내용 : {{ post.contents }}</div>
+        <div class="post_detail_url">참고 URL :
+            {% if post.reference %}
+                <a href="{{ post.reference }}">{{ post.reference }}</a>
+            {% endif %}
+        </div>
+        <div>활동기간: {{ post.start_date }} ~ {{ post.end_date }}</div>
+        <div>카테고리: {{ post.category }}</div>
+        {# 아래의 join:","는 각 태그의 name만을 가져오고 한줄로 join해주는 역할 #}
+        {#태그 : {{ post.tags.all |join:"," }} <br>#}
+        <div class="post_detail_tag">
+        태그 :
         {% for post_tag in post.tags.all %}
-            <a href="{% url 'search:tag_search' post_tag  %}">#{{ post_tag }}</a>
-        {% endfor %} <br>
-    <button><a href="{% url 'post:post_list' %}">피드로 돌아가기</a></button>
-    <br>
-    <button><a href="{% url 'post:post_update' post.pk %}">수정하기</a></button>
-    <form action="{% url 'post:post_delete' post.pk %}" method="POST">
-        {% csrf_token %}
-        <button type="submit">삭제하기</button>
-    </form>
+            <a href="{% url 'search:tag_search' post_tag %}">#{{ post_tag }}</a>
+        {% endfor %}
+        </div>
+        <br>
+        <button><a href="{% url 'myprofile:profile_detail' user.pk %}">돌아가기</a></button>
+        <button><a href="{% url 'post:post_update' post.pk %}">수정하기</a></button>
+        <form action="{% url 'post:post_delete' post.pk %}" method="POST">
+            {% csrf_token %}
+            <button id="delete_button" type="submit">삭제하기</button>
+        </form>
+
+        <script type="text/javascript">
+            $('#delete_button').click(function () {
+                alert("정말로 삭제하시겠습니까?")
+            })
+        </script>
+
+    </div>
 {% endblock %}

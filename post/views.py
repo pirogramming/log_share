@@ -1,6 +1,5 @@
 from django.contrib.auth.decorators import login_required
 import simplejson as json
-from django.core.paginator import Paginator
 from django.http import HttpResponse
 from django.contrib.auth.models import User, Group
 from django.core.exceptions import ObjectDoesNotExist
@@ -14,7 +13,7 @@ from myprofile.models import BookMark, Profile
 from . import serializers
 from .forms import PostModelForm
 from .models import Post
-
+from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 
 # from .serializers import UserSerializer, GroupSerializer
 
@@ -71,37 +70,6 @@ class Search(APIView):
 
 ### Rest API 끝 ###
 
-# def post_list(request):
-#     posts = Post.objects.all()  # 실제로는 내가 속한 그룹 인원들의 게시물만 가져와야함.
-#     # posts = Post.objects.filter(tags__name__in=["찾을태그"])
-#     '''
-#     만약 ["찾을태그1","찾을태그2"]식으로 여러개의 태그를 넣어 검색할 경우
-#     태그 1과 태그 2를 동시에 가지고 있는 게시물은 두 번 조회될 수 있다(쿼리셋에 2번이나 들어오게 된다)
-#     이때는 쿼리문 제일 끝에 .distinct()를 붙여주면 포스트의 중복을 막을 수 있다.
-#     '''
-#     # qs = str(Post.tags.all()) 이렇게 할 시 포스트 모델에 존재하는 모든 태그를 가져올 수 있다.
-#
-#     context = {
-#         'posts': posts,
-#     }
-#
-#     return render(request, 'post/post_list.html', context)
-
-
-def post_scroll_list(request, pk):
-    profile = Profile.objects.get(pk=pk)
-    user = profile.user
-    posts = user.user_post.order_by('start_date')
-    return render(request, 'post/myprofile_post_list.html', {'posts':posts})
-    # paginator = Paginator(posts, 10)
-    # page = request.GET.get('page')
-    # pageposts = paginator.get_page(page)  # 10개만큼 포스트 출력
-    # context = {
-    #     'posts': posts,
-    #     'pageposts': pageposts,
-    # }
-    # return render(request, 'post/myprofile_post_list.html')
-
 
 def post_create(request):
     if request.method == 'POST':
@@ -123,7 +91,7 @@ def post_create(request):
 
 # pk: post_pk
 def post_detail(request, pk):
-    try :
+    try:
         post = Post.objects.get(id=pk)
     except ObjectDoesNotExist:
         post = None
@@ -180,4 +148,80 @@ def post_bookmark(request):
         'bookmark_count': post.bookmark.count(),
         'message': message,
     }
-    return HttpResponse(json.dumps(context), content_type="application/json")  # context를 json 타입으로
+    return HttpResponse(json.dumps(context), content_type="application/json")  # context를 json 타입으로(json.dumps() - string일 때 괜찮고,
+
+
+# 활동보기
+def post_list(request):
+    user = request.user
+    post_list = Post.objects.none()  # Queryset 초기화 : <QuerySet []>
+
+    for group in user.user_groups.all():  # request.user의 그룹들 중에서
+        for group_user in group.members.all():  # 그 그룹에 속한 user
+            if group_user != user:
+                post_list |= group_user.user_post.all()  # add QuerySet
+
+    paginator = Paginator(post_list, 4)
+    page = request.GET.get('page')
+
+    try:
+        posts = paginator.page(page)  # 해당 페이지의 포스트(post_list)
+    except PageNotAnInteger:
+        posts = paginator.page(1)
+    except EmptyPage:
+        posts = paginator.page(paginator.num_pages)
+
+    context = {
+        'posts': posts,
+    }
+
+    return render(request, 'post/post_list.html', context)
+
+
+# 활동보기 무한스크롤 ajax
+def post_list_ajax(request):
+    user = request.user
+    post_list = Post.objects.none()  # Queryset 초기화 : <QuerySet []>
+
+    for group in user.user_groups.all():  # request.user의 그룹들 중에서
+        for group_user in group.members.all():  # 그 그룹에 속한 user
+            if group_user != user:
+                post_list |= group_user.user_post.all()  # add QuerySet
+
+    paginator = Paginator(post_list, 4)
+    page = request.POST.get('page')
+
+    try:
+        posts = paginator.page(page)  # 해당 페이지의 포스트(post_list)
+    except PageNotAnInteger:
+        posts = paginator.page(1)
+    except EmptyPage:
+        posts = paginator.page(paginator.num_pages)
+
+    context = {
+        'posts': posts,
+    }
+
+    return render(request, 'post/post_list_ajax.html', context)
+
+
+# 프로필_무한스크롤 ajax
+def profile_post_list_ajax(request):
+    pk = request.POST.get('pk', None)
+    user = User.objects.get(pk=pk)  # 프로필의 user
+
+    post_list = user.user_post.order_by('-start_date', '-end_date')
+    paginator = Paginator(post_list, 2)
+    page = request.POST.get('page')  # ajax로부터 POST 타입을 전달받음
+
+    try:
+        posts = paginator.page(page)  # 해당 페이지의 포스트(post_list)
+    except PageNotAnInteger:
+        posts = paginator.page(1)
+    except EmptyPage:
+        posts = paginator.page(paginator.num_pages)
+
+    context = {
+        'posts': posts
+    }
+    return render(request, 'post/myprofile_post_list_ajax.html', context)  # ajax_datatype => dataType: 'html'

@@ -18,6 +18,8 @@ urlpatterns = [
     path('delete_member/', views.delete_member, name='delete_member'), # 그룹 멤버
     #추가끝
     path('request/<int:pk>', views.request_group, name='request_group'), # pk group에 가입 요청하기
+    path('request/to/allow/', views.allow_request, name='allow_request'),
+    path('request/to/disallow/', views.disallow_request, name='disallow_request'),
     path('request/withcode/', views.request_withcode, name='request_withcode'), # 코드로 가입 요청하기
     path('request/from/<int:pk>/', views.request_from, name='request_from'), # pk user가 가입 요청한 리스트
 

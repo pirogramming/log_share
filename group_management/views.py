@@ -1,5 +1,6 @@
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
+import simplejson as json
 from django.db import IntegrityError
 from django.db.models import Q
 from django.http import HttpResponse, JsonResponse
@@ -105,6 +106,17 @@ def allow_request(request):
     }
     return HttpResponse(context)
 
+@login_required
+@require_POST
+def disallow_request(request, pk):
+    message = get_object_or_404(GroupRequest, id=pk)
+    group = message.group
+    print(group.members.all())
+    GroupRequest.objects.filter(id=pk).delete()
+    context = {
+        'messages': list(GroupRequest.objects.filter(group=group))
+    }
+    return HttpResponse(json.dumps(context), content_type="application/json")
 
 @login_required
 @require_POST
