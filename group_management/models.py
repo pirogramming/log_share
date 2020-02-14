@@ -14,7 +14,7 @@ class CustomGroup(models.Model):
         ('play', '친목'),
         ('etc', '기타'),
     )
-    members = models.ManyToManyField(User, verbose_name='그룹멤버', related_name='user_groups')
+    members = models.ManyToManyField(User, verbose_name='그룹멤버', related_name='user_groups', db_table='group_membership')
     manager = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='그룹장', related_name='user_manage_groups')
     group_name = models.CharField(max_length=50, unique=True, verbose_name='그룹명')
     group_category = models.CharField(max_length=50, default='etc', choices=categories, verbose_name='카테고리')
@@ -28,6 +28,16 @@ class CustomGroup(models.Model):
 
     def __str__(self):
         return self.group_name
+
+class GroupMembership(models.Model):
+    customgroup = models.ForeignKey(CustomGroup, models.DO_NOTHING, related_name='membership')
+    user = models.ForeignKey(User, models.DO_NOTHING)
+
+    class Meta:
+        managed = False
+        db_table = 'group_membership'
+        unique_together = (('customgroup', 'user'),)
+
 
 
 class GroupRequest(models.Model):

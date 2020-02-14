@@ -119,6 +119,24 @@ def manage_members(request, pk):
     }
     return render(request, 'group_management/manage_members.html', context)
 
+def delete_member(request):
+    member_id = request.POST.get('member_id', None)
+    group_id = request.POST.get('group_id', None)
+    now_group = get_object_or_404(CustomGroup, id=group_id)
+    # 해당 그룹과 멤버 조인 테이블에서 특정 레코드를 삭제한다.(멤버관계를 삭제한다)
+    now_group.membership.filter(Q(customgroup_id=group_id) & Q(user_id=member_id)).delete()
+    q = request.GET.get('q', '')  # GET request의 인자중에 q 값이 있으면 가져오고, 없으면 빈 문자열 넣기
+    qs = now_group.members.all()
+    if q:
+        qs = now_group.members.filter(Q(username__icontains=q) | Q(user_profile__name__icontains=q))
+
+    context = {
+        'group':now_group,
+        'members':qs,
+    }
+
+    return HttpResponse(context, content_type="application/json")
+
 
 def all_group(request):
     groups = CustomGroup.objects.all()

@@ -2,6 +2,7 @@
     form {
         background-color: white;
     }
+
     .group_detail {
         background-color: white;
         padding: 10px 10px 10px 10px;
@@ -24,6 +25,7 @@
     #group_notes_show {
         background-color: white;
     }
+
     i {
 
     }
@@ -72,16 +74,44 @@
                             <a href="{% url 'myprofile:profile_detail' member.pk %}">
                                 {{ member.user_profile.name }}({{ member.username }})</a>
                             {% if request.user == group.manager %}
-                                 <button type="button">회원삭제</button>
+                                <button type="button" class="delete_member_button"
+                                        id="delete_member_button-{{ member.id }}" member_id="{{ member.id }}" group_id="{{ group.id }}">회원삭제
+                                </button>
                             {% endif %}
                             <br><br>
                         {% endfor %}
+
                     {% endif %}
                 </div>
             </div>
         </div>
     </div>
 
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script async type="text/javascript">
+        $(".delete_member_button").click(function () {
+            var member_id = $(this).attr('member_id');
+            var group_id = $(this).attr('group_id');
+            $.ajax({
+                type: "POST",
+                url: "{% url 'group_management:delete_member' %}",
+                data: {
+                    'member_id': member_id,
+                    'group_id': group_id,
+                    'csrfmiddlewaretoken': '{{ csrf_token }}'
+                },
+                dataType: "html",
+                success: function (response) {  //통신 성공시 메시지 출력
+                    $("#delete_member_button-" + member_id).html('삭제된 멤버입니다.')
+
+                },
+                error: function (request, status, error) { //통신 실패시 요청관리페이지로 리다이렉트
+                    alert("잘못된 요청입니다. error:" + error)
+                    window.location.replace("{% url "group_management:detail_group" group.id %}");
+                },
+            });
+        })
+
+    </script>
 
 {% endblock %}
-
