@@ -50,7 +50,7 @@
     {% if profile.user.pk == user.pk%}
         <p><a href="{% url 'myprofile:bookmark_list' profile.user.pk %}">북마크</a></p>
         <div><a href="{% url 'myprofile:profile_edit' profile.user.pk %}">프로필 수정하기</a></div>
-        <div><a href="{% url "password_change" %}">비밀밀호 변경</a></div>
+        <div><a href="{% url "accounts:password_change" %}">비밀밀호 변경</a></div>
     {% endif %}
 
 

@@ -1,5 +1,4 @@
 from django.contrib.auth.decorators import login_required
-import simplejson as json
 from django.core.paginator import Paginator
 from django.http import HttpResponse
 from django.contrib.auth.models import User, Group
@@ -14,25 +13,6 @@ from myprofile.models import BookMark, Profile
 from . import serializers
 from .forms import PostModelForm
 from .models import Post
-
-
-# from .serializers import UserSerializer, GroupSerializer
-
-### Rest API 파트 ###
-
-# class UserViewSet(viewsets.ModelViewSet):
-#     '''
-#     API endpoint that allows users to be viewed or edited.
-#     '''
-#     queryset = User.objects.all().order_by('-date_joined')
-#     serializer_class = UserSerializer
-#
-# class GroupViewSet(viewsets.ModelViewSet):
-#     '''
-#     API endpoint that allows groups to be viewed or edited.
-#     '''
-#     queryset = Group.objects.all()
-#     serializer_class = GroupSerializer
 from .utils import remove_all_tags_without_objects
 
 
