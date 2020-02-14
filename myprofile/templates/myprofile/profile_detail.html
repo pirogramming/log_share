@@ -145,7 +145,7 @@
                 <div class="profile_post_create"><a href="{% url 'post:post_create' %}">글 작성하기</a></div>
                 <br>
                 <div class="profile_edit"><a href="{% url 'myprofile:profile_edit' profile.user.pk %}">프로필 수정하기</a></div>
-                <div class="profile_password_change"><a href="{% url "password_change" %}">비밀밀호 변경</a></div>
+                <div class="profile_password_change"><a href="{% url "accounts:password_change" %}">비밀밀호 변경</a></div>
             {% endif %}
         </div>
         <hr>
