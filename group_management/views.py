@@ -135,6 +135,7 @@ def manage_members(request, pk):
     }
     return render(request, 'group_management/manage_members.html', context)
 
+
 def delete_member(request):
     member_id = request.POST.get('member_id', None)
     group_id = request.POST.get('group_id', None)

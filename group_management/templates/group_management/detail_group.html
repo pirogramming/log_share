@@ -1,29 +1,61 @@
 <style>
-    form {
-        background-color: white;
+
+    .group_detail_content_row {
+        width: 80%;
+        margin: 0 auto;
     }
 
-    .group_detail {
+    .group_detail_content_col {
+        display: inline-block;
+        width: 42%;
         background-color: white;
-        padding: 10px 10px 10px 10px;
+        float: left;
+        height: 1000px;
 
-    }
-
-    .group_member_list {
-        /*border:1px solid black;*/
-        background-color: white;
-        padding: 10px 10px 10px 10px;
-
-    }
-
-    .group_detail_title {
-        background-color: white;
-        font-size: 21px;
-        font-weight: bold;
+        margin: 30px 10px 30px 10px;
+        padding: 20px 20px 20px 20px;
+        box-shadow: gray 1px 1px 1px 1px;
     }
 
     #group_notes_show {
-        background-color: white;
+        padding: 10px 10px 10px 10px;
+        margin: 2px 1px;
+    }
+
+    .group_title {
+        font-size: 20px;
+        font-weight: bold;
+    }
+
+    .bold {
+        font-weight: bold;
+        color: #101010;
+    }
+
+    .a_tag {
+
+        color: #1a237e;
+    }
+    .input_text {
+        width: 70%;
+        height: 30px;
+        font-size: 16px;
+        border: 1px solid gray;
+        background-color: aliceblue;
+    }
+
+    .input_button {
+        height: 35px;
+        font-size: 15px;
+        font-weight: bold;
+        background-color: ;
+        width: 50px
+    }
+
+    .delete_member_button {
+        height: 30px;
+        width: 50px;
+        font-size: 12px;
     }
 
 </style>
@@ -31,55 +63,64 @@
 
 {% block content %}
 
-    <div class="container">
-        <div class="row row-cols-sm-2 group_detail_content">
-            <div class="col">
+    <div class="group_detail_content">
+        <div class="group_detail_content_row">
+            <div class="group_detail_content_col group_detail_content_col_1">
                 <div class="group_detail">
-                    <div class="group_detail_title">그룹명: {{ group.group_name }}</div>
-                    <br>
-                    카테고리: {{ group.get_group_category_display }}<br><br>
-                    그룹 설명:<br>
+                    <div class="group_title">그룹명: {{ group.group_name }}</div>
+                    <br><br>
+                    <span class="bold">카테고리:</span> {{ group.get_group_category_display }}<br><br>
+                    <span class="bold">그룹 설명:</span><br>
                     <div id="group_notes_show">{{ group.notes }}</div>
                     <br>
-                    검색 허용: {{ group.is_searchable }}<br><br>
+                    <span class="bold">검색 허용:</span>
+                    {% if group.is_searchable == True %}
+                        검색 가능
+                    {% else %}
+                        검색 불가능
+                    {% endif %}
+                    <br><br>
                     {% if request.user == group.manager %}
-                        그룹 검색 코드:{{ group.access_code }}<br>
+                        <span class="bold">그룹 검색 코드:</span> {{ group.access_code }}<br>
                     {% endif %}
                     <br>
+                    <hr>
+                    <br>
                     {% if request.user == group.manager %}
-                        <a href="{% url 'group_management:update_group' group.id %}">그룹 정보 변경</a><br>
-                        <a href="{% url 'group_management:delete_group' group.id %}">그룹 삭제</a>
+                        <a class="a_tag" href="{% url 'group_management:update_group' group.id %}">그룹 정보 변경</a><br><br>
+                        <a class="a_tag" href="{% url 'group_management:delete_group' group.id %}">그룹 삭제</a>
                     {% elif request.user in group.members.all %}
-                        <a href="{% url 'group_management:secede_group' group.id %}">그룹 탈퇴</a>
+                        <a class="a_tag" href="{% url 'group_management:secede_group' group.id %}">그룹 탈퇴</a>
                     {% else %}
-                        <a href="{% url 'group_management:request_group' group.id %}">가입 신청</a><br>
+                        <a class="a_tag" href="{% url 'group_management:request_group' group.id %}">가입 신청</a><br>
                     {% endif %}
                 </div>
             </div>
-
-            <div class="col">
+            {% if request.user in group.members.all %}
+                <div class="group_detail_content_col">
+                <div class="group_title">회원 목록</div><br>
                 <div class="group_member_list">
-                    {% if request.user in group.members.all %}
-                        <form action="" method="get">
-                            검색:
-                            <input type="text" name="q" value="{{ q }}">
-                            <input type="submit" value="검색">
-                        </form>
-                        <br>
+                <form action="" method="get">
 
-                        {% for member in members %}
-                            <a href="{% url 'myprofile:profile_detail' member.pk %}">
-                                {{ member.user_profile.name }}({{ member.username }})</a>
-                            {% if request.user == group.manager %}
-                                <button type="button" class="delete_member_button"
-                                        id="delete_member_button-{{ member.id }}" member_id="{{ member.id }}" group_id="{{ group.id }}">회원삭제
-                                </button>
-                            {% endif %}
-                            <br><br>
-                        {% endfor %}
+                    <input class="input_text" type="text" name="q" value="{{ q }}">
+                    <button class="input_button" type="submit">검색</button>
+                </form>
+                <br>
 
+                {% for member in members %}
+                    <a class="a_tag" href="{% url 'myprofile:profile_detail' member.pk %}">
+                        {{ member.user_profile.name }}({{ member.username }})</a>
+                    {% if request.user == group.manager %}
+                        <button type="button" class="delete_member_button"
+                                id="delete_member_button-{{ member.id }}" member_id="{{ member.id }}"
+                                group_id="{{ group.id }}">회원삭제
+                        </button>
                     {% endif %}
-                </div>
+                    <br><br>
+                {% endfor %}
+
+            {% endif %}
+            </div>
             </div>
         </div>
     </div>
@@ -112,3 +153,5 @@
     </script>
 
 {% endblock %}
+
+

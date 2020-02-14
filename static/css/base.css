@@ -1,18 +1,9 @@
+
 * {
     font-family: NanumSquare;
     text-decoration: none;
     margin: 0;
     padding: 0;
-}
-
-html {
-    height: 100%;
-}
-body {
-    display: grid;
-    grid-template-rows: 1fr auto;
-    min-height: 100%;
-    background-color: #c4dce8;
 }
 
 .wrapper {
@@ -115,42 +106,36 @@ ul.menu > li {
 .menu {
     float: right;
 }
+body {
+    background-color: #c4dce8;
+}
 .body_container{
     background-color: #c4dce8;
-    padding-bottom: 86px;
 }
 /*서브메뉴 라운드 값*/
 .sub1{
     border-bottom-left-radius: 5px;
     border-bottom-right-radius: 5px;
+    list-style: none;
 }
 .sub2{
     border-bottom-left-radius: 5px;
     border-bottom-right-radius: 5px;
+    list-style: none;
 }
 footer{
-    grid-row-start: 2;
-    grid-row-end: 3;
-    width: 100%;
-    height: 84px;
-    border:solid 0.7px gray;
-    box-sizing: border-box;
-    text-align: center;
+    position: absolute;
     bottom: 0;
-    left: 0;
+    width: 100%;
     background-color: white;
-    padding: 10px 0 10px 0;
+
+    height: 80px;
+    border:solid 0.7px gray;
+    text-align: center;
 }
 footer >div{
     display: inline-block;
     font-size: 14px;
     margin: 10px;
-    text-align: center;
 
-}
-
-.temp {
-    height: 100%;
-    background-color: #c4dce8;
-    padding-bottom: 86px;
 }
