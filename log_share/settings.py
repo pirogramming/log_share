@@ -10,6 +10,7 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 import os
 from django.urls import reverse_lazy
 from django.contrib.messages import constants as messages_constants
+from django.conf.global_settings import LOGIN_REDIRECT_URL
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 
@@ -43,13 +44,9 @@ INSTALLED_APPS = [
     'rest_framework',
 
     # my apps
-    'log_share_search',
-    # 'post',
-
-    # app
+    'search',
     'group_management',
     'myprofile',
-
     'main',
     'post',
 ]
@@ -146,13 +143,13 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATIC_URL = '/static/'
-
+STATICFILES_DIRS = (os.path.join(BASE_DIR, "static"),)
 # image
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # login & logout
-from django.conf.global_settings import LOGIN_REDIRECT_URL
+
 
 LOGIN_URL = reverse_lazy('login')
 LOGIN_REDIRECT_URL = '/../../'  # move to main
