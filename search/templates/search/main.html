@@ -1,6 +1,13 @@
 {% extends 'base.html' %}
 
 {% block content %}
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+
+
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
     <style>
         :root {
             --primary-2: #1E88E5;
@@ -32,8 +39,34 @@
                 </ul>
 
             </div>
-            <div class="content-category col-12">
-                카테고리
+            <div class="content-filter col-12">
+                <div class="content-filter-item row">
+                    <div class="filter-date col-12">
+                        <span>시작: </span>
+                        <input type="date">
+                        <span>끝: </span>
+                        <input type="date">
+                    </div>
+                    <div class="filter-group col-12">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <label class="input-group-text" for="inputGroupSelect01">Options</label>
+                            </div>
+                            <select class="custom-select" id="inputGroupSelect01">
+                                <option selected>Choose...</option>
+                                {% for group in groups %}
+                                    <option value="{{ group.id }}">
+                                        <p>{{ group.group_name }}</p>
+                                    </option>
+                                {% endfor %}
+
+                            </select>
+                        </div>
+                    </div>
+                    <div class="filter-category col-12">
+                        카테고리
+                    </div>
+                </div>
             </div>
         </div>
         <div class="content-main col-8 row">
@@ -70,61 +103,5 @@
     <hr>
 
 
-    <script>
-        $(function () {    //화면 다 뜨면 시작
-
-
-            $("#searchInput").autocomplete({
-                source: function (request, response) {
-                    var q = $("#searchInput").val()
-                    var option = $('input[name="options"]:checked').val();
-                    $.ajax({
-                        type: 'get',
-                        url: "{% url 'search:search_auto' %}",
-                        dataType: "json",
-                        data: {
-                            'q': q,
-                            'option': option,
-                        },
-                        success: function (data) {
-                            console.log(data) //바보 멍충이 으아아ㅏ
-                            //서버에서 json 데이터 response 후 목록에 추가
-                            response(
-                                $.map(data.results, function (result) {    //json[i] 번째 에 있는게 item 임.
-                                    return {
-                                        label: result.name,    //UI 에서 보여지는 글자, 실제 검색어랑 비교 대상
-                                        value: result.name,    //그냥 사용자 설정값?
-                                        {#test: item + "test"    //이런식으로 사용#}
-                                    }
-                                })
-                            );
-                        }
-                    });
-                },    // source 는 자동 완성 대상
-                select: function (event, ui) {    //아이템 선택시
-                    console.log(ui);//사용자가 오토컴플릿이 만들어준 목록에서 선택을 하면 반환되는 객체
-                    console.log(ui.item.label);    //김치 볶음밥label
-                    console.log(ui.item.value);    //김치 볶음밥
-                    {#console.log(ui.item.test);    //김치 볶음밥test#}
-
-                },
-                focus: function (event, ui) {    //포커스 가면
-                    return false;//한글 에러 잡기용도로 사용됨
-                },
-                minLength: 1,// 최소 글자수
-                autoFocus: true, //첫번째 항목 자동 포커스 기본값 false
-                classes: {    //잘 모르겠음
-                    "ui-autocomplete": "highlight"
-                },
-                delay: 500,    //검색창에 글자 써지고 나서 autocomplete 창 뜰 때 까지 딜레이 시간(ms)
-//            disabled: true, //자동완성 기능 끄기
-                position: {my: "right top", at: "right bottom"},    //잘 모르겠음
-                close: function (event) {    //자동완성창 닫아질때 호출
-                    console.log(event);
-                }
-            });
-
-        });
-
-    </script>
+    {% include "search/Search_Ajax.html" %}
 {% endblock %}
