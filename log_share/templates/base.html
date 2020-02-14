@@ -5,40 +5,59 @@
 <head>
     <meta charset="UTF-8">
     <title>Log share</title>
-
-    <link rel="stylesheet" href="{% static 'css/base.css' %}?8">
-    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
 </head>
-
 <body>
+<div>
+<div class="wrapper">
+    <div class="logo">
+{#        로그인 후 main으로  url로 바꿔야함.#}
+        <a href="{% url 'main:main_front' %}">
+            <div class="logofont">LOG SHARE</div>
+            <div class="logoimg_div"><img id="logoimg" src="../../media/로고%20하얀.png" alt=""/></div>
+        </a>
+    </div>
+    <div class="nav">
+        <ul class="menu">
+            <li><a href="{% url 'main:main_front' %}">홈</a></li>
+            <li><a href="" id="group">그룹</a>
+                <ul class="sub1">
+                    <li><a href="">그룹 생성</a></li>
+                    <li><a href="">그룹가입</a></li>
+                    <li><a href="">내 그룹 리스트</a></li>
+                    <li><a href="">가입 요청</a></li>
+                </ul>
+            </li>
+        {% if user.is_authenticated %}
+            <li><a href="{% url 'myprofile:profile_detail' request.user.pk %}">프로필</a>
+                <ul class="sub2">
+                    <li><a href="">비밀번호 변경</a></li>
+                    <li><a href="">프로필 변경</a></li>
+                    <li><a href="">자기 게시물</a></li>
+                </ul>
+            </li>
+        {% endif %}
+            <li><a href="#">계정관리</a></li>
+            <li><a href="{% url 'post:post_create' %}">글 작성하기</a></li>
+            <li><a href="{% url 'main:main_front' %}">로그아웃</a></li>
 
-<div class="nav">
-    <a href="{% url 'main:main_front' %}"><img class="nav_logo" src="../../media/로고 글씨 하얀.png" alt=""/></a>
-
-    <div class="nav_menu">
-    <a href="{% url 'main:main_front' %}">홈</a>
-    <a href="#">그룹</a>
-
-    {% if user.is_authenticated %}
-        <a href="{% url 'myprofile:profile_detail' request.user.pk %}">프로필</a>
-        <a href="#">계정관리</a>
-        <a href="{% url 'post:post_create' %}">글 작성하기</a>
-        <a href="{% url 'logout' %}">로그아웃</a>
-    {% endif %}
+        </ul>
     </div>
 </div>
-
 <div class="body_container">
-
-{% block content %}
-{% endblock %}
+    {% block content %}
+    {% endblock %}
 </div>
-
+</div>
 <footer>
-
+    <div>Log share</div>
+    <div>© 2020</div>
+    <div>사용자 약관</div>
+    <div>개인 정보 취급 방침</div>
+    <div>커큐니티 정책</div>
+    <div>쿠키 정책</div>
+    <div>저작권 정책</div>
+    <div>피로그래밍 12기</div>
 </footer>
 
 </body>
