@@ -6,6 +6,16 @@
 
 
 {% block content %}
+    <div>
+        <form action="{% url 'group_management:request_withcode' %}" method="post" autocomplete="off">{% csrf_token %}
+            <table>
+                <tr>
+                    {{ access_code_form.as_table}}
+                </tr>
+            </table>
+            <input type="submit" value="가입 요청">
+        </form>
+    </div>
     <form action="" method="get">
         검색:
         <input type="text" name="q" value="{{ q }}">

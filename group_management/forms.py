@@ -22,4 +22,4 @@ class GroupForm(forms.ModelForm):
 
 class RequestWithCodeForm(forms.Form):
     group_name = forms.CharField(label='그룹명', max_length=50)
-    access_code = forms.CharField(label='그룹 접근 암호')
+    access_code = forms.CharField(label='그룹 접근 코드')
