@@ -1,4 +1,5 @@
 from django.contrib.auth.models import User
+from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.db.models import Q
 from django.http import JsonResponse
 from django.shortcuts import render, redirect
@@ -16,7 +17,6 @@ def main_search(request):
     print(request)
     qs = None
     # 검색창 옆에 필터 선택 -> request로 받고, 그 값에 따라 결과값 필터링 **
-    results = dict()
     if q:  # q가 있으면
         # 필터링 종류
         # option |     참조
@@ -32,37 +32,54 @@ def main_search(request):
 
             qs = Post.objects.filter(
                 Q(user__user_groups__in=user.user_groups.all()) &  # 나와 관련된 유저들
-                (Q(title__icontains=q) | Q(contents__icontains=q) | Q(tags__name__icontains=q))
+                (Q(title__icontains=q) | Q(contents__icontains=q))
             ).distinct()  # 중복 제거
             # qs = relate_post.objects.filter(
             #     # 포스트 내용 필요한가? 내용 미리보기 필요할듯..(해당 키워드가 담긴 문장을 보여준다던지..)
             #     Q(title__icontains=q) | Q(tag__word__icontains=q) | Q(contents__icontains=q)
             # ).distinct()
-            results['posts'] = qs
-        elif option == 'users':  # 이름에 q 포함 + 접속 유저와 관련된 그룹원
+        elif option == 'tags':  # 이름에 q 포함 + 접속 유저와 관련된 그룹원
             # 필터링 종류 #
             # 그룹 필터링
-            qs = User.objects.filter(
-                Q(user_groups__in=user.user_groups.all()) &
-                (Q(user_profile__name__icontains=q) | Q(username__icontains=q))
-            )
-            results['users'] = qs
-        elif option == 'custom_groups':  # 그룹명에 q가 포함된 그룹
+            # qs = User.objects.filter(
+            #     Q(user_groups__in=user.user_groups.all()) &
+            #     (Q(user_profile__name__icontains=q) | Q(username__icontains=q))
+            # )
+            qs = Post.objects.filter(
+                Q(user__user_groups__in=user.user_groups.all()) &  # 나와 관련된 유저들
+                Q(tags__name__icontains=q)
+            ).distinct()
+        elif option == 'users':  # 그룹명에 q가 포함된 그룹
             # 필터링 종류 #
             # 그룹 카테고리
             # if request.user.groups in filtered_group: 해당 그룹원의 최신 포스팅도 같이?
-            qs = CustomGroup.objects.filter(
-                Q(group_name__icontains=q) & Q(is_searchable=True)
-            )
-            results['custom_groups'] = qs
+            # qs = CustomGroup.objects.filter(
+            #     Q(group_name__icontains=q) & Q(is_searchable=True)
+            # )
+            qs = Post.objects.filter(
+                Q(user__user_groups__in=user.user_groups.all()) &  # 나와 관련된 유저들
+                (Q(user__user_profile__name__icontains=q) | Q(user__username__icontains=q))
+            ).distinct()
+    else:
+        qs = Post.objects.filter(user__user_groups__in=user.user_groups.all())
+
+    paginator = Paginator(qs, 2)
+    page = request.POST.get('page')
+
+    try:
+        posts = paginator.page(page)  # 해당 페이지의 포스트(post_list)
+    except PageNotAnInteger:
+        posts = paginator.page(1)
+    except EmptyPage:
+        posts = paginator.page(paginator.num_pages)
 
     return render(request, 'search/main.html', {
         'request': request,
         # 'results': qs,   # 1: post, 2: user
-        'results': results,
+        'results': qs,
         'q': q,
-        'groups': user.user_groups.all()
-        # 'option': option,
+        'groups': user.user_groups.all(),
+        'posts': posts,
     })
 
 
@@ -92,7 +109,6 @@ def tag_search(request, tag_name):
 
 
 def search_auto(request):
-    results = dict()
     user = request.user
     q = request.GET.get('q', '')
     option = request.GET['option']
@@ -104,38 +120,28 @@ def search_auto(request):
             (Q(title__icontains=q) | Q(contents__icontains=q) | Q(tags__name__icontains=q))
         ).distinct()  # 중복 제거
 
-        results = [
-            {
-                'id': post.id,
-                'name': post.title,
-            } for post in qs
-        ]
 
-    elif option == 'users':  # 이름에 q 포함 + 접속 유저와 관련된 그룹원
-        qs = User.objects.filter(
-            Q(user_groups__in=user.user_groups.all()) &
-            (Q(user_profile__name__icontains=q) | Q(username__icontains=q))
-        )
 
-        results = [
-            {
-                'id': user.id,
-                'name': user.user_profile.name,
-            } for user in qs
-        ]
+    elif option == 'tags':  # 이름에 q 포함 + 접속 유저와 관련된 그룹원
+        qs = Post.objects.filter(
+            Q(user__user_groups__in=user.user_groups.all()) &  # 나와 관련된 유저들
+            Q(tags__name__icontains=q)
+        ).distinct()
 
-    elif option == 'custom_groups':  # 그룹명에 q가 포함된 그룹
-        qs = CustomGroup.objects.filter(
-            Q(group_name__icontains=q) & Q(is_searchable=True)
-        )
+    elif option == 'users':  # 그룹명에 q가 포함된 그룹
+        qs = Post.objects.filter(
+            Q(user__user_groups__in=user.user_groups.all()) &  # 나와 관련된 유저들
+            (Q(user__user_profile__name__icontains=q) | Q(user__username__icontains=q))
+        ).distinct()
 
-        results = [
-            {
-                'id': group.id,
-                'name': group.group_name,
-            } for group in qs
-        ]
+    results = [
+        {
+            'id': post.id,
+            'name': post.title,
+        } for post in qs
+    ]
     print('Ajax응답', results)
+
     data = {
         'results': results,
     }
@@ -143,3 +149,25 @@ def search_auto(request):
         data,
         json_dumps_params={'ensure_ascii': False}
     )
+
+
+def search_scroll(request):
+    pk = request.POST.get('pk', None)
+    user = User.objects.get(pk=pk)  # 프로필의 user
+
+    post_list = user.user_post.order_by('-start_date', '-end_date')
+    paginator = Paginator(post_list, 2)
+    page = request.POST.get('page')  # ajax로부터 POST 타입을 전달받음
+
+    try:
+        posts = paginator.page(page)  # 해당 페이지의 포스트(post_list)
+    except PageNotAnInteger:
+        posts = paginator.page(1)
+    except EmptyPage:
+        posts = paginator.page(paginator.num_pages)
+    print(page, posts)
+    print('--')
+    context = {
+        'posts': posts
+    }
+    return render(request, 'post/myprofile_post_list_ajax.html', context)  # ajax_datatype => dataType: 'html'

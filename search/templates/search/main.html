@@ -1,12 +1,22 @@
 {% extends 'base.html' %}
 
 {% block content %}
+
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+            integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+            crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+            integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+            crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+            integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+            crossorigin="anonymous"></script>
+
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-
-
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 
     <style>
         :root {
@@ -86,10 +96,10 @@
                             <input type="radio" name="options" value="posts" checked> 제목 + 내용
                         </label>
                         <label class="btn btn-primary">
-                            <input type="radio" name="options" value="users"> 태그
+                            <input type="radio" name="options" value="tags"> 태그
                         </label>
                         <label class="btn btn-primary">
-                            <input type="radio" name="options" value="custom_groups"> 작성자
+                            <input type="radio" name="options" value="users"> 작성자
                         </label>
                     </div>
                 </form>
@@ -97,10 +107,13 @@
             </div>
             <div class="content-feed col-12">
                 {% include 'search/main_search.html' %}
+
             </div>
         </div>
     </div>
     <hr>
+    <input id="page" type="hidden" value="2"> {# 첫 next_page == 2 #}
+    <button id="callmorepost" type="button">More Post</button>
 
 
     {% include "search/Search_Ajax.html" %}

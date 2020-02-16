@@ -1,21 +1,21 @@
 <ul>
     {% if results %}
-        {% for option, qs in results.items %}
-            <li>
-                {% for result in qs %}
-                    {% if option == 'posts' %}
-                        {% include 'search/result_post.html' %}
-                    {% endif %}
-                    {% if option == 'users' %}
-                        {% include 'search/result_user.html' %}
-                    {% endif %}
-                    {% if option == 'custom_groups' %}
-                        {% include 'search/result_group.html' %}
-                    {% endif %}
-                {% endfor %}
+        <li>
+            {% for result in results %}
+                title: <a href="{% url 'post:post_detail' result.pk %}"><h3>{{ result.title }}</h3></a>
+                <div>
+                    작성자: <a
+                        href="{% url 'myprofile:profile_detail' result.user.pk %}">{{ result.user.user_profile.name }}</a>
+                    태그 :
+                    {% for post_tag in result.tags.all %}
+                        <a href="{% url 'search:tag_search' post_tag %}">#{{ post_tag }}</a>
+                    {% endfor %}
 
-            </li>
-        {% endfor %}
+                </div>
+                <br>
+                <br><br><br>
+            {% endfor %}
+        </li>
     {% endif %}
 
 </ul>
