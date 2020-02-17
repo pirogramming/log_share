@@ -163,6 +163,8 @@ def post_list(request):
             if group_user != user:
                 post_list |= group_user.user_post.all()  # add QuerySet
 
+
+    post_list = post_list.order_by('-start_date','-end_date')
     paginator = Paginator(post_list, 4)
     page = request.GET.get('page')
 

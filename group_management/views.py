@@ -179,6 +179,7 @@ def search_group(request):
     context = {
         'groups' : qs,
         'access_code_form' : access_code_form,
+        'q': q,
     }
     return render(request, 'group_management/search_group.html', context)
 
