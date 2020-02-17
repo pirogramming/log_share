@@ -14,8 +14,6 @@ from group_management.models import CustomGroup, GroupRequest
 
 @login_required
 def create_group(request):
-    groups = request.user.user_groups.all()
-    print(list(groups));
     if request.method == 'POST':
         form = GroupForm(
             request.user,
@@ -31,11 +29,11 @@ def create_group(request):
                 access_code=form.cleaned_data['access_code'],
             )
             group.members.add(request.user)
-            return redirect('group_management:detail_group', group.pk)
-    else:
-        form = GroupForm(
-            request.user,  # 여기로 get타고 들어와서 request.POST 빼버림.
-        )
+
+    groups = request.user.user_groups.all()
+    form = GroupForm(
+        request.user,  # 여기로 get타고 들어와서 request.POST 빼버림.
+    )
     return render(request, 'group_management/create_group.html', {
         'form': form, 'groups': groups,
     })
@@ -193,17 +191,10 @@ def request_from(request, pk):
     return render(request, 'group_management/request_from.html', context)
 
 
-# def del_member(user_id, group_id):
-#     group = get_object_or_404(CustomGroup, id=group_id)
-#     user = get_object_or_404(User, id=user_id)
-#     group.members.remove(user)
-#     return group.members.all()
-
-
 def delete_group(request, pk):
     group = get_object_or_404(CustomGroup, id=pk)
     group.delete()
-    return redirect('group_management:search_group')
+    return redirect('group_management:create_group')
 
 
 def secede_group(request, pk):
