@@ -3,14 +3,25 @@
 {% block header %}
     <style>
         .my_groups{
-            border: 2px solid black;
-            margin: 80px 50px;
+            width : 60%;
+            margin: 50px auto;
             padding: 20px;
         }
         .my_group{
-            border: 1px solid red;
+            background-color: white;
+            border-radius: 5px;
+            padding: 10px 20px 30px 20px;
+            box-shadow: 2px 2px 2px #b0bec9;
             margin: 10px 0;
             padding : 10px;
+        }
+        .my_group a {
+            color:black;
+        }
+
+        .my_group a:hover {
+            color: #514aac;
+            font-weight: bold;
         }
     </style>
 {% endblock %}
@@ -20,10 +31,10 @@
     <div class="my_groups">
         {% for group in groups %}
             <div class="my_group">
-                <p><a href="{% url 'group_management:detail_group' group.id %}">{{ group.group_name }}
-                </a>(관리자:{{ group.manager }})</p>
+                <h3><a href="{% url 'group_management:detail_group' group.id %}">{{ group.group_name }}
+                </a>(관리자:<a href="{% url 'myprofile:profile_detail' group.manager.id %}">{{ group.manager }}</a>)</h3>
                 <p>카테고리 : {{ group.group_category }}</p>
-                <p>{{ group.notes }}</p>
+                <p>소개 : {{ group.notes }}</p>
             </div>
         {% endfor %}
     </div>

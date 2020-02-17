@@ -110,6 +110,8 @@ def delete_member(request):
         'members': qs,
     }
 
+    data = json.dumps(context)
+
     return HttpResponse(context, content_type="application/json")
 
 
@@ -119,8 +121,11 @@ def search_group(request):
     q = request.GET.get('q', '')  # GET request의 인자중에 q 값이 있으면 가져오고, 없으면 빈 문자열 넣기
     if q:
         qs = CustomGroup.objects.filter(Q(group_name__icontains=q) & Q(is_searchable=1))
+    access_code_form = RequestWithCodeForm();
     context = {
         'groups' : qs,
+        'access_code_form' : access_code_form,
+        'q': q,
     }
     return render(request, 'group_management/search_group.html', context)
 
@@ -173,7 +178,6 @@ def request_withcode(request):
             CustomGroup,
             Q(group_name=form.data['group_name']) & Q(access_code=form.data['access_code'])
         )
-        print(group)
         return redirect('group_management:request_group', group.pk)
     else:
         form = RequestWithCodeForm()
@@ -182,8 +186,8 @@ def request_withcode(request):
     })
 
 
-def request_from(request, pk):
-    request_messages = GroupRequest.objects.filter(sender_id=pk)
+def request_from(request):
+    request_messages = GroupRequest.objects.filter(sender_id=request.user)
     request_messages.filter(Q(status=False) | Q(status=True)).delete()
     context = {
         'messages': request_messages,

@@ -16,7 +16,7 @@ urlpatterns = [
     path('delete_member/', views.delete_member, name='delete_member'), # 그룹 멤버 삭제
     path('request/<int:pk>', views.request_group, name='request_group'), # pk group에 가입 요청하기
     path('request/withcode/', views.request_withcode, name='request_withcode'), # 코드로 가입 요청하기
-    path('request/from/<int:pk>/', views.request_from, name='request_from'), # pk user가 가입 요청한 리스트
+    path('request/from/', views.request_from, name='request_from'), # 접속한 user가 가입 요청한 리스트
 
     path('delete/<int:pk>/', views.delete_group, name='delete_group'),
     path('secede/<int:pk>/', views.secede_group, name='secede_group'),
