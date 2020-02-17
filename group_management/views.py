@@ -39,15 +39,6 @@ def create_group(request):
     })
 
 
-@login_required
-def manage_list(request):
-    groups = request.user.user_manage_groups.all()
-    context = {
-        'groups': groups,
-    }
-    return render(request, 'group_management/list_group_for_manager.html', context)
-
-
 def update_group(request, pk):
     group = get_object_or_404(CustomGroup, id=pk)
     try:
@@ -75,23 +66,6 @@ def update_group(request, pk):
     })
 
 
-@login_required()
-def request_to(request):
-    if request.method == 'POST':
-        pass
-    else:
-        manager = request.user
-        groups = manager.user_manage_groups.all()
-        context = {}
-        for group in groups:
-            request_messages = GroupRequest.objects.filter(group=group)
-            request_messages.filter(Q(status=False) | Q(status=True)).delete()
-            context = {
-                'messages': request_messages,
-            }
-        return render(request, 'group_management/request_to.html', context)
-
-
 @login_required
 @require_POST
 def allow_request(request):
@@ -106,17 +80,6 @@ def allow_request(request):
     }
     return HttpResponse(context)
 
-@login_required
-@require_POST
-def disallow_request(request, pk):
-    message = get_object_or_404(GroupRequest, id=pk)
-    group = message.group
-    print(group.members.all())
-    GroupRequest.objects.filter(id=pk).delete()
-    context = {
-        'messages': list(GroupRequest.objects.filter(group=group))
-    }
-    return HttpResponse(json.dumps(context), content_type="application/json")
 
 @login_required
 @require_POST
@@ -131,23 +94,6 @@ def disallow_request(request):
     return HttpResponse(context)
 
 
-def manage_members(request, pk):
-    group = get_object_or_404(CustomGroup, id=pk)
-    try:
-        if request.user != group.manager:
-            raise NotImplementedError
-    except NotImplementedError:
-        return HttpResponse(404)
-    members = group.members.all()
-    print(members)
-
-    context = {
-        'group': group,
-        'members': members,
-    }
-    return render(request, 'group_management/manage_members.html', context)
-
-
 def delete_member(request):
     member_id = request.POST.get('member_id', None)
     group_id = request.POST.get('group_id', None)
@@ -160,8 +106,8 @@ def delete_member(request):
         qs = now_group.members.filter(Q(username__icontains=q) | Q(user_profile__name__icontains=q))
 
     context = {
-        'group':now_group,
-        'members':qs,
+        'group': now_group,
+        'members': qs,
     }
 
     return HttpResponse(context, content_type="application/json")
@@ -178,6 +124,7 @@ def search_group(request):
     }
     return render(request, 'group_management/search_group.html', context)
 
+
 def all_group(request):
     user = request.user
     groups = user.user_groups.all()
@@ -191,13 +138,14 @@ def detail_group(request, pk):
     group = get_object_or_404(CustomGroup, id=pk)
     q = request.GET.get('q', '')  # GET request의 인자중에 q 값이 있으면 가져오고, 없으면 빈 문자열 넣기
     user = request.user
-
+    messages = GroupRequest.objects.filter(group=group)
     qs = group.members.all()
     if q:
         qs = group.members.filter(Q(username__icontains=q) | Q(user_profile__name__icontains=q))
     context = {
         'group': group,
         'members': qs,
+        'messages': messages,
     }
     return render(request, 'group_management/detail_group.html', context)
 
@@ -221,7 +169,6 @@ def request_withcode(request):
         form = RequestWithCodeForm(
             request.POST,
         )
-
         group = get_object_or_404(
             CustomGroup,
             Q(group_name=form.data['group_name']) & Q(access_code=form.data['access_code'])
@@ -244,40 +191,20 @@ def request_from(request, pk):
     return render(request, 'group_management/request_from.html', context)
 
 
-def add_member(user_id, group_id):
-    group = get_object_or_404(CustomGroup, id=group_id)
-    user = get_object_or_404(User, id=user_id)
-    group.user_set.add(user)
-    return group.user_set.all()
-
-
-def del_member(user_id, group_id):
-    group = get_object_or_404(CustomGroup, id=group_id)
-    user = get_object_or_404(User, id=user_id)
-    group.members.remove(user)
-    return group.members.all()
+# def del_member(user_id, group_id):
+#     group = get_object_or_404(CustomGroup, id=group_id)
+#     user = get_object_or_404(User, id=user_id)
+#     group.members.remove(user)
+#     return group.members.all()
 
 
 def delete_group(request, pk):
     group = get_object_or_404(CustomGroup, id=pk)
-    if request.method == 'POST':
-        print(group)
-        GroupRequest.objects.filter(group=group).delete()
-        group.delete()
-        return redirect('group_management:all_group')
-    else:
-        try:
-            if request.user != group.manager:
-                raise NotImplementedError
-        except NotImplementedError:
-            return HttpResponse(404)
-        context = {
-            'group': group,
-        }
-    return render(request, 'group_management/delete_group.html', context)
+    group.delete()
+    return redirect('group_management:search_group')
 
 
 def secede_group(request, pk):
-    user_id = request.user.id
-    del_member(user_id, pk)
+    group = get_object_or_404(CustomGroup, id=pk)
+    group.members.remove(request.user)
     return redirect('group_management:detail_group', pk)

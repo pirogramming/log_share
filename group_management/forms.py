@@ -13,7 +13,7 @@ class GroupForm(forms.ModelForm):
             'group_category': '카테고리',
             'notes': '그룹 설명',
             'is_searchable': '검색 허용',
-            'access_code': '그룹 검색 코드'
+            'access_code': '그룹 가입 코드'
         }
 
     def __init__(self, username, *args, **kwargs):# -> object:

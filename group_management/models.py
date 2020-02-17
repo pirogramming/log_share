@@ -20,7 +20,7 @@ class CustomGroup(models.Model):
     group_category = models.CharField(max_length=50, default='etc', choices=categories, verbose_name='카테고리')
     notes = models.TextField(blank=True, verbose_name='그룹설명')
     is_searchable = models.BooleanField(verbose_name='검색허용')
-    access_code = models.CharField(max_length=50, blank=True, verbose_name='그룹검색코드')
+    access_code = models.CharField(max_length=50, blank=True, verbose_name='그룹가입코드')
 
     class Meta:
         verbose_name_plural = "groups"
@@ -28,6 +28,7 @@ class CustomGroup(models.Model):
 
     def __str__(self):
         return self.group_name
+
 
 class GroupMembership(models.Model):
     customgroup = models.ForeignKey(CustomGroup, models.DO_NOTHING, related_name='membership')

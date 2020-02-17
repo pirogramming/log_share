@@ -10,7 +10,6 @@
         width: 42%;
         background-color: white;
         float: left;
-        height: 1000px;
 
         margin: 30px 10px 30px 10px;
         padding: 20px 20px 20px 20px;
@@ -33,9 +32,10 @@
     }
 
     .a_tag {
-
+        font-weight: bold;
         color: #1a237e;
     }
+
     .input_text {
         width: 70%;
         height: 30px;
@@ -44,18 +44,58 @@
         background-color: aliceblue;
     }
 
+    .input_text:focus {
+        outline: none;
+    }
+
     .input_button {
         height: 35px;
         font-size: 15px;
         font-weight: bold;
-        background-color: ;
-        width: 50px
+        width: 50px;
     }
 
     .delete_member_button {
         height: 30px;
         width: 50px;
         font-size: 12px;
+    }
+
+    .message_box {
+        display: block;
+    }
+
+    .message_box_content {
+        display: inline-block;
+    }
+
+    ul.tabs {
+        margin: 0px;
+        padding: 0px;
+        list-style: none;
+    }
+
+    ul.tabs li {
+        background: none;
+        color: #222;
+        display: inline-block;
+        padding: 10px 15px;
+        cursor: pointer;
+    }
+
+    ul.tabs li.current {
+        background: #ededed;
+        color: #222;
+    }
+
+    .tab-content {
+        display: none;
+        background: #ededed;
+        padding: 15px;
+    }
+
+    .tab-content.current {
+        display: inherit;
     }
 
 </style>
@@ -70,6 +110,7 @@
                     <div class="group_title">그룹명: {{ group.group_name }}</div>
                     <br><br>
                     <span class="bold">카테고리:</span> {{ group.get_group_category_display }}<br><br>
+                    <span class="bold">그룹 관리자:</span> {{ group.user_profile.name }}({{ group.manager }})<br><br>
                     <span class="bold">그룹 설명:</span><br>
                     <div id="group_notes_show">{{ group.notes }}</div>
                     <br>
@@ -86,50 +127,160 @@
                     <br>
                     <hr>
                     <br>
+
                     {% if request.user == group.manager %}
                         <a class="a_tag" href="{% url 'group_management:update_group' group.id %}">그룹 정보 변경</a><br><br>
-                        <a class="a_tag" href="{% url 'group_management:delete_group' group.id %}">그룹 삭제</a>
+                        <a class="a_tag" href="javascript:delete_group()">그룹 삭제</a><br><br>
                     {% elif request.user in group.members.all %}
-                        <a class="a_tag" href="{% url 'group_management:secede_group' group.id %}">그룹 탈퇴</a>
+                        <a class="a_tag" href="javascript:secede_group()">그룹 탈퇴</a><br>
                     {% else %}
                         <a class="a_tag" href="{% url 'group_management:request_group' group.id %}">가입 신청</a><br>
                     {% endif %}
                 </div>
             </div>
-            {% if request.user in group.members.all %}
+
+            {% if request.user == group.manager %}
+                <div class="group_detail_content_col group_tab_container">
+                    <ul class="tabs">
+                        <li class="tab-link current" data-tab="tab-1">회원 목록 (<span id="member_num">{{ group.members.count }}</span>)</li>
+                        <li class="tab-link" data-tab="tab-2">가입 요청 (<span id="message_num">{{ messages.count }}</span>)</li>
+                    </ul>
+
+                    <div id="tab-1" class="group_member_list tab-content current">
+                        <form action="" method="get">
+
+                            <input class="input_text" type="text" name="q" value="{{ q }}">
+                            <button class="input_button" type="submit">검색</button>
+                        </form>
+                        <br>
+
+                        {% for member in members %}
+                            <div id="delete_member_div-{{ member.id }}">
+                                {% if member == group.manager %}
+                                    *
+                                {% endif %}
+                                <a class="a_tag" href="{% url 'myprofile:profile_detail' member.pk %}">
+                                    {{ member.user_profile.name }} ({{ member.username }})</a>
+                                {% if request.user == group.manager and member != group.manager %}
+                                    <button type="button" class="delete_member_button"
+                                            id="delete_member_button-{{ member.id }}" member_id="{{ member.id }}"
+                                            group_id="{{ group.id }}">회원삭제
+                                    </button>
+                                {% endif %}
+                                <br><br>
+                            </div>
+                        {% endfor %}
+                    </div>
+
+                    <div id="tab-2" class="tab-content">
+                        {#                        <span class="bold">그룹 가입 요청 ({{ messages.count }})</span><br><br>#}
+                        {% if not messages %}
+                            <span>&nbsp;새로 들어온 요청이 없습니다.</span>
+                        {% endif %}
+                        {% for message in messages %}
+                            <div class="message_box" id="message_box-{{ message.id }}">
+                                <div class="message_box_content">
+                                    <span>{{ message.sender }}</span> -->
+                                    <span>{{ message.group }}</span> :
+                                    <span id="is_allowed-{{ message.id }}">{{ message.status }}</span>
+                                </div>
+                                <div class="message_box_content">
+                                    <form action="" id="group_request_form-{{ message.id }}" class="group_request_form"
+                                          method="post">
+                                        {% csrf_token %}
+                                        <button type="button" class="allow_button" data-id="{{ message.id }}">수락
+                                        </button>
+                                        <button type="button" class="disallow_button" data-id="{{ message.id }}">거절
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                            <br>
+                        {% endfor %}
+                    </div>
+                </div>
+
+            {% elif request.user in group.members.all %}
                 <div class="group_detail_content_col">
-                <div class="group_title">회원 목록</div><br>
-                <div class="group_member_list">
-                <form action="" method="get">
-
-                    <input class="input_text" type="text" name="q" value="{{ q }}">
-                    <button class="input_button" type="submit">검색</button>
-                </form>
-                <br>
-
-                {% for member in members %}
-                    <a class="a_tag" href="{% url 'myprofile:profile_detail' member.pk %}">
-                        {{ member.user_profile.name }}({{ member.username }})</a>
-                    {% if request.user == group.manager %}
-                        <button type="button" class="delete_member_button"
-                                id="delete_member_button-{{ member.id }}" member_id="{{ member.id }}"
-                                group_id="{{ group.id }}">회원삭제
-                        </button>
-                    {% endif %}
-                    <br><br>
-                {% endfor %}
-
+                    <div class="group_title">회원 목록 ({{ group.members.count }})</div>
+                    <br>
+                    <div class="group_member_list">
+                        <form action="" method="get">
+                            <input class="input_text" type="text" name="q" value="{{ q }}">
+                            <button class="input_button" type="submit">검색</button>
+                        </form>
+                        <br>
+                        {% for member in members %}
+                            <div id="delete_member_div-{{ member.id }}">
+                                {% if member == group.manager %}
+                                    *
+                                {% endif %}
+                                <a class="a_tag" href="{% url 'myprofile:profile_detail' member.pk %}">
+                                    {{ member.user_profile.name }} ({{ member.username }})</a>
+                                <br><br>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
             {% endif %}
-            </div>
-            </div>
         </div>
     </div>
 
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
     <script async type="text/javascript">
+        $(".allow_button").click(function () {
+            var pk = $(this).attr('data-id');
+            $.ajax({
+                type: "POST",
+                url: "{% url 'group_management:allow_request' %}",
+                data: {
+                    'pk': pk,
+                    'csrfmiddlewaretoken': '{{ csrf_token }}'
+                },
+                dataType: "html",
+                success: function (response) {  //통신 성공시 메시지 출력
+                    alert("수락하였습니다.");
+                    $("#message_box-" + pk).hide();
+                    var member_num = document.getElementById("member_num").innerHTML * 1 + 1;
+                    document.getElementById("member_num").innerHTML = member_num;
+                    var message_num = document.getElementById("message_num").innerHTML * 1 - 1;
+                    document.getElementById("message_num").innerHTML = message_num;
+                },
+                error: function (request, status, error) { //통신 실패시 요청관리페이지로 리다이렉트
+                    alert("잘못된 요청입니다. error:" + error);
+                    window.location.replace("{% url "group_management:detail_group" group.id %}");
+                },
+            });
+        });
+
+        $(".disallow_button").click(function () {
+            var pk = $(this).attr('data-id');
+            $.ajax({
+                type: "POST",
+                url: "{% url 'group_management:disallow_request' %}",
+                data: {
+                    'pk': pk,
+                    'csrfmiddlewaretoken': '{{ csrf_token }}'
+                },
+                dataType: "html",
+                success: function (response) {  //통신 성공시 메시지 출력
+                    alert("거절하였습니다.");
+                    $("#message_box-" + pk).hide();
+                    var message_num = document.getElementById("message_num").innerHTML * 1 - 1;
+                    document.getElementById("message_num").innerHTML = message_num;
+                },
+                error: function (request, status, error) { //통신 실패시 요청관리페이지로 리다이렉트
+                    alert("잘못된 요청입니다. error:" + error);
+                    window.location.replace("{% url "group_management:detail_group" group.id %}");
+                },
+            });
+        });
+
         $(".delete_member_button").click(function () {
             var member_id = $(this).attr('member_id');
             var group_id = $(this).attr('group_id');
+            {#var deleted_member_div = document.getElementById("delete_member_div-" + memeber.id);#}
+
             $.ajax({
                 type: "POST",
                 url: "{% url 'group_management:delete_member' %}",
@@ -140,16 +291,48 @@
                 },
                 dataType: "html",
                 success: function (response) {  //통신 성공시 메시지 출력
-                    $("#delete_member_button-" + member_id).html('삭제된 멤버입니다.')
-
+                    $("#delete_member_div-" + member_id).hide();
+                    var member_num = document.getElementById("member_num").innerHTML * 1 - 1;
+                    document.getElementById("member_num").innerHTML = member_num;
                 },
                 error: function (request, status, error) { //통신 실패시 요청관리페이지로 리다이렉트
                     alert("잘못된 요청입니다. error:" + error)
                     window.location.replace("{% url "group_management:detail_group" group.id %}");
                 },
             });
-        })
+        });
 
+        function delete_group() {
+            if (confirm("정말 그룹을 삭제할까요? 삭제하면 되돌릴 수 없습니다.")) {
+                location.href = "{% url 'group_management:delete_group' group.id %}"
+            } else {
+                return false;
+            }
+        }
+
+        function secede_group() {
+            if (confirm("정말 그룹 탈퇴를 하실겁니까?")) {
+                location.href = "{% url 'group_management:secede_group' group.id %}";
+            } else {
+                return false;
+            }
+        }
+
+        $(document).ready(function(){
+
+	$('ul.tabs li').click(function(){
+		var tab_id = $(this).attr('data-tab');
+		if (tab_id == "tab-1")
+            window.location.replace("{% url "group_management:detail_group" group.id %}");
+
+		$('ul.tabs li').removeClass('current');
+		$('.tab-content').removeClass('current');
+
+		$(this).addClass('current');
+		$("#"+tab_id).addClass('current');
+	})
+
+})
     </script>
 
 {% endblock %}
