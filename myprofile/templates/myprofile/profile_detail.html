@@ -1,4 +1,8 @@
 <style>
+    .temp {
+        width: 80%;
+        margin: 50px auto;
+    }
     .profile_first_container {
         background-color: white;
         border-radius: 5px;
@@ -29,9 +33,10 @@
     .profile_recent_tag {
         background-color: white;
         border-radius: 5px;
-        padding: 10px 10px;
+        padding: 10px 20px;
         box-sizing: border-box;
         box-shadow: 2px 2px 2px #b0bec9;
+        margin: 10px 0;
     }
 
     .profile_recent_tag span {
@@ -93,7 +98,9 @@
 
 {% extends 'base.html' %}
 
+
 {% block content %}
+<div class="temp">
     <div class="profile_container">
         <div class="profile_first_container">
             <div class="profile_name">이름: {{ profile.name }}</div>
@@ -140,8 +147,7 @@
             <div class="profile_email"><a href="mailto:{{ profile.user.email }}" class="fa-envelope">Email</a></div>
 
             {% if profile.user.pk == user.pk %}
-                <div class="profile_bookmark"><a href="{% url 'myprofile:bookmark_list' profile.user.pk %}">북마크</a>
-                </div>
+                <div class="profile_bookmark"><a href="{% url 'myprofile:bookmark_list' profile.user.pk %}">북마크</a></div>
                 <div class="profile_post_create"><a href="{% url 'post:post_create' %}">글 작성하기</a></div>
                 <br>
                 <div class="profile_edit"><a href="{% url 'myprofile:profile_edit' profile.user.pk %}">프로필 수정하기</a></div>
@@ -163,4 +169,5 @@
         <br>
         {% include 'post/myprofile_post_list.html' %}
     </div>
+</div>
 {% endblock %}

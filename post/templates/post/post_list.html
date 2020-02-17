@@ -1,4 +1,8 @@
 <style>
+    .temp {
+        width: 80%;
+        margin: 50px auto;
+    }
     .post_list {
         background-color: white;
         border-radius: 5px;
@@ -46,16 +50,11 @@
         display: inline;
     }
     input{
-        background-image: url("/media/baseline_bookmark_border_black_18dp.png");
         background-repeat: no-repeat;
-        padding: 5px 19px;
+        padding: 10px 19px;
         border-radius: 5px;
         display: inline;
         float: right;
-    }
-    input:hover{
-        background-image: url("/media/baseline_bookmark_black_18dp.png");
-        background-repeat: no-repeat;
     }
     .post_email{
         display: inline;
@@ -64,10 +63,10 @@
     }
 </style>
 
-
 {% extends 'base.html' %}
 
 {% block content %}
+<div class="temp">
     <div>
         {% if posts %}
             {% for post in posts %}
@@ -81,9 +80,10 @@
                             <a href="{% url 'search:tag_search' post_tag %}">#{{ post_tag }}</a>
                         {% endfor %}
                     </div>
-                    <div class="post_contents">내용: {{ post.contents|truncatechars:85}}</div>
+                    <div class="post_contents">내용: {{ post.contents | truncatechars_html:85|safe }}</div>
                     <div class="post_score">평점 : {{ post.score }}</div>
-                    <input type="submit" class="bookmark" name="{{ post.id }}" value="">
+                    <input type="submit" class="bookmark" id="bookmark-{{ post.id }}" name="{{ post.id }}" value=""
+                    style="background-image: {% if post.id in bm_post_list %}url('/media/baseline_bookmark_black_18dp.png'){% else %}url('/media/baseline_bookmark_border_black_18dp.png'){% endif %}">
                     <div class="post_email"><a href="mailto:{{ post.user.email }}" class="fa-envelope">Email</a></div>
                 </div>
                 <br>
@@ -104,12 +104,16 @@
                 //bookmark button 클릭 -> ajax로 서버와 통신하기
                 type: "POST", //데이터를 전송하는 방법
                 url: "{% url 'post:post_bookmark' %}",  //통신할 url
-                data: {'pk': pk, 'csrfmiddlewaretoken': '{{ csrf_token }}'}, // 서버로 데이터 전송시 옵션
+                data: {
+                    'pk': pk,
+                    'csrfmiddlewaretoken': '{{ csrf_token }}'
+                }, // 서버로 데이터 전송시 옵션
                 dataType: "json", //전달받은 데이터 타입 = json -> {'bookmark_count':post.bookmark.count(), 'message':message,}
                                   // 서버측에서 전송한 Response 데이터 형식 (json)
                 // 통신 성공 -> 북마크 처리(response 처리)
                 success: function (response) {
                     alert(response.message);
+                    $("#bookmark-" + pk).css("background-image", "url(" + response.img_url + ")");
                 },
                 error: function (request, status, error) {
                     alert("로그인이 필요합니다.")
@@ -171,5 +175,5 @@
             $('#post_list_ajax').append(data);  //dev post_list_ajax 자리에 포스트를 올린다.
         }
     </script>
-
+</div>
 {% endblock %}
