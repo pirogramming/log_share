@@ -1,105 +1,112 @@
-<style>
-
-    .group_detail_content_row {
-        width: 80%;
-        margin: 0 auto;
-    }
-
-    .group_detail_content_col {
-        display: inline-block;
-        width: 42%;
-        background-color: white;
-        float: left;
-
-        margin: 30px 10px 30px 10px;
-        padding: 20px 20px 20px 20px;
-        box-shadow: gray 1px 1px 1px 1px;
-    }
-
-    #group_notes_show {
-        padding: 10px 10px 10px 10px;
-        margin: 2px 1px;
-    }
-
-    .group_title {
-        font-size: 20px;
-        font-weight: bold;
-    }
-
-    .bold {
-        font-weight: bold;
-        color: #101010;
-    }
-
-    .a_tag {
-        font-weight: bold;
-        color: #1a237e;
-    }
-
-    .input_text {
-        width: 70%;
-        height: 30px;
-        font-size: 16px;
-        border: 1px solid gray;
-        background-color: aliceblue;
-    }
-
-    .input_text:focus {
-        outline: none;
-    }
-
-    .input_button {
-        height: 35px;
-        font-size: 15px;
-        font-weight: bold;
-        width: 50px;
-    }
-
-    .delete_member_button {
-        height: 30px;
-        width: 50px;
-        font-size: 12px;
-    }
-
-    .message_box {
-        display: block;
-    }
-
-    .message_box_content {
-        display: inline-block;
-    }
-
-    ul.tabs {
-        margin: 0px;
-        padding: 0px;
-        list-style: none;
-    }
-
-    ul.tabs li {
-        background: none;
-        color: #222;
-        display: inline-block;
-        padding: 10px 15px;
-        cursor: pointer;
-    }
-
-    ul.tabs li.current {
-        background: #ededed;
-        color: #222;
-    }
-
-    .tab-content {
-        display: none;
-        background: #ededed;
-        padding: 15px;
-    }
-
-    .tab-content.current {
-        display: inherit;
-    }
-
-</style>
 {% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block header %}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css"/>
+
+    <style>
+
+        .group_detail_content_row {
+            width: 80%;
+            margin: 0 auto;
+        }
+
+        .group_detail_content_col {
+            display: inline-block;
+            width: 42%;
+            background-color: white;
+            float: left;
+
+            margin: 30px 10px 30px 10px;
+            padding: 20px 20px 20px 20px;
+            border: 0.1px solid #b0bec9;
+            box-shadow: 2px 2px 2px #b0bec9;
+        }
+
+        #group_notes_show {
+            padding: 10px 10px 10px 10px;
+            margin: 2px 1px;
+        }
+
+        .group_title {
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .bold {
+            font-weight: bold;
+            color: #101010;
+        }
+
+        .a_tag {
+            font-weight: bold;
+            color: #1a237e;
+        }
+
+        .input_text {
+            width: 70%;
+            height: 30px;
+            font-size: 16px;
+            border: 1px solid gray;
+            background-color: aliceblue;
+        }
+
+        .input_text:focus {
+            outline: none;
+        }
+
+        .input_button {
+            height: 35px;
+            font-size: 15px;
+            font-weight: bold;
+            width: 50px;
+        }
+
+        .delete_member_button {
+            height: 30px;
+            width: 50px;
+            font-size: 12px;
+        }
+
+        .message_box {
+            display: block;
+        }
+
+        .message_box_content {
+            display: inline-block;
+        }
+
+        ul.tabs {
+            margin: 0px;
+            padding: 0px;
+            list-style: none;
+        }
+
+        ul.tabs li {
+            background: none;
+            color: #222;
+            display: inline-block;
+            padding: 10px 15px;
+            cursor: pointer;
+        }
+
+        ul.tabs li.current {
+            background: #ededed;
+            color: #222;
+        }
+
+        .tab-content {
+            display: none;
+            background: #ededed;
+            padding: 15px;
+        }
+
+        .tab-content.current {
+            display: inherit;
+        }
+
+    </style>
+{% endblock %}
 
 {% block content %}
 
@@ -142,8 +149,11 @@
             {% if request.user == group.manager %}
                 <div class="group_detail_content_col group_tab_container">
                     <ul class="tabs">
-                        <li class="tab-link current" data-tab="tab-1">회원 목록 (<span id="member_num">{{ group.members.count }}</span>)</li>
-                        <li class="tab-link" data-tab="tab-2">가입 요청 (<span id="message_num">{{ messages.count }}</span>)</li>
+                        <li class="tab-link current" data-tab="tab-1">회원 목록 (<span
+                                id="member_num">{{ group.members.count }}</span>)
+                        </li>
+                        <li class="tab-link" data-tab="tab-2">가입 요청 (<span id="message_num">{{ messages.count }}</span>)
+                        </li>
                     </ul>
 
                     <div id="tab-1" class="group_member_list tab-content current">
@@ -318,21 +328,21 @@
             }
         }
 
-        $(document).ready(function(){
+        $(document).ready(function () {
 
-	$('ul.tabs li').click(function(){
-		var tab_id = $(this).attr('data-tab');
-		if (tab_id == "tab-1")
-            window.location.replace("{% url "group_management:detail_group" group.id %}");
+            $('ul.tabs li').click(function () {
+                var tab_id = $(this).attr('data-tab');
+                if (tab_id == "tab-1")
+                    window.location.replace("{% url "group_management:detail_group" group.id %}");
 
-		$('ul.tabs li').removeClass('current');
-		$('.tab-content').removeClass('current');
+                $('ul.tabs li').removeClass('current');
+                $('.tab-content').removeClass('current');
 
-		$(this).addClass('current');
-		$("#"+tab_id).addClass('current');
-	})
+                $(this).addClass('current');
+                $("#" + tab_id).addClass('current');
+            })
 
-})
+        })
     </script>
 
 {% endblock %}
