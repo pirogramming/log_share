@@ -1,4 +1,8 @@
 <style>
+    .temp {
+        width: 80%;
+        margin: 50px auto;
+    }
     .bookmark_container{
         background-color: white;
         border-radius: 5px;
@@ -26,6 +30,7 @@
 {% extends 'base.html' %}
 
 {% block content %}
+<div class="temp">
     {% if bookmarks %}
         {% for bookmark in bookmarks %}
             <div class="bookmark_container">
@@ -38,4 +43,5 @@
     {% else %}
         <p>북마크 없음</p>
     {% endif %}
+</div>
 {% endblock %}

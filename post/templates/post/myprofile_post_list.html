@@ -14,7 +14,7 @@
                     <a href="{% url 'search:tag_search' post_tag %}">#{{ post_tag }}</a>
                 {% endfor %}
             </div>
-            <div class="profile_post_contents">내용: {{ post.contents|truncatechars:85 }}</div>
+            <div class="profile_post_contents">내용: {{ post.contents|truncatechars_html:85|safe }}</div>
             <div>평점 : {{ post.score }}</div>
         </div>
         <br>

@@ -1,12 +1,17 @@
 <style>
+    .temp {
+        width: 80%;
+        margin: 50px auto;
+    }
     form{
         background-color: white;
         border-radius: 5px;
         box-shadow: 2px 2px 2px #b0bec9;
-        padding: 10px 10px;
+        padding: 30px 50px;
     }
     form p{
         background-color: transparent;
+        margin-bottom: 15px;
     }
     form label{
         background-color: transparent;
@@ -41,6 +46,7 @@
 {% endblock %}
 
 {% block content %}
+<div class="temp">
     <div>
         <form action="" method="POST" enctype="multipart/form-data" autocomplete="off">
             {% csrf_token %}
@@ -50,5 +56,6 @@
             <button type="submit">제출</button>
         </form>
     </div>
+</div>
 {% endblock %}
 

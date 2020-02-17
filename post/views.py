@@ -3,7 +3,6 @@ import simplejson as json
 from django.http import HttpResponse
 from django.contrib.auth.models import User, Group
 from django.core.exceptions import ObjectDoesNotExist
-from django.core.serializers import json
 from django.http import HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.decorators.http import require_POST
@@ -143,17 +142,20 @@ def post_bookmark(request):
     if not bookmark_created:
         bookmark.delete()
         message = "북마크 취소"
+        img_url = "/media/baseline_bookmark_border_black_18dp.png"
     else:
         message = "북마크"
-
+        img_url = "/media/baseline_bookmark_black_18dp.png"
     context = {
         'bookmark_count': post.bookmark.count(),
         'message': message,
+        'img_url': img_url,
     }
-    return HttpResponse(json.dumps(context), content_type="application/json")  # context를 json 타입으로(json.dumps() - string일 때 괜찮고,
+    return HttpResponse(json.dumps(context),
+                        content_type="application/json")  # context를 json 타입으로(json.dumps() - string일 때 괜찮고,
 
 
-# 활동보기
+# 활동보기 - 그룹에 속한 사용자들의 게시글 리스트
 def post_list(request):
     user = request.user
     post_list = Post.objects.none()  # Queryset 초기화 : <QuerySet []>
@@ -163,6 +165,11 @@ def post_list(request):
             if group_user != user:
                 post_list |= group_user.user_post.all()  # add QuerySet
 
+    post_list = post_list.order_by('-start_date', '-end_date')
+    bm_list = user.user_bookmark.all()
+    bm_post_list = []
+    for bm in bm_list:
+        bm_post_list.append(bm.post_id)
     paginator = Paginator(post_list, 4)
     page = request.GET.get('page')
 
@@ -175,6 +182,7 @@ def post_list(request):
 
     context = {
         'posts': posts,
+        'bm_post_list': bm_post_list,
     }
 
     return render(request, 'post/post_list.html', context)
@@ -190,11 +198,17 @@ def post_list_ajax(request):
             if group_user != user:
                 post_list |= group_user.user_post.all()  # add QuerySet
 
+    post_list = post_list.order_by('-start_date', '-end_date')
     paginator = Paginator(post_list, 4)
-    page = request.POST.get('page')
+    page = request.POST.get('page')  # 현재 페이지 숫자
+
+    bm_list = user.user_bookmark.all() #user의 북마크들
+    bm_post_list = []
+    for bm in bm_list:
+        bm_post_list.append(bm.post_id) # user의 북마크의 포스트 리스트
 
     try:
-        posts = paginator.page(page)  # 해당 페이지의 포스트(post_list)
+        posts = paginator.page(page)  # 해당 페이지의 포스트(post_list) - Page 객체
     except PageNotAnInteger:
         posts = paginator.page(1)
     except EmptyPage:
@@ -202,6 +216,7 @@ def post_list_ajax(request):
 
     context = {
         'posts': posts,
+        'bm_post_list':bm_post_list,
     }
 
     return render(request, 'post/post_list_ajax.html', context)

@@ -1,4 +1,8 @@
 <style>
+    .temp {
+        width: 80%;
+        margin: 50px auto;
+    }
     form{
         background-color: white;
         border-radius: 5px;
@@ -26,6 +30,7 @@
 {% extends "base.html" %}
 
 {% block content %}
+<div class="temp">
     <form action="" method="post" enctype="multipart/form-data">
         {% csrf_token %}
         <table>
@@ -37,4 +42,5 @@
         <input type="submit" value="수정하기"/>
     </form>
     <br>
+</div>
 {% endblock %}
