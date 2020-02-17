@@ -98,6 +98,16 @@ WSGI_APPLICATION = 'log_share.wsgi.application'
 #     }
 # }
 
+# DATABASES = {
+# #     'default': {
+# #         'ENGINE': 'django.db.backends.mysql',
+# #         'NAME': 'log_share',
+# #         'USER': 'root',
+# #         'PASSWORD': 'admin',
+# #         'HOST': 'localhost',
+# #         'PORT': '3306'
+# #     }
+# # }
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',

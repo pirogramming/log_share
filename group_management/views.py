@@ -14,6 +14,8 @@ from group_management.models import CustomGroup, GroupRequest
 
 @login_required
 def create_group(request):
+    groups = request.user.user_groups.all()
+    print(list(groups));
     if request.method == 'POST':
         form = GroupForm(
             request.user,
@@ -35,7 +37,7 @@ def create_group(request):
             request.user,  # 여기로 get타고 들어와서 request.POST 빼버림.
         )
     return render(request, 'group_management/create_group.html', {
-        'form': form,
+        'form': form, 'groups': groups,
     })
 
 
