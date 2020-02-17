@@ -3,13 +3,16 @@ from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.db.models import Q
 from django.http import JsonResponse
 from django.shortcuts import render, redirect
+from taggit.models import Tag
 
 from group_management.models import CustomGroup
 from post.models import Post
 from .models import *
 
-
 # Create your views here.
+from .utils import *
+
+
 def main_search(request):
     q = request.GET.get('q', '')  # GET request의 인자중에 q 값이 있으면 가져오고, 없으면 빈 문자열 넣기
     option = request.GET.get('options', '')
@@ -18,48 +21,18 @@ def main_search(request):
     qs = None
     # 검색창 옆에 필터 선택 -> request로 받고, 그 값에 따라 결과값 필터링 **
     if q:  # q가 있으면
-        # 필터링 종류
-        # option |     참조
-        #   1    |  태그 & 활동내역(포스트의 제목과 내용) -> Post.(user.img + title + date?)
-        #   2    |  사람명 검색
-        #   3    |  그룹명 + 카테고리 필터
-        # user.groups.all() with reqeust.user.
-        if option == 'posts':  # 제목에 q가 포함되어 있는 레코드만 필터링 + 나랑 관련된 사람.
-            # 필터링 종류 #
-            # 그룹 필터링
-            # 기간 필터링(시간, 최신순)
-            # 포스트 카테고리
 
-            qs = Post.objects.filter(
-                Q(user__user_groups__in=user.user_groups.all()) &  # 나와 관련된 유저들
-                (Q(title__icontains=q) | Q(contents__icontains=q))
-            ).distinct()  # 중복 제거
-            # qs = relate_post.objects.filter(
-            #     # 포스트 내용 필요한가? 내용 미리보기 필요할듯..(해당 키워드가 담긴 문장을 보여준다던지..)
-            #     Q(title__icontains=q) | Q(tag__word__icontains=q) | Q(contents__icontains=q)
-            # ).distinct()
+        if option == 'posts':  # 제목에 q가 포함되어 있는 레코드만 필터링 + 나랑 관련된 사람.
+            qs = filter_posts(q, user)
+            print('option: posts')
         elif option == 'tags':  # 이름에 q 포함 + 접속 유저와 관련된 그룹원
-            # 필터링 종류 #
-            # 그룹 필터링
-            # qs = User.objects.filter(
-            #     Q(user_groups__in=user.user_groups.all()) &
-            #     (Q(user_profile__name__icontains=q) | Q(username__icontains=q))
-            # )
-            qs = Post.objects.filter(
-                Q(user__user_groups__in=user.user_groups.all()) &  # 나와 관련된 유저들
-                Q(tags__name__icontains=q)
-            ).distinct()
+            qs = filter_tags(q, user)
+            print('option: tags')
+
         elif option == 'users':  # 그룹명에 q가 포함된 그룹
-            # 필터링 종류 #
-            # 그룹 카테고리
-            # if request.user.groups in filtered_group: 해당 그룹원의 최신 포스팅도 같이?
-            # qs = CustomGroup.objects.filter(
-            #     Q(group_name__icontains=q) & Q(is_searchable=True)
-            # )
-            qs = Post.objects.filter(
-                Q(user__user_groups__in=user.user_groups.all()) &  # 나와 관련된 유저들
-                (Q(user__user_profile__name__icontains=q) | Q(user__username__icontains=q))
-            ).distinct()
+            qs = filter_users(q, user)
+            print('option: users')
+
     else:
         qs = Post.objects.filter(user__user_groups__in=user.user_groups.all())
 
@@ -73,6 +46,10 @@ def main_search(request):
     except EmptyPage:
         posts = paginator.page(paginator.num_pages)
 
+    # print(paginator, page)
+    # print(posts)
+    print(request.GET)
+    print(qs)
     return render(request, 'search/main.html', {
         'request': request,
         # 'results': qs,   # 1: post, 2: user
@@ -80,6 +57,7 @@ def main_search(request):
         'q': q,
         'groups': user.user_groups.all(),
         'posts': posts,
+        'option': (option),
     })
 
 
@@ -93,18 +71,14 @@ def tag_search(request, tag_name):
     '''
     user = request.user
     q = tag_name
-
-    qs = None
-    qs = Post.objects.filter(
-        Q(user__user_groups__in=user.user_groups.all()) &
-        Q(tags__name__icontains=q)
-    ).distinct()  # 중복 제거
+    qs = filter_tags(q, user)
+    print(qs)
     results = {'posts': qs}
     return render(request, 'search/main.html', {
         'request': request,
-        'results': results,
+        'posts': qs,
         'q': q,
-        'option': 1,
+        'option': 'posts',
     })
 
 
@@ -112,34 +86,37 @@ def search_auto(request):
     user = request.user
     q = request.GET.get('q', '')
     option = request.GET['option']
+    results = None
+    if option == 'posts':
+        qs = filter_posts(q, user)
+        results = [
+            {
+                'id': post.id,
+                'name': post.title,
+            } for post in qs
+        ]
+    elif option == 'tags':
+        # qs = Post.tags.filter(post__user__user_groups__in=user.user_groups.all())
+        qs = Tag.objects.filter(
+            Q(post__user__user_groups__in=user.user_groups.all()) &
+            Q(name__icontains=q)
+        )
+        results = [
+                {
+                    'id': tag.id,
+                    'name': tag.name,
+                } for tag in qs
+            ]
+    elif option == 'users':
+        qs = User.objects.filter(user_groups__in=user.user_groups.all())
+        # qs = filter_users(q, user)
+        results = [
+            {
+                'id': user.id,
+                'name': user.user_profile.name,
+            } for user in qs
+        ]
 
-    if option == 'posts':  # 제목에 q가 포함되어 있는 레코드만 필터링 + 나랑 관련된 사람.
-
-        qs = Post.objects.filter(
-            Q(user__user_groups__in=user.user_groups.all()) &  # 나와 관련된 유저들
-            (Q(title__icontains=q) | Q(contents__icontains=q) | Q(tags__name__icontains=q))
-        ).distinct()  # 중복 제거
-
-
-
-    elif option == 'tags':  # 이름에 q 포함 + 접속 유저와 관련된 그룹원
-        qs = Post.objects.filter(
-            Q(user__user_groups__in=user.user_groups.all()) &  # 나와 관련된 유저들
-            Q(tags__name__icontains=q)
-        ).distinct()
-
-    elif option == 'users':  # 그룹명에 q가 포함된 그룹
-        qs = Post.objects.filter(
-            Q(user__user_groups__in=user.user_groups.all()) &  # 나와 관련된 유저들
-            (Q(user__user_profile__name__icontains=q) | Q(user__username__icontains=q))
-        ).distinct()
-
-    results = [
-        {
-            'id': post.id,
-            'name': post.title,
-        } for post in qs
-    ]
     print('Ajax응답', results)
 
     data = {
@@ -152,9 +129,10 @@ def search_auto(request):
 
 
 def search_scroll(request):
-    pk = request.POST.get('pk', None)
-    user = User.objects.get(pk=pk)  # 프로필의 user
-
+    # pk = request.POST.get('pk', None)
+    # user = User.objects.get(pk=pk)  # 프로필의 user
+    user = request.user
+    print(request)
     post_list = user.user_post.order_by('-start_date', '-end_date')
     paginator = Paginator(post_list, 2)
     page = request.POST.get('page')  # ajax로부터 POST 타입을 전달받음
@@ -170,4 +148,4 @@ def search_scroll(request):
     context = {
         'posts': posts
     }
-    return render(request, 'post/myprofile_post_list_ajax.html', context)  # ajax_datatype => dataType: 'html'
+    return render(request, 'post/post_list_ajax.html', context)  # ajax_datatype => dataType: 'html'

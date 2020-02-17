@@ -30,7 +30,6 @@
         .content-search {
             text-align: center;
         }
-
     </style>
 
     <div class="content row">
@@ -74,7 +73,15 @@
                         </div>
                     </div>
                     <div class="filter-category col-12">
-                        카테고리
+                        <select name="filter-category" class="category-list">
+                            <option value="">---</option>
+                            <option value="대외활동">대외활동</option>
+                            <option value="공모전">공모전</option>
+                            <option value="스터디">스터디</option>
+                            <option value="인턴">인턴</option>
+                            <option value="강연">강연</option>
+                            <option value="기타">기타</option>
+                        </select>
                     </div>
                 </div>
             </div>
@@ -93,7 +100,7 @@
                     </div>
                     <div class="btn-group btn-group-toggle" data-toggle="buttons">
                         <label class="btn btn-primary">
-                            <input type="radio" name="options" value="posts" checked> 제목 + 내용
+                            <input type="radio" name="options" value="posts"> 제목 + 내용
                         </label>
                         <label class="btn btn-primary">
                             <input type="radio" name="options" value="tags"> 태그
@@ -105,16 +112,24 @@
                 </form>
 
             </div>
-            <div class="content-feed col-12">
-                {% include 'search/main_search.html' %}
+            {% include 'search/main_search.html' %}
 
-            </div>
+
         </div>
     </div>
     <hr>
+    <div class="content-feed col-12"></div>
     <input id="page" type="hidden" value="2"> {# 첫 next_page == 2 #}
     <button id="callmorepost" type="button">More Post</button>
 
+    <script type="text/javascript">
+        {#$("input:radio[name='options']:radio[value='posts']").prop('checked', false); // 해제하기#}
+        if ('{{ option }}') {
+            $("input:radio[name='options']:radio[value={{ option }}]").prop('checked', true);
 
+        } else {
+            $("input:radio[name='options']:radio[value='posts']").prop('checked', true); // 선택하기
+        } // 선택하기
+    </script>
     {% include "search/Search_Ajax.html" %}
 {% endblock %}

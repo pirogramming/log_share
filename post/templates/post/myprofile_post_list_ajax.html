@@ -7,7 +7,8 @@
             <div class="profile_post_ajax_tag">
                 태그 :
                 {% for post_tag in post.tags.all %}
-                    <a href="{% url 'search:tag_search' post_tag %}">#{{ post_tag }}</a>
+                    <a href="{% url 'search:main_search' %}?q={{ post_tag }}&options=tags">#{{ post_tag }}</a>
+                    {#                    <a href="{% url 'search:tag_search' post_tag %}">#{{ post_tag }}</a>#}
                 {% endfor %}
             </div>
             <div>내용: {{ post.contents|truncatechars:85 }}</div>

@@ -1,7 +1,6 @@
 <script>
     $(function () {    //화면 다 뜨면 시작
 
-        var hi = 'good'
         $("#searchInput").autocomplete({
             source: function (request, response) {
                 var q = $("#searchInput").val()
@@ -40,7 +39,7 @@
                 return false;//한글 에러 잡기용도로 사용됨
             },
             minLength: 1,// 최소 글자수
-            autoFocus: true, //첫번째 항목 자동 포커스 기본값 false
+            autoFocus: false, //첫번째 항목 자동 포커스 기본값 false
             classes: {    //잘 모르겠음
                 "ui-autocomplete": "highlight"
             },
@@ -69,7 +68,7 @@
         var scrollHeight = $(window).scrollTop() + $(window).height();
         var documentHeight = $(document).height();
 
-        if (scrollHeight + 100 >= documentHeight) {
+        if (scrollHeight >= documentHeight) {
             var page = $("#page").val();
             var end_page = {{ posts.paginator.num_pages }};
             if (page > end_page) {  //더이상 스크롤 할 페이지가 없는 경우
@@ -83,7 +82,7 @@
     // 스크롤 내린 다음 페이지를 가져온다(포스트를 보이게 한다)
     function callMorePostAjax(page) {
         var end_page = {{ posts.paginator.num_pages }};
-
+        console.log(end_page, page)
         if (page > end_page) {
             return;
         }

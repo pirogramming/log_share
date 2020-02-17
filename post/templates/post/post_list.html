@@ -42,10 +42,12 @@
         color: #514aac;
         font-weight: bold;
     }
-    .post_score{
+
+    .post_score {
         display: inline;
     }
-    input{
+
+    input {
         background-image: url("/media/baseline_bookmark_border_black_18dp.png");
         background-repeat: no-repeat;
         padding: 5px 19px;
@@ -53,11 +55,13 @@
         display: inline;
         float: right;
     }
-    input:hover{
+
+    input:hover {
         background-image: url("/media/baseline_bookmark_black_18dp.png");
         background-repeat: no-repeat;
     }
-    .post_email{
+
+    .post_email {
         display: inline;
         float: right;
         margin-right: 10px;
@@ -72,16 +76,22 @@
         {% if posts %}
             {% for post in posts %}
                 <div class="post_list">
-                    <div class="post_title">제목 : <a href="{% url 'post:post_detail' post.pk %}">{{ post.title }}</a></div>
-                    <div>작성자 : <a href="{% url 'myprofile:profile_detail' post.user.pk %}">{{ post.user.user_profile.name }}</a></div>
+                    <div class="post_title">제목 : <a href="{% url 'post:post_detail' post.pk %}">{{ post.title }}</a>
+                    </div>
+                    <div>작성자 : <a
+                            href="{% url 'myprofile:profile_detail' post.user.pk %}">{{ post.user.user_profile.name }}</a>
+                    </div>
                     <div>활동기간: {{ post.start_date }} ~ {{ post.end_date }}</div>
                     <div class="post_tag">
                         태그 :
                         {% for post_tag in post.tags.all %}
-                            <a href="{% url 'search:tag_search' post_tag %}">#{{ post_tag }}</a>
+
+                            <a href="{% url 'search:main_search' %}?q={{ post_tag }}&options=tags">#{{ post_tag }}</a>
+{#                            <a href="./?q={{ post_tag }}&options=tags">#{{ post_tag }}</a>#}
+{#                            <a href="{% url 'search:tag_search' post_tag %}">#{{ post_tag }}</a>#}
                         {% endfor %}
                     </div>
-                    <div class="post_contents">내용: {{ post.contents|truncatechars:85}}</div>
+                    <div class="post_contents">내용: {{ post.contents|truncatechars:85 }}</div>
                     <div class="post_score">평점 : {{ post.score }}</div>
                     <input type="submit" class="bookmark" name="{{ post.id }}" value="">
                     <div class="post_email"><a href="mailto:{{ post.user.email }}" class="fa-envelope">Email</a></div>

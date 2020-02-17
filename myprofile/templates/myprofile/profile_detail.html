@@ -154,9 +154,11 @@
             {% for tag_name, tag_count in recent_tags_count.items %}
                 {% if tag_count >= 2 %} <!—숫자는 추후 조정—>
                     <span style="font-size: x-large">
-                         <a class="tags" href="{% url 'search:tag_search' tag_name %}">#{{ tag_name }}</a></span>
+                    <a href="/search/?q={{ post_tag }}&options=tags">#{{ post_tag }}</a>
+{#                         <a class="tags" href="{% url 'search:tag_search' tag_name %}">#{{ tag_name }}</a></span>#}
                 {% else %}
-                    <span><a class="tags" href="{% url 'search:tag_search' tag_name %}">#{{ tag_name }}</a></span>
+                    <a href="/search/?q={{ post_tag }}&options=tags">#{{ post_tag }}</a>
+{#                    <span><a class="tags" href="{% url 'search:tag_search' tag_name %}">#{{ tag_name }}</a></span>#}
                 {% endif %}
             {% endfor %}
         </div>

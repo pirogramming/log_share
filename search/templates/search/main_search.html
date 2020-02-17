@@ -1,21 +1,41 @@
 <ul>
-    {% if results %}
-        <li>
-            {% for result in results %}
-                title: <a href="{% url 'post:post_detail' result.pk %}"><h3>{{ result.title }}</h3></a>
-                <div>
-                    작성자: <a
-                        href="{% url 'myprofile:profile_detail' result.user.pk %}">{{ result.user.user_profile.name }}</a>
+    {#    {% if results %}#}
+    {#        <li>#}
+    {#            {% for result in results %}#}
+    {#                title: <a href="{% url 'post:post_detail' result.pk %}"><h3>{{ result.title }}</h3></a>#}
+    {#                <div>#}
+    {#                    작성자: <a#}
+    {#                        href="{% url 'myprofile:profile_detail' result.user.pk %}">{{ result.user.user_profile.name }}</a>#}
+    {#                    태그 :#}
+    {#                    {% for post_tag in result.tags.all %}#}
+    {#                        <a href="{% url 'search:tag_search' post_tag %}">#{{ post_tag }}</a>#}
+    {#                    {% endfor %}#}
+    {##}
+    {#                </div>#}
+    {#                <br>#}
+    {#                <br><br><br>#}
+    {#            {% endfor %}#}
+    {#        </li>#}
+    {#    {% endif %}#}
+    {% if posts %}
+        {% for post in posts %}
+            <div class="profile_post_list_ajax">
+                <div class="profile_post_ajax_title">제목 : <a
+                        href="{% url 'post:post_detail' post.pk %}">{{ post.title }}</a></div>
+                <div>작성자 : {{ post.user.user_profile.name }}</div>
+                <div>활동기간: {{ post.start_date }} ~ {{ post.end_date }}</div>
+                <div class="profile_post_ajax_tag">
                     태그 :
-                    {% for post_tag in result.tags.all %}
-                        <a href="{% url 'search:tag_search' post_tag %}">#{{ post_tag }}</a>
+                    {% for post_tag in post.tags.all %}
+{#                        <a href="{% url 'search:tag_search' post_tag %}">#{{ post_tag }}</a>#}
+                        <a href="./?q={{ post_tag }}&options=tags">#{{ post_tag }}</a>
                     {% endfor %}
-
                 </div>
-                <br>
-                <br><br><br>
-            {% endfor %}
-        </li>
+                <div>내용: {{ post.contents|truncatechars:85 }}</div>
+                <div>평점 : {{ post.score }}</div>
+            </div>
+            <br>
+        {% endfor %}
     {% endif %}
 
 </ul>
