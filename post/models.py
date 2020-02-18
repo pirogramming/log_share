@@ -31,4 +31,4 @@ class Post(models.Model):
 
     @property
     def is_valid_date(self):
-        return self.end_date > self.start_date
+        return self.end_date >= self.start_date
