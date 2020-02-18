@@ -192,7 +192,11 @@
                     {% elif request.user in group.members.all %}
                         <a class="a_tag" href="javascript:secede_group()">그룹 탈퇴</a><br>
                     {% else %}
-                        <a class="a_tag" href="{% url 'group_management:request_group' group.id %}">가입 신청</a><br>
+                        {% if group.access_code == '' %}
+                            <a class="a_tag" href="{% url 'group_management:request_group' group.id %}">가입 신청</a><br>
+                        {% else %}
+                            <a class="a_tag request_withcode" href="javascript:request_group_withcode()" data-id="{{ group.access_code }}">가입 신청</a><br>
+                        {% endif %}
                     {% endif %}
                 </div>
             </div>
@@ -236,7 +240,6 @@
 
                     <div id="tab-2" class="tab-content">
                     <br>
-                        {#                        <span class="bold">그룹 가입 요청 ({{ messages.count }})</span><br><br>#}
                         {% if not messages %}
                             <span>&nbsp;새로 들어온 요청이 없습니다.</span>
                         {% endif %}
@@ -379,6 +382,18 @@
             if (confirm("정말 그룹 탈퇴를 하실겁니까?")) {
                 location.href = "{% url 'group_management:secede_group' group.id %}";
             } else {
+                return false;
+            }
+        }
+
+        function request_group_withcode() {
+            var group_access_code = $(".request_withcode").attr('data-id');
+            var access_code = prompt('그룹에 가입하기 위해 그룹의 암호를 입력하세요.');
+            if (group_access_code === access_code) {
+                location.href = "{% url 'group_management:request_group' group.id %}";
+                alert('그룹 가입 신청을 완료했습니다. 그룹 관리자의 수락을 기다려주세요.')
+            } else {
+                alert('그룹의 암호와 입력하신 암호가 일치하지 않습니다.');
                 return false;
             }
         }
