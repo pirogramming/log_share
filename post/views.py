@@ -65,10 +65,10 @@ class Search(APIView):
             return render(request, 'post/searched_post_list.html', context)
         else:
             return Response(status=status.HTTP_400_BAD_REQUEST)
-    # todo User값과 태그값을 받아올 수 있으면 좋은데..
 
 
 ### Rest API 끝 ###
+
 
 
 def post_create(request):
@@ -76,10 +76,19 @@ def post_create(request):
         # 포스트모델폼을 이용하여 정보를 받아온다.
         postform = PostModelForm(request.POST, request.FILES)
         if postform.is_valid():
-            # 포스트모델폼의 정보가 유효하면, post에 할당한 뒤 FK를 접속한 유저로 지정하여 저장한다.
             post = postform.save(commit=False)
+            # 포스트모델폼의 정보가 유효하면, post에 할당한 뒤 FK를 접속한 유저로 지정하여 저장한다.
             post.user = request.user
-            post = postform.save()
+            # DB에 저장되어서 pk가 생기지 않으면 post.tags에 접근할 수 없기 때문에 어쩔수 없이 저장...
+            post.save()
+            # request.POST.get('tags')로 tag를 가져오되, 없을시 None을 할당한다.
+            tag_list = request.POST.get('tags')
+            # tag들을 10개+나머지로 분리하여 리스트화한다
+            tags = [str(tag) for tag in tag_list.split(',',maxsplit=10)]
+            # 10개+나머지에서 나머지 제거
+            tags = tags[:-1]
+            # 하나씩 넣기.
+            post.tags.set(*tags)
             return redirect('myprofile:profile_detail', request.user.pk)
     else:
         postform = PostModelForm()

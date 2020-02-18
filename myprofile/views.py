@@ -33,11 +33,11 @@ def profile_detail(request, pk):
         profile = user.user_profile  # user -> profile
 
         # 최근 태그 리스트
-        post_list = user.user_post.order_by('-start_date', '-end_date')  # 시작일 기준(만약 같다면 종료일 기준)으로 최근 게시물부터 태그가 들어가게 한다.
-        # todo 최근 게시물의 개수제한 필요 (최근 5개 게시물이라던가)
+        post_list = user.user_post.order_by('-start_date', '-end_date')# 시작일 기준(만약 같다면 종료일 기준)으로 최근 게시물부터 태그가 들어가게 한다.
+        recent_post_list = post_list[:10]
         # 아래 딕셔너리는 orderdDict여야 하므로 파이썬 3.6 버전 이상에서만 제대로 동작하는 코드.
         recent_tags_count = {}
-        for post in post_list:
+        for post in recent_post_list:
             for tag in post.tags.all():
                 if tag in recent_tags_count:
                     recent_tags_count[tag] += 1
