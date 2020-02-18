@@ -96,21 +96,15 @@ def disallow_request(request):
 
 def delete_member(request):
     member_id = request.POST.get('member_id', None)
+    member = get_object_or_404(User, id=member_id)
     group_id = request.POST.get('group_id', None)
     now_group = get_object_or_404(CustomGroup, id=group_id)
     # 해당 그룹과 멤버 조인 테이블에서 특정 레코드를 삭제한다.(멤버관계를 삭제한다)
-    now_group.membership.filter(Q(customgroup_id=group_id) & Q(user_id=member_id)).delete()
-    q = request.GET.get('q', '')  # GET request의 인자중에 q 값이 있으면 가져오고, 없으면 빈 문자열 넣기
-    qs = now_group.members.all()
-    if q:
-        qs = now_group.members.filter(Q(username__icontains=q) | Q(user_profile__name__icontains=q))
-
+    now_group.members.remove(member)
     context = {
         'group': now_group,
-        'members': qs,
     }
-
-    return HttpResponse(context, content_type="application/json")
+    return HttpResponse(context)
 
 
 def search_group(request):
@@ -119,8 +113,11 @@ def search_group(request):
     q = request.GET.get('q', '')  # GET request의 인자중에 q 값이 있으면 가져오고, 없으면 빈 문자열 넣기
     if q:
         qs = CustomGroup.objects.filter(Q(group_name__icontains=q) & Q(is_searchable=1))
+    access_code_form = RequestWithCodeForm();
     context = {
         'groups' : qs,
+        'access_code_form' : access_code_form,
+        'q': q,
     }
     return render(request, 'group_management/search_group.html', context)
 
@@ -161,7 +158,7 @@ def request_group(request, pk):
         )
     except IntegrityError: # 이미 요청을 보낸 상태일 경우, 새로운 요청 생성하지 않고 원래 페이지로 이동.
         return redirect('group_management:detail_group', pk)
-    return redirect('group_management:request_from', request.user.id)
+    return redirect('group_management:detail_group', pk)
 
 
 def request_withcode(request):
@@ -173,7 +170,6 @@ def request_withcode(request):
             CustomGroup,
             Q(group_name=form.data['group_name']) & Q(access_code=form.data['access_code'])
         )
-        print(group)
         return redirect('group_management:request_group', group.pk)
     else:
         form = RequestWithCodeForm()
@@ -182,8 +178,8 @@ def request_withcode(request):
     })
 
 
-def request_from(request, pk):
-    request_messages = GroupRequest.objects.filter(sender_id=pk)
+def request_from(request):
+    request_messages = GroupRequest.objects.filter(sender_id=request.user)
     request_messages.filter(Q(status=False) | Q(status=True)).delete()
     context = {
         'messages': request_messages,
