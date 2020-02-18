@@ -16,8 +16,9 @@ from .utils import *
 def main_search(request):
     q = request.GET.get('q', '')  # GET request의 인자중에 q 값이 있으면 가져오고, 없으면 빈 문자열 넣기
     option = request.GET.get('options', '')
+    # category = request.GET.get()
     user = request.user
-    print(request)
+    # print('Request:', request)
     qs = None
     # 검색창 옆에 필터 선택 -> request로 받고, 그 값에 따라 결과값 필터링 **
     if q:  # q가 있으면
@@ -34,22 +35,32 @@ def main_search(request):
             print('option: users')
 
     else:
-        qs = Post.objects.filter(user__user_groups__in=user.user_groups.all())
+        qs = Post.objects.filter(user__user_groups__in=user.user_groups.all()).distinct()
 
-    paginator = Paginator(qs, 2)
-    page = request.POST.get('page')
 
-    try:
-        posts = paginator.page(page)  # 해당 페이지의 포스트(post_list)
-    except PageNotAnInteger:
-        posts = paginator.page(1)
-    except EmptyPage:
-        posts = paginator.page(paginator.num_pages)
+    group_id_list(request,user)
+    print("카테고리 필터링 전", qs)
+    qs = process_category(request, user, qs)
+    print("카테고리 필터링 후: ", qs)
+
+    posts=None
+    if qs:
+
+        paginator = Paginator(qs, 2)
+        page = request.POST.get('page')
+
+        try:
+            posts = paginator.page(page)  # 해당 페이지의 포스트(post_list)
+        except PageNotAnInteger:
+            posts = paginator.page(1)
+        except EmptyPage:
+            posts = paginator.page(paginator.num_pages)
 
     # print(paginator, page)
     # print(posts)
-    print(request.GET)
+    print('Request.GET:', request.GET)
     print(qs)
+
     return render(request, 'search/main.html', {
         'request': request,
         # 'results': qs,   # 1: post, 2: user
@@ -100,7 +111,7 @@ def search_auto(request):
         qs = Tag.objects.filter(
             Q(post__user__user_groups__in=user.user_groups.all()) &
             Q(name__icontains=q)
-        )
+        ).distinct()
         results = [
                 {
                     'id': tag.id,
@@ -108,7 +119,7 @@ def search_auto(request):
                 } for tag in qs
             ]
     elif option == 'users':
-        qs = User.objects.filter(user_groups__in=user.user_groups.all())
+        qs = User.objects.filter(user_groups__in=user.user_groups.all()).distinct()
         # qs = filter_users(q, user)
         results = [
             {
@@ -118,6 +129,7 @@ def search_auto(request):
         ]
 
     print('Ajax응답', results)
+
 
     data = {
         'results': results,
