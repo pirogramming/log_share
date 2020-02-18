@@ -15,4 +15,14 @@ def date_upload_to(instance, filename):
     uuid_name + extension,
   ])
 
-
+def recent_tag_counting(post_list):
+  recent_post_list = post_list[:10]
+  # 아래 딕셔너리는 orderdDict여야 하므로 파이썬 3.6 버전 이상에서만 제대로 동작하는 코드.
+  recent_tags_count = {}
+  for post in recent_post_list:
+    for tag in post.tags.all():
+      if tag in recent_tags_count:
+        recent_tags_count[tag] += 1
+      else:
+        recent_tags_count[tag] = 1
+  return recent_tags_count

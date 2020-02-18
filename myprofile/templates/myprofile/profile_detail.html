@@ -3,21 +3,18 @@
         width: 80%;
         margin: 50px auto;
     }
+
     .profile_first_container {
         background-color: white;
         border-radius: 5px;
         box-shadow: 2px 2px 2px #b0bec9;
         padding: 10px 40px;
+        border: 0.5px solid #b0bec9;
     }
 
     .profile_first_container div {
         background-color: transparent;
         padding: 10px 0;
-    }
-
-    .profile_first_container .profile_name {
-        font-size: 20px;
-        font-weight: bold;
     }
 
     .profile_first_container div a {
@@ -30,6 +27,45 @@
         font-weight: bold;
     }
 
+    .profile_first_container .profile_first_front_container {
+        margin: 20px 0;
+        text-align: center;
+        border: 2px solid #e3f2fd;
+        border-radius: 5px;
+    }
+
+    .profile_first_container .profile_first_content {
+        display: inline-block;
+        text-align: left;
+        padding-left: 60px;
+        width: 40%;
+        height: 300px;
+    }
+
+    .profile_first_container .profile_first_content .profile_name {
+        font-size: 20px;
+        font-weight: bold;
+        vertical-align: text-top;
+        height: 80px;
+    }
+
+    .profile_first_container .profile_first_content .profile_depart {
+        height: 50px;
+    }
+
+    .profile_first_container .profile_first_content .profile_intro {
+        height: 40px;
+    }
+
+    .profile_first_container .profile_photo {
+        display: inline-block;
+    }
+
+    .profile_first_container .profile_photo img {
+        border-radius: 100%;
+        object-fit: cover;
+    }
+
     .profile_recent_tag {
         background-color: white;
         border-radius: 5px;
@@ -37,6 +73,7 @@
         box-sizing: border-box;
         box-shadow: 2px 2px 2px #b0bec9;
         margin: 10px 0;
+        border: 0.5px solid #b0bec9;
     }
 
     .profile_recent_tag span {
@@ -58,6 +95,7 @@
         border-radius: 5px;
         padding: 10px 20px;
         box-shadow: 2px 2px 2px #b0bec9;
+        border: 0.5px solid #b0bec9;
     }
 
     .profile_post_list div {
@@ -79,6 +117,7 @@
         border-radius: 5px;
         padding: 10px 20px;
         box-shadow: 2px 2px 2px #b0bec9;
+        border: 0.5px solid #b0bec9;
     }
 
     .profile_post_list_ajax div {
@@ -94,80 +133,125 @@
         color: #514aac;
         font-weight: bold;
     }
+
+    .interested_tag_header {
+        font-size: 20pt;
+        font-weight: bold;
+    }
+
+    .interested_tag {
+        color: white;
+        border: 0px;
+        border-radius: 2px;
+        font-size: 15px;
+        margin: 2px 0px;
+        padding: 5px;
+    }
+
+    .interested_tag:focus {
+        outline: none;
+    }
+    .interested_tag:hover {
+        cursor: pointer;
+    }
 </style>
 
 {% extends 'base.html' %}
 
 
 {% block content %}
-<div class="temp">
-    <div class="profile_container">
-        <div class="profile_first_container">
-            <div class="profile_name">이름: {{ profile.name }}</div>
-            <div class="profile_photo">
-                {% if profile.photo %}
-                    <img src="{{ profile.photo.url }}" alt="" width="50%"/>
+    <div class="temp">
+        <div class="profile_container">
+            <div class="profile_first_container">
+                <div class="profile_first_front_container">
+                    <div class="profile_photo">
+                        {% if profile.photo %}
+                            <img src="{{ profile.photo.url }}" alt="" width="300px" height="300px"/>
+                        {% endif %}
+                    </div>
+                    <div class="profile_first_content">
+                        <div class="profile_name">이름: {{ profile.name }}</div>
+                        <div class="profile_depart">소속: {{ profile.department }}</div>
+                        <div class="profile_intro">자기소개:
+                            {% if profile.description != None %}
+                                {{ profile.description }}
+                            {% endif %}
+                        </div>
+                        <div><p class="interested_tag_header">관심태그</p>
+                            {% if profile.interested_tag != None %}
+                                {% for tag, size in interested_tag_dict.items %}
+                                    <a href="{% url 'search:tag_search' tag %}">
+                                        <button class="interested_tag"> #{{ tag }} </button>
+                                    </a>
+                                {% endfor %}
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                <div class="profile_url_container">
+                    대표 URL
+                    <div>네이버 URL:
+                        {% if profile.naver != None %}
+                            <a href="{{ profile.naver }}">{{ profile.naver }}</a>
+                        {% endif %}
+                    </div>
+                    <div>다음 URL:
+                        {% if profile.daum != None %}
+                            <a href="{{ profile.daum }}">{{ profile.daum }}</a>
+                        {% endif %}
+                    </div>
+                    <div>github URL:
+                        {% if profile.github != None %}
+                            <a href="{{ profile.github }}">{{ profile.github }}</a>
+                        {% endif %}
+                    </div>
+                    <div>other URL:
+                        {% if profile.other_url != None %}
+                            <a href="{{ profile.other_url }}">{{ profile.other_url }}</a>
+                        {% endif %}
+                    </div>
+                </div>
+                <br>
+                <div class="profile_email"><a href="mailto:{{ profile.user.email }}" class="fa-envelope">Email</a></div>
+
+                {% if profile.user.pk == user.pk %}
+                    <div class="profile_bookmark"><a href="{% url 'myprofile:bookmark_list' profile.user.pk %}">북마크</a>
+                    </div>
+                    <div class="profile_post_create"><a href="{% url 'post:post_create' %}">글 작성하기</a></div>
+                    <br>
+                    <div class="profile_edit"><a href="{% url 'myprofile:profile_edit' profile.user.pk %}">프로필 수정하기</a>
+                    </div>
+                    <div class="profile_password_change"><a href="{% url "accounts:password_change" %}">비밀밀호 변경</a>
+                    </div>
                 {% endif %}
             </div>
-            <div>소속: {{ profile.department }}</div>
-            <div>자기소개: </br>
-                {% if profile.description != None %}
-                    {{ profile.description }}
-                {% endif %}
-            </div>
-            <div>관심태그:
-                {% if profile.interested_tag != None %}
-                    {{ profile.interested_tag }}
-                {% endif %}
-            </div>
-            <div class="profile_url_container">
-                대표 URL
-                <div>네이버 URL:
-                    {% if profile.naver != None %}
-                        <a href="{{ profile.naver }}">{{ profile.naver }}</a>
+            <hr>
+            <div class="profile_recent_tag">
+                최근 태그 리스트 :
+                {% for tag_name, tag_count in recent_tags_count.items %}
+                    {% if tag_count >= 2 %} <!—숫자는 추후 조정—>
+                        <span style="font-size: x-large">
+                         <a class="tags" href="{% url 'search:tag_search' tag_name %}">#{{ tag_name }}</a></span>
+                    {% else %}
+                        <span><a class="tags" href="{% url 'search:tag_search' tag_name %}">#{{ tag_name }}</a></span>
                     {% endif %}
-                </div>
-                <div>다음 URL:
-                    {% if profile.daum != None %}
-                        <a href="{{ profile.daum }}">{{ profile.daum }}</a>
-                    {% endif %}
-                </div>
-                <div>github URL:
-                    {% if profile.github != None %}
-                        <a href="{{ profile.github }}">{{ profile.github }}</a>
-                    {% endif %}
-                </div>
-                <div>other URL:
-                    {% if profile.other_url != None %}
-                        <a href="{{ profile.other_url }}">{{ profile.other_url }}</a>
-                    {% endif %}
-                </div>
+                {% endfor %}
             </div>
             <br>
-            <div class="profile_email"><a href="mailto:{{ profile.user.email }}" class="fa-envelope">Email</a></div>
-
-            {% if profile.user.pk == user.pk %}
-                <div class="profile_bookmark"><a href="{% url 'myprofile:bookmark_list' profile.user.pk %}">북마크</a></div>
-                <div class="profile_post_create"><a href="{% url 'post:post_create' %}">글 작성하기</a></div>
-                <br>
-                <div class="profile_edit"><a href="{% url 'myprofile:profile_edit' profile.user.pk %}">프로필 수정하기</a></div>
-                <div class="profile_password_change"><a href="{% url "accounts:password_change" %}">비밀밀호 변경</a></div>
-            {% endif %}
+            {% include 'post/myprofile_post_list.html' %}
         </div>
-        <hr>
-        <div class="profile_recent_tag">
-            최근 태그 리스트 :
-            {% for tag_name, tag_count in recent_tags_count.items %}
-                {% if tag_count >= 2 %} <!—숫자는 추후 조정—>
-                    <span style="font-size: x-large">
-                         <a class="tags" href="{% url 'search:tag_search' tag_name %}">#{{ tag_name }}</a></span>
-                {% else %}
-                    <span><a class="tags" href="{% url 'search:tag_search' tag_name %}">#{{ tag_name }}</a></span>
-                {% endif %}
-            {% endfor %}
-        </div>
-        <br>
-        {% include 'post/myprofile_post_list.html' %}
     </div>
-</div>
+    <script type="text/javascript">
+        var get_random_RGB = function () {
+            var r = Math.floor((Math.random() * 0xcc) + 0x11).toString(16);
+            var g = Math.floor((Math.random() * 0xcc) + 0x11).toString(16);
+            var b = Math.floor((Math.random() * 0xcc) + 0x11).toString(16);
+            console.log(r + g + b);
+            return '#' + r + g + b;
+        }
+        $('.interested_tag').each(function () {
+            $(this).css('background-color', get_random_RGB);
+        })
+    </script>
 {% endblock %}
+
