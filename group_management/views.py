@@ -39,33 +39,6 @@ def all_create_group(request):
     })
 
 
-def update_group(request, pk):
-    group = get_object_or_404(CustomGroup, id=pk)
-    try:
-        if request.user != group.manager:
-            raise NotImplementedError
-    except NotImplementedError:
-        return redirect('group_management:detail_group', pk)
-    if request.method == 'POST':
-        form = GroupForm(
-            request.user,
-            request.POST,
-            instance=group,
-        )
-        if form.is_valid():
-            group = form.save()
-            return redirect('group_management:detail_group', pk)
-
-    else:
-        form = GroupForm(
-            request.user,
-            instance=group
-        )
-    return render(request, 'group_management/create_group.html', {
-        'form': form,
-    })
-
-
 @login_required
 @require_POST
 def allow_request(request):
@@ -133,6 +106,32 @@ def search_group(request):
 
 def detail_group(request, pk):
     group = get_object_or_404(CustomGroup, id=pk)
+    try:
+        if request.user != group.manager:
+            raise NotImplementedError
+    except NotImplementedError:
+        return redirect('group_management:detail_group', pk)
+    if request.method == 'POST':
+        form = GroupForm(
+            request.user,
+            request.POST,
+            instance=group,
+        )
+        if form.is_valid():
+            group = form.save()
+            return redirect('group_management:detail_group', pk)
+
+    else:
+        form = GroupForm(
+            request.user,
+            instance=group
+        )
+    form = GroupForm(
+        request.user,
+        instance=group
+    )
+
+    group = get_object_or_404(CustomGroup, id=pk)
     q = request.GET.get('q', '')  # GET request의 인자중에 q 값이 있으면 가져오고, 없으면 빈 문자열 넣기
     user = request.user
     messages = GroupRequest.objects.filter(group=group)
@@ -143,6 +142,7 @@ def detail_group(request, pk):
         'group': group,
         'members': qs,
         'messages': messages,
+        'form': form,
     }
     return render(request, 'group_management/detail_group.html', context)
 
