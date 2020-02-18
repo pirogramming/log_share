@@ -16,7 +16,7 @@
                 {% endfor %}
             </div>
             <div>내용: {{ post.contents|truncatechars_html:85|safe }}</div>
-            <div>평점:
+            <div class="post_score">평점:
                 <div class="rateit" data-rateit-value="{{ post.score }}" data-rateit-ispreset="true" data-rateit-readonly="true"></div>
             </div>
             <div class="bookmark_container">
