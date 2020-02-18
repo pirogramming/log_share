@@ -5,7 +5,7 @@ from group_management import views
 app_name = 'group_management'
 
 urlpatterns = [
-    path('create/', views.create_group, name='create_group'), # 그룹 생성제
+    path('create/', views.all_create_group, name='create_group'), # 그룹 생성제
     path('request/to/allow/', views.allow_request, name='allow_request'),
     path('request/to/disallow/', views.disallow_request, name='disallow_request'),
 

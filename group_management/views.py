@@ -106,11 +106,7 @@ def search_group(request):
 
 def detail_group(request, pk):
     group = get_object_or_404(CustomGroup, id=pk)
-    try:
-        if request.user != group.manager:
-            raise NotImplementedError
-    except NotImplementedError:
-        return redirect('group_management:detail_group', pk)
+    git
     if request.method == 'POST':
         form = GroupForm(
             request.user,
