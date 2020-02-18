@@ -1,4 +1,3 @@
-reasgiref==3.2.3
 Django==2.2.9
 django-summernote==0.8.11.6
 django-taggit==1.2.0

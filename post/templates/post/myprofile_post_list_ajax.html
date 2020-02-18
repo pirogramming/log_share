@@ -1,7 +1,10 @@
+{% load static %}
+
 {% if posts %}
+    <script src="{% static 'widgets/rateit/jquery.rateit.min.js' %}"></script>
     {% for post in posts %}
         <div class="profile_post_list_ajax">
-            <div class="profile_post_ajax_title">제목 : <a href="{% url 'post:post_detail' post.pk %}">{{ post.title }}</a></div>
+        <div class="profile_post_ajax_title">제목 : <a href="{% url 'post:post_detail' post.pk %}">{{ post.title }}</a></div>
             <div>작성자 : {{ post.user.user_profile.name }}</div>
             <div>활동기간: {{ post.start_date }} ~ {{ post.end_date }}</div>
             <div class="profile_post_ajax_tag">
@@ -11,7 +14,10 @@
                 {% endfor %}
             </div>
             <div>내용: {{ post.contents|truncatechars_html:85|safe }}</div>
-            <div>평점 : {{ post.score }}</div>
+            <div>평점:
+                <div class="rateit" data-rateit-value="{{ post.score }}" data-rateit-ispreset="true"
+                     data-rateit-readonly="true"></div>
+            </div>
         </div>
         <br>
     {% endfor %}

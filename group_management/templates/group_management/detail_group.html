@@ -306,7 +306,7 @@
                     document.getElementById("member_num").innerHTML = member_num;
                 },
                 error: function (request, status, error) { //통신 실패시 요청관리페이지로 리다이렉트
-                    alert("잘못된 요청입니다. error:" + error)
+                    alert("잘못된 요청입니다. error:" + error);
                     window.location.replace("{% url "group_management:detail_group" group.id %}");
                 },
             });

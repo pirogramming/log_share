@@ -1,5 +1,12 @@
 {# profile_detail -> posts, profile #}
+{% load static %}
 
+<link rel="stylesheet" href="{% static 'widgets/rateit/rateit.css' %}"/>
+<script
+        src="https://code.jquery.com/jquery-3.4.1.min.js"
+        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+        crossorigin="anonymous"></script>
+<script src="{% static 'widgets/rateit/jquery.rateit.min.js' %}"></script>
 
 {% if posts %}
     {% for post in posts %}
@@ -15,7 +22,10 @@
                 {% endfor %}
             </div>
             <div class="profile_post_contents">내용: {{ post.contents|truncatechars_html:85|safe }}</div>
-            <div>평점 : {{ post.score }}</div>
+            <div>평점:
+                <div class="rateit" data-rateit-value="{{ post.score }}" data-rateit-ispreset="true"
+                     data-rateit-readonly="true"></div>
+            </div>
         </div>
         <br>
     {% endfor %}
@@ -29,7 +39,6 @@
 
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 <script type="text/javascript">
-
     $('#callmorepost').click(function () {
         var page = $("#page").val();
         var end_page = {{ posts.paginator.num_pages }};

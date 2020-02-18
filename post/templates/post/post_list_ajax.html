@@ -1,3 +1,7 @@
+{% load static %}
+
+<script src="{% static 'widgets/rateit/jquery.rateit.min.js' %}"></script>
+
 {% if posts %}
     {% for post in posts %}
         <div class="post_list_ajax">
@@ -12,9 +16,13 @@
                 {% endfor %}
             </div>
             <div>내용: {{ post.contents|truncatechars_html:85|safe }}</div>
-            <div class="post_score">평점 : {{ post.score }}</div>
-            <input type="submit" class="bookmark_ajax" id="bookmark_ajax-{{ post.id }}" name="{{ post.id }}" value=""
+            <div>평점:
+                <div class="rateit" data-rateit-value="{{ post.score }}" data-rateit-ispreset="true" data-rateit-readonly="true"></div>
+            </div>
+            <div class="bookmark_container">
+                <input type="submit" class="bookmark_ajax" id="bookmark_ajax-{{ post.id }}" name="{{ post.id }}" value=""
                     style="background-image: {% if post.id in bm_post_list %}url('/media/baseline_bookmark_black_18dp.png'){% else %}url('/media/baseline_bookmark_border_black_18dp.png'){% endif %}">
+            </div>
             <div class="post_email"><a href="mailto:{{ post.user.email }}" class="fa-envelope">Email</a></div>
         </div>
         <br>

@@ -97,9 +97,12 @@ def post_detail(request, pk):
         post = None
     user = post.user  # 해당 포스트의 user
 
+    bm = request.user.user_bookmark.filter(post=post)
+
     context = {
         'post': post,
         'user': user,
+        'bm':bm,
     }
     print(context)
     return render(request, 'post/post_detail.html', context)
@@ -120,7 +123,8 @@ def post_update(request, pk):
         return redirect('post:post_detail', post.pk)
 
 
-def post_delete(request, pk):
+def post_delete(request):
+    pk = request.POST.get('pk', None)
     post = Post.objects.get(id=pk)
     if request.method == "GET":
         return redirect('post:post_detail', post.pk)
@@ -166,10 +170,12 @@ def post_list(request):
                 post_list |= group_user.user_post.all()  # add QuerySet
 
     post_list = post_list.order_by('-start_date', '-end_date')
+
     bm_list = user.user_bookmark.all()
     bm_post_list = []
     for bm in bm_list:
         bm_post_list.append(bm.post_id)
+
     paginator = Paginator(post_list, 4)
     page = request.GET.get('page')
 
