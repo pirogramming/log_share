@@ -14,6 +14,7 @@ class CreateUserForm(UserCreationForm):  # 내장 회원가입 폼을 상속받�
     class Meta:
         model = User
         fields = ("username", "password1", "password2", "last_name", "first_name", "email")
+        labels={"username":"아이디","last_name":"성","first_name":"이름","email":"이메일"}
 
     def save(self, commit=True):  # 저장하는 부분 오버라이딩
         user = super(CreateUserForm, self).save(commit=False)  # 본인의 부모를 호출해서 저장하겠다.
@@ -30,7 +31,6 @@ class CustomUserChangeForm(UserChangeForm):
     class Meta:
         model = get_user_model()  # settings.py에서 설정된 User 모델을 갖고옴
         fields = ['last_name', 'first_name', 'email']
-        labels = ['']
 
     def __init__(self, *args, **kwargs):
         super(UserChangeForm, self).__init__(*args, **kwargs)

@@ -22,4 +22,15 @@ class GroupForm(forms.ModelForm):
 
 class RequestWithCodeForm(forms.Form):
     group_name = forms.CharField(label='그룹명', max_length=50)
-    access_code = forms.CharField(label='그룹 접근 암호')
+    access_code = forms.CharField(label='그룹 접근 코드')
+
+    def __init__(self, *args, **kwargs):
+        super(RequestWithCodeForm, self).__init__(*args, **kwargs)
+        self.fields['group_name'].widget.attrs.update({
+            'class': 'group_name_input',
+            'placeholder': '그룹명'
+        })
+        self.fields['access_code'].widget.attrs.update({
+            'class': 'group_access_code_input',
+            'placeholder': '가입코드'
+        })

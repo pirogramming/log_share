@@ -1,25 +1,292 @@
 {% extends 'base.html' %}
+{% load staticfiles %}
 
 {% block header %}
-    <link rel="stylesheet" href="css/all_group.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" />
+
+    <style>
+        <!--  여기부터 검색바 css -->
+        * {
+            box-sizing: border-box;
+        }
+        body {
+            padding: 0;
+            margin: 0;
+        }
+        .search {
+            text-align: center;
+            overflow: hidden;
+        }
+
+        .search_bar {
+            width: 280px;
+            position: relative;
+            margin: 0 auto;
+        }
+
+        .group_search_input {
+            width: 15px;
+            background: transparent;
+            transition: border .3s 0s, width .2s .3s cubic-bezier(0.225, 0.010, 0.475, 1.010), text-indent .2s .3s;
+            padding: 20px;
+            border-color: #00B0F0;
+            text-indent: 30px;
+            outline: none;
+            border: 0px solid #00B0F0;
+            font-size: 20px;
+            color: #1a237e;
+            border-radius: 5px;
+            text-transform: uppercase;
+            font-family: 'Nunito', sans-serif;
+
+        }
+
+        ::-webkit-input-placeholder { /* Safari, Chrome and Opera */
+            color: #00B0F0;
+            font-weight: 400;
+            font-family: NanumSquare;
+        }
+
+        #searchOne {
+            display: none;
+        }
+
+        #searchOne:checked + label + input {
+            width: 230px;
+            border: 5px solid #00B0F0;
+            text-indent: 0px;
+        }
+
+        #searchOne:checked + label i {
+            right: 0px;
+            transform: translateY(-50%) translateX(50%) rotate(360deg) scale(0);
+            color: #00B0F0;
+        }
+
+        #searchOne:checked + label i :hover {
+        / / background: white;
+        }
+
+
+        #searchOne:checked + label .fa-times {
+            left: 220px;
+            transform: translateY(-50%) rotate(360deg) scale(1);
+        }
+
+        #searchOne:checked + label .fa-times:hover {
+        / / background: white;
+        }
+
+        #searchOne:checked + label p {
+            top: 50%;
+            transition: all .3s .45s;
+        }
+
+        #searchOne:not(checked) + label p {
+            top: -50%;
+            transition: all .3s 0s;
+        }
+
+        .fa-times {
+            -webkit-transform: translateY(-50%) rotate(0deg) scale(0);
+            transform: translateY(-50%) rotate(0deg) scale(0);
+        }
+
+
+
+
+        i {
+            position: absolute;
+            font-size: 30px;
+            top: 63%;
+            transform: translateY(-50%) translateX(50%) rotate(0deg) scale(1);
+            cursor: pointer;
+            z-index: 2;
+            margin: auto;
+            border-radius: 4px;
+            width: 56px;
+            right: 50%;
+            height: 54px;
+            background: transparent;
+            transition: right .3s .3s, transform .3s .3s, color .3s;
+            line-height: 60px;
+            color: #1a237e;
+        }
+
+        i:hover {
+            color: #00B0F0;
+        }
+
+         .bar {
+            position: absolute;
+            margin: 0;
+            right: 52px;
+            color: #00B0F0;
+            font-weight: 700;
+            font-size: 30px;
+            top: -50%;
+            transform: translateY(-50%) rotate(0deg) scale(1);
+        }
+
+
+        /*  여기까지 검색바 css */
+
+        .access_code_div {
+            width: 70%;
+            height: 50px;
+            background-color: transparent;
+            border-radius: 5px;
+            margin: 20px auto;
+            padding: 0;
+            text-align: center;
+        }
+
+        .group_name_input {
+            width: 40%;
+            height: 100%;
+            background: transparent;
+            transition: border .3s 0s, width .2s .3s cubic-bezier(0.225, 0.010, 0.475, 1.010), text-indent .2s .3s;
+            border-color: #00B0F0;
+            text-indent: 20px;
+            margin: 0 5px;
+            padding:5px;
+            outline: none;
+            border: 2px solid #00B0F0;
+            font-size: 20px;
+            color: #1a237e;
+            border-radius: 5px;
+            text-transform: uppercase;
+            text-align: center;
+            font-family: NanumSquare;
+        }
+
+        .group_access_code_input {
+            width: 40%;
+            height: 100%;
+            background: transparent;
+            transition: border .3s 0s, width .2s .3s cubic-bezier(0.225, 0.010, 0.475, 1.010), text-indent .2s .3s;
+            border-color: #00B0F0;
+            text-indent: 20px;
+            margin: 0 5px;
+            padding:5px;
+            outline: none;
+            border: 2px solid #00B0F0;
+            font-size: 20px;
+            color: #1a237e;
+            border-radius: 5px;
+            text-transform: uppercase;
+            text-align: center;
+            font-family: NanumSquare;
+        }
+
+        .access_code_sumbit {
+            width: 10%;
+            height: 50px;
+            border: 2px solid #1a237e;
+            border-radius: 50px;
+            padding: 5px;
+            margin: 0 5px;
+            outline: none;
+            font-size: 20px;
+            font-weight: bold;
+            color: black;
+            background-color: transparent;
+
+            transition:color .2s, background-color .2s, border-color .2s;
+        }
+
+        .access_code_sumbit:hover {
+            color: white;
+            background-color: #00B0F0;
+            border-color:  #00B0F0;
+        }
+
+
+
+
+        .group_search_input:focus {
+            outline: none;
+        }
+
+
+        .group_search_submit {
+            display: none;
+        }
+
+        .searched_group_list {
+            width: 70%;
+            height: 50px;
+            margin: 0 auto;
+        }
+
+        .searched_group {
+            background-color: white;
+            border-radius: 5px;
+            padding: 10px 20px 30px 20px;
+            box-shadow: 2px 2px 2px #b0bec9;
+            margin: 15px auto;
+        }
+
+        .searched_group a {
+            text_decoration: none;
+            color: black;
+        }
+
+        .searched_group a:hover {
+            color: #514aac;
+            font-weight: bold;
+        }
+        input:focus::-webkit-input-placeholder {
+            color: transparent;
+        }
+
+    </style>
 {% endblock %}
 
-
 {% block content %}
-    <form action="" method="get">
-        검색:
-        <input type="text" name="q" value="{{ q }}">
-        <input type="submit" value="검색">
-    </form>
-
-    {% for group in groups %}
-        <div>
-            <a href="{% url 'group_management:detail_group' group.id %}">{{ group.group_name }}</a>
-            카테고리 - {{ group.group_category }}
-
+    <div class="access_code_div">
+        <form action="{% url 'group_management:request_withcode' %}" method="post" class="access_code_form"
+              autocomplete="off">{% csrf_token %}
+            {{ access_code_form.group_name }}
+            {{ access_code_form.access_code }}
+            <input class="access_code_sumbit" type="submit" value="가입 요청">
+        </form>
+    </div>
+    <div class="column">
+        <div class="search">
+            <div class="search_bar">
+                <form action="" method="get" autocomplete="off">
+                    <input id="searchOne" type="checkbox" {% if q %} checked="checked" {% endif %}>
+                    <label for="searchOne">
+                        <i class="fas fa-search"></i>
+                        <i class="fas fa-times"></i>
+                        <p class="bar">|</p>
+                    </label>
+                    <input class="group_search_input" type="text" name="q" value="{{ q }}" placeholder="그룹을 검색하세요.">
+                    <button class="group_search_submit" type="submit" value="검색">
+                </form>
+            </div>
         </div>
-    {% endfor %}
+    </div>
+    <div>
 
+
+    </div>
+
+
+    <div class="searched_group_list">
+        {% for group in groups %}
+            <div class="searched_group">
+                <h3 style="display: inline-block">
+                    <a href="{% url 'group_management:detail_group' group.id %}">{{ group.group_name }}</a>
+                </h3>
+                <span>카테고리 - {{ group.group_category }}</span>
+                <br><br>
+                <p>소개 : {{ group.notes }}</p>
+
+            </div>
+        {% endfor %}
+    </div>
 
 
 {% endblock %}

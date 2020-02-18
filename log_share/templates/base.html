@@ -6,7 +6,6 @@
     <meta charset="UTF-8">
     <title>Log share</title>
     <link rel="stylesheet" href="{% static 'css/base.css' %}">
-
     {% block header %}
     {% endblock %}
 </head>
@@ -17,7 +16,6 @@
 {#        로그인 후 main으로  url로 바꿔야함.#}
         <a href="{% url 'search:main_search' %}">
             <div class="logofont">LOG SHARE</div>
-{#            <div class="logoimg_div"><img id="logoimg" src="../../media/로고%20하얀.png" alt=""/></div>#}
             <div class="logoimg_div"><img id="logoimg" src="{% static 'img/로고%20하얀.png' %}" alt=""/></div>
         </a>
     </div>
@@ -27,10 +25,8 @@
             <li><a href="{% url 'post:post_list' %}">포스트리스트</a></li>
             <li><a href="" id="group">그룹</a>
                 <ul class="sub1" style="list-style: none">
-                    <li><a href="{% url 'group_management:create_group' %}">그룹 생성</a></li>
-                    <li><a href="">그룹가입</a></li>
-                    <li><a href="{% url 'group_management:all_group' %}">내 그룹 리스트</a></li>
-                    <li><a href="">가입 요청</a></li>
+                    <li><a href="{% url 'group_management:create_group' %}">그룹 리스트</a></li>
+                    <li><a href="{% url 'group_management:search_group' %}">그룹 가입</a></li>
                 </ul>
             </li>
         {% if user.is_authenticated %}
@@ -52,6 +48,5 @@
     {% block content %}
     {% endblock %}
 </div>
-
 </body>
 </html>

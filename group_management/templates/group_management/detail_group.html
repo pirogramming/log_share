@@ -1,10 +1,161 @@
 {% extends 'base.html' %}
-{% load staticfiles %}
+{% load static %}
 
 {% block header %}
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css"/>
 
     <style>
+
+        {#update-open-pop#}
+        .open-pop-label {
+            cursor: pointer;
+        }
+
+        .group_create_form {
+            padding: 10px 10px 10px 10px;
+        }
+
+        .group_create_form form {
+            background-color: white;
+            width: 50%;
+            margin: 10px auto;
+            padding: 10px 10px 10px 10px;
+        }
+
+        .modal {
+            opacity: 0;
+            visibility: hidden;
+            position: fixed;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            text-align: left;
+            background: rgba(0, 0, 0, 0.6);
+            transition: opacity .25s ease;
+        }
+
+        .modal_bg {
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            cursor: pointer;
+        }
+
+        .modal-state {
+            display: none;
+        }
+
+        .modal-state:checked + .modal {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-state:checked + .modal .modal__inner {
+            top: 0;
+        }
+
+        .modal_inner {
+            transition: top .25s ease;
+            position: absolute;
+            top: -20%;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            width: 50%;
+            margin: auto;
+            overflow: auto;
+            background: #fff;
+            border-radius: 5px;
+            padding: 1em 2em;
+            height: 60%;
+        }
+
+        .modal_close {
+            position: absolute;
+            right: 1em;
+            top: 1em;
+            width: 1.1em;
+            height: 1.1em;
+            cursor: pointer;
+        }
+
+        .modal_close:after, .modal_close:before {
+            content: '';
+            position: absolute;
+            width: 2px;
+            height: 1.5em;
+            background: #ccc;
+            display: block;
+            transform: rotate(45deg);
+            left: 50%;
+            margin: -3px 0 0 -1px;
+            top: 0;
+        }
+
+        .modal_close:hover:after, .modal_close:hover:before {
+            background: #aaa;
+        }
+
+        .modal_close:before {
+            transform: rotate(-45deg);
+        }
+
+        @media screen and (max-width: 768px) {
+
+            .modal_inner {
+                width: 90%;
+                height: 90%;
+                box-sizing: border-box;
+            }
+        }
+
+        input {
+            width: 200px;
+            height: 30px;
+            border-radius: 5px;
+            border: solid 1px #b0bec9;;
+            line-height: 20px;
+            align-content: center;
+            padding-left: 10px;
+        }
+
+        input[type=checkbox] {
+            width: 20px;
+            height: 20px;
+        }
+
+        input[type=submit] {
+            margin-left: 103px;
+            background-color: #1a237e;
+            border-radius: 5px;
+            color: white;
+        }
+
+        h3 {
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            vertical-align: text-top;
+        }
+
+        textarea {
+            border: solid 1px #b0bec9;
+            border-radius: 5px;
+            padding:10px;
+        }
+
+        select {
+            width: 100px;
+            height: 30px;
+            border-radius: 5px;
+            border: solid 1px #b0bec9;
+        }
+
+        {#end-update-open-pop#}
 
         .group_detail_content_row {
             width: 80%;
@@ -43,25 +194,6 @@
             color: #1a237e;
         }
 
-        .input_text {
-            width: 70%;
-            height: 30px;
-            font-size: 16px;
-            border: 1px solid gray;
-            background-color: aliceblue;
-        }
-
-        .input_text:focus {
-            outline: none;
-        }
-
-        .input_button {
-            height: 35px;
-            font-size: 15px;
-            font-weight: bold;
-            width: 50px;
-        }
-
         .delete_member_button {
             height: 30px;
             width: 50px;
@@ -76,9 +208,45 @@
             display: inline-block;
         }
 
+        .allow_button, .disallow_button {
+            cursor: pointer;
+            height: 30px;
+            font-size: 16px;
+            line-height: 10px;
+            background: transparent;
+            display: inline-block;
+            padding: .5em 1em;
+            color: #1a237e;
+            font-weight: bold;
+            border-radius: 5px;
+            border: 2px solid #1a237e;
+        }
+
+        .input_button {
+            outline: none;
+            line-height: 38px;
+            width: 15%;
+            height: 48px;
+            cursor: pointer;
+            background: transparent;
+            color: #1a237e;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 5px;
+            border: 2px solid #1a237e;
+            float: left;
+            margin-bottom: 40px;
+        }
+
+        .btn:hover,
+        .btn:focus {
+            background: #1a237e;
+            color: white;
+        }
+
         ul.tabs {
-            margin: 0px;
-            padding: 0px;
+            margin: 0;
+            padding: 0;
             list-style: none;
         }
 
@@ -105,6 +273,46 @@
             display: inherit;
         }
 
+        .input_text {
+            width: 70%;
+            height: 25px;
+            background: transparent;
+            padding: 10px;
+            text-indent: 10px;
+            outline: none;
+            border: 2px solid #1a237e;
+            font-size: 16px;
+            border-radius: 5px;
+            font-family: 'Nunito', sans-serif;
+            float: left;
+            margin-right: 10px;
+
+        }
+
+
+        .delete_member_button {
+            background: transparent;
+            border: 0;
+            color: #1a237e;
+            outline: none;
+        }
+
+        .fa-crown {
+            font-size: 20px;
+            color: #1a237e;
+            width: 40px;
+            height: 30px;
+            padding: 0 0 0 10px;
+        }
+
+        .delete_member_button i {
+            cursor: pointer;
+            font-size: 20px;
+        }
+    textarea{
+        padding: 10px;
+    }
+
     </style>
 {% endblock %}
 
@@ -117,7 +325,7 @@
                     <div class="group_title">그룹명: {{ group.group_name }}</div>
                     <br><br>
                     <span class="bold">카테고리:</span> {{ group.get_group_category_display }}<br><br>
-                    <span class="bold">그룹 관리자:</span> {{ group.user_profile.name }}({{ group.manager }})<br><br>
+                    <span class="bold">그룹 관리자:</span> {{ group.manager.user_profile.name }}({{ group.manager }})<br><br>
                     <span class="bold">그룹 설명:</span><br>
                     <div id="group_notes_show">{{ group.notes }}</div>
                     <br>
@@ -136,15 +344,23 @@
                     <br>
 
                     {% if request.user == group.manager %}
-                        <a class="a_tag" href="{% url 'group_management:update_group' group.id %}">그룹 정보 변경</a><br><br>
+                        {#                        <a class="a_tag" href="{% url 'group_management:update_group' group.id %}">그룹 정보 변경</a><br><br>#}
+                        <label class="a_tag open-pop-label" for="open-pop">그룹 정보 변경</label><br><br>
                         <a class="a_tag" href="javascript:delete_group()">그룹 삭제</a><br><br>
                     {% elif request.user in group.members.all %}
                         <a class="a_tag" href="javascript:secede_group()">그룹 탈퇴</a><br>
                     {% else %}
-                        <a class="a_tag" href="{% url 'group_management:request_group' group.id %}">가입 신청</a><br>
+                        {% if group.access_code == '' %}
+                            <a class="a_tag" href="{% url 'group_management:request_group' group.id %}">가입 신청</a><br>
+                        {% else %}
+                            <a class="a_tag request_withcode" href="javascript:request_group_withcode()"
+                               data-id="{{ group.access_code }}">가입 신청</a><br>
+                        {% endif %}
                     {% endif %}
                 </div>
             </div>
+
+            {#------------------------------------------------ 위: left/ 아래: right -------------------------------------------------------------------#}
 
             {% if request.user == group.manager %}
                 <div class="group_detail_content_col group_tab_container">
@@ -157,50 +373,48 @@
                     </ul>
 
                     <div id="tab-1" class="group_member_list tab-content current">
-                        <form action="" method="get">
+                        <form action="" method="get" autocomplete="off" >
 
-                            <input class="input_text" type="text" name="q" value="{{ q }}">
-                            <button class="input_button" type="submit">검색</button>
+                            <input class="input_text" type="text" name="q" value="{{ q }}"
+                                   placeholder="이름이나 아이디를 검색하세요." >
+                            <button class="btn input_button" type="submit">검색</button>
                         </form>
-                        <br>
+                        <br><br>
 
                         {% for member in members %}
-                            <div id="delete_member_div-{{ member.id }}">
+                            <div class="member_list" id="delete_member_div-{{ member.id }}">
                                 {% if member == group.manager %}
-                                    *
+                                    <i class="fas fa-crown"></i>
+                                {% elif request.user == group.manager and member != group.manager %}
+                                    <button title="회원 삭제" type="button" class="delete_member_button"
+                                            id="delete_member_button-{{ member.id }}" member_id="{{ member.id }}"
+                                            group_id="{{ group.id }}"><i class="fas fa-minus-circle"></i>
+                                    </button>
                                 {% endif %}
                                 <a class="a_tag" href="{% url 'myprofile:profile_detail' member.pk %}">
                                     {{ member.user_profile.name }} ({{ member.username }})</a>
-                                {% if request.user == group.manager and member != group.manager %}
-                                    <button type="button" class="delete_member_button"
-                                            id="delete_member_button-{{ member.id }}" member_id="{{ member.id }}"
-                                            group_id="{{ group.id }}">회원삭제
-                                    </button>
-                                {% endif %}
                                 <br><br>
                             </div>
                         {% endfor %}
                     </div>
 
                     <div id="tab-2" class="tab-content">
-                        {#                        <span class="bold">그룹 가입 요청 ({{ messages.count }})</span><br><br>#}
+                        <br>
                         {% if not messages %}
                             <span>&nbsp;새로 들어온 요청이 없습니다.</span>
                         {% endif %}
                         {% for message in messages %}
                             <div class="message_box" id="message_box-{{ message.id }}">
                                 <div class="message_box_content">
-                                    <span>{{ message.sender }}</span> -->
-                                    <span>{{ message.group }}</span> :
-                                    <span id="is_allowed-{{ message.id }}">{{ message.status }}</span>
-                                </div>
+                                    <span>{{ message.sender.user_profile.name }} ({{ message.sender.username }})</span>
+                                </div>&nbsp;&nbsp;&nbsp;
                                 <div class="message_box_content">
                                     <form action="" id="group_request_form-{{ message.id }}" class="group_request_form"
                                           method="post">
                                         {% csrf_token %}
-                                        <button type="button" class="allow_button" data-id="{{ message.id }}">수락
+                                        <button type="button" class="btn allow_button" data-id="{{ message.id }}">수락
                                         </button>
-                                        <button type="button" class="disallow_button" data-id="{{ message.id }}">거절
+                                        <button type="button" class="btn disallow_button" data-id="{{ message.id }}">거절
                                         </button>
                                     </form>
                                 </div>
@@ -215,24 +429,61 @@
                     <div class="group_title">회원 목록 ({{ group.members.count }})</div>
                     <br>
                     <div class="group_member_list">
-                        <form action="" method="get">
-                            <input class="input_text" type="text" name="q" value="{{ q }}">
-                            <button class="input_button" type="submit">검색</button>
+                        <form action="" method="get" autocomplete="off">
+                            <input class="input_text" type="text" name="q" value="{{ q }}"
+                                   placeholder="이름이나 아이디를 검색하세요.">
+                            <button class="btn input_button" type="submit">검색</button>
                         </form>
-                        <br>
+                        <br><br>
+
                         {% for member in members %}
                             <div id="delete_member_div-{{ member.id }}">
-                                {% if member == group.manager %}
-                                    *
-                                {% endif %}
                                 <a class="a_tag" href="{% url 'myprofile:profile_detail' member.pk %}">
                                     {{ member.user_profile.name }} ({{ member.username }})</a>
+                                {% if member == group.manager %}
+                                    <i class="fas fa-crown"></i>
+                                {% endif %}
                                 <br><br>
                             </div>
                         {% endfor %}
                     </div>
                 </div>
             {% endif %}
+        </div>
+    </div>
+
+    <input class="modal-state" id="open-pop" type="checkbox"/>
+    <div class="modal">
+        <label class="modal_bg" for="open-pop"></label>
+        <div class="modal_inner">
+            <label class="modal_close" for="open-pop"></label>
+            <div class="group_create_form">
+                <form action="" method="post" class="form-horizontal">
+                    {% csrf_token %}
+                    <h3>그룹의 정보를 수정해보세요!</h3>
+                    {% for error in form.non_field_errors %}
+                        <div class="alert alert-danger">
+                            {{ error }}
+                        </div>
+                    {% endfor %}
+                    {% for field in form.visible_fields %}
+                        <div class="form-group">
+                            {{ field.label_tag }} {{ field }}
+                            {% if field.help_text %}
+                                <p class="help-block">
+                                    {{ field.help_text }}
+                                </p>
+                            {% endif %}
+                            {% for error in field.errors %}
+                                <div class="alert alert-danger">
+                                    {{ error }}
+                                </div>
+                            {% endfor %}
+                        </div><br>
+                    {% endfor %}
+                    <input type="submit" value="그룹 저장">
+                </form>
+            </div>
         </div>
     </div>
 
@@ -249,7 +500,6 @@
                 },
                 dataType: "html",
                 success: function (response) {  //통신 성공시 메시지 출력
-                    alert("수락하였습니다.");
                     $("#message_box-" + pk).hide();
                     var member_num = document.getElementById("member_num").innerHTML * 1 + 1;
                     document.getElementById("member_num").innerHTML = member_num;
@@ -274,7 +524,6 @@
                 },
                 dataType: "html",
                 success: function (response) {  //통신 성공시 메시지 출력
-                    alert("거절하였습니다.");
                     $("#message_box-" + pk).hide();
                     var message_num = document.getElementById("message_num").innerHTML * 1 - 1;
                     document.getElementById("message_num").innerHTML = message_num;
@@ -287,6 +536,10 @@
         });
 
         $(".delete_member_button").click(function () {
+            if (confirm("정말 이 멤버를 삭제할까요?")) {
+            } else {
+                return false;
+            }
             var member_id = $(this).attr('member_id');
             var group_id = $(this).attr('group_id');
             {#var deleted_member_div = document.getElementById("delete_member_div-" + memeber.id);#}
@@ -328,6 +581,18 @@
             }
         }
 
+        function request_group_withcode() {
+            var group_access_code = $(".request_withcode").attr('data-id');
+            var access_code = prompt('그룹에 가입하기 위해 그룹의 암호를 입력하세요.');
+            if (group_access_code === access_code) {
+                location.href = "{% url 'group_management:request_group' group.id %}";
+                alert('그룹 가입 신청을 완료했습니다. 그룹 관리자의 수락을 기다려주세요.')
+            } else {
+                alert('그룹의 암호와 입력하신 암호가 일치하지 않습니다.');
+                return false;
+            }
+        }
+
         $(document).ready(function () {
 
             $('ul.tabs li').click(function () {
@@ -346,5 +611,3 @@
     </script>
 
 {% endblock %}
-
-
