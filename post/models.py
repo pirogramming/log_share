@@ -23,9 +23,12 @@ class Post(models.Model):
     end_date = models.DateField(verbose_name='종료 날짜')
     photo = models.ImageField(upload_to=date_upload_to, verbose_name='대표 이미지', null=True, blank=True)
     tags = TaggableManager()
-    #todo 별점 매기기 기능 추가?
     SCORE_CHOICES = zip(range(1,6), range(1,6))
     score = models.IntegerField(choices=SCORE_CHOICES, verbose_name='추천도')
 
     def __str__(self):
         return self.title
+
+    @property
+    def is_valid_date(self):
+        return self.end_date >= self.start_date

@@ -136,7 +136,7 @@
             height: 50px;
             background-color: transparent;
             border-radius: 5px;
-            margin: 20px auto;
+            margin: 50px auto;
             padding: 0;
             text-align: center;
         }
@@ -280,9 +280,10 @@
                 <h3 style="display: inline-block">
                     <a href="{% url 'group_management:detail_group' group.id %}">{{ group.group_name }}</a>
                 </h3>
-                <span>카테고리 - {{ group.group_category }}</span>
+                <span>({{ group.group_category }})</span>
                 <br><br>
-                <p>소개 : {{ group.notes }}</p>
+                <p style="font-weight: bold; margin-bottom: 10px;">소개</p>
+                <p>{{ group.notes }}</p>
 
             </div>
         {% endfor %}

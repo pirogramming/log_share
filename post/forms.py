@@ -14,6 +14,12 @@ class PostModelForm(ModelForm):
             'contents': SummernoteWidget(),
             'score': starWidget,
         }
+        help_texts = {
+            'tags': '반점(,)을 이용하여 태그를 구별하세요. 최대 10개까지 입력됩니다.',
+        }
+        labels = {
+            'tags': '태그',
+        }
         '''
         #todo 사진 변경시에 원래 있던 사진 삭제를 자동으로 해주는 기능.
         templates/django/forms/widgets/clearable_file_input.html 에서 checkbox='checked', input='hidden' 만들었어서 상관없긴한데..

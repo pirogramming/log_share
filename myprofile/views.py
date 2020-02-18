@@ -7,6 +7,7 @@ from accounts.forms import SignupModelForm, CustomUserChangeForm
 from myprofile.models import BookMark, Profile
 
 # <<<<<<<<<<<<<<profile user_pk>>>>>>>>>>>>>>
+from myprofile.utils import recent_tag_counting
 from post.models import Post
 
 
@@ -31,24 +32,18 @@ def profile_detail(request, pk):
 
     else:
         profile = user.user_profile  # user -> profile
-
         # 최근 태그 리스트
-        post_list = user.user_post.order_by('-start_date', '-end_date')  # 시작일 기준(만약 같다면 종료일 기준)으로 최근 게시물부터 태그가 들어가게 한다.
-        # todo 최근 게시물의 개수제한 필요 (최근 5개 게시물이라던가)
-        # 아래 딕셔너리는 orderdDict여야 하므로 파이썬 3.6 버전 이상에서만 제대로 동작하는 코드.
-        recent_tags_count = {}
-        for post in post_list:
-            for tag in post.tags.all():
-                if tag in recent_tags_count:
-                    recent_tags_count[tag] += 1
-                else:
-                    recent_tags_count[tag] = 1
+        post_list = user.user_post.order_by('-start_date', '-end_date')# 시작일 기준(만약 같다면 종료일 기준)으로 최근 게시물부터 태그가 들어가게 한다.
+        # 최상단 10개 개시물에서 태그들이 얼마나 많이 사용되었는지 카운팅하는 함수
+        recent_tags_count=recent_tag_counting(post_list)
 
         # myprofile:profile_detail과 post:myprofile_post_list가 연동된 상태
         # myprofile:profile_detail 내 post:myprofile_post_list가 처음 화면
         # 스크롤을 내리면 post:myprofile_post_list_ajax 실행
         paginator = Paginator(post_list, 2)  # 한페이지에 담길 포스트 갯수
         page = request.GET.get('page')  # 첫 화면의 페이지(GET)
+
+
 
         try:
             posts = paginator.page(page)  # page(): 몇번째 페이지 리턴
@@ -57,10 +52,18 @@ def profile_detail(request, pk):
         except EmptyPage:
             posts = paginator.page(paginator.num_pages)  # num_pages : 총 페이지 수
 
+        colors = ('red', 'green', 'blue', 'yellow', 'brown')
+        interested_tag_list = profile.interested_tag.split(',')
+        from random import randint
+        interested_tag_dict = {tag: randint(1, 3) for tag in interested_tag_list}
+        print(interested_tag_dict)
+
         context = {
             'profile': profile,
             'posts': posts,
             'recent_tags_count': recent_tags_count,
+            'colors': colors,
+            'interested_tag_dict': interested_tag_dict,
         }
 
         return render(request, 'myprofile/profile_detail.html', context)
@@ -84,9 +87,9 @@ def profile_edit(request, pk):
 
         if user_change_form.is_valid() and profile_form.is_valid():
             user_change_form.save()
-            profile = profile_form.save()
+            profile = profile_form.save(commit=False)
             profile.name = request.user.last_name + request.user.first_name  # user의 이름 -> profile.name
-            profile = profile.save()
+            profile.save()
 
             return redirect('myprofile:profile_detail', request.user.pk)
 
