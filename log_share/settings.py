@@ -89,19 +89,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'log_share.wsgi.application'
 
-# Database
-# https://docs.djangoproject.com/en/3.0/ref/settings/#databases
-
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.mysql',
-#         'NAME': 'log_share',
-#         'USER': 'root',
-#        'PASSWORD': '111111',
-#         'HOST': 'localhost',
-#         'PORT': '3306',
-#     }
-# }
 
 DATABASES = {
     'default': {

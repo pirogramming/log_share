@@ -123,12 +123,14 @@
         width: 200px;
         height: 30px;
         border-radius: 5px;
-        border: solid 1px darkgrey;
+        border: solid 1px #b0bec9;
         line-height: 20px;
         align-content: center;
+        padding-left: 10px;
     }
 
     input[type=checkbox] {
+        border: solid 1px #b0bec9;
         width: 20px;
         height: 20px;
     }
@@ -139,13 +141,12 @@
         border-radius: 5px;
         color: white;
     }
+    #id_notes{
+         border: solid 1px #b0bec9;
+    }
 
     h3 {
         margin-bottom: 20px;
-    }
-
-    .form-group {
-        vertical-align: text-top;
     }
 
     textarea {
@@ -261,7 +262,6 @@
         overflow: hidden;
     }
 
-
     .group_name {
         width: 240px;
         height: 40px;
@@ -278,8 +278,6 @@
         color: white;
         background-color: #1E88E5;
     }
-
-
 
     .group_content {
         margin: 28px;
@@ -311,6 +309,7 @@
         color:#1a237e;
         margin-bottom: 5px;
     }
+
 </style>
 
 {% extends 'base.html' %}
@@ -327,7 +326,7 @@
                 {% if not groups %}
                     <div class="imgbox">
                         <h2><a style="color: #1a237e; font-weight: bold; font-size: 35px;">Group</a>이 아직 없어요. <a style="font-size: 20px; color:black;">그룹을 찾아볼까요?</a></h2>
-                        <img id="group_search_img" src="../../media/그룹 검색.png" alt=""/>
+                        <img id="group_search_img" src="{% static 'img/그룹%20검색.png' %}"git alt=""/>
                         <h4>가입하고 싶은 그룹을 검색하거나 원하는 그룹을 검색해 보세요.</h4>
                         <div class="btn_search"><a href="{% url 'group_management:search_group' %}" id="search_link">그룹
                             검색</a></div>
@@ -354,11 +353,10 @@
                         {% endfor %}
                     </div>
                 {% endif %}
-
             </div>
         </div>
-
     </div>
+
     <input class="modal-state" id="open-pop" type="checkbox"/>
     <div class="modal">
         <label class="modal_bg" for="open-pop"></label>

@@ -13,7 +13,7 @@ from group_management.models import CustomGroup, GroupRequest
 
 
 @login_required
-def create_group(request):
+def all_create_group(request):
     if request.method == 'POST':
         form = GroupForm(
             request.user,
@@ -122,13 +122,13 @@ def search_group(request):
     return render(request, 'group_management/search_group.html', context)
 
 
-def all_group(request):
-    user = request.user
-    groups = user.user_groups.all()
-    context = {
-        'groups': groups,
-    }
-    return render(request, 'group_management/all_group.html', context)
+# def all_group(request):
+#     user = request.user
+#     groups = user.user_groups.all()
+#     context = {
+#         'groups': groups,
+#     }
+#     return render(request, 'group_management/all_group.html', context)
 
 
 def detail_group(request, pk):

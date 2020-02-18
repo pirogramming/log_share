@@ -83,6 +83,8 @@
             font-weight: bold;
             border-radius: 5px;
             border: 2px solid #1a237e;
+            float: left;
+            margin-bottom: 40px;
         }
 
         .btn:hover,
@@ -125,13 +127,14 @@
             height: 25px;
             background: transparent;
             padding: 10px;
-            margin: 10px 0;
             text-indent: 10px;
             outline: none;
             border: 2px solid #1a237e;
             font-size: 16px;
             border-radius: 5px;
             font-family: 'Nunito', sans-serif;
+            float: left;
+
         }
 
 
@@ -154,7 +157,6 @@
             cursor: pointer;
             font-size: 20px;
         }
-
 
     </style>
 {% endblock %}
@@ -195,7 +197,8 @@
                         {% if group.access_code == '' %}
                             <a class="a_tag" href="{% url 'group_management:request_group' group.id %}">가입 신청</a><br>
                         {% else %}
-                            <a class="a_tag request_withcode" href="javascript:request_group_withcode()" data-id="{{ group.access_code }}">가입 신청</a><br>
+                            <a class="a_tag request_withcode" href="javascript:request_group_withcode()"
+                               data-id="{{ group.access_code }}">가입 신청</a><br>
                         {% endif %}
                     {% endif %}
                 </div>
@@ -214,15 +217,16 @@
                     </ul>
 
                     <div id="tab-1" class="group_member_list tab-content current">
-                        <form action="" method="get" autocomplete="off">
+                        <form action="" method="get" autocomplete="off" >
+
                             <input class="input_text" type="text" name="q" value="{{ q }}"
-                                   placeholder="이름이나 아이디를 검색하세요.">
+                                   placeholder="이름이나 아이디를 검색하세요." >
                             <button class="btn input_button" type="submit">검색</button>
                         </form>
                         <br><br>
 
                         {% for member in members %}
-                            <div id="delete_member_div-{{ member.id }}">
+                            <div class="member_list" id="delete_member_div-{{ member.id }}">
                                 {% if member == group.manager %}
                                     <i class="fas fa-crown"></i>
                                 {% elif request.user == group.manager and member != group.manager %}
@@ -239,7 +243,7 @@
                     </div>
 
                     <div id="tab-2" class="tab-content">
-                    <br>
+                        <br>
                         {% if not messages %}
                             <span>&nbsp;새로 들어온 요청이 없습니다.</span>
                         {% endif %}
@@ -341,8 +345,8 @@
         });
 
         $(".delete_member_button").click(function () {
-            if (confirm("정말 이 멤버를 삭제할까요?")) {}
-            else {
+            if (confirm("정말 이 멤버를 삭제할까요?")) {
+            } else {
                 return false;
             }
             var member_id = $(this).attr('member_id');
