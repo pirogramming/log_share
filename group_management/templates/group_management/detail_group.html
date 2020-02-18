@@ -168,7 +168,7 @@
                     <div class="group_title">그룹명: {{ group.group_name }}</div>
                     <br><br>
                     <span class="bold">카테고리:</span> {{ group.get_group_category_display }}<br><br>
-                    <span class="bold">그룹 관리자:</span> {{ group.user_profile.name }}({{ group.manager }})<br><br>
+                    <span class="bold">그룹 관리자:</span> {{ group.manager.user_profile.name }}({{ group.manager }})<br><br>
                     <span class="bold">그룹 설명:</span><br>
                     <div id="group_notes_show">{{ group.notes }}</div>
                     <br>
