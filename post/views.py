@@ -1,6 +1,5 @@
 from django.contrib.auth.decorators import login_required
 import simplejson as json
-from django.http import HttpResponse
 from django.contrib.auth.models import User, Group
 from django.core.exceptions import ObjectDoesNotExist
 from django.http import HttpResponse
@@ -32,7 +31,7 @@ from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 #     '''
 #     queryset = Group.objects.all()
 #     serializer_class = GroupSerializer
-from .utils import remove_all_tags_without_objects
+from .utils import remove_all_tags_without_objects, tag_count_check
 
 
 class Search(APIView):
@@ -80,15 +79,13 @@ def post_create(request):
             # 포스트모델폼의 정보가 유효하면, post에 할당한 뒤 FK를 접속한 유저로 지정하여 저장한다.
             post.user = request.user
             # DB에 저장되어서 pk가 생기지 않으면 post.tags에 접근할 수 없기 때문에 어쩔수 없이 저장...
-            post.save()
-            # request.POST.get('tags')로 tag를 가져오되, 없을시 None을 할당한다.
-            tag_list = request.POST.get('tags')
-            # tag들을 10개+나머지로 분리하여 리스트화한다
-            tags = [str(tag) for tag in tag_list.split(',',maxsplit=10)]
-            # 10개+나머지에서 나머지 제거
-            tags = tags[:-1]
-            # 하나씩 넣기.
-            post.tags.set(*tags)
+            if post.is_valid_date:
+                post.save()
+            else:
+                #todo 에러메시지?
+                return
+            # tag개수(최대10개) 제한
+            tag_count_check(request,post)
             return redirect('myprofile:profile_detail', request.user.pk)
     else:
         postform = PostModelForm()
@@ -125,7 +122,14 @@ def post_update(request, pk):
     else:
         postform = PostModelForm(request.POST, request.FILES, instance=post)
         if postform.is_valid():
-            post = postform.save()
+            post = postform.save(commit=False)
+            if post.is_valid_date:
+                post = postform.save()
+                # tag개수(최대10개) 제한
+                tag_count_check(request, post)
+            else:
+                #todo 에러메시지?
+                return
         return redirect('post:post_detail', post.pk)
 
 

@@ -28,3 +28,7 @@ class Post(models.Model):
 
     def __str__(self):
         return self.title
+
+    @property
+    def is_valid_date(self):
+        return self.end_date > self.start_date
