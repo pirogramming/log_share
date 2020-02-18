@@ -145,7 +145,7 @@
         textarea {
             border: solid 1px #b0bec9;
             border-radius: 5px;
-            padding:10px;
+            padding: 10px;
         }
 
         select {
@@ -236,6 +236,7 @@
             border: 2px solid #1a237e;
             float: left;
             margin-bottom: 40px;
+            margin-right: 30px;
         }
 
         .btn:hover,
@@ -286,7 +287,6 @@
             font-family: 'Nunito', sans-serif;
             float: left;
             margin-right: 10px;
-
         }
 
 
@@ -309,9 +309,7 @@
             cursor: pointer;
             font-size: 20px;
         }
-    textarea{
-        padding: 10px;
-    }
+
 
     </style>
 {% endblock %}
@@ -373,12 +371,14 @@
                     </ul>
 
                     <div id="tab-1" class="group_member_list tab-content current">
-                        <form action="" method="get" autocomplete="off" >
+                        <div class="search_form">
+                            <form action="" method="get" autocomplete="off">
 
-                            <input class="input_text" type="text" name="q" value="{{ q }}"
-                                   placeholder="이름이나 아이디를 검색하세요." >
-                            <button class="btn input_button" type="submit">검색</button>
-                        </form>
+                                <input class="input_text" type="text" name="q" value="{{ q }}"
+                                       placeholder="이름이나 아이디를 검색하세요.">
+                                <button class="btn input_button" type="submit">검색</button>
+                            </form>
+                        </div>
                         <br><br>
 
                         {% for member in members %}

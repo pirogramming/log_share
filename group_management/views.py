@@ -106,7 +106,7 @@ def search_group(request):
 
 def detail_group(request, pk):
     group = get_object_or_404(CustomGroup, id=pk)
-    git
+
     if request.method == 'POST':
         form = GroupForm(
             request.user,
