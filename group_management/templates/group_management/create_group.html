@@ -302,6 +302,7 @@
         width: 310px;
         height: 350px;
         margin-right: 30px;
+        text-align: center;
 
     }
     .manager_text{
@@ -338,6 +339,9 @@
                                 {% if group.manager == request.user %}
                                     <div class="mark"><img id="manage_img" src="../../media/관리자 왕관.png" alt=""/></div>
                                     <div class="manager_text">manager</div>
+                                {% else %}
+                                    <div class="mark"><img id="manage_img" src="" alt="" style="visibility: hidden;"/></div>
+                                    <div class="manager_text"></div>
                                 {% endif %}
                                 <div class="my_grouplist">
                                     <a class="group" href="{% url 'group_management:detail_group' group.id %}">
