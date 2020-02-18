@@ -2,23 +2,145 @@
 <!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="{% static 'css/main_front.css' %}?8">
     <title>main_front</title>
+    <style>
+        * {
+            font-family: 나눔스퀘어;
+            text-decoration: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .wrapper {
+            width: 100%;
+            height: 80px;
+            background-color: #00B0F0;
+            margin: 0px;
+            padding: 0px;
+        }
+
+
+        /*div안에 a태그가 있으면 css가 잘 적용이안됨... 그럴때는 a태그에 display:block;를  넣어줌.*/
+        a {
+            color:  white;
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+
+        a:hover {
+            display: block;
+            color: white;
+        }
+
+        .menu {
+            display: inline-block;
+            float: right;
+            margin-right: 60px;
+        }
+
+        .menu > div:nth-child(1) {
+            width: 100px;
+            height: 40px;
+            text-align: center;
+            line-height: 40px;
+            display: inline-block;
+            float: right;
+            margin-right: 70px;
+            margin-top: 20px;
+            border: 2px solid #00B0F0;
+            border-radius: 5px;
+            background-color: #00B0F0;
+            font-weight: bold;
+            color:white;
+        }
+        .menu > div:nth-child(2) {
+            width: 100px;
+            height: 40px;
+            text-align: center;
+            line-height: 40px;
+            display: inline-block;
+            float: right;
+            margin-right: 70px;
+            margin-top: 20px;
+            border: 2px solid white;
+            border-radius: 5px;
+            background-color: #00B0F0;
+            font-weight: bold;
+            color:white;
+        }
+
+        .menu > div:hover {
+            color: white;
+            background-color: #1E88E5;
+            border: solid 2px white;
+        }
+
+        .container > div {
+            display: inline-block;
+        }
+
+        .title {
+            position: absolute;
+            top: 150px;
+            margin-left: 200px;
+            font-size: 80px;
+            text-align: center;
+            line-height: 100px;
+        }
+
+        .title > div {
+            color: #1a237e;
+            font-size: 30px;
+        }
+
+        #mainlogo {
+            width: 500px;
+            box-sizing: border-box;
+            position: absolute;
+            top: 200px;
+            left: 55%;
+        }
+
+        .logo {
+            margin-left: 200px;
+            display: inline-block;
+        }
+
+        .logofont {
+            color: white;
+            font-size: 25px;
+            line-height: 80px;
+            display: inline;
+        }
+
+        .logoimg_div {
+            display: inline-block;
+            align-content: center;
+        }
+
+        #logoimg {
+            width: 50px;
+            line-height: 80px;
+            position: absolute;
+            left: 340px;
+            top: 17px;
+        }
+
+    </style>
 </head>
 <body>
 <div class="wrapper">
     <div class="logo">
+        {#        로그인 후 main으로  url로 바꿔야함.#}
         <a href="{% url 'main:main_front' %}">
-            <div class="logoimg_div"><img id="logoimg" src="../../media/상단로고.png" alt=""/></div>
+            <div class="logofont">LOG SHARE</div>
+            <div class="logoimg_div"><img id="logoimg" src="{% static 'img/로고%20하얀.png' %}" alt=""/></div>
         </a>
     </div>
     <div class="menu">
-        <div class="signup_btn"><a href="{% url "accounts:signup" %}" >회원가입</a></div>
-        <div class="login_btn"><a href="{% url "accounts:login" %}" >로그인</a></div>
+        <div class="signup_btn"><a href="{% url "accounts:signup" %}">회원가입</a></div>
+        <div class="login_btn"><a href="{% url "accounts:login" %}">로그인</a></div>
     </div>
 </div>
 <div class="container">
