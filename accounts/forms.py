@@ -3,6 +3,8 @@ from django.contrib.auth.forms import UserCreationForm, PasswordChangeForm
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from django.contrib.auth.models import User
+from django.forms import FileInput
+
 from myprofile.models import Profile
 
 
@@ -45,6 +47,13 @@ class SignupModelForm(forms.ModelForm):
     class Meta:
         model = Profile
         fields = ('department', 'description', 'photo', 'interested_tag', 'naver', 'daum', 'github', 'other_url')
+        widgets = {
+            'photo': FileInput(),
+        }
+
+        def __init__(self, *args, **kwargs):
+            super(SignupModelForm, self).__init__(*args, **kwargs)
+            self.fields['photo'].widget.attrs = {'id': 'selectedFile'}
 
 
 class password_changeForm(PasswordChangeForm):  # 내장 회원가입 폼을 상속받아서 확장한다.
