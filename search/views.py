@@ -41,6 +41,7 @@ def main_search(request):
     group_id_list(request,user)
     print("카테고리 필터링 전", qs)
     qs = process_category(request, user, qs)
+
     print("카테고리 필터링 후: ", qs)
 
     posts=None
@@ -160,4 +161,4 @@ def search_scroll(request):
     context = {
         'posts': posts
     }
-    return render(request, 'post/post_list_ajax.html', context)  # ajax_datatype => dataType: 'html'
+    return render(request, 'post/myprofile_post_list_ajax.html', context)  # ajax_datatype => dataType: 'html'

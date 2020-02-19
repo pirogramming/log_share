@@ -51,7 +51,7 @@ def profile_detail(request, pk):
         paginator = Paginator(post_list, 2)  # 한페이지에 담길 포스트 갯수
         page = request.GET.get('page')  # 첫 화면의 페이지(GET)
 
-
+        # print(post_list)
 
         try:
             posts = paginator.page(page)  # page(): 몇번째 페이지 리턴
