@@ -71,6 +71,7 @@ class Search(APIView):
 
 
 def post_create(request):
+    context={}
     if request.method == 'POST':
         # 포스트모델폼을 이용하여 정보를 받아온다.
         postform = PostModelForm(request.POST, request.FILES)
@@ -87,6 +88,8 @@ def post_create(request):
             # tag개수(최대10개) 제한
             tag_count_check(request,post)
             return redirect('myprofile:profile_detail', request.user.pk)
+        else:
+            return
     else:
         postform = PostModelForm()
         context = {
