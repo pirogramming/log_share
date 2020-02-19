@@ -53,6 +53,8 @@ INSTALLED_APPS = [
     'post',
     'search',
 
+    # sass for searchbar
+    'sass_processor',
 ]
 
 MIDDLEWARE = [
@@ -87,13 +89,12 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'log_share.wsgi.application'
 
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'log_share',
         'USER': 'root',
-        'PASSWORD': '123',
+        'PASSWORD': '111111',
         'HOST': 'localhost',
         'PORT': '3306',
     }
@@ -170,3 +171,8 @@ EMAIL_HOST_PASSWORD = 'tn340115'
 EMAIL_USE_TLS = True
 # EMAIL_USE_SSL = True
 DEFAULT_FROM_EMAIL = '이수경 <bobbeta22@gmail.com>'
+
+# sass app config
+SASS_PROCESSOR_ENABLED = True
+SASS_PROCESSOR_ROOT = os.path.join(BASE_DIR, 'search', 'static')
+SASS_OUTPUT_STYLE = 'compact'

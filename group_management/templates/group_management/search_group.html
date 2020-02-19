@@ -2,17 +2,22 @@
 {% load staticfiles %}
 
 {% block header %}
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css"/>
 
     <style>
-        <!--  여기부터 검색바 css -->
+        <!--
+        여기부터 검색바 css
+
+        -->
         * {
             box-sizing: border-box;
         }
+
         body {
             padding: 0;
             margin: 0;
         }
+
         .search {
             text-align: center;
             overflow: hidden;
@@ -93,8 +98,6 @@
         }
 
 
-
-
         i {
             position: absolute;
             font-size: 30px;
@@ -117,7 +120,7 @@
             color: #00B0F0;
         }
 
-         .bar {
+        .bar {
             position: absolute;
             margin: 0;
             right: 52px;
@@ -149,7 +152,7 @@
             border-color: #00B0F0;
             text-indent: 20px;
             margin: 0 5px;
-            padding:5px;
+            padding: 5px;
             outline: none;
             border: 2px solid #00B0F0;
             font-size: 20px;
@@ -168,7 +171,7 @@
             border-color: #00B0F0;
             text-indent: 20px;
             margin: 0 5px;
-            padding:5px;
+            padding: 5px;
             outline: none;
             border: 2px solid #00B0F0;
             font-size: 20px;
@@ -192,16 +195,14 @@
             color: black;
             background-color: transparent;
 
-            transition:color .2s, background-color .2s, border-color .2s;
+            transition: color .2s, background-color .2s, border-color .2s;
         }
 
         .access_code_sumbit:hover {
             color: white;
             background-color: #00B0F0;
-            border-color:  #00B0F0;
+            border-color: #00B0F0;
         }
-
-
 
 
         .group_search_input:focus {
@@ -237,6 +238,7 @@
             color: #514aac;
             font-weight: bold;
         }
+
         input:focus::-webkit-input-placeholder {
             color: transparent;
         }
@@ -264,7 +266,7 @@
                         <p class="bar">|</p>
                     </label>
                     <input class="group_search_input" type="text" name="q" value="{{ q }}" placeholder="그룹을 검색하세요.">
-                    <button class="group_search_submit" type="submit" value="검색">
+                    <button class="group_search_submit" type="submit" value="검색"/>
                 </form>
             </div>
         </div>

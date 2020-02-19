@@ -1,0 +1,177 @@
+{#<link rel="stylesheet" href="{% static 'widgets/rateit/rateit.css' %}"/>#}
+{#<script#}
+{#        src="https://code.jquery.com/jquery-3.4.1.min.js"#}
+{#        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="#}
+{#        crossorigin="anonymous"></script>#}
+{#<script src="{% static 'widgets/rateit/jquery.rateit.min.js' %}"></script>#}
+
+<style>
+    .temp {
+        width: 80%;
+        margin: 50px auto;
+    }
+
+    .profile_first_container {
+        background-color: white;
+        border-radius: 5px;
+        box-shadow: 2px 2px 2px #b0bec9;
+        padding: 10px 40px;
+        border: 0.5px solid #b0bec9;
+    }
+
+    .profile_first_container div {
+        background-color: transparent;
+        padding: 10px 0;
+    }
+
+    .profile_first_container div a {
+        text-decoration: none;
+        color: black;
+    }
+
+    .profile_first_container a:hover {
+        color: #514aac;
+        font-weight: bold;
+    }
+
+    .profile_first_container .profile_first_front_container {
+        margin: 20px 0;
+        text-align: center;
+        border: 2px solid #e3f2fd;
+        border-radius: 5px;
+    }
+
+    .profile_first_container .profile_first_content {
+        display: inline-block;
+        text-align: left;
+        padding-left: 60px;
+        width: 40%;
+        height: 300px;
+    }
+
+    .profile_first_container .profile_first_content .profile_name {
+        font-size: 20px;
+        font-weight: bold;
+        vertical-align: text-top;
+        height: 80px;
+    }
+
+    .profile_first_container .profile_first_content .profile_depart {
+        height: 50px;
+    }
+
+    .profile_first_container .profile_first_content .profile_intro {
+        height: 40px;
+    }
+
+    .profile_first_container .profile_photo {
+        display: inline-block;
+    }
+
+    .profile_first_container .profile_photo img {
+        border-radius: 100%;
+        object-fit: cover;
+    }
+
+    .profile_recent_tag {
+        background-color: white;
+        border-radius: 5px;
+        padding: 10px 20px;
+        box-sizing: border-box;
+        box-shadow: 2px 2px 2px #b0bec9;
+        margin: 10px 0;
+        border: 0.5px solid #b0bec9;
+    }
+
+    .profile_recent_tag span {
+        background-color: transparent;
+    }
+
+    .profile_recent_tag span a {
+        text-decoration: none;
+        color: black;
+    }
+
+    .profile_recent_tag span a:hover {
+        font-weight: bold;
+        color: #514aac;
+    }
+
+    .profile_post_list {
+        background-color: white;
+        border-radius: 5px;
+        padding: 10px 20px;
+        box-shadow: 2px 2px 2px #b0bec9;
+        border: 0.5px solid #b0bec9;
+    }
+
+    .profile_post_list div {
+        background-color: transparent;
+    }
+
+    .profile_post_list div a:hover {
+        color: #514aac;
+        font-weight: bold;
+    }
+
+    .profile_post_list div a {
+        text-decoration: none;
+        color: black;
+    }
+
+    .profile_post_list .rateit {
+        width: 80px;
+        height: 17px;
+        overflow: hidden;
+    }
+
+    .profile_post_list_ajax {
+        background-color: white;
+        border-radius: 5px;
+        padding: 10px 20px;
+        box-shadow: 2px 2px 2px #b0bec9;
+        border: 0.5px solid #b0bec9;
+    }
+
+    .profile_post_list_ajax div {
+        background-color: transparent;
+    }
+
+    .profile_post_list_ajax div a {
+        text-decoration: none;
+        color: black;
+    }
+
+    .profile_post_list_ajax div a:hover {
+        color: #514aac;
+        font-weight: bold;
+    }
+
+    .profile_post_list_ajax .rateit {
+        width: 80px;
+        height: 17px;
+        overflow: hidden;
+    }
+
+    .interested_tag_header {
+        font-size: 20pt;
+        font-weight: bold;
+    }
+
+    .interested_tag {
+        color: white;
+        border: 0px;
+        border-radius: 2px;
+        font-size: 15px;
+        margin: 2px 0px;
+        padding: 5px;
+    }
+
+    .interested_tag:focus {
+        outline: none;
+    }
+
+    .interested_tag:hover {
+        cursor: pointer;
+    }
+</style>

@@ -13,7 +13,7 @@
 
 <div class="wrapper">
     <div class="logo">
-{#        로그인 후 main으로  url로 바꿔야함.#}
+        {#        로그인 후 main으로  url로 바꿔야함.#}
         <a href="{% url 'search:main_search' %}">
             <div class="logofont">LOG SHARE</div>
             <div class="logoimg_div"><img id="logoimg" src="{% static 'img/로고%20하얀.png' %}" alt=""/></div>
@@ -28,15 +28,16 @@
                     <li><a href="{% url 'group_management:search_group' %}">그룹 가입</a></li>
                 </ul>
             </li>
-        {% if user.is_authenticated %}
-            <li><a href="{% url 'myprofile:profile_detail' request.user.pk %}">프로필</a>
-                <ul class="sub2" style="list-style: none">
-                    <li><a href="{% url 'myprofile:profile_detail' request.user.pk %}">내 프로필</a></li>
-                    <li><a href="{% url "myprofile:profile_edit" request.user.pk %}">프로필 변경</a></li>
-                    <li><a href="{% url 'accounts:password_change' %}">비밀번호 변경</a></li>
-                </ul>
-            </li>
-        {% endif %}
+            {% if user.is_authenticated %}
+                <li><a href="{% url 'myprofile:profile_detail' request.user.pk %}">프로필</a>
+                    <ul class="sub2" style="list-style: none">
+                        <li><a href="{% url 'myprofile:profile_detail' request.user.pk %}">내 프로필</a></li>
+                        <li><a href="{% url "myprofile:profile_edit" request.user.pk %}">프로필 변경</a></li>
+                        <li><a href="{% url 'accounts:password_change' %}">비밀번호 변경</a></li>
+                    </ul>
+                </li>
+            {% endif %}
+            <li><a href="">로그쉐어</a></li>
             <li><a href="{% url 'post:post_create' %}">글 작성하기</a></li>
             <li><a href="{% url "accounts:logout" %}">로그아웃</a></li>
         </ul>

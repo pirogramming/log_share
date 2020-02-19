@@ -1,24 +1,40 @@
-<ul>
-    {% if posts %}
-        {% for post in posts %}
-            <div class="profile_post_list_ajax">
-                <div class="profile_post_ajax_title">제목 : <a
-                        href="{% url 'post:post_detail' post.pk %}">{{ post.title }}</a></div>
-                <div>작성자 : {{ post.user.user_profile.name }}</div>
-                <div>활동기간: {{ post.start_date }} ~ {{ post.end_date }}</div>
-                <div class="profile_post_ajax_tag">
-                    태그 :
-                    {% for post_tag in post.tags.all %}
-{#                        <a href="{% url 'search:tag_search' post_tag %}">#{{ post_tag }}</a>#}
-                        <a href="./?q={{ post_tag }}&options=tags">#{{ post_tag }}</a>
-                    {% endfor %}
-                </div>
-                <div>내용: {{ post.contents|truncatechars:85 }}</div>
-                <div>평점 : {{ post.score }}</div>
+{# profile_detail -> posts, profile #}
+{% load static %}
+
+<link rel="stylesheet" href="{% static 'widgets/rateit/rateit.css' %}"/>
+{#<script#}
+{#        src="https://code.jquery.com/jquery-3.4.1.min.js"#}
+{#        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="#}
+{#        crossorigin="anonymous"></script>#}
+<script src="{% static 'widgets/rateit/jquery.rateit.min.js' %}"></script>
+
+{% if posts %}
+    {% for post in posts %}
+        <div class="profile_post_list">
+            <div class="profile_post_title">제목 : <a href="{% url 'post:post_detail' post.pk %}">{{ post.title }}</a>
             </div>
-            <br>
-        {% endfor %}
-    {% endif %}
+            <div>작성자 : {{ post.user.user_profile.name }}</div>
+            <div>활동기간: {{ post.start_date }} ~ {{ post.end_date }}</div>
+            <div class="profile_post_tag">
+                태그 :
+                {% for post_tag in post.tags.all %}
+                    <a href="{% url 'search:main_search' %}?q={{ post_tag }}&options=tags">#{{ post_tag }}</a>
+                    {#                    <a href="{% url 'search:tag_search' post_tag %}">#{{ post_tag }}</a>#}
+                {% endfor %}
+            </div>
+            <div class="post_contents">내용: {{ post.contents | striptags | truncatechars:100 }}</div>
+            <div class="profile_post_contents">내용: {{ post.contents|truncatechars_html:85|safe }}</div>
+            <div>평점:
+                <div class="rateit" data-rateit-value="{{ post.score }}" data-rateit-ispreset="true"
+                     data-rateit-readonly="true"></div>
+            </div>
+        </div>
+        <br>
+    {% endfor %}
+{% endif %}
 
-</ul>
 
+<div id="profile_post_list_ajax"></div>  {# ajax 결과물 추가할 곳 #}
+<input id="page" type="hidden" value="2">  {# 첫 next_page == 2 #}
+<input id="user" type="hidden" name="{{ profile.user.pk }}"> {# profile.user.pk를 ajax에서 사용하기 위해 #}
+<button id="callmorepost" type="button">More Post</button>

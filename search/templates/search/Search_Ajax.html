@@ -103,6 +103,12 @@
     }
 
     function addMorePostAjax(data, textStatus, jqXHR) {
-        $('.content-feed').append(data);  //dev post_list_ajax 자리에 포스트를 올린다.
+        $('#profile_post_list_ajax').append(data);  //dev post_list_ajax 자리에 포스트를 올린다.
     }
+</script>
+<script async>
+    console.log(document.getElementsByClassName("profile_post_contents"));
+    var contentsText = document.getElementsByClassName("profile_post_contents").innerText;
+    console.log(contentsText);
+    document.getElementsByClassName("profile_post_contents").innerHTML = contentsText;
 </script>
