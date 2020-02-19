@@ -66,7 +66,7 @@ ul.menu > li {
 .menu > li .sub1 {
     position: absolute;
     top: 80px;
-    right: 615px;
+    right: 512px;
     line-height: 70px;
     background-color: #00B0F0;
     color: white;
@@ -76,16 +76,17 @@ ul.menu > li {
 }
 
 .menu > li .sub2 {
-    width: 100px;
     position: absolute;
+    width: 100px;
     top: 80px;
-    right: 512px;
+    right: 50px;
     line-height: 70px;
     background-color: #00B0F0;
     color: white;
     display: none;
 
 }
+
 
 .menu > li:hover .sub1 {
     display: block;

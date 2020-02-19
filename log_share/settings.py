@@ -43,10 +43,7 @@ INSTALLED_APPS = [
     # 3rd party apps
     'taggit',
     'rest_framework',
-
-    # my apps
-    # 'log_share_search',
-    # 'post',
+    'django_summernote',
 
     # app
     'group_management',
@@ -54,7 +51,8 @@ INSTALLED_APPS = [
     'accounts',
     'main',
     'post',
-    'django_summernote',
+    'search',
+
 ]
 
 MIDDLEWARE = [
@@ -95,7 +93,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'log_share',
         'USER': 'root',
-        'PASSWORD': '111111',
+        'PASSWORD': 'admin',
         'HOST': 'localhost',
         'PORT': '3306',
     }

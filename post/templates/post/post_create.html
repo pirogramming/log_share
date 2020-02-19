@@ -3,37 +3,30 @@
         width: 80%;
         margin: 50px auto;
     }
-
-    form {
+    form{
         background-color: white;
+        border: 1px solid #b0bec9;
         border-radius: 5px;
         box-shadow: 2px 2px 2px #b0bec9;
         padding: 30px 50px;
-        border: 0.5px solid #b0bec9;
     }
-
-    form p {
+    form p{
         background-color: transparent;
         margin-bottom: 15px;
     }
-
-    form label {
+    form label{
         background-color: transparent;
     }
-
-    form div {
+    form div{
         background-color: transparent;
     }
-
-    form div strong {
+    form div strong{
         background-color: transparent;
     }
-
-    form #id_photo {
+    form #id_photo{
         background-color: transparent;
     }
-
-    form .helptext {
+    form .helptext{
         background-color: white;
     }
 </style>
@@ -42,12 +35,12 @@
 
 {% block header %}
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-    <link rel="stylesheet" href="/resources/demos/style.css">
+{#    <link rel="stylesheet" href="/resources/demos/style.css">#}
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script>
         $.datepicker.setDefaults({
-            dateFormat: 'yy-mm-dd',
+            dateFormat: 'yyyy-mm-dd',
             prevText: '이전 달',
             nextText: '다음 달',
             monthNames: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
@@ -70,7 +63,7 @@
 
 
 {% block content %}
-    <div>
+    <div class="temp">
         <form action="" method="POST" enctype="multipart/form-data" autocomplete="off">
             {% csrf_token %}
             <p>
