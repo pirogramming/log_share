@@ -17,7 +17,7 @@ class PostModelForm(ModelForm):
             'photo': FileInput(),
         }
         help_texts = {
-            'tags': '반점(,)을 이용하여 태그를 구별하세요. 최대 10개까지 입력됩니다.',
+            'tags': '띄어쓰기 없이 반점(,)을 이용하여 태그를 구별하세요. 최대 10개까지 입력됩니다.',
         }
         labels = {
             'tags': '태그',
