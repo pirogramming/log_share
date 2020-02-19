@@ -43,7 +43,10 @@ INSTALLED_APPS = [
     # 3rd party apps
     'taggit',
     'rest_framework',
-    'django_summernote',
+
+    # my apps
+    'log_share_search',
+    # 'post',
 
     # app
     'group_management',
@@ -51,8 +54,7 @@ INSTALLED_APPS = [
     'accounts',
     'main',
     'post',
-    'search',
-
+    'django_summernote',
 ]
 
 MIDDLEWARE = [
@@ -87,24 +89,26 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'log_share.wsgi.application'
 
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'log_share',
-        'USER': 'root',
-        'PASSWORD': '123',
-        'HOST': 'localhost',
-        'PORT': '3306',
-    }
-}
+# Database
+# https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
 # DATABASES = {
 #     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': 'log_share',
+#         'USER': 'root',
+#        'PASSWORD': '111111',
+#         'HOST': 'localhost',
+#         'PORT': '3306',
 #     }
 # }
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    }
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators

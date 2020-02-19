@@ -170,16 +170,18 @@
     }
 
     #topbar {
-        height: 50px;
+        height: 35px;
         padding: 20px 40px 10px;
         border-bottom: 2px solid #b0bec9;
+        {#background-color: #1a237e;#}
+
     }
 
     #title {
         float: left;
         font-size: 20px;
-        color: #1a237e;
-        line-height: 50px;
+        color:#1a237e;
+        line-height: 35px;
         font-weight: bold;
     }
 
@@ -318,7 +320,7 @@
 {% load static %}
 
 {% block content %}
-    <div>
+    <div class="background">
         <div class="my_group">
             <div id="topbar">
                 <div id="title">내 그룹 리스트</div>
