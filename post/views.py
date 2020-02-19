@@ -232,7 +232,6 @@ def post_list_ajax(request):
         posts = paginator.page(1)
     except EmptyPage:
         posts = paginator.page(paginator.num_pages)
-
     context = {
         'posts': posts,
         'bm_post_list':bm_post_list,
@@ -256,7 +255,8 @@ def profile_post_list_ajax(request):
         posts = paginator.page(1)
     except EmptyPage:
         posts = paginator.page(paginator.num_pages)
-
+    print(page, posts)
+    print('--')
     context = {
         'posts': posts
     }

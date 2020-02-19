@@ -108,13 +108,19 @@
         {% if posts %}
             {% for post in posts %}
                 <div class="post_list">
-                    <div class="post_title">제목 : <a href="{% url 'post:post_detail' post.pk %}">{{ post.title }}</a></div>
-                    <div>작성자 : <a href="{% url 'myprofile:profile_detail' post.user.pk %}">{{ post.user.user_profile.name }}</a></div>
+                    <div class="post_title">제목 : <a href="{% url 'post:post_detail' post.pk %}">{{ post.title }}</a>
+                    </div>
+                    <div>작성자 : <a
+                            href="{% url 'myprofile:profile_detail' post.user.pk %}">{{ post.user.user_profile.name }}</a>
+                    </div>
                     <div>활동기간: {{ post.start_date }} ~ {{ post.end_date }}</div>
                     <div class="post_tag">
                         태그 :
                         {% for post_tag in post.tags.all %}
-                            <a href="{% url 'search:tag_search' post_tag %}">#{{ post_tag }}</a>
+
+                            <a href="{% url 'search:main_search' %}?q={{ post_tag }}&options=tags">#{{ post_tag }}</a>
+{#                            <a href="./?q={{ post_tag }}&options=tags">#{{ post_tag }}</a>#}
+{#                            <a href="{% url 'search:tag_search' post_tag %}">#{{ post_tag }}</a>#}
                         {% endfor %}
                     </div>
                     <div class="post_contents">내용: {{ post.contents | truncatechars_html:85|safe }}</div>
@@ -213,6 +219,7 @@
         }
 
         function addMorePostAjax(data, textStatus, jqXHR) {
+            console.log(data)
             $('#post_list_ajax').append(data);  //dev post_list_ajax 자리에 포스트를 올린다.
         }
     </script>

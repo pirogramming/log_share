@@ -1,7 +1,6 @@
 <script>
     $(function () {    //화면 다 뜨면 시작
 
-        var hi = 'good'
         $("#searchInput").autocomplete({
             source: function (request, response) {
                 var q = $("#searchInput").val()
@@ -40,7 +39,7 @@
                 return false;//한글 에러 잡기용도로 사용됨
             },
             minLength: 1,// 최소 글자수
-            autoFocus: true, //첫번째 항목 자동 포커스 기본값 false
+            autoFocus: false, //첫번째 항목 자동 포커스 기본값 false
             classes: {    //잘 모르겠음
                 "ui-autocomplete": "highlight"
             },
@@ -53,4 +52,57 @@
         });
 
     });
+
+    {#scroll ajax#}
+    $('#callmorepost').click(function () {
+        var page = $("#page").val();
+        var end_page = {{ posts.paginator.num_pages }};
+        if (page > end_page) {  //더이상 스크롤 할 페이지가 없는 경우
+            alert('더이상 페이지가 없습니다.')
+        }
+        callMorePostAjax(page);
+        $("#page").val(parseInt(page) + 1);
+    });
+
+    $(window).scroll(function () {
+        var scrollHeight = $(window).scrollTop() + $(window).height();
+        var documentHeight = $(document).height();
+
+        if (scrollHeight >= documentHeight) {
+            var page = $("#page").val();
+            var end_page = {{ posts.paginator.num_pages }};
+            if (page > end_page) {  //더이상 스크롤 할 페이지가 없는 경우
+                return;
+            }
+            callMorePostAjax(page);
+            $("#page").val(parseInt(page) + 1);
+        }
+    });
+
+    // 스크롤 내린 다음 페이지를 가져온다(포스트를 보이게 한다)
+    function callMorePostAjax(page) {
+        var end_page = {{ posts.paginator.num_pages }};
+        console.log(end_page, page)
+        if (page > end_page) {
+            return;
+        }
+        //ajax가 서버에게 전달하는 data
+        $.ajax({
+            type: 'POST', //데이터를 전송하는 방법
+            url: "{% url 'search:search_scroll' %}",
+            data: {
+                'page': page,  //가져와야하는 페이지 보냄
+                'csrfmiddlewaretoken': '{{ csrf_token }}'
+            },
+            success: addMorePostAjax,  //받아온 dataType를 어디에 둘것인가
+            dataType: 'html',
+            error: function (request, status, error) {
+                alert('오류발생');
+            },
+        });
+    }
+
+    function addMorePostAjax(data, textStatus, jqXHR) {
+        $('.content-feed').append(data);  //dev post_list_ajax 자리에 포스트를 올린다.
+    }
 </script>

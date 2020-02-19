@@ -18,7 +18,8 @@
             <div class="profile_post_tag">
                 태그 :
                 {% for post_tag in post.tags.all %}
-                    <a href="{% url 'search:tag_search' post_tag %}">#{{ post_tag }}</a>
+                    <a href="{% url 'search:main_search' %}?q={{ post_tag }}&options=tags">#{{ post_tag }}</a>
+                    {#                    <a href="{% url 'search:tag_search' post_tag %}">#{{ post_tag }}</a>#}
                 {% endfor %}
             </div>
             <div class="profile_post_contents">내용: {{ post.contents|truncatechars_html:85|safe }}</div>
@@ -69,6 +70,7 @@
             $("#page").val(parseInt(page) + 1);
         }
     });
+
     // 스크롤 내린 다음 페이지를 가져온다(포스트를 보이게 한다)
     function callMorePostAjax(page) {
         var end_page = {{ posts.paginator.num_pages }};
@@ -82,7 +84,7 @@
             type: 'POST', //데이터를 전송하는 방법
             url: "{% url 'post:profile_post_list_ajax' %}",
             data: {
-                'pk':pk,
+                'pk': pk,
                 'page': page,  //가져와야하는 페이지 보냄
                 'csrfmiddlewaretoken': '{{ csrf_token }}'
             },
@@ -95,6 +97,7 @@
     }
 
     function addMorePostAjax(data, textStatus, jqXHR) {
+        console.log(data)
         $('#profile_post_list_ajax').append(data);  //dev post_list_ajax 자리에 포스트를 올린다.
     }
 </script>
