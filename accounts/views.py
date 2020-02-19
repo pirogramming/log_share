@@ -94,18 +94,22 @@ def password_change(request):
 
 
 class MyPasswordResetView(PasswordResetView):
-    success_url = reverse_lazy('accounts:login')
+    success_url = reverse_lazy('accounts:password_reset')
     template_name = 'accounts/password_reset_form.html'
 
     def form_valid(self, form):
-        messages.info(self.request, '암호 변경 메일을 발송했습니다. 해당메일로 가서 메일을 확인해주세요.')
+        messages.info(self.request, '암호 변경 메일을 발송했습니다. 해당 메일로 가서 메일을 확인해주세요.')
         return super().form_valid(form)
 
 
 class MyPasswordResetConfirmView(PasswordResetConfirmView):
-    success_url = reverse_lazy('accounts:login')
+    success_url = reverse_lazy('accounts:after_reset')
     template_name = 'accounts/password_reset_confirm.html'
 
     def form_valid(self, form):
         messages.info(self.request, '암호 리셋을 완료했습니다.')
         return super().form_valid(form)
+
+
+def after_reset(request):
+    return render(request, 'accounts/after_reset.html')
