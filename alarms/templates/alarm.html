@@ -9,17 +9,18 @@
 </body>
 
 <script>
+    //--------websocket에서 새로운 message를 보내면 이를 textarea에 출력----------
     username='{{ username }}';  //views.py에서 받은 username
     var chatSocket = new WebSocket(
         'ws://' + window.location.host + '/ws/test/' + username + '/'
     );
 
-    //shareme에서 받아온 data를 통해 message 출력력
+    //shareme에서 받아온 data를 통해 message 출력
    chatSocket.onmessage = function (e) {
-        console.log(e);
+        console.log(e); //e == message
         var data = JSON.parse(e.data); //data를 받아와서
         var message = data['message']; //message 출력
-        document.querySelector('#chat-log').value += (message + '/n');
+        document.querySelector('#chat-log').value += (message);
     };
     chatSocket.onopen = function (e) {
         console.log("연결 성공");

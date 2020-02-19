@@ -3,10 +3,10 @@
 <head>
     <title>ShareMe</title>
 </head>
-<div><button id="btn">PosingW</button></div>
+<div><button id="btn">가입 신청</button></div>
 
 <script>
-    //button -> views에 데이터 전송
+    //----------button를 누르면 views에 data 전송------------
     var btn = document.getElementById('btn');
     var xhr = new XMLHttpRequest(); //file upload
     var username = '{{ username }}';
@@ -20,7 +20,7 @@
         xhr.setRequestHeader('X-CSRFToken', '{{ csrf_token }}');
         xhr.setRequestHeader('Content-Type', 'application/json');
         xhr.send(JSON.stringify({
-            'message': username + "님이" + event + "그룹 요청을 보냈습니다."
+            'message': username + "님이 " + event + "그룹 요청을 보냈습니다."
         }));
     };
 </script>

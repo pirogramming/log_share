@@ -250,9 +250,30 @@
               autocomplete="off">{% csrf_token %}
             {{ access_code_form.group_name }}
             {{ access_code_form.access_code }}
-            <input class="access_code_sumbit" type="submit" value="가입 요청">
+            <input id="btn" group_name="{{ group.group_name }}" class="access_code_sumbit" type="submit" value="가입 요청">
         </form>
     </div>
+    <script>
+        //----------button를 누르면 views에 data 전송------------
+        //todo 김유빈
+        var btn = document.getElementById('btn');
+        var xhr = new XMLHttpRequest(); //file upload
+        var username = '{{ username }}';
+
+        btn.addEventListener("click", function () {
+            simple($(this).attr('group_name'));
+        });
+
+        function simple(group_name) {
+            xhr.open("POST", window.location.href, true);
+            xhr.setRequestHeader('X-CSRFToken', '{{ csrf_token }}');
+            xhr.setRequestHeader('Content-Type', 'application/json');
+            xhr.send(JSON.stringify({
+                'message': username + "님이 " + group_name + "그룹에 요청을 보냈습니다."
+            }));
+        };
+    </script>
+
     <div class="column">
         <div class="search">
             <div class="search_bar">

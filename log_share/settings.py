@@ -33,7 +33,8 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    'channels',  # 맨 위에 두어야 충돌이 나지 않는다.
+    #todo channels 추가 오류 - NotImplementedError
+    'channels',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
