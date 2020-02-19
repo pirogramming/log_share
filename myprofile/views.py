@@ -5,6 +5,7 @@ from django.contrib.auth.models import User
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from accounts.forms import SignupModelForm, CustomUserChangeForm
 from myprofile.models import BookMark, Profile
+from random import randint
 
 # <<<<<<<<<<<<<<profile user_pk>>>>>>>>>>>>>>
 from myprofile.utils import recent_tag_counting
@@ -31,7 +32,14 @@ def profile_detail(request, pk):
         return render(request, 'http404.html')
 
     else:
-        profile = user.user_profile  # user -> profile
+        try:
+            profile = user.user_profile  # user -> profile
+        except Exception:
+            if user == request.user:
+                return redirect('accounts:signup_profile')
+            else:
+                return render(request, 'http404.html')
+
         # 최근 태그 리스트
         post_list = user.user_post.order_by('-start_date', '-end_date')# 시작일 기준(만약 같다면 종료일 기준)으로 최근 게시물부터 태그가 들어가게 한다.
         # 최상단 10개 개시물에서 태그들이 얼마나 많이 사용되었는지 카운팅하는 함수
@@ -53,18 +61,17 @@ def profile_detail(request, pk):
             posts = paginator.page(paginator.num_pages)  # num_pages : 총 페이지 수
 
         colors = ('red', 'green', 'blue', 'yellow', 'brown')
-        interested_tag_list = profile.interested_tag.split(',')
-        from random import randint
-        interested_tag_dict = {tag: randint(1, 3) for tag in interested_tag_list}
-        print(interested_tag_dict)
-
         context = {
             'profile': profile,
             'posts': posts,
             'recent_tags_count': recent_tags_count,
             'colors': colors,
-            'interested_tag_dict': interested_tag_dict,
         }
+        if profile.interested_tag:
+            interested_tag_list = profile.interested_tag.split(',')
+            interested_tag_dict = {tag: randint(1, 3) for tag in interested_tag_list}
+
+            context['interested_tag_dict'] = interested_tag_dict
 
         return render(request, 'myprofile/profile_detail.html', context)
 
