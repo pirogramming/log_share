@@ -31,13 +31,14 @@
         {% if user.is_authenticated %}
             <li><a href="{% url 'myprofile:profile_detail' request.user.pk %}">프로필</a>
                 <ul class="sub2" style="list-style: none">
-                    <li><a href="{% url 'myprofile:profile_detail' request.user.pk %}">내 프로필</a></li>
+                    <li><a href="{% url 'myprofile:profile_detail' request.user.pk %}">마이페이지</a></li>
                     <li><a href="{% url "myprofile:profile_edit" request.user.pk %}">프로필 변경</a></li>
                     <li><a href="{% url 'accounts:password_change' %}">비밀번호 변경</a></li>
                 </ul>
             </li>
         {% endif %}
-            <li><a href="{% url 'post:post_create' %}">글 작성하기</a></li>
+            <li><a href="">로그쉐어</a></li>
+            <li><a href="{% url 'post:post_create' %}">포스트 작성</a></li>
             <li><a href="{% url "accounts:logout" %}">로그아웃</a></li>
         </ul>
     </div>

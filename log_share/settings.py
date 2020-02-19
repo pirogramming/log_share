@@ -33,6 +33,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'channels',  # 맨 위에 두어야 충돌이 나지 않는다.
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -52,8 +53,11 @@ INSTALLED_APPS = [
     'main',
     'post',
     'search',
-
+    'alarms',
 ]
+
+#알림
+ASGI_APPLICATION = 'log_share.routing.application'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -93,7 +97,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'log_share',
         'USER': 'root',
-        'PASSWORD': '123',
+        'PASSWORD': '123123',
         'HOST': 'localhost',
         'PORT': '3306',
     }
@@ -170,3 +174,13 @@ EMAIL_HOST_PASSWORD = 'tn340115'
 EMAIL_USE_TLS = True
 # EMAIL_USE_SSL = True
 DEFAULT_FROM_EMAIL = '이수경 <bobbeta22@gmail.com>'
+
+#channel_layers 추가
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            "hosts": [('127.0.0.1', 6379)],
+        },
+    },
+}
