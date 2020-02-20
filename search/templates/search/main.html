@@ -63,8 +63,8 @@
             }
 
             #profile-photo img {
-                width: 40%;
-                height: 50%;
+                width: 150px;
+                height: 150px;
                 border-radius: 100%;
                 object-fit: cover;
             }
@@ -425,7 +425,33 @@
     </form>
 
     <br>
-    {##}
+    {# -------------------------알림 요청 오면 알림 뜨는 것---------------------------- #}
+    <script type="text/javascript">
+        //현재 '홈'버튼 클릭하면
+        $("#home_btn").click(function () {
+            $.ajax({
+                type: "GET",
+                url: "{% url 'group_management:request_exist' %}",
+                data: {
+                    'csrfmiddlewaretoken': '{{ csrf_token }}'
+                },
+                dataType: "html",
+
+                success: function (response) {
+                    if (response.icon) {
+                        $("#alert_icon").css("visibility", "visible");
+                    } else {
+                        $("#alert_icon").css("visibility", "hidden");
+                    }
+                },
+                error: function (request, status, error) {
+                    alert("요청 알림 오류");
+                }
+            });
+        })
+    </script>
+    {#-------------------------------------------------------------------------------#}
+
     {#    <input id="page" type="hidden" value="2"> {# 첫 next_page == 2 #}
     {#    <button id="callmorepost" type="button">More Post</button>#}
 

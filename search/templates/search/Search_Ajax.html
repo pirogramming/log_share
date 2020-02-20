@@ -71,7 +71,7 @@
         var scrollHeight = $(window).scrollTop() + $(window).height();
         var documentHeight = $(document).height();
 
-        if (scrollHeight >= documentHeight) {
+        if (scrollHeight + 100 >= documentHeight) {
             var page = $("#page").val();
             var end_page = {{ posts.paginator.num_pages }};
             if (page > end_page) {  //더이상 스크롤 할 페이지가 없는 경우

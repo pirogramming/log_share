@@ -163,10 +163,10 @@ def post_bookmark(request):
     if not bookmark_created:
         bookmark.delete()
         message = "북마크 취소"
-        img_url = "/media/baseline_bookmark_border_black_18dp.png"
+        img_url = "/media/bookmark_off.jpg"
     else:
         message = "북마크"
-        img_url = "/media/baseline_bookmark_black_18dp.png"
+        img_url = "/media/bookmark_on.jpg"
     context = {
         'bookmark_count': post.bookmark.count(),
         'message': message,
