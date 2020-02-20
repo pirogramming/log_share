@@ -100,7 +100,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'log_share',
         'USER': 'root',
-        'PASSWORD': '123',
+        'PASSWORD': '111111',
         'HOST': 'localhost',
         'PORT': '3306',
     }

@@ -122,7 +122,10 @@ def search_auto(request):
     elif option == 'users':
         # qs = User.objects.filter(user_groups__in=user.user_groups.all()).distinct()
         print(User.objects.filter(user_groups__in=user.user_groups.all()))
-        qs = User.objects.filter(user_groups__in=user.user_groups.all()).distinct()
+        qs = User.objects.filter(
+            Q(user_groups__in=user.user_groups.all()) &
+            (Q(user_profile__name__icontains=q) | Q(username__icontains=q))
+        ).distinct()
         results = [
             {
                 'id': users.id,

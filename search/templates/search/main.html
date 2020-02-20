@@ -140,16 +140,11 @@
                     <div class="search-option">
                         <div class="container">
                             <div class="btn-group">
-                                <div class="btn" data-value="posts">제목 + 내용
-                                    <input type="radio" name="options" value="posts">
-                                </div>
-                                <div class="btn" data-value="tags">태그
-                                    <input type="radio" name="options" value="tags">
-                                </div>
-                                <div class="btn" data-value="users">작성자
-                                    <input type="radio" name="options" value="users">
-                                </div>
+                                <div class="btn" data-value="posts">제목 + 내용</div>
+                                <div class="btn" data-value="tags">태그</div>
+                                <div class="btn" data-value="users">작성자</div>
                             </div>
+                            <input type="hidden" id="options-input" name="options" value="">
                             {#                            <div class="btn-group">#}
                             {#                                <label class="btn">#}
                             {#                                    <input type="radio" name="options" value="posts"> 제목 + 내용#}
@@ -182,15 +177,17 @@
 
     <script type="text/javascript">
         {#$("input:radio[name='options']:radio[value='posts']").prop('checked', false); // 해제하기#}
-        if ('{{ option }}') {
-            $("input:radio[name='options']:radio[value={{ option }}]").prop('checked', true);
-            $("input:radio[name='options']:radio[value={{ option }}]").addClass('active');
-            $('div[data-value="{{option}}"]').addClass('active');
 
+        if ('{{ option }}') {
+            {#$("input:radio[name='options']:radio[value={{ option }}]").prop('checked', true);#}
+            {#$("input:radio[name='options']:radio[value={{ option }}]").addClass('active');#}
+            $('div[data-value="{{option}}"]').addClass('active');
+            $('#options-input').attr('value', '{{ option }}');
         } else {
-            $("input:radio[name='options']:radio[value='posts']").prop('checked', true); // 선택하기
-            $("input:radio[name='options']:radio[value='posts']").addClass('active');
+            {#$("input:radio[name='options']:radio[value='posts']").prop('checked', true); // 선택하기#}
+            {#$("input:radio[name='options']:radio[value='posts']").addClass('active');#}
             $('div[data-value="posts"]').addClass('active');
+            $('#options-input').attr('value', 'posts');
 
         } // 선택하기
 
@@ -200,7 +197,11 @@
 
         {#옵션 버튼 애니메이션#}
 
-
+        $('.btn-group .btn').click(function (e) {
+            {#console.log(e.attr('data-value'))#}
+            data = $(this).attr("data-value");
+            $('#options-input').val(data);
+        })
         const pathLength = 68 * 2 + 200;
 
         class BtnGroup {
@@ -284,6 +285,7 @@
                 this.removeClass('active');
                 this.currentIndex = index;
                 this.addClass('active');
+                {#$('#options-input').attr('value', this.)#}
                 this.refreshPath();
             }
         };
