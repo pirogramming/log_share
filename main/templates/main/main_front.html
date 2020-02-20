@@ -22,7 +22,7 @@
 
         /*div안에 a태그가 있으면 css가 잘 적용이안됨... 그럴때는 a태그에 display:block;를  넣어줌.*/
         a {
-            color:  white;
+            color: white;
             width: 100%;
             height: 100%;
             display: block;
@@ -52,8 +52,9 @@
             border-radius: 5px;
             background-color: #00B0F0;
             font-weight: bold;
-            color:white;
+            color: white;
         }
+
         .menu > div:nth-child(2) {
             width: 100px;
             height: 40px;
@@ -67,7 +68,7 @@
             border-radius: 5px;
             background-color: #00B0F0;
             font-weight: bold;
-            color:white;
+            color: white;
         }
 
         .menu > div:hover {
@@ -126,36 +127,41 @@
             left: 340px;
             top: 17px;
         }
-        #main{
+
+        #main {
             width: 100%;
         }
-        .main_box{
+
+        .main_box {
             width: 100%;
             height: 560px;
-            background-color: rgb(242,242,242);
+            background-color: rgb(242, 242, 242);
             margin: 0;
             padding: 0;
         }
-        .main_title{
+
+        .main_title {
             position: absolute;
-            top:170px;
+            top: 170px;
             font-size: 80px;
             font-family: "나눔스퀘어 ExtraBold";
             left: 35%;
-            color: rgb(36,63,118);
+            color: rgb(36, 63, 118);
         }
-        .main_content{
+
+        .main_content {
             position: absolute;
-            top:280px;
+            top: 280px;
             font-size: 25px;
             left: 31%;
         }
-        .btn_signup{
+
+        .btn_signup {
             border-radius: 13px;
             width: 200px;
             height: 60px;
-            background-color: rgb(36,63,118);
-            color:white;
+            background-color: rgb(36, 63, 118);
+            color: white;
             line-height: 60px;
             text-align: center;
             font-size: 23px;
@@ -163,23 +169,25 @@
             top: 380px;
             left: 43%;
         }
-        .port{
+
+        .port {
             width: 100%;
             height: 560px;
-            {#background-color: rgb(36,63,118);#}
-            background-color: #1E88E5;
+        {#background-color: rgb(36,63,118);#} background-color: #1E88E5;
             margin: 0px;
 
         }
-        #port_text{
+
+        #port_text {
             width: 350px;
             height: 350px;
             margin-left: 17%;
             margin-top: 8%;
             float: left;
         }
-        .port_title{
-            color:white;
+
+        .port_title {
+            color: white;
             font-size: 45px;
             font-family: "나눔스퀘어 ExtraBold";
             float: right;
@@ -187,38 +195,87 @@
             margin-right: 300px;
             margin-top: 200px;
         }
-        .port_content{
-            color:#e0e0e0;
+
+        .port_content {
+            color: #e0e0e0;
             font-size: 23px;
             float: right;
             text-align: right;
             margin-right: 300px;
             margin-top: 30px;
         }
-        .share{
+
+        .share {
             width: 100%;
             height: 700px;
-            background-color: rgb(255,192,0);
+            background-color: rgb(255, 192, 0);
             margin: 0px;
         }
-        #share_img{
+
+        #share_img {
             width: 650px;
             margin-left: 30%;
             margin-top: 4%;
             float: left;
         }
-        .share_title{
-            color:white;
+
+        .share_title {
+            color: white;
             font-size: 45px;
             font-family: "나눔스퀘어 ExtraBold";
             text-align: center;
             margin-top: 450px;
         }
-        .share_content{
-            color:#4f4f4f;
+
+        .share_content {
+            color: #4f4f4f;
             font-size: 23px;
             text-align: center;
             margin-top: 30px;
+        }
+        .search{
+            width: 100%;
+            height: 700px;
+            margin: 0px;
+            background-color: rgb(255,124,128);
+            animation: color_change 1s infinite alternate-reverse;
+        }
+
+        @keyframes color_change {
+            0% { background-color: rgb(255,124,128);}
+            100% { background-color: rgb(255,204,204);}
+        }
+        .search_title{
+            color: white;
+            font-size: 45px;
+            font-family: "나눔스퀘어 ExtraBold";
+            text-align: center;
+            margin-top: 200px;
+        }
+        .search_content{
+            color: #4f4f4f;
+            font-size: 23px;
+            text-align:center;
+            margin-top: 30px;
+        }
+        .search_bar{
+            width: 330px;
+            height: 70px;
+            background-color: white;
+            border-radius: 10px;
+            margin: 0 auto;
+            font-size: 20px;
+            line-height: 70px;
+            margin-top: 20px;
+            border: 8px solid #3c3c3c;
+            padding-left: 20px;
+        }
+        .hidden_text{
+            color:#3c3c3c;
+            font-size: 27px;
+            text-align: center;
+             margin-top: 80px;
+            font-weight: bold;
         }
 
 
@@ -253,9 +310,17 @@
     <div class="share">
         <div><img id="share_img" src="{% static 'img/shareimg.png' %}" alt=""/></div>
         <div class="share_title">내 그룹의 사람들에게만! <br>나의 스펙 공유 가능
-</div>
+        </div>
         <div class="share_content">그룹별로 프라이빗한 스펙 공유가 가능하고,<br>필터 검색을 통해 내 포트폴리오가 내 그룹 사람들에게 보여집니다.
-</div>
+        </div>
+    </div>
+    <div class="search">
+        <div class="search_title">내 그룹의 스펙을 검색하세요!</div>
+        <div class="search_content">그룹 선택, 그룹별 카테고리, 활동 기간별로 필터를 선택해 스펙을 검색 할 수 있습니다.<br>
+        또한, 가입하고 싶은 그룹을 추천 받고 검색할 수 있습니다.
+        </div>
+        <div class="hidden_text">가입하고 싶은 그룹명을 입력하세요.</div>
+        <div class="search_bar">Search...</div>
     </div>
 </div>
 </body>

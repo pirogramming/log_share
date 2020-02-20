@@ -43,10 +43,10 @@ INSTALLED_APPS = [
     # 3rd party apps
     'taggit',
     'rest_framework',
-<<<<<<< HEAD
-=======
+
+
     'django_summernote',
->>>>>>> dev
+
 
     # app
     'group_management',
@@ -55,16 +55,10 @@ INSTALLED_APPS = [
     'main',
     'post',
     'search',
-
-<<<<<<< HEAD
     # sass for searchbar
 
-    # summernote
-    'django_summernote',
-=======
->>>>>>> dev
-]
 
+]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
