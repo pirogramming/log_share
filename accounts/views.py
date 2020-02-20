@@ -27,7 +27,6 @@ def logout(request):
     return redirect('/')
 
 
-
 def signup(request):
     if request.method == "POST":
         user_form = CreateUserForm(request.POST)
@@ -107,7 +106,6 @@ class MyPasswordResetConfirmView(PasswordResetConfirmView):
     template_name = 'accounts/password_reset_confirm.html'
 
     def form_valid(self, form):
-        messages.info(self.request, '암호 리셋을 완료했습니다.')
         return super().form_valid(form)
 
 

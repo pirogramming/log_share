@@ -43,7 +43,10 @@ INSTALLED_APPS = [
     # 3rd party apps
     'taggit',
     'rest_framework',
+<<<<<<< HEAD
+=======
     'django_summernote',
+>>>>>>> dev
 
     # app
     'group_management',
@@ -53,6 +56,13 @@ INSTALLED_APPS = [
     'post',
     'search',
 
+<<<<<<< HEAD
+    # sass for searchbar
+
+    # summernote
+    'django_summernote',
+=======
+>>>>>>> dev
 ]
 
 
@@ -96,20 +106,16 @@ WSGI_APPLICATION = 'log_share.wsgi.application'
 #         'ENGINE': 'django.db.backends.mysql',
 #         'NAME': 'log_share',
 #         'USER': 'root',
-#        'PASSWORD': '111111',
+#         'PASSWORD': '123',
 #         'HOST': 'localhost',
 #         'PORT': '3306',
 #     }
-# }
+# }pytho
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'log_share',
-        'USER': 'root',
-        'PASSWORD': 'admin',
-        'HOST': 'localhost',
-        'PORT': '3306',
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
 
@@ -149,6 +155,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATICFILES_DIRS = (os.path.join(BASE_DIR, "static"),)
+# STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 # image
 MEDIA_URL = '/media/'

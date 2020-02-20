@@ -34,7 +34,7 @@
 
     .my_info {
         width: 400px;
-        height: 500px;
+        height: 400px;
         background-color: white;
         box-shadow: 2px 2px 2px #417690;
         border: 1px solid #b0bec9;
@@ -62,8 +62,8 @@
     #profile_img {
         width: 150px;
         height: 150px;
-        border-radius: 75px;
-        margin-left: 130px;
+        border-radius: 30px;
+        margin-left: 120px;
 
     }
 
@@ -75,7 +75,7 @@
 
     .my_url {
         width: 400px;
-        height: 500px;
+        height: 400px;
         background-color: white;
         box-shadow: 2px 2px 2px #417690;
         border: 1px solid #b0bec9;
@@ -96,7 +96,11 @@
         color: black;
     }
 
+<<<<<<< HEAD
+    .btn_profile_password, .btn_profile_edit {
+=======
     .btn_profile_card, .btn_profile_edit {
+>>>>>>> dev
         background-color: #00B0F0;
         display: inline-block;
         color: white;
@@ -117,12 +121,204 @@
         border: 1px solid #1E88E5;
     }
 
+<<<<<<< HEAD
+    .btn_profile_password:hover {
+=======
     .btn_profile_card:hover {
+>>>>>>> dev
         background: #1E88E5;
         color: white;
         border: 1px solid #1E88E5;
     }
 
+<<<<<<< HEAD
+    .profile_card {
+        margin-left: 155px;
+        cursor: pointer;
+        background-color: white;
+        display: inline-block;
+        width: 80px;
+        height: 30px;
+        text-align: center;
+        color: #1a237e;
+        border-radius: 5px;
+        border: 3px solid #1a237e;
+        font-weight: bolder;
+        font-size: 20px;
+        line-height: 30px;
+        margin-top: 10px;
+    }
+
+    .profile_card:hover {
+        background-color: #1a237e;
+        color: white;
+    }
+
+    .modal {
+        opacity: 0;
+        visibility: hidden;
+        position: fixed;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        text-align: left;
+        background: rgba(0, 0, 0, .6);
+        transition: opacity .25s ease;
+    }
+
+    .modal_bg {
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        cursor: pointer;
+    }
+
+    .modal-state {
+        display: none;
+    }
+
+    .modal-state:checked + .modal {
+        opacity: 1;
+        visibility: visible;
+    }
+
+    .modal-state:checked + .modal .modal__inner {
+        top: 0;
+    }
+
+    .modal_inner {
+        transition: top .25s ease;
+        position: absolute;
+        top: 2%;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        width: 23%;
+        margin: auto;
+        overflow: auto;
+        background: #fff;
+        border-radius: 5px;
+        padding: 1em 2em;
+        height: 85%;
+    }
+
+    .modal_close {
+        position: absolute;
+        right: 1em;
+        top: 1em;
+        width: 1.1em;
+        height: 1.1em;
+        cursor: pointer;
+    }
+
+    .modal_close:after,
+    .modal_close:before {
+        content: '';
+        position: absolute;
+        width: 2px;
+        height: 1.5em;
+        background: #ccc;
+        display: block;
+        transform: rotate(45deg);
+        left: 50%;
+        margin: -3px 0 0 -1px;
+        top: 0;
+    }
+
+    .modal_close:hover:after,
+    .modal_close:hover:before {
+        background: #aaa;
+    }
+
+    .modal_close:before {
+        transform: rotate(-45deg);
+    }
+
+    @media screen and (max-width: 768px) {
+
+        .modal_inner {
+            width: 90%;
+            height: 90%;
+            box-sizing: border-box;
+        }
+    }
+
+    .card_inside {
+        margin-top: 20px;
+        background-color: #00B0F0;
+        width: 100%;
+        border-radius: 30px;
+        height: 620px;
+        padding: 25px;
+        box-sizing: border-box;
+        box-shadow: 2px 2px 2px #b0bec9;
+    }
+
+    .card_content {
+        width: 300px;
+        height: 480px;
+        border-radius: 20px;
+        background-color: white;
+    }
+
+    .card_logo {
+        margin-left: 35%;
+        color: white;
+        line-height: 30px;
+        font-size: 20px;
+    }
+
+    #profile_img {
+        width: 265px;
+        height: 245px;
+        margin-left: 6%;
+        margin-top: 20px;
+        border-radius: 20px 20px 0 0;
+    }
+
+    .card_name {
+        font-weight: bold;
+        text-align: center;
+        margin-top: 30px;
+        font-size: 23px;
+    }
+
+    .icon {
+        width: 40px;
+        margin-left: 30px;
+
+    }
+
+    .card_logo_box {
+        float: left;
+        margin-top: 60px;
+    }
+
+    .card_email {
+        float: left;
+        margin-top: 60px;
+        margin-left: 10px;
+        font-size: 15px;
+    }
+
+    #email {
+        font-size: 18px;
+        font-weight: bold;
+    }
+    .tag{
+        padding-top: 20px;
+        color:white;
+        margin-left: 20px;
+    }
+    .tag2{
+        color:white;
+        font-size: 12px;
+        line-height: 20px;
+        margin-left: 20px;
+=======
     .interested_tag {
         color: white;
         border: 0px;
@@ -131,6 +327,7 @@
         margin: 2px 0px;
         padding: 5px;
         transition: all .1s;
+>>>>>>> dev
     }
 
     .interested_tag:hover {
@@ -141,6 +338,7 @@
 
 </style>
 {% extends 'base.html' %}
+{% load static %}
 
 {% block header %}
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
@@ -154,12 +352,29 @@
         <div class="topbar">
             <div class="big_title">내 정보 변경</div>
         </div>
+<<<<<<< HEAD
+        <div class="my_info">
+            <div class="title">내 프로필</div>
+            {#            <div class="profile_photo">#}
+            {#                {% if profile.photo %}#}
+            {#                    <img src="{{ profile.photo.url }}" alt="" id="profile_img"/>#}
+            {#                {% endif %}#}
+            {#            </div>#}
+            <label class="profile_card" for="open-pop">{{ profile.name }}</label>
+            <div class="profile_first_content">
+                {#                <div class="profile_name">이름: {{ profile.name }}</div>#}
+                <div class="profile_depart">소속: {{ profile.department }}</div>
+                <div class="profile_intro">자기소개:<p>
+                    {% if profile.description != None %}
+                        {{ profile.description }}
+=======
         <div class = my_container>
             <div class="my_info">
                 <div class="title">내 프로필</div>
                 <div class="profile_photo">
                     {% if profile.photo %}
                         <img src="{{ profile.photo.url }}" alt="" id="profile_img"/>
+>>>>>>> dev
                     {% endif %}
                 </div>
                 <div class="profile_first_content">
@@ -185,6 +400,12 @@
                         수정</a>
                     </div>
                 </div>
+<<<<<<< HEAD
+                <div class="btn_profile_password"><a href="{% url "accounts:password_change" %}">비밀번호 변경</a></div>
+                <div class="btn_profile_edit"><a href="{% url "myprofile:profile_edit" request.user.pk %}">프로필 수정</a>
+                </div>
+=======
+>>>>>>> dev
             </div>
             <div class="my_url">
                 <div class="title">내 연락처</div>
@@ -213,6 +434,39 @@
             </div>
         </div>
     </div>
+<<<<<<< HEAD
+
+    {#    전자 명함#}
+    <input class="modal-state" id="open-pop" type="checkbox"/>
+    <div class="modal">
+        <label class="modal_bg" for="open-pop"></label>
+        <div class="modal_inner">
+            <label class="modal_close" for="open-pop"></label>
+            <div class="card_inside">
+                <div class="card_logo">LOG SHARE</div>
+                <div class="card_content">
+                    <div class="profile_photo">
+                        {% if profile.photo %}
+                            <img src="{{ profile.photo.url }}" alt="" id="profile_img"/>
+                        {% endif %}
+                    </div>
+                    <div class="card_name">{{ profile.name }}</div>
+                    <div class="card_logo_box"><img src="{% static 'img/공유아이콘.png' %}" class="icon"></div>
+                    <div class="card_email">email
+                        <div id="email">{{ profile.user.email }}</div>
+                    </div>
+                    <div></div>
+                </div>
+                <div class="tag">Tags of interest</div>
+                <div class="tag2">{% if profile.interested_tag != None %}
+                    {% for tag, size in interested_tag_dict.items %}
+                        {{ tag }}
+                    {% endfor %}
+                {% endif %}</div>
+            </div>
+        </div>
+    </div>
+=======
     <script type="text/javascript">
         var get_random_RGB = function () {
             var r = Math.floor((Math.random() * 0xcc) + 0x11).toString(16);
@@ -224,5 +478,6 @@
             $(this).css('background-color', get_random_RGB);
         })
     </script>
+>>>>>>> dev
 {% endblock %}
 

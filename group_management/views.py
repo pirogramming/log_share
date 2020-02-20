@@ -10,6 +10,7 @@ from django.views.generic import DetailView
 
 from group_management.forms import GroupForm, RequestWithCodeForm
 from group_management.models import CustomGroup, GroupRequest
+from django.contrib import messages
 
 
 @login_required
@@ -86,10 +87,10 @@ def search_group(request):
     q = request.GET.get('q', '')  # GET request의 인자중에 q 값이 있으면 가져오고, 없으면 빈 문자열 넣기
     if q:
         qs = CustomGroup.objects.filter(Q(group_name__icontains=q) & Q(is_searchable=1))
-    access_code_form = RequestWithCodeForm();
+    access_code_form = RequestWithCodeForm()
     context = {
-        'groups' : qs,
-        'access_code_form' : access_code_form,
+        'groups': qs,
+        'access_code_form': access_code_form,
         'q': q,
     }
     return render(request, 'group_management/search_group.html', context)
@@ -162,16 +163,28 @@ def request_withcode(request):
         form = RequestWithCodeForm(
             request.POST,
         )
-        group = get_object_or_404(
-            CustomGroup,
-            Q(group_name=form.data['group_name']) & Q(access_code=form.data['access_code'])
-        )
-        return redirect('group_management:request_group', group.pk)
-    else:
-        form = RequestWithCodeForm()
-    return render(request, 'group_management/request_withcode.html', {
-        'form': form,
-    })
+        try:
+            group = CustomGroup.objects.get(Q(group_name=form.data['group_name']) & Q(access_code=form.data['access_code']))
+            print(group)
+
+        except Exception:
+            messages.info(request, '입력한 정보와 일치하는 그룹이 존재하지 않습니다.')
+            return redirect('group_management:search_group')
+
+        if request.user in group.members.all():
+            messages.info(request, '이미 해당 그룹의 멤버입니다.')
+            return redirect('group_management:search_group')
+        try:
+            request_message = GroupRequest.objects.create(
+                group=group,
+                sender=request.user,
+            )
+        except IntegrityError:  # 이미 요청을 보낸 상태일 경우, 새로운 요청 생성하지 않고 원래 페이지로 이동.
+            messages.info(request, '이미 요청을 한 상태입니다.')
+            return redirect('group_management:search_group')
+
+        messages.info(request, '가입신청을 완료했습니다.')
+    return redirect('group_management:search_group')
 
 
 def request_from(request):

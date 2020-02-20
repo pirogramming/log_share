@@ -82,7 +82,7 @@
         border-radius: 5px;
     }
 
-    .post_detail_container .post_title{
+    .post_detail_container .post_title {
         width: 300px;
     }
 </style>
@@ -110,10 +110,11 @@
             <div class="post_title">제목: {{ post.title }}</div>
 
             {% if user != request.user %}
-                <input type="submit" class="bookmark" name="{{ post.id }}" value="" style="background-image: {% if bm %}url('/media/baseline_bookmark_black_18dp.png'){% else %}url('/media/baseline_bookmark_border_black_18dp.png'){% endif %}">
+                <input type="submit" class="bookmark" name="{{ post.id }}" value=""
+                       style="background-image: {% if bm %}url('/media/baseline_bookmark_black_18dp.png'){% else %}url('/media/baseline_bookmark_border_black_18dp.png'){% endif %}">
                 <p class="bookmark_count" id="count-{{ post.id }}">북마크{{ post.bookmark.count }}개</p>
 
-                <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+{#                <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>#}
                 <script type="text/javascript">
                     $(".bookmark").click(function () {
                         var pk = $(this).attr('name');
@@ -143,8 +144,25 @@
             <div class="post_detail_user">작성자:
                 <a href="{% url 'myprofile:profile_detail' user.pk %}">{{ user.user_profile.name }}</a></div>
 
-            <div>평점: <div class="rateit" data-rateit-value="{{ post.score }}" data-rateit-ispreset="true" data-rateit-readonly="true"></div></div>
-            <div>내용 : {{ post.contents | safe }}</div>
+            <div>평점:
+                <div class="rateit" data-rateit-value="{{ post.score }}" data-rateit-ispreset="true"
+                     data-rateit-readonly="true"></div>
+            </div>
+            <div>내용 :</div>
+            <button id="copy_button-{{ post.id }}">복사</button>
+            <script type="text/javascript">
+                $("#copy_button-{{ post.id }}").click(function() {
+                    var copyText = document.getElementById("post_content-{{ post.id }}");
+                    var t = document.createElement("textarea");
+                    document.body.appendChild(t);
+                    t.value = copyText.innerText;
+                    t.select();
+                    document.execCommand("copy");
+                    document.body.removeChild(t);
+                    alert("Copied");
+                })
+            </script>
+            <div id="post_content-{{ post.id }}">{{ post.contents | safe }}</div>
             <div class="post_detail_url">참고 URL :
                 {% if post.reference %}
                     <a href="{{ post.reference }}">{{ post.reference }}</a>
