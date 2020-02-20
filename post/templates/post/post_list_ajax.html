@@ -22,8 +22,8 @@
                 <div class="rateit" data-rateit-value="{{ post.score }}" data-rateit-ispreset="true" data-rateit-readonly="true"></div>
             </div>
             <div class="bookmark_container">
-                <input type="submit" class="bookmark_ajax" id="bookmark_ajax-{{ post.id }}" name="{{ post.id }}" value=""
-                    style="background-image: {% if post.id in bm_post_list %}url('/media/baseline_bookmark_black_18dp.png'){% else %}url('/media/baseline_bookmark_border_black_18dp.png'){% endif %}">
+                <input type="button" class="bookmark_ajax" id="bookmark_ajax-{{ post.id }}" name="{{ post.id }}" value=""
+                    style="background-image: {% if post.id in bm_post_list %}url('/media/bookmark_on.jpg'){% else %}url('/media/bookmark_off.jpg'){% endif %}">
             </div>
             <div class="post_email"><a href="mailto:{{ post.user.email }}" class="fa-envelope">Email</a></div>
         </div>
