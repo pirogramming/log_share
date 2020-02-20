@@ -45,7 +45,6 @@ INSTALLED_APPS = [
     # 3rd party apps
     'taggit',
     'rest_framework',
-    'django_summernote',
 
     # app
     'group_management',
@@ -55,6 +54,11 @@ INSTALLED_APPS = [
     'post',
     'search',
     'alarms',
+
+    # sass for searchbar
+
+    # summernote
+    'django_summernote',
 ]
 
 #알림
@@ -92,6 +96,19 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'log_share.wsgi.application'
 
+# Database
+# https://docs.djangoproject.com/en/3.0/ref/settings/#databases
+#
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': 'log_share',
+#         'USER': 'root',
+#         'PASSWORD': '123',
+#         'HOST': 'localhost',
+#         'PORT': '3306',
+#     }
+# }pytho
 
 DATABASES = {
     'default': {
@@ -103,13 +120,6 @@ DATABASES = {
         'PORT': '3306',
     }
 }
-
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-#     }
-# }
 
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
@@ -148,6 +158,7 @@ USE_TZ = True
 STATIC_URL = '/static/'
 #STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 STATICFILES_DIRS = (os.path.join(BASE_DIR, "static"),)
+# STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 # image
 MEDIA_URL = '/media/'
@@ -186,3 +197,7 @@ CHANNEL_LAYERS = {
         },
     },
 }
+# sass app config
+SASS_PROCESSOR_ENABLED = True
+SASS_PROCESSOR_ROOT = os.path.join(BASE_DIR, 'search', 'static')
+SASS_OUTPUT_STYLE = 'compact'

@@ -33,7 +33,6 @@ def tag_count_check(request, post):
   tag_list = request.POST.get('tags')
   # tag들을 10개+나머지로 분리하여 리스트화한다
   tags = [str(tag) for tag in tag_list.split(',', maxsplit=11)]
-  print(tags)
   # 10개+나머지에서 나머지 제거
   if len(tags) >10:
     tags = tags[:-1]

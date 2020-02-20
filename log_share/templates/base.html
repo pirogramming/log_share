@@ -5,15 +5,190 @@
 <head>
     <meta charset="UTF-8">
     <title>Log share</title>
-    <link rel="stylesheet" href="{% static 'css/base.css' %}">
+    <style>
+        * {
+    font-family: NanumSquare;
+    text-decoration: none;
+    margin: 0;
+    padding: 0;
+}
+
+.wrapper {
+    width: 100%;
+    height: 80px;
+    background-color: #00B0F0;
+    color: white;
+}
+
+a {
+    color: white;
+}
+
+.logo {
+    margin-left: 200px;
+    display: inline-block;
+}
+
+.logofont {
+    color: white;
+    font-size: 25px;
+    line-height: 80px;
+    display: inline;
+}
+
+.logoimg_div {
+    display: inline-block;
+    align-content: center;
+}
+
+#logoimg {
+    width: 50px;
+    line-height: 80px;
+    position: absolute;
+    left: 340px;
+    top: 17px;
+}
+
+
+ul.menu > li {
+    line-height: 80px;
+    display: inline-block;
+    width: 100px;
+    height: 80px;
+    text-align: center;
+    text-decoration: none;
+    box-sizing: border-box;
+    {#border: 1px solid black;#}
+    margin-right: 10px;
+}
+
+.menu > li:hover {
+    border-bottom: 5px solid white;
+    box-sizing: border-box;
+}
+
+.menu {
+    margin-right: 200px;
+}
+
+/*드롭 다운 서브메뉴 */
+.menu > li .sub1 {
+    position: absolute;
+    top: 80px;
+    line-height: 70px;
+    background-color: #00B0F0;
+    color: white;
+    display: none;
+    width: 100px;
+
+}
+
+.menu > li .sub2 {
+    position: absolute;
+    width: 100px;
+    top: 80px;
+    line-height: 70px;
+    background-color: #00B0F0;
+    color: white;
+    display: none;
+
+}
+.menu > li .sub3 {
+    position: absolute;
+    width: 100px;
+    top: 80px;
+    line-height: 70px;
+    background-color: #00B0F0;
+    color: white;
+    display: none;
+
+}
+
+
+.menu > li:hover .sub1 {
+    display: block;
+    color: black;
+
+}
+
+.menu > li:hover .sub2 {
+    display: block;
+    color: black;
+
+}
+.menu > li:hover .sub3 {
+    display: block;
+    color: black;
+
+}
+
+/*서브메뉴 클릭시*/
+.sub1 > li:hover {
+    background-color: dodgerblue;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+
+}
+
+.sub2 > li:hover {
+    background-color: dodgerblue;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+
+}
+.sub3 > li:hover {
+    background-color: dodgerblue;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+
+}
+
+.logo {
+    float: left;
+}
+
+.menu {
+    float: right;
+}
+
+body {
+    background-color: white;
+}
+
+.body_container {
+    background-color: white;
+}
+
+/*서브메뉴 라운드 값*/
+.sub1 {
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    list-style: none;
+
+}
+
+.sub2 {
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    list-style: none;
+
+}
+.sub3{
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    list-style: none;
+}
+
+    </style>
     {% block header %}
     {% endblock %}
+
 </head>
 <body>
 
 <div class="wrapper">
     <div class="logo">
-{#        로그인 후 main으로  url로 바꿔야함.#}
+        {#        로그인 후 main으로  url로 바꿔야함.#}
         <a href="{% url 'search:main_search' %}">
             <div class="logofont">LOG SHARE</div>
             <div class="logoimg_div"><img id="logoimg" src="{% static 'img/로고%20하얀.png' %}" alt=""/></div>
@@ -23,22 +198,25 @@
         <ul class="menu">
             <li><a href="{% url 'search:main_search' %}">홈</a></li>
             <li><a href="{% url 'group_management:create_group' %}" id="group">그룹</a>
-                <ul class="sub1" style="list-style: none">
+                <ul class="sub1">
                     <li><a href="{% url 'group_management:create_group' %}">그룹 리스트</a></li>
-                    <li><a href="{% url 'group_management:search_group' %}">그룹 가입</a></li>
+                    <li><a href="{% url 'group_management:search_group' %}">그룹 검색</a></li>
                 </ul>
             </li>
         {% if user.is_authenticated %}
             <li><a href="{% url 'myprofile:profile_detail' request.user.pk %}">프로필</a>
-                <ul class="sub2" style="list-style: none">
-                    <li><a href="{% url 'myprofile:profile_detail' request.user.pk %}">마이페이지</a></li>
+                <ul class="sub2">
+                    <li><a href="{% url 'myprofile:my_profile' request.user.pk %}">내 프로필</a></li>
                     <li><a href="{% url "myprofile:profile_edit" request.user.pk %}">프로필 변경</a></li>
-                    <li><a href="{% url 'accounts:password_change' %}">비밀번호 변경</a></li>
                 </ul>
             </li>
         {% endif %}
-            <li><a href="">로그쉐어</a></li>
-            <li><a href="{% url 'post:post_create' %}">포스트 작성</a></li>
+            <li><a href="{% url 'post:post_create' %}">포스트</a>
+                <ul class="sub3">
+                    <li><a href="{% url 'myprofile:profile_detail' request.user.pk %}">내 포스트</a></li>
+                    <li><a href="{% url 'post:post_create' %}">포스트 작성</a></li>
+                </ul>
+            </li>
             <li><a href="{% url "accounts:logout" %}">로그아웃</a></li>
         </ul>
     </div>

@@ -22,7 +22,7 @@
                     {#                    <a href="{% url 'search:tag_search' post_tag %}">#{{ post_tag }}</a>#}
                 {% endfor %}
             </div>
-            <div class="profile_post_contents">내용: {{ post.contents|truncatechars_html:85|safe }}</div>
+            <div class="profile_post_contents">내용: {{ post.contents| striptags | truncatechars:100 }}</div>
             <div>평점:
                 <div class="rateit" data-rateit-value="{{ post.score }}" data-rateit-ispreset="true"
                      data-rateit-readonly="true"></div>
