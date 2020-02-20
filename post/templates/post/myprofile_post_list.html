@@ -38,12 +38,6 @@
 <input id="user" type="hidden" name="{{ profile.user.pk }}"> {# profile.user.pk를 ajax에서 사용하기 위해 #}
 <button id="callmorepost" type="button">More Post</button>
 
-<script async>
-    console.log(document.getElementsByClassName("profile_post_contents"));
-    var contentsText = document.getElementsByClassName("profile_post_contents").innerText;
-    console.log(contentsText);
-    document.getElementsByClassName("profile_post_contents").innerHTML = contentsText;
-</script>
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 <script type="text/javascript">
     $('#callmorepost').click(function () {
