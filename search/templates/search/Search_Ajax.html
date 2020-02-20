@@ -6,7 +6,7 @@
                 var q = $("#searchInput").val()
                 {#var option = $('input[name="options"]:checked').val();#}
                 {#var option = $('.btn.active').attr('data-value');#}
-                var option= $('#options-input').val()
+                var option = $('#options-input').val()
                 console.log(option)
                 $.ajax({
                     type: 'get',
@@ -52,8 +52,11 @@
             close: function (event) {    //자동완성창 닫아질때 호출
                 console.log(event);
             }
-        });
-
+        }).autocomplete("instance")._renderItem = function (ul, item) {    //요 부분이 UI를 마음대로 변경하는 부분
+            return $("<li>")    //기본 tag가 li로 되어 있음
+                .append("<div>" + item.value + "<br>" + item.label + "</div>")    //여기에다가 원하는 모양의 HTML을 만들면 UI가 원하는 모양으로 변함.
+                .appendTo(ul);
+        };
     });
 
     {#scroll ajax#}
@@ -108,6 +111,33 @@
     function addMorePostAjax(data, textStatus, jqXHR) {
         $('#profile_post_list_ajax').append(data);  //dev post_list_ajax 자리에 포스트를 올린다.
     }
+
+
+    //<<<<<북마크>>>>>>>>
+    $(".bookmark").click(function () {
+        var pk = $(this).attr('name');
+        $.ajax({
+            //bookmark button 클릭 -> ajax로 서버와 통신하기
+            type: "POST", //데이터를 전송하는 방법
+            url: "{% url 'post:post_bookmark' %}",  //통신할 url
+            data: {
+                'pk': pk,
+                'csrfmiddlewaretoken': '{{ csrf_token }}'
+            }, // 서버로 데이터 전송시 옵션
+            dataType: "json", //전달받은 데이터 타입 = json -> {'bookmark_count':post.bookmark.count(), 'message':message,}
+                              // 서버측에서 전송한 Response 데이터 형식 (json)
+            // 통신 성공 -> 북마크 처리(response 처리)
+            success: function (response) {
+                alert(response.message);
+                $("#bookmark-" + pk).css("background-image", "url(" + response.img_url + ")");
+            },
+            error: function (request, status, error) {
+                alert("로그인이 필요합니다.")
+                window.location.replace("/accounts/login/")
+            },
+        });
+    });
+
 </script>
 <script async>
     console.log(document.getElementsByClassName("profile_post_contents"));

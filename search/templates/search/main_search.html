@@ -7,32 +7,86 @@
 {#        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="#}
 {#        crossorigin="anonymous"></script>#}
 <script src="{% static 'widgets/rateit/jquery.rateit.min.js' %}"></script>
-
 {% if posts %}
     {% for post in posts %}
-        <div class="profile_post_list">
-            <div class="profile_post_title">제목 : <a href="{% url 'post:post_detail' post.pk %}">{{ post.title }}</a>
+        <div class="post_list">
+            <div class="post_title">제목 : <a href="{% url 'post:post_detail' post.pk %}">{{ post.title }}</a>
             </div>
-            <div>작성자 : {{ post.user.user_profile.name }}</div>
+            <div>작성자 : <a
+                    href="{% url 'myprofile:profile_detail' post.user.pk %}">{{ post.user.user_profile.name }}</a>
+            </div>
             <div>활동기간: {{ post.start_date }} ~ {{ post.end_date }}</div>
-            <div class="profile_post_tag">
+            <div class="post_tag">
                 태그 :
                 {% for post_tag in post.tags.all %}
+
                     <a href="{% url 'search:main_search' %}?q={{ post_tag }}&options=tags">#{{ post_tag }}</a>
-                    {#                    <a href="{% url 'search:tag_search' post_tag %}">#{{ post_tag }}</a>#}
+                    {#                            <a href="./?q={{ post_tag }}&options=tags">#{{ post_tag }}</a>#}
+                    {#                            <a href="{% url 'search:tag_search' post_tag %}">#{{ post_tag }}</a>#}
                 {% endfor %}
             </div>
             <div class="post_contents">내용: {{ post.contents | striptags | truncatechars:100 }}</div>
-            <div class="profile_post_contents">내용: {{ post.contents|truncatechars_html:85|safe }}</div>
-            <div>평점:
+
+            <div class="post_score">평점:
                 <div class="rateit" data-rateit-value="{{ post.score }}" data-rateit-ispreset="true"
                      data-rateit-readonly="true"></div>
             </div>
+            <div class="bookmark_container">
+                <input type="button" class="bookmark" id="bookmark-{{ post.id }}" name="{{ post.id }}" value=""
+                       style="background-image: {% if post.id in bm_post_list %}url('/media/북마크_on-removebg-preview.png'){% else %}url('/media/북마크_off-removebg-preview.png'){% endif %}"/>
+            </div>
+            <div class="post_email"><a href="mailto:{{ post.user.email }}" class="fa-envelope"><i
+                    class="fas fa-envelope-square"></i></a></div>
         </div>
         <br>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+        <div class="feed">
+            <div class="feed-content">
+                <div class="feed-main">
+                    <div class="feed-text">
+                        <div class="feed-title">
+                            <p>오늘은 밤을 샜다</p>
+                            <div class="meta-category">카테고리</div>
+                        </div>
+                        <div class="feed-content">내용</div>
+                    </div>
+                    <div class="feed-name">
+                        이름
+                        <div class="meta-bookmark">
+                            <i class="far fa-bookmark"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="feed-meta">
+                    <div class="meta-info">
+                        <div class="meta-date">
+                            <i class="fa fa-calendar" aria-hidden="true"></i>2020/12/25
+                        </div>
+                        <div class="meta-book-count">
+                            <i class="fas fa-bookmark"></i>
+                            북마크 수
+                        </div>
+                        <div class="meta-star">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                        {#                        <div class="meta-tag">#}
+                        {#                            <i class="fa fa-tags" aria-hidden="true"></i>태그:#}
+                        {#                            <span class="badge badge-dark">bootstrap 4.0</span>#}
+                        {#                        </div>#}
+                    </div>
+                    <div class="meta-etc">
+                        <div class="meta-call">연락처</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <hr>
     {% endfor %}
 {% endif %}
-
 
 <div id="profile_post_list_ajax"></div>  {# ajax 결과물 추가할 곳 #}
 <input id="page" type="hidden" value="2">  {# 첫 next_page == 2 #}

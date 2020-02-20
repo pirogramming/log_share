@@ -26,10 +26,11 @@
     <form class="filter-form" action="" method="get">
         {% include 'search/post_list_css.html' %}
         <style>
+            {#----------------------------content css--------------------------------#}
             .main-content {
                 display: flex;
                 justify-content: center;
-                width: 80%;
+                width: 70%;
                 margin: 50px auto;
             {#align-content: center;#}
             }
@@ -44,13 +45,6 @@
                 padding: 30px;
             }
 
-            .body-search {
-                display: flex;
-                flex-direction: column;
-                justify-content: center;
-                align-content: center;
-                align-items: center;
-            }
 
             {#------------------------------- side-profle css -----------------------------------------#}
 
@@ -189,6 +183,19 @@
                 border: 1px solid #6cc0e5;
             }
 
+            {#-------------------------------body-search css -----------------------------------------#}
+            .body-search {
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-content: center;
+                align-items: center;
+            }
+
+            .search-text {
+                margin-right: 4.5%;
+                z-index: 0;
+            }
 
         </style>
         <div class="main-content">
@@ -356,7 +363,6 @@
         });
 
         {#옵션 버튼 애니메이션#}
-
         $('.btn-group .btn').click(function (e) {
             {#console.log(e.attr('data-value'))#}
             data = $(this).attr("data-value");
@@ -455,6 +461,16 @@
             console.log(new BtnGroup(group));
         }
 
+        {#검색바 클릭 이벤트#}
+        $(document).on('ready', function () {
+            $('.field').on('keydown', function (event) {
+                $('body').addClass('is-type');
+                if ((event.which === 8) && $(this).val() === '') {
+                    $('body').removeClass('is-type');
+                }
+            });
+
+        });
     </script>
     {% include "search/Search_Ajax.html" %}
 {% endblock %}
