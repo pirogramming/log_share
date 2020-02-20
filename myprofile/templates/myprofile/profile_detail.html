@@ -39,7 +39,8 @@
         text-align: left;
         padding-left: 60px;
         width: 40%;
-        height: 300px;
+        min-height: 40%;
+        margin-top: 20px;
     }
 
     .profile_first_container .profile_first_content .profile_name {
@@ -47,25 +48,58 @@
         font-weight: bold;
         vertical-align: text-top;
         height: 80px;
+        display: inline;
+    }
+
+    .profile_first_container .profile_first_content .label_name {
+        padding: 0 20px;
+        font-size: 20px;
+        border: 2px solid #e3f2fd;
+        border-radius: 5px;
+        margin-right: 10px;
+        display: inline;
+        font-weight: lighter;
     }
 
     .profile_first_container .profile_first_content .profile_depart {
         height: 50px;
+        font-size: 20px;
+    }
+
+    .profile_first_container .profile_first_content .profile_depart .label_depart {
+        padding: 0 20px;
+        font-size: 20px;
+        border: 2px solid #e3f2fd;
+        border-radius: 5px;
+        margin-right: 10px;
+        display: inline;
     }
 
     .profile_first_container .profile_first_content .profile_intro {
-        height: 40px;
+        font-size: 20px;
+        width: 30%;
     }
 
-    .profile_first_container .profile_photo {
-        display: inline-block;
+    .profile_first_container .profile_first_content .profile_intro .label_intro {
+        padding: 0 20px;
+        font-size: 20px;
+        border: 2px solid #e3f2fd;
+        border-radius: 5px;
+        margin-right: 10px;
+        display: inline;
     }
 
-    .profile_first_container .profile_photo img {
+    .profile_first_container .profile_first_front_container .profile_photo {
+        float: left;
+        margin-left: 18%;
+    }
+
+    .profile_first_container .profile_first_front_container .profile_photo img {
         border-radius: 100%;
         object-fit: cover;
     }
 
+    {# --------------------------------------------------------------- #}
     .profile_recent_tag {
         background-color: white;
         border-radius: 5px;
@@ -90,6 +124,7 @@
         color: #514aac;
     }
 
+    {#---------------------------- post_list---------------------------------------- #}
     .profile_post_list {
         background-color: white;
         border-radius: 5px;
@@ -112,7 +147,7 @@
         color: black;
     }
 
-    .profile_post_list .rateit{
+    .profile_post_list .rateit {
         width: 80px;
         height: 17px;
         overflow: hidden;
@@ -140,15 +175,21 @@
         font-weight: bold;
     }
 
-    .profile_post_list_ajax .rateit{
+    .profile_post_list_ajax .rateit {
         width: 80px;
         height: 17px;
         overflow: hidden;
     }
 
+    {# --------------------------------------------------- #}
     .interested_tag_header {
-        font-size: 20pt;
-        font-weight: bold;
+        font-size: 15pt;
+        padding: 0 20px;
+        font-size: 20px;
+        border: 2px solid #e3f2fd;
+        border-radius: 5px;
+        margin-right: 10px;
+        display: inline;
     }
 
     .interested_tag {
@@ -166,11 +207,85 @@
         outline: 2px groove #1a237e;
     }
 
-    .profile_email .fa-envelope::before{
+    .profile_email {
+        display: inline;
+        margin-right: 20px;
+    }
+
+    .profile_email .fa-envelope::before {
         display: none;
     }
-    .profile_email a i{
+
+    .profile_email a i {
         font-size: 30px;
+    }
+
+    .profile_bookmark {
+        font-size: 30px;
+        display: inline;
+        margin-right: 20px;
+    }
+
+    .profile_post_create {
+        font-size: 30px;
+        display: inline;
+    }
+
+    .profile_edit {
+        padding-bottom: 20px;
+        margin-left: 88%;
+    }
+
+    .naver {
+        margin-bottom: 8px;
+    }
+
+    .daum {
+        margin-bottom: 8px;
+    }
+
+    .github {
+        margin-bottom: 8px;
+    }
+
+    .other {
+        margin-bottom: 8px;
+    }
+
+    .naver .naver_label {
+        font-size: 18px;
+        border: 2px solid #e3f2fd;
+        border-radius: 5px;
+        margin-right: 10px;
+        display: inline;
+        padding: 5px 5px;
+    }
+
+    .daum .daum_label {
+        font-size: 18px;
+        border: 2px solid #e3f2fd;
+        border-radius: 5px;
+        margin-right: 10px;
+        display: inline;
+        padding: 5px 5px;
+    }
+
+    .github .github_label {
+        font-size: 18px;
+        border: 2px solid #e3f2fd;
+        border-radius: 5px;
+        margin-right: 10px;
+        display: inline;
+        padding: 5px 5px;
+    }
+
+    .other .other_label {
+        font-size: 18px;
+        border: 2px solid #e3f2fd;
+        border-radius: 5px;
+        margin-right: 10px;
+        display: inline;
+        padding: 5px 5px;
     }
 </style>
 
@@ -188,9 +303,14 @@
                         {% endif %}
                     </div>
                     <div class="profile_first_content">
-                        <div class="profile_name">이름: {{ profile.name }}</div>
-                        <div class="profile_depart">소속: {{ profile.department }}</div>
-                        <div class="profile_intro">자기소개:
+                        <div class="profile_name">
+                            <div class="label_name">이름</div>
+                            {{ profile.name }}</div>
+                        <div class="profile_depart">
+                            <div class="label_depart">소속</div>
+                            {{ profile.department }}</div>
+                        <div class="profile_intro">
+                            <div class="label_intro">자기소개</div>
                             {% if profile.description != None %}
                                 {{ profile.description }}
                             {% endif %}
@@ -206,36 +326,36 @@
                         </div>
                     </div>
                 </div>
-                <div class="profile_url_container">
-                    대표 URL
-                    <div>네이버 URL:
-                        {% if profile.naver != None %}
-                            <a href="{{ profile.naver }}">{{ profile.naver }}</a>
-                        {% endif %}
+                {% if profile.naver != None %}
+                    <div class="naver">
+                        <div class="naver_label"><a href="{{ profile.naver }}">네이버</a></div>
                     </div>
-                    <div>다음 URL:
-                        {% if profile.daum != None %}
-                            <a href="{{ profile.daum }}">{{ profile.daum }}</a>
-                        {% endif %}
+                {% endif %}
+                {% if profile.daum != None %}
+                    <div class="daum">
+                        <div class="daum_label"><a href="{{ profile.daum }}">다음</a></div>
                     </div>
-                    <div>github URL:
-                        {% if profile.github != None %}
-                            <a href="{{ profile.github }}">{{ profile.github }}</a>
-                        {% endif %}
+                {% endif %}
+                {% if profile.github != None %}
+                    <div class="github">
+                        <div class="github_label"><a href="{{ profile.github }}">Github</a></div>
                     </div>
-                    <div>other URL:
-                        {% if profile.other_url != None %}
-                            <a href="{{ profile.other_url }}">{{ profile.other_url }}</a>
-                        {% endif %}
+                {% endif %}
+                {% if profile.other_url != None %}
+                    <div class="other">
+                        <div class="other_label"><a href="{{ profile.other_url }}">others</a></div>
                     </div>
-                </div>
+                {% endif %}
                 <br>
-                <div class="profile_email"><a href="mailto:{{ profile.user.email }}" class="fa-envelope"><i class="fas fa-envelope-square"></i></a></div>
+                <div class="profile_email"><a href="mailto:{{ profile.user.email }}" class="fa-envelope"><i
+                        class="fas fa-envelope-square"></i></a></div>
 
                 {% if profile.user.pk == user.pk %}
-                    <div class="profile_bookmark"><a href="{% url 'myprofile:bookmark_list' profile.user.pk %}">북마크</a>
+                    <div class="profile_bookmark"><a href="{% url 'myprofile:bookmark_list' profile.user.pk %}"><i
+                            class="fas fa-bookmark"></i></a>
                     </div>
-                    <div class="profile_post_create"><a href="{% url 'post:post_create' %}">글 작성하기</a></div>
+                    <div class="profile_post_create"><a href="{% url 'post:post_create' %}"><i
+                            class="fas fa-pen-square"></i></a></div>
                     <br>
                     <div class="profile_edit"><a href="{% url 'myprofile:profile_edit' profile.user.pk %}">프로필 수정하기</a>
                     </div>
