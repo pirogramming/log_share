@@ -75,10 +75,11 @@
         display: inline;
     }
 
+    {# 북마크 & 이메일 - ajax랑 동시에 적용됨#}
     input{
         background-color: transparent;
         background-repeat: no-repeat;
-        padding: 10px 19px;
+        padding: 10px 20px;
         border-radius: 5px;
         display: inline;
         float: right;
@@ -92,7 +93,7 @@
         display: none;
     }
     .post_email a i{
-        font-size: 30px;
+        font-size: 38px;
     }
 </style>
 
@@ -135,7 +136,7 @@
                     </div>
                     <div class="bookmark_container">
                         <input type="submit" class="bookmark" id="bookmark-{{ post.id }}" name="{{ post.id }}" value=""
-                           style="background-image: {% if post.id in bm_post_list %}url('/media/북마크_on-removebg-preview.png'){% else %}url('/media/북마크_off-removebg-preview.png'){% endif %}"/>
+                           style="background-image: {% if post.id in bm_post_list %}url('/media/bookmark_on.jpg'){% else %}url('/media/bookmark_off.jpg'){% endif %}"/>
                     </div>
                     <div class="post_email"><a href="mailto:{{ post.user.email }}" class="fa-envelope"><i class="fas fa-envelope-square"></i></a></div>
                 </div>

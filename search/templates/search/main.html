@@ -55,8 +55,7 @@
             {#------------------------------- side-profle css -----------------------------------------#}
 
             .side-profile {
-                {#width: 80%;#}
-                border: 1px solid black;
+            {#width: 80%;#} border: 1px solid black;
                 margin-bottom: 40px;
                 padding: 20px 40px 20px 40px;
                 text-align: center;
@@ -64,8 +63,8 @@
 
 
             #profile-photo img {
-                width: 40%;
-                height: 50%;
+                width: 150px;
+                height: 150px;
                 border-radius: 100%;
                 object-fit: cover;
             }
@@ -74,10 +73,14 @@
                 color: black;
             }
 
+            #alert_icon {
+                margin-left: 10px;
+                visibility: hidden;
+            }
+
             {#------------------------------- side-filter css -----------------------------------------#}
             .side-filter {
-                {#width: 80%;#}
-                border: 1px solid black;
+            {#width: 80%;#} border: 1px solid black;
                 padding: 20px 40px 20px 40px;
             }
 
@@ -98,6 +101,7 @@
             .checks {
                 position: relative;
             }
+
             .checks input[type="checkbox"] { /* 실제 체크박스는 화면에서 숨김 */
                 position: absolute;
                 width: 1px;
@@ -108,6 +112,7 @@
                 clip: rect(0, 0, 0, 0);
                 border: 0
             }
+
             .checks input[type="checkbox"] + label {
                 display: inline-block;
                 position: relative;
@@ -116,6 +121,7 @@
                 -moz-user-select: none;
                 -ms-user-select: none;
             }
+
             .checks input[type="checkbox"] + label:before { /* 가짜 체크박스 */
                 content: ' ';
                 display: inline-block;
@@ -130,15 +136,18 @@
                 border-radius: 3px;
                 box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.05), inset 0px -15px 10px -12px rgba(0, 0, 0, 0.05);
             }
+
             .checks input[type="checkbox"] + label:active:before,
             .checks input[type="checkbox"]:checked + label:active:before {
                 box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05), inset 0px 1px 3px rgba(0, 0, 0, 0.1);
             }
+
             .checks.etrans input[type="checkbox"] + label {
                 padding-left: 40px;
                 padding-right: 30px;
                 padding-bottom: 20px;
             }
+
             .checks.etrans input[type="checkbox"] + label:before {
                 position: absolute;
                 left: 0;
@@ -194,7 +203,7 @@
                     <div id="profile-name">{{ request.user.user_profile.name }}</div>
                     <div id="profile-bookmark"><a href="{% url 'myprofile:bookmark_list' request.user.pk %}">북마크</a>
                     </div>
-                    <div id="profile-request-alarm">들어온 가입 요청 알람</div>
+                    <div id="profile-request-alarm">들어온 가입 요청 알람<i id="alert_icon" class="fas fa-exclamation-circle"></i></div>
 
                 </div>
                 <div class="side-filter">
@@ -296,7 +305,33 @@
     </form>
 
     <br>
-    {##}
+    {# -------------------------알림 요청 오면 알림 뜨는 것---------------------------- #}
+    <script type="text/javascript">
+        //현재 '홈'버튼 클릭하면
+        $("#home_btn").click(function () {
+            $.ajax({
+                type: "GET",
+                url: "{% url 'group_management:request_exist' %}",
+                data: {
+                    'csrfmiddlewaretoken': '{{ csrf_token }}'
+                },
+                dataType: "html",
+
+                success: function (response) {
+                    if (response.icon) {
+                        $("#alert_icon").css("visibility", "visible");
+                    } else {
+                        $("#alert_icon").css("visibility", "hidden");
+                    }
+                },
+                error: function (request, status, error) {
+                    alert("요청 알림 오류");
+                }
+            });
+        })
+    </script>
+    {#-------------------------------------------------------------------------------#}
+
     {#    <input id="page" type="hidden" value="2"> {# 첫 next_page == 2 #}
     {#    <button id="callmorepost" type="button">More Post</button>#}
 

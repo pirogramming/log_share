@@ -138,7 +138,7 @@ def detail_group(request, pk):
 
 def request_group(request, pk):
     group = get_object_or_404(CustomGroup, id=pk)  # 요청 보낸 그룹
-    #manager = group.manager
+    # manager = group.manager
 
     if request.user in group.members.all():
         return redirect('group_management:detail_group', pk)
@@ -159,7 +159,8 @@ def request_withcode(request):
             request.POST,
         )
         try:
-            group = CustomGroup.objects.get(Q(group_name=form.data['group_name']) & Q(access_code=form.data['access_code']))
+            group = CustomGroup.objects.get(
+                Q(group_name=form.data['group_name']) & Q(access_code=form.data['access_code']))
             print(group)
 
         except Exception:
@@ -202,17 +203,21 @@ def secede_group(request, pk):
     group.members.remove(request.user)
     return redirect('group_management:detail_group', pk)
 
+
 def request_exist(request):
     user = request.user
     mygroup = CustomGroup.objects.filter(manager=user)
-    request = GroupRequest.objects.filter(group=mygroup)
+    print('김유빈!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1')
+    print(mygroup)
+    request_set = GroupRequest.objects.filter(group=mygroup)
+    print(request_set)
 
-    if request:
-        icon =True
+    if request_set:
+        icon = True
     else:
         icon = False
 
     context = {
-        'icon':icon
+        'icon': icon
     }
     return HttpResponse(context)

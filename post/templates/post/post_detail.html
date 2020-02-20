@@ -76,10 +76,10 @@
         font-weight: bold;
     }
 
+    {# bookmark #}
     .post_detail_container input {
         background-repeat: no-repeat;
-        padding: 10px 19px;
-        border-radius: 5px;
+        padding: 10px 20px;
     }
 
     .post_detail_container .post_title {
@@ -111,7 +111,7 @@
 
             {% if user != request.user %}
                 <input type="submit" class="bookmark" name="{{ post.id }}" value=""
-                       style="background-image: {% if bm %}url('/media/북마크_on-removebg-preview.png'){% else %}url('/media/북마크_off-removebg-preview.png'){% endif %}">
+                       style="background-image: {% if bm %}url('/media/bookmark_on.jpg'){% else %}url('/media/bookmark_off.jpg'){% endif %}">
                 <p class="bookmark_count" id="count-{{ post.id }}">북마크{{ post.bookmark.count }}개</p>
 
 {#                <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>#}
