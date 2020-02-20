@@ -49,12 +49,12 @@
             }
 
             .content-side {
-                flex-grow: 1;
+                flex: 1;
                 padding: 30px;
             }
 
             .content-body {
-                flex-grow: 2;
+                flex: 2;
                 padding: 30px;
             }
 
@@ -65,61 +65,200 @@
                 align-content: center;
                 align-items: center;
             }
+
+            {#------------------------------- side-profle css -----------------------------------------#}
+
+            .side-profile {
+                {#width: 80%;#}
+                border: 1px solid black;
+                margin-bottom: 40px;
+                padding: 20px 40px 20px 40px;
+                text-align: center;
+            }
+
+
+            #profile-photo img {
+                width: 40%;
+                height: 50%;
+                border-radius: 100%;
+                object-fit: cover;
+            }
+
+            #profile-bookmark a {
+                color: black;
+            }
+
+            {#------------------------------- side-filter css -----------------------------------------#}
+            .side-filter {
+                {#width: 80%;#}
+                border: 1px solid black;
+                padding: 20px 40px 20px 40px;
+            }
+
+            .filter {
+                margin-bottom: 20px;
+                margin-top: 20px;
+            }
+
+            .filter_name {
+                font-weight: bold;
+                font-size: larger;
+            }
+
+            hr {
+                border-top: 1px dashed #bbb;
+            }
+
+            .checks {
+                position: relative;
+            }
+            .checks input[type="checkbox"] { /* 실제 체크박스는 화면에서 숨김 */
+                position: absolute;
+                width: 1px;
+                height: 1px;
+                padding: 0;
+                margin: -1px;
+                overflow: hidden;
+                clip: rect(0, 0, 0, 0);
+                border: 0
+            }
+            .checks input[type="checkbox"] + label {
+                display: inline-block;
+                position: relative;
+                cursor: pointer;
+                -webkit-user-select: none;
+                -moz-user-select: none;
+                -ms-user-select: none;
+            }
+            .checks input[type="checkbox"] + label:before { /* 가짜 체크박스 */
+                content: ' ';
+                display: inline-block;
+                width: 21px; /* 체크박스의 너비를 지정 */
+                height: 21px; /* 체크박스의 높이를 지정 */
+                line-height: 21px; /* 세로정렬을 위해 높이값과 일치 */
+                margin: -2px 8px 0 0;
+                text-align: center;
+                vertical-align: middle;
+                background: #fafafa;
+                border: 1px solid #cacece;
+                border-radius: 3px;
+                box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.05), inset 0px -15px 10px -12px rgba(0, 0, 0, 0.05);
+            }
+            .checks input[type="checkbox"] + label:active:before,
+            .checks input[type="checkbox"]:checked + label:active:before {
+                box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05), inset 0px 1px 3px rgba(0, 0, 0, 0.1);
+            }
+            .checks.etrans input[type="checkbox"] + label {
+                padding-left: 40px;
+                padding-right: 30px;
+                padding-bottom: 20px;
+            }
+            .checks.etrans input[type="checkbox"] + label:before {
+                position: absolute;
+                left: 0;
+                top: 0;
+                margin-top: 0;
+                opacity: .6;
+                box-shadow: none;
+                border-color: #6cc0e5;
+                -webkit-transition: all .12s, border-color .08s;
+                transition: all .12s, border-color .08s;
+            }
+
+            .checks.etrans input[type="checkbox"]:checked + label:before {
+                position: absolute;
+                content: "";
+                width: 10px;
+                top: -5px;
+                left: 5px;
+                border-radius: 0;
+                opacity: 1;
+                background: transparent;
+                border-color: transparent #6cc0e5 #6cc0e5 transparent;
+                border-top-color: transparent;
+                border-left-color: transparent;
+                -ms-transform: rotate(45deg);
+                -webkit-transform: rotate(45deg);
+                transform: rotate(45deg);
+            }
+
+            .no-csstransforms .checks.etrans input[type="checkbox"]:checked + label:before {
+                /*content:"\2713";*/
+                content: "\2714";
+                top: 0;
+                left: 0;
+                width: 21px;
+                line-height: 21px;
+                color: #6cc0e5;
+                text-align: center;
+                border: 1px solid #6cc0e5;
+            }
+
+
         </style>
         <div class="main-content">
             <div class="content-side">
                 <div class="side-profile">
-                    current user: {{ request.user.user_profile.name }}
-                    <br>
-                    <br>
-                    {{ request.user.user_profile.name }}의 그룹
-                    <ul>
-                        {% for group in request.user.groups.all %}
-                            <li>
-                                {{ group.name }}
-                            </li>
-                        {% endfor %}
-                    </ul>
+                    <div id="profile-photo">
+                        {% if request.user.user_profile.photo %}
+                            <img src="{{ request.user.user_profile.photo.url }}" alt="프로필 이미지"/>
+                        {% endif %}
+                    </div>
+                    <div id="profile-username">{{ request.user }}</div>
+                    <div id="profile-name">{{ request.user.user_profile.name }}</div>
+                    <div id="profile-bookmark"><a href="{% url 'myprofile:bookmark_list' request.user.pk %}">북마크</a>
+                    </div>
+                    <div id="profile-request-alarm">들어온 가입 요청 알람</div>
+
                 </div>
                 <div class="side-filter">
-                    <div class="filter-date">
-                        <span>시작: </span>
-                        <input name="date-start" type="date">
-                        <span>끝: </span>
-                        <input name="date-end" type="date">
-                    </div>
-                    <div class="filter-group">
-                        <div class="dropdown dropright">
-                            <button class="btn btn-lg dropdown-toggle" type="button" data-toggle="dropdown"
-                                    aria-haspopup="true" aria-expanded="false">
-                                그룹 선택
-                            </button>
-                            <div class="dropdown-menu keep-open">
-                                {#                            그룹 드롭다운 체크박스#}
-                                {% for group in groups %}
-                                    <label class="dropdown-item">
-                                        <input name="group{{ group.id }}" value="{{ group.id }}" type="checkbox"
-                                               checked>
-                                        <span>{{ group.group_name }}</span>
-                                    </label>
-                                {% endfor %}
-                                <div class="dropdown-divider"></div>
-                            </div>
+                    <div class="filter">
+                        <div class="filter_name">그룹 선택</div>
+                        <br>
+                        <div class="filter-group checks etrans">
+                            {% for group in groups %}
+                                <input id="group{{ group.id }}" name="group{{ group.id }}" value="{{ group.id }}"
+                                       type="checkbox" checked>
+                                <label for="group{{ group.id }}">{{ group.group_name }}</label>
+                                <br>
+                            {% endfor %}
                         </div>
                     </div>
-                    <div class="filter-category">
-                        <select name="filter-category" class="category-list">
-                            <option value="">-</option>
-                            <option value="대외활동">대외활동</option>
-                            <option value="공모전">공모전</option>
-                            <option value="스터디">스터디</option>
-                            <option value="인턴">인턴</option>
-                            <option value="강연">강연</option>
-                            <option value="기타">기타</option>
-                        </select>
+
+                    <hr class="filter-split">
+
+                    <div class="filter">
+                        <div class="filter_name">카테고리</div>
+                        <br>
+                        <div class="filter-category">
+                            <select name="filter-category" class="category-list">
+                                <option value="">-</option>
+                                <option value="대외활동">대외활동</option>
+                                <option value="공모전">공모전</option>
+                                <option value="스터디">스터디</option>
+                                <option value="인턴">인턴</option>
+                                <option value="강연">강연</option>
+                                <option value="기타">기타</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <hr class="filter-split">
+
+                    <div class="filter">
+                        <div class="filter_name">기간 설정</div>
+                        <br>
+                        <div class="filter-content filter-date">
+                            <span>시작: </span>
+                            <input name="date-start" type="date">
+                            <span>끝: </span>
+                            <input name="date-end" type="date">
+                        </div>
                     </div>
                 </div>
             </div>
+
+
             <div class="content-body">
                 <div class="body-search">
                     <div class="search-text">
