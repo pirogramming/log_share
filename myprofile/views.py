@@ -6,6 +6,8 @@ from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from accounts.forms import SignupModelForm, CustomUserChangeForm
 from myprofile.models import BookMark, Profile
 from random import randint
+import simplejson as json
+from django.core.serializers.json import DjangoJSONEncoder
 
 # <<<<<<<<<<<<<<profile user_pk>>>>>>>>>>>>>>
 from myprofile.utils import recent_tag_counting
@@ -60,18 +62,37 @@ def profile_detail(request, pk):
         except EmptyPage:
             posts = paginator.page(paginator.num_pages)  # num_pages : 총 페이지 수
 
-        colors = ('red', 'green', 'blue', 'yellow', 'brown')
         context = {
             'profile': profile,
             'posts': posts,
             'recent_tags_count': recent_tags_count,
-            'colors': colors,
         }
+
         if profile.interested_tag:
             interested_tag_list = profile.interested_tag.split(',')
             interested_tag_dict = {tag: randint(1, 3) for tag in interested_tag_list}
 
             context['interested_tag_dict'] = interested_tag_dict
+
+        #타임라인용 Context
+        post_context = []
+        index = 1
+        post_list_reverse = post_list.order_by('start_date','end_date')
+        for post in post_list_reverse:
+            post_context.append({
+                'id': index,
+                'postId': post.id,
+                'title': post.title,
+                'startDate': str(post.start_date.year)+'-'+str(post.start_date.month)+'-'+str(post.start_date.day),
+                'endDate': str(post.end_date.year)+'-'+str(post.end_date.month)+'-'+str(post.end_date.day),
+                'category': post.category,
+            })
+            index += 1
+
+        post_context = json.dumps(post_context)
+        context['post_context'] = post_context
+
+
 
         return render(request, 'myprofile/profile_detail.html', context)
 
