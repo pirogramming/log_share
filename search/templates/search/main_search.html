@@ -10,10 +10,9 @@
 {% if posts %}
     {% for post in posts %}
         <div class="post_list">
-            <div class="post_title">제목 : <a href="{% url 'post:post_detail' post.pk %}">{{ post.title }}</a>
+            <div class="post_title"><a href="{% url 'post:post_detail' post.pk %}">{{ post.title }}</a>
             </div>
-            <div>작성자 : <a
-                    href="{% url 'myprofile:profile_detail' post.user.pk %}">{{ post.user.user_profile.name }}</a>
+            <div>작성자 : <a href="{% url 'myprofile:profile_detail' post.user.pk %}">{{ post.user.user_profile.name }}</a>
             </div>
             <div>활동기간: {{ post.start_date }} ~ {{ post.end_date }}</div>
             <div class="post_tag">
@@ -33,28 +32,37 @@
             </div>
             <div class="bookmark_container">
                 <input type="button" class="bookmark" id="bookmark-{{ post.id }}" name="{{ post.id }}" value=""
-                       style="background-image: {% if post.id in bm_post_list %}url('/media/북마크_on-removebg-preview.png'){% else %}url('/media/북마크_off-removebg-preview.png'){% endif %}"/>
+                       style="background-image: {% if post.id in bm_post_list %}url('/media/bookmark_on.jpg'){% else %}url('/media/bookmark_off.jpg'){% endif %}"/>
             </div>
-            <div class="post_email"><a href="mailto:{{ post.user.email }}" class="fa-envelope"><i
-                    class="fas fa-envelope-square"></i></a></div>
+            <div class="post_email"><a href="mailto:{{ post.user.email }}" class="fa-envelope">
+                <i class="fas fa-envelope-square"></i></a></div>
         </div>
         <br>
+
+        <br>
+
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
         <div class="feed">
             <div class="feed-content">
                 <div class="feed-main">
                     <div class="feed-text">
                         <div class="feed-title">
-                            <p>오늘은 밤을 샜다</p>
+                            <a href="{% url 'post:post_detail' post.pk %}"><p>{{ post.title }}</p></a>
                             <div class="meta-category">카테고리</div>
                         </div>
-                        <div class="feed-content">내용</div>
+                        <div class="feed-content">{{ post.contents | striptags | truncatechars:100 }}</div>
+
                     </div>
                     <div class="feed-name">
-                        이름
+
+                        <a href="{% url 'myprofile:profile_detail' post.user.pk %}">
+                            <p>{{ post.user.user_profile.name }}</p></a>
                         <div class="meta-bookmark">
-                            <i class="far fa-bookmark"></i>
+                            <input type="button" class="bookmark" id="bookmark-{{ post.id }}" name="{{ post.id }}"
+                                   value=""
+                                   style="background-image: {% if post.id in bm_post_list %}url('/media/bookmark_on.jpg'){% else %}url('/media/bookmark_off.jpg'){% endif %}"/>
                         </div>
+
                     </div>
                 </div>
                 <div class="feed-meta">
@@ -72,6 +80,8 @@
                             <i class="fas fa-star"></i>
                             <i class="fas fa-star"></i>
                             <i class="fas fa-star"></i>
+                            <p class="bookmark_count" id="count-{{ post.id }}">
+                                북마크{{ post.bookmark.count }}개</p>
                         </div>
                         {#                        <div class="meta-tag">#}
                         {#                            <i class="fa fa-tags" aria-hidden="true"></i>태그:#}
@@ -79,7 +89,11 @@
                         {#                        </div>#}
                     </div>
                     <div class="meta-etc">
-                        <div class="meta-call">연락처</div>
+                        <div class="meta-call">
+                            <div class="post_email"><a href="mailto:{{ post.user.email }}" class="fa-envelope">
+                                <i class="fas fa-envelope-square"></i></a></div>
+                        </div>
+
                     </div>
                 </div>
             </div>
