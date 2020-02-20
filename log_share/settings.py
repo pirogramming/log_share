@@ -43,10 +43,7 @@ INSTALLED_APPS = [
     # 3rd party apps
     'taggit',
     'rest_framework',
-
-    # my apps
-    'log_share_search',
-    # 'post',
+    'django_summernote',
 
     # app
     'group_management',
@@ -56,8 +53,6 @@ INSTALLED_APPS = [
     'post',
     'search',
 
-    # sass for searchbar
-    'sass_processor',
 ]
 
 
@@ -109,8 +104,12 @@ WSGI_APPLICATION = 'log_share.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'log_share',
+        'USER': 'root',
+        'PASSWORD': 'admin',
+        'HOST': 'localhost',
+        'PORT': '3306',
     }
 }
 
