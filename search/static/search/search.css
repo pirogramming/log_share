@@ -47,6 +47,7 @@
     border: 0;
     width: 330px;
     height: 40px;
+    z-index: 1;
 }
 
 .icons-container {
