@@ -126,6 +126,101 @@
             left: 340px;
             top: 17px;
         }
+        #main{
+            width: 100%;
+        }
+        .main_box{
+            width: 100%;
+            height: 560px;
+            background-color: rgb(242,242,242);
+            margin: 0;
+            padding: 0;
+        }
+        .main_title{
+            position: absolute;
+            top:170px;
+            font-size: 80px;
+            font-family: "나눔스퀘어 ExtraBold";
+            left: 35%;
+            color: rgb(36,63,118);
+        }
+        .main_content{
+            position: absolute;
+            top:280px;
+            font-size: 25px;
+            left: 31%;
+        }
+        .btn_signup{
+            border-radius: 13px;
+            width: 200px;
+            height: 60px;
+            background-color: rgb(36,63,118);
+            color:white;
+            line-height: 60px;
+            text-align: center;
+            font-size: 23px;
+            position: absolute;
+            top: 380px;
+            left: 43%;
+        }
+        .port{
+            width: 100%;
+            height: 560px;
+            {#background-color: rgb(36,63,118);#}
+            background-color: #1E88E5;
+            margin: 0px;
+
+        }
+        #port_text{
+            width: 350px;
+            height: 350px;
+            margin-left: 17%;
+            margin-top: 8%;
+            float: left;
+        }
+        .port_title{
+            color:white;
+            font-size: 45px;
+            font-family: "나눔스퀘어 ExtraBold";
+            float: right;
+            text-align: right;
+            margin-right: 300px;
+            margin-top: 200px;
+        }
+        .port_content{
+            color:#e0e0e0;
+            font-size: 23px;
+            float: right;
+            text-align: right;
+            margin-right: 300px;
+            margin-top: 30px;
+        }
+        .share{
+            width: 100%;
+            height: 700px;
+            background-color: rgb(255,192,0);
+            margin: 0px;
+        }
+        #share_img{
+            width: 650px;
+            margin-left: 30%;
+            margin-top: 4%;
+            float: left;
+        }
+        .share_title{
+            color:white;
+            font-size: 45px;
+            font-family: "나눔스퀘어 ExtraBold";
+            text-align: center;
+            margin-top: 450px;
+        }
+        .share_content{
+            color:#4f4f4f;
+            font-size: 23px;
+            text-align: center;
+            margin-top: 30px;
+        }
+
 
     </style>
 </head>
@@ -144,12 +239,24 @@
     </div>
 </div>
 <div class="container">
-    <div class="title">스펙 공유 커뮤니티 <br><b>LOG SHARE</b>
-        <div><img src="../../media/기록아이콘.png" alt="" style="width: 40px; margin-right: 10px;">활동을 기록하세요.</div>
-        <div><img src="../../media/공유아이콘.png" alt="" style="width: 40px; margin-right: 10px;">스펙을 공유하세요.</div>
-        <div><img src="../../media/검색아이콘.png" alt="" style="width: 40px; margin-right: 10px;">내 그룹의 스펙을 검색하세요.</div>
+    <div class="main_box">
+        <img id="main" src="{% static 'img/main back.png' %}" alt=""/>
+        <div class="main_title">'LOG SHARE'</div>
+        <div class="main_content">단 한번의 검색으로 쉽고 빠르게 내 그룹의 스펙을 공유하세요!</div>
+        <div class="btn_signup"><a href="{% url "accounts:signup" %}">바로 가입하기</a></div>
     </div>
-    <div><img src="../../media/로그쉐어메인로고.png" alt="" id="mainlogo"></div>
+    <div class="port">
+        <div><img id="port_text" src="{% static 'img/port_text.png' %}" alt=""/></div>
+        <div class="port_title">지금까지 쌓아온 나의 스펙, <br>한 번에 정리 가능</div>
+        <div class="port_content">분산되어 있는 나의 스펙들, 이젠 한 곳에 정리해보세요. <br>내 포트폴리오를 한번에 볼 수 있고, 에디터를 사용해 편집도 가능합니다.</div>
+    </div>
+    <div class="share">
+        <div><img id="share_img" src="{% static 'img/shareimg.png' %}" alt=""/></div>
+        <div class="share_title">내 그룹의 사람들에게만! <br>나의 스펙 공유 가능
+</div>
+        <div class="share_content">그룹별로 프라이빗한 스펙 공유가 가능하고,<br>필터 검색을 통해 내 포트폴리오가 내 그룹 사람들에게 보여집니다.
+</div>
+    </div>
 </div>
 </body>
 </html>
