@@ -71,7 +71,7 @@ class Search(APIView):
 
 
 def post_create(request):
-    context={}
+    context = {}
     if request.method == 'POST':
         # 포스트모델폼을 이용하여 정보를 받아온다.
         postform = PostModelForm(request.POST, request.FILES)
@@ -86,9 +86,10 @@ def post_create(request):
                 #todo 에러메시지?
                 return
             # tag개수(최대10개) 제한
-            tag_count_check(request,post)
+            tag_count_check(request, post)
             return redirect('myprofile:profile_detail', request.user.pk)
         else:
+            #todo 에러메세지
             return
     else:
         postform = PostModelForm()
@@ -162,10 +163,10 @@ def post_bookmark(request):
     if not bookmark_created:
         bookmark.delete()
         message = "북마크 취소"
-        img_url = "/media/baseline_bookmark_border_black_18dp.png"
+        img_url = "/media/bookmark_off.jpg"
     else:
         message = "북마크"
-        img_url = "/media/baseline_bookmark_black_18dp.png"
+        img_url = "/media/bookmark_on.jpg"
     context = {
         'bookmark_count': post.bookmark.count(),
         'message': message,

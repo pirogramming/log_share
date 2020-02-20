@@ -5,7 +5,7 @@ from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from taggit.models import Tag
 
-from group_management.models import CustomGroup
+from group_management.models import CustomGroup, GroupRequest
 from post.models import Post
 from .models import *
 
@@ -37,14 +37,13 @@ def main_search(request):
     else:
         qs = Post.objects.filter(user__user_groups__in=user.user_groups.all()).distinct()
 
-
-    group_id_list(request,user)
+    group_id_list(request, user)
     print("카테고리 필터링 전", qs)
     qs = process_category(request, user, qs)
 
     print("카테고리 필터링 후: ", qs)
 
-    posts=None
+    posts = None
     if qs:
 
         paginator = Paginator(qs, 2)
@@ -59,9 +58,14 @@ def main_search(request):
 
     # print(paginator, page)
     # print(posts)
-    print('Request.GET:', request.GET)
-    print(qs)
+    # print('Request.GET:', request.GET)
+    # print(qs)
 
+
+    manage_groups = list(request.user.user_manage_groups.all())
+    request_messages = list()
+    for g in manage_groups:
+        request_messages += list(GroupRequest.objects.filter(group=g))
     return render(request, 'search/main.html', {
         'request': request,
         # 'results': qs,   # 1: post, 2: user
@@ -69,7 +73,8 @@ def main_search(request):
         'q': q,
         'groups': user.user_groups.all(),
         'posts': posts,
-        'option': (option),
+        'option': option,
+        'request_messages_cnt': len(request_messages),
     })
 
 
@@ -99,6 +104,7 @@ def search_auto(request):
     q = request.GET.get('q', '')
     option = request.GET['option']
     results = None
+    print('Ajax요청', q, option)
     if option == 'posts':
         qs = filter_posts(q, user)
         results = [
@@ -114,23 +120,26 @@ def search_auto(request):
             Q(name__icontains=q)
         ).distinct()
         results = [
-                {
-                    'id': tag.id,
-                    'name': tag.name,
-                } for tag in qs
-            ]
+            {
+                'id': tag.id,
+                'name': tag.name,
+            } for tag in qs
+        ]
     elif option == 'users':
-        qs = User.objects.filter(user_groups__in=user.user_groups.all()).distinct()
-        # qs = filter_users(q, user)
+        # qs = User.objects.filter(user_groups__in=user.user_groups.all()).distinct()
+        print(User.objects.filter(user_groups__in=user.user_groups.all()))
+        qs = User.objects.filter(
+            Q(user_groups__in=user.user_groups.all()) &
+            (Q(user_profile__name__icontains=q) | Q(username__icontains=q))
+        ).distinct()
         results = [
             {
-                'id': user.id,
-                'name': user.user_profile.name,
-            } for user in qs
+                'id': users.id,
+                'name': users.user_profile.name
+            } for users in qs
         ]
 
     print('Ajax응답', results)
-
 
     data = {
         'results': results,

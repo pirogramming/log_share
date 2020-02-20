@@ -24,113 +24,23 @@
     </style>
 
     <form class="filter-form" action="" method="get">
-        {#        <div class="content row">#}
-        {#            <div class="content-side col-4 row">#}
-        {#                <div class="content-profile col-12">#}
-        {#                    current user: {{ request.user.user_profile.name }}#}
-        {#                    <br>#}
-        {#                    <br>#}
-        {#                    {{ request.user.user_profile.name }}의 그룹#}
-        {#                    <ul>#}
-        {#                        {% for group in request.user.groups.all %}#}
-        {#                            <li>#}
-        {#                                {{ group.name }}#}
-        {#                            </li>#}
-        {#                        {% endfor %}#}
-        {#                    </ul>#}
-        {##}
-        {#                </div>#}
-        {#                <div class="content-filter col-12">#}
-        {#                    <div class="content-filter-item row">#}
-        {#                        <div class="filter-date col-12">#}
-        {#                            <span>시작: </span>#}
-        {#                            <input name="date-start" type="date">#}
-        {#                            <span>끝: </span>#}
-        {#                            <input name="date-end" type="date">#}
-        {#                        </div>#}
-        {#                        <div class="filter-group col-12">#}
-        {#                            <div class="dropdown dropright">#}
-        {#                                <button class="btn btn-lg dropdown-toggle" type="button" data-toggle="dropdown"#}
-        {#                                        aria-haspopup="true" aria-expanded="false">#}
-        {#                                    그룹 선택#}
-        {#                                </button>#}
-        {#                                <div class="dropdown-menu keep-open">#}
-        {#                            그룹 드롭다운 체크박스#}
-        {#                                    {% for group in groups %}#}
-        {#                                        <label class="dropdown-item">#}
-        {#                                            <input name="group{{ group.id }}" value="{{ group.id }}" type="checkbox"#}
-        {#                                                   checked>#}
-        {#                                            <span>{{ group.group_name }}</span>#}
-        {#                                        </label>#}
-        {#                                    {% endfor %}#}
-        {#                                    <div class="dropdown-divider"></div>#}
-        {#                                </div>#}
-        {#                            </div>#}
-        {#                        </div>#}
-        {#                        <div class="filter-category col-12">#}
-        {#                            <select name="filter-category" class="category-list">#}
-        {#                                <option value="">-</option>#}
-        {#                                <option value="대외활동">대외활동</option>#}
-        {#                                <option value="공모전">공모전</option>#}
-        {#                                <option value="스터디">스터디</option>#}
-        {#                                <option value="인턴">인턴</option>#}
-        {#                                <option value="강연">강연</option>#}
-        {#                                <option value="기타">기타</option>#}
-        {#                            </select>#}
-        {#                        </div>#}
-        {#                    </div>#}
-        {#                </div>#}
-        {#            </div>#}
-        {#            <div class="content-main col-8 row">#}
-        {#                <div class="content-search col-12">#}
-        {#                    <div class="input-group">#}
-        {#                        <input type="text" name="q" id="searchInput" class="form-control" value="{{ q }}">#}
-        {#                        <div class="input-group-append">#}
-        {#                            <span id="btn-submit" class="btn btn-secondary">#}
-        {#                                <i class="fa fa-search"></i>#}
-        {#                            </span>#}
-        {#                        </div>#}
-        {#                    </div>#}
-        {#                    <div class="btn-group btn-group-toggle" data-toggle="buttons">#}
-        {#                        <label class="btn btn-primary">#}
-        {#                            <input type="radio" name="options" value="posts"> 제목 + 내용#}
-        {#                        </label>#}
-        {#                        <label class="btn btn-primary">#}
-        {#                            <input type="radio" name="options" value="tags"> 태그#}
-        {#                        </label>#}
-        {#                        <label class="btn btn-primary">#}
-        {#                            <input type="radio" name="options" value="users"> 작성자#}
-        {#                        </label>#}
-        {#                    </div>#}
-        {##}
-        {#                </div>#}
-        {#                <div class="content-feed col-12">#}
-        {#                    {% include 'search/main_search.html' %}#}
-        {##}
-        {#                </div>#}
-        {#            </div>#}
-        {#        </div>#}
-
-        <br>
-        <hr>
-        <br>
         {% include 'search/post_list_css.html' %}
         <style>
             .main-content {
                 display: flex;
                 justify-content: center;
-                width: 80%;
+                width: 70%;
                 margin: 50px auto;
             {#align-content: center;#}
             }
 
             .content-side {
-                flex-grow: 1;
+                flex: 1;
                 padding: 30px;
             }
 
             .content-body {
-                flex-grow: 2;
+                flex: 2;
                 padding: 30px;
             }
 
@@ -141,61 +51,329 @@
                 align-content: center;
                 align-items: center;
             }
+
+            {#------------------------------- side-profle css -----------------------------------------#}
+
+            .side-profile {
+                border: 0.1px solid #b0bec9;
+                box-shadow: 2px 2px 2px #b0bec9;
+                margin-bottom: 40px;
+                padding: 20px 40px 20px 40px;
+                text-align: center;
+            }
+
+            #profile-photo img {
+                width: 150px;
+                height: 150px;
+                border-radius: 100%;
+                object-fit: cover;
+            }
+
+            #profile-name {
+                font-size: larger;
+                font-weight: bold;
+                margin-bottom: 10px;
+            }
+
+            #profile-name a {
+                color: black;
+            }
+
+            #profile-name-span {
+                color: #1a237e;
+            }
+
+            #profile-bookmark a {
+                color: black;
+            }
+
+            #welcome {
+                color: black;
+                font-size: larger;
+                font-weight: bold;
+            }
+
+            .bookmark_button, .request_button {
+                cursor: pointer;
+                width: 80%;
+                height: 30px;
+                font-size: 16px;
+                background-color: #00B0F0;
+                display: inline-block;
+                padding: .5em 0.5em;
+                color: white;
+                font-weight: bold;
+                border-radius: 5px;
+                border: 1px solid #00B0F0;
+                margin-bottom: 1px;
+                margin-top:1px;
+            }
+
+
+            {#------------------------------- side-filter css -----------------------------------------#}
+            .filter_start {
+                font-size: x-large;
+                font-weight: bold;
+            }
+
+            .fa-search {
+                color: #6cc0e5;
+                line-height: 24px;
+                font-size: 24px;
+            }
+
+            .side-filter {
+                padding: 20px 40px 20px 40px;
+                border: 0.1px solid #b0bec9;
+                box-shadow: 2px 2px 2px #b0bec9;
+            }
+
+            .filter {
+                margin-bottom: 20px;
+                margin-top: 20px;
+            }
+
+            .filter_name {
+                font-weight: bold;
+                font-size: larger;
+            }
+
+            hr {
+                border-top: 1px dashed #bbb;
+            }
+
+            .filter-group label {
+                color: #3c3c3c;
+            }
+
+            .checks {
+                position: relative;
+            }
+
+            .checks input[type="checkbox"] { /* 실제 체크박스는 화면에서 숨김 */
+                position: absolute;
+                width: 1px;
+                height: 1px;
+                padding: 0;
+                margin: -1px;
+                overflow: hidden;
+                clip: rect(0, 0, 0, 0);
+                border: 0
+            }
+
+            .checks input[type="checkbox"] + label {
+                display: inline-block;
+                position: relative;
+                cursor: pointer;
+                -webkit-user-select: none;
+                -moz-user-select: none;
+                -ms-user-select: none;
+            }
+
+            .checks input[type="checkbox"] + label:before { /* 가짜 체크박스 */
+                content: ' ';
+                display: inline-block;
+                width: 21px; /* 체크박스의 너비를 지정 */
+                height: 21px; /* 체크박스의 높이를 지정 */
+                line-height: 21px; /* 세로정렬을 위해 높이값과 일치 */
+                margin: -2px 8px 0 0;
+                text-align: center;
+                vertical-align: middle;
+                background: #fafafa;
+                border: 1px solid #cacece;
+                border-radius: 3px;
+                box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.05), inset 0px -15px 10px -12px rgba(0, 0, 0, 0.05);
+            }
+
+            .checks input[type="checkbox"] + label:active:before,
+            .checks input[type="checkbox"]:checked + label:active:before {
+                box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05), inset 0px 1px 3px rgba(0, 0, 0, 0.1);
+            }
+
+            .checks.etrans input[type="checkbox"] + label {
+                padding-left: 40px;
+                padding-right: 30px;
+                padding-bottom: 20px;
+            }
+
+            .checks.etrans input[type="checkbox"] + label:before {
+                position: absolute;
+                left: 0;
+                top: 0;
+                margin-top: 0;
+                opacity: .6;
+                box-shadow: none;
+                border-color: #6cc0e5;
+                -webkit-transition: all .12s, border-color .08s;
+                transition: all .12s, border-color .08s;
+            }
+
+            .checks.etrans input[type="checkbox"]:checked + label:before {
+                position: absolute;
+                content: "";
+                width: 10px;
+                top: -5px;
+                left: 5px;
+                border-radius: 0;
+                opacity: 1;
+                background: transparent;
+                border-color: transparent #6cc0e5 #6cc0e5 transparent;
+                border-top-color: transparent;
+                border-left-color: transparent;
+                -ms-transform: rotate(45deg);
+                -webkit-transform: rotate(45deg);
+                transform: rotate(45deg);
+            }
+
+            .no-csstransforms .checks.etrans input[type="checkbox"]:checked + label:before {
+                /*content:"\2713";*/
+                content: "\2714";
+                top: 0;
+                left: 0;
+                width: 21px;
+                line-height: 21px;
+                color: #6cc0e5;
+                text-align: center;
+                border: 1px solid #6cc0e5;
+            }
+
+            div#select_box {
+                position: relative;
+                width: 200px;
+                height: 32px;
+                background: url({% static 'img/select_arrow.png' %}) 170px center no-repeat;
+                background-size: contain;
+                border: 2px solid #6cc0e5;
+                /* 화살표 이미지 */
+            }
+
+            div#select_box label {
+                position: absolute;
+                font-size: 14px;
+                color: #3c3c3c;
+                top: 7px;
+                left: 12px;
+                letter-spacing: 1px;
+            }
+
+            div#select_box select#category {
+                width: 100%;
+                height: 32px;
+                min-height: 32px;
+                line-height: 32px;
+                padding: 0 10px;
+                opacity: 0;
+                filter: alpha(opacity=0);
+                /* IE 8 */
+            }
+
+            #category {
+                font-size: 18px;
+            }
+
+            .filter-date input {
+                width: 110px;
+                height: 30px;
+                font-size: 14px;
+                border: 2px solid #6cc0e5;
+                padding-left: 10px;
+                margin-bottom: 3px;
+                color: #3c3c3c;
+            }
         </style>
         <div class="main-content">
             <div class="content-side">
                 <div class="side-profile">
-                    current user: {{ request.user.user_profile.name }}
-                    <br>
-                    <br>
-                    {{ request.user.user_profile.name }}의 그룹
-                    <ul>
-                        {% for group in request.user.groups.all %}
-                            <li>
-                                {{ group.name }}
-                            </li>
-                        {% endfor %}
-                    </ul>
-                </div>
-                <div class="side-filter">
-                    <div class="filter-date">
-                        <span>시작: </span>
-                        <input name="date-start" type="date">
-                        <span>끝: </span>
-                        <input name="date-end" type="date">
+                    <div class="profile-content" id="profile-photo">
+                        {% if request.user.user_profile.photo %}
+                            <img src="{{ request.user.user_profile.photo.url }}" alt="프로필 이미지"/>
+                        {% else %}
+                            <img src="{% static 'img/person.jpg' %}" alt="프로필 이미지"/>
+                        {% endif %}
                     </div>
-                    <div class="filter-group">
-                        <div class="dropdown dropright">
-                            <button class="btn btn-lg dropdown-toggle" type="button" data-toggle="dropdown"
-                                    aria-haspopup="true" aria-expanded="false">
-                                그룹 선택
-                            </button>
-                            <div class="dropdown-menu keep-open">
-                                {#                            그룹 드롭다운 체크박스#}
-                                {% for group in groups %}
-                                    <label class="dropdown-item">
-                                        <input name="group{{ group.id }}" value="{{ group.id }}" type="checkbox"
-                                               checked>
-                                        <span>{{ group.group_name }}</span>
-                                    </label>
-                                {% endfor %}
-                                <div class="dropdown-divider"></div>
-                            </div>
+                    <br>
+                    <div class="profile-content">
+                        <br>
+                        <div id="profile-name"><a href="{% url 'myprofile:profile_detail' request.user.pk %}">
+                            <span id="profile-name-span">{{ request.user.user_profile.name }}</span>님
+                            ( {{ request.user }} )</a>
+                        </div>
+                        <div id="welcome">환영합니다!</div>
+                        <br>
+                        <div id="profile-bookmark">
+                            <a href="{% url 'myprofile:bookmark_list' request.user.pk %}">
+                                <button type="button" class="bookmark_button">나의 스크랩 목록 보기</button>
+                            </a>
+                        </div>
+                        <br>
+                        <div id="profile-request-alarm"><a href="{% url 'group_management:create_group' %}">
+                                <button type="button" class="request_button">새로운 가입 요청 ( {{ request_messages_cnt }} )
+                                </button></a>
                         </div>
                     </div>
-                    <div class="filter-category">
-                        <select name="filter-category" class="category-list">
-                            <option value="">-</option>
-                            <option value="대외활동">대외활동</option>
-                            <option value="공모전">공모전</option>
-                            <option value="스터디">스터디</option>
-                            <option value="인턴">인턴</option>
-                            <option value="강연">강연</option>
-                            <option value="기타">기타</option>
-                        </select>
+                </div>
+                <div class="side-filter">
+                    <div class="filter">
+                        <div class="filter_start"><i class="fas fa-search"></i> &nbsp검색 필터</div>
+                        <br>
+                        <hr>
+                        <br>
+                        <div class="filter_name">그룹 선택</div>
+                        <br>
+                        <div class="filter-group checks etrans">
+                            {% for group in groups %}
+                                <input id="group{{ group.id }}" name="group{{ group.id }}" value="{{ group.id }}"
+                                       type="checkbox" checked>
+                                <label for="group{{ group.id }}">{{ group.group_name }}</label>
+                                <br>
+                            {% endfor %}
+                        </div>
+                    </div>
+
+                    <hr class="filter-split">
+
+                    <div class="filter">
+                        <div class="filter_name">카테고리</div>
+                        <br>
+                        <div id="select_box">
+                            <label for="category">category</label>
+                            <select id="category" title="select category">
+                                <option value="" selected="selected">category</option>
+                                <option value="대외활동">대외활동</option>
+                                <option value="공모전">공모전</option>
+                                <option value="스터디">스터디</option>
+                                <option value="인턴">인턴</option>
+                                <option value="강연">강연</option>
+                                <option value="기타">기타</option>
+                            </select>
+                        </div>
+                    </div>
+                    <script type="text/javascript">
+                        $(function () {
+                            var select = $("select#category");
+
+                            select.change(function () {
+                                var select_name = $(this).children("option:selected").text();
+                                $(this).siblings("label").text(select_name);
+                            });
+                        });
+                    </script>
+
+                    <hr class="filter-split">
+
+                    <div class="filter">
+                        <div class="filter_name">기간 설정</div>
+                        <br>
+                        <div class="filter-content filter-date">
+                            <input name="date-start" type="date">
+                            <span> &nbsp&nbsp~&nbsp&nbsp </span>
+                            <input name="date-end" type="date">
+                        </div>
                     </div>
                 </div>
             </div>
+
+
             <div class="content-body">
                 <div class="body-search">
                     <div class="search-text">
@@ -216,21 +394,24 @@
                     <div class="search-option">
                         <div class="container">
                             <div class="btn-group">
-                                <div class="btn">First</div>
-                                <div class="btn active">Middle</div>
-                                <div class="btn">Last</div>
+                                <div class="btn" data-value="posts">제목 + 내용</div>
+                                <div class="btn" data-value="tags">태그</div>
+                                <div class="btn" data-value="users">작성자</div>
                             </div>
+                            <input type="hidden" id="options-input" name="options" value="">
+                            {#                            <div class="btn-group">#}
+                            {#                                <label class="btn">#}
+                            {#                                    <input type="radio" name="options" value="posts"> 제목 + 내용#}
+                            {#                                </label>#}
+                            {#                                <label class="btn">#}
+                            {#                                    <input type="radio" name="options" value="tags"> 태그#}
+                            {#                                </label>#}
+                            {#                                <label class="btn">#}
+                            {#                                    <input type="radio" name="options" value="users"> 작성자#}
+                            {#                                </label>#}
+                            {#                            </div>#}
                         </div>
 
-                        <label class="btn">
-                            <input type="radio" name="options" value="posts"> 제목 + 내용
-                        </label>
-                        <label class="btn">
-                            <input type="radio" name="options" value="tags"> 태그
-                        </label>
-                        <label class="btn">
-                            <input type="radio" name="options" value="users"> 작성자
-                        </label>
                     </div>
                 </div>
                 <div class="body-feed">
@@ -244,17 +425,50 @@
     </form>
 
     <br>
-    {##}
+    {# -------------------------알림 요청 오면 알림 뜨는 것---------------------------- #}
+    <script type="text/javascript">
+        //현재 '홈'버튼 클릭하면
+        $("#home_btn").click(function () {
+            $.ajax({
+                type: "GET",
+                url: "{% url 'group_management:request_exist' %}",
+                data: {
+                    'csrfmiddlewaretoken': '{{ csrf_token }}'
+                },
+                dataType: "html",
+
+                success: function (response) {
+                    if (response.icon) {
+                        $("#alert_icon").css("visibility", "visible");
+                    } else {
+                        $("#alert_icon").css("visibility", "hidden");
+                    }
+                },
+                error: function (request, status, error) {
+                    alert("요청 알림 오류");
+                }
+            });
+        })
+    </script>
+    {#-------------------------------------------------------------------------------#}
+
     {#    <input id="page" type="hidden" value="2"> {# 첫 next_page == 2 #}
     {#    <button id="callmorepost" type="button">More Post</button>#}
 
     <script type="text/javascript">
         {#$("input:radio[name='options']:radio[value='posts']").prop('checked', false); // 해제하기#}
-        if ('{{ option }}') {
-            $("input:radio[name='options']:radio[value={{ option }}]").prop('checked', true);
 
+        if ('{{ option }}') {
+            {#$("input:radio[name='options']:radio[value={{ option }}]").prop('checked', true);#}
+            {#$("input:radio[name='options']:radio[value={{ option }}]").addClass('active');#}
+            $('div[data-value="{{option}}"]').addClass('active');
+            $('#options-input').attr('value', '{{ option }}');
         } else {
-            $("input:radio[name='options']:radio[value='posts']").prop('checked', true); // 선택하기
+            {#$("input:radio[name='options']:radio[value='posts']").prop('checked', true); // 선택하기#}
+            {#$("input:radio[name='options']:radio[value='posts']").addClass('active');#}
+            $('div[data-value="posts"]').addClass('active');
+            $('#options-input').attr('value', 'posts');
+
         } // 선택하기
 
         $('.dropdown-menu.keep-open').click(function (e) {
@@ -263,21 +477,11 @@
 
         {#옵션 버튼 애니메이션#}
 
-        $('.field').on('focus', function () {
-            $('body').addClass('is-focus');
-        });
-
-        $('.field').on('blur', function () {
-            $('body').removeClass('is-focus is-type');
-        });
-
-        $('.field').on('keydown', function (event) {
-            $('body').addClass('is-type');
-            if ((event.which === 8) && $(this).val() === '') {
-                $('body').removeClass('is-type');
-            }
-        });
-
+        $('.btn-group .btn').click(function (e) {
+            {#console.log(e.attr('data-value'))#}
+            data = $(this).attr("data-value");
+            $('#options-input').val(data);
+        })
         const pathLength = 68 * 2 + 200;
 
         class BtnGroup {
@@ -361,6 +565,7 @@
                 this.removeClass('active');
                 this.currentIndex = index;
                 this.addClass('active');
+                {#$('#options-input').attr('value', this.)#}
                 this.refreshPath();
             }
         };

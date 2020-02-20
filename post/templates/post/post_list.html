@@ -39,6 +39,9 @@
         overflow: hidden;
     }
 
+
+
+
     .post_list_ajax {
         background-color: white;
         border-radius: 5px;
@@ -75,18 +78,25 @@
         display: inline;
     }
 
+    {# 북마크 & 이메일 - ajax랑 동시에 적용됨#}
     input{
         background-color: transparent;
         background-repeat: no-repeat;
-        padding: 10px 19px;
-        border-radius: 5px;
+        padding: 10px 20px;
         display: inline;
         float: right;
+        border: none;
     }
     .post_email{
         display: inline;
         float: right;
         margin-right: 10px;
+    }
+    .post_email .fa-envelope::before{
+        display: none;
+    }
+    .post_email a i{
+        font-size: 38px;
     }
 </style>
 
@@ -108,7 +118,7 @@
         {% if posts %}
             {% for post in posts %}
                 <div class="post_list">
-                    <div class="post_title">제목 : <a href="{% url 'post:post_detail' post.pk %}">{{ post.title }}</a>
+                    <div class="post_title"><a href="{% url 'post:post_detail' post.pk %}">{{ post.title }}</a>
                     </div>
                     <div>작성자 : <a
                             href="{% url 'myprofile:profile_detail' post.user.pk %}">{{ post.user.user_profile.name }}</a>
@@ -128,10 +138,10 @@
                         <div class="rateit" data-rateit-value="{{ post.score }}" data-rateit-ispreset="true" data-rateit-readonly="true"></div>
                     </div>
                     <div class="bookmark_container">
-                        <input type="submit" class="bookmark" id="bookmark-{{ post.id }}" name="{{ post.id }}" value=""
-                           style="background-image: {% if post.id in bm_post_list %}url('/media/baseline_bookmark_black_18dp.png'){% else %}url('/media/baseline_bookmark_border_black_18dp.png'){% endif %}"/>
+                        <input type="button" class="bookmark" id="bookmark-{{ post.id }}" name="{{ post.id }}" value=""
+                           style="background-image: {% if post.id in bm_post_list %}url('/media/bookmark_on.jpg'){% else %}url('/media/bookmark_off.jpg'){% endif %}"/>
                     </div>
-                    <div class="post_email"><a href="mailto:{{ post.user.email }}" class="fa-envelope">Email</a></div>
+                    <div class="post_email"><a href="mailto:{{ post.user.email }}" class="fa-envelope"><i class="fas fa-envelope-square"></i></a></div>
                 </div>
                 <br>
             {% endfor %}

@@ -5,179 +5,186 @@
 <head>
     <meta charset="UTF-8">
     <title>Log share</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css"/>
+
     <style>
         * {
-    font-family: NanumSquare;
+    font-family: NanumSquare, 나눔스퀘어;
     text-decoration: none;
     margin: 0;
     padding: 0;
 }
 
-.wrapper {
-    width: 100%;
-    height: 80px;
-    background-color: #00B0F0;
-    color: white;
-}
+        .wrapper {
+            width: 100%;
+            height: 80px;
+            background-color: #00B0F0;
+            color: white;
+            box-shadow: 0 6px 31px -2px rgba(0, 0, 0, 0.3);
+        }
 
-a {
-    color: white;
-}
+        a {
+            color: white;
+        }
 
-.logo {
-    margin-left: 200px;
-    display: inline-block;
-}
+        .logo {
+            margin-left: 200px;
+            display: inline-block;
+        }
 
-.logofont {
-    color: white;
-    font-size: 25px;
-    line-height: 80px;
-    display: inline;
-}
+        .logofont {
+            color: white;
+            font-size: 25px;
+            line-height: 80px;
+            display: inline;
+        }
 
-.logoimg_div {
-    display: inline-block;
-    align-content: center;
-}
+        .logoimg_div {
+            display: inline-block;
+            align-content: center;
+        }
 
-#logoimg {
-    width: 50px;
-    line-height: 80px;
-    position: absolute;
-    left: 340px;
-    top: 17px;
-}
-
-
-ul.menu > li {
-    line-height: 80px;
-    display: inline-block;
-    width: 100px;
-    height: 80px;
-    text-align: center;
-    text-decoration: none;
-    box-sizing: border-box;
-    {#border: 1px solid black;#}
-    margin-right: 10px;
-}
-
-.menu > li:hover {
-    border-bottom: 5px solid white;
-    box-sizing: border-box;
-}
-
-.menu {
-    margin-right: 200px;
-}
-
-/*드롭 다운 서브메뉴 */
-.menu > li .sub1 {
-    position: absolute;
-    top: 80px;
-    line-height: 70px;
-    background-color: #00B0F0;
-    color: white;
-    display: none;
-    width: 100px;
-
-}
-
-.menu > li .sub2 {
-    position: absolute;
-    width: 100px;
-    top: 80px;
-    line-height: 70px;
-    background-color: #00B0F0;
-    color: white;
-    display: none;
-
-}
-.menu > li .sub3 {
-    position: absolute;
-    width: 100px;
-    top: 80px;
-    line-height: 70px;
-    background-color: #00B0F0;
-    color: white;
-    display: none;
-
-}
+        #logoimg {
+            width: 50px;
+            line-height: 80px;
+            position: absolute;
+            left: 340px;
+            top: 17px;
+        }
 
 
-.menu > li:hover .sub1 {
-    display: block;
-    color: black;
+        ul.menu > li {
+            line-height: 80px;
+            display: inline-block;
+            width: 100px;
+            height: 80px;
+            text-align: center;
+            text-decoration: none;
+            box-sizing: border-box;
+        {#border: 1px solid black;#} margin-right: 10px;
+        }
 
-}
+        .menu > li:hover {
+            border-bottom: 5px solid white;
+            box-sizing: border-box;
+        }
 
-.menu > li:hover .sub2 {
-    display: block;
-    color: black;
+        .menu {
+            margin-right: 200px;
+        }
 
-}
-.menu > li:hover .sub3 {
-    display: block;
-    color: black;
+        /*드롭 다운 서브메뉴 */
+        .menu > li .sub1 {
+            position: absolute;
+            top: 80px;
+            line-height: 70px;
+            background-color: #00B0F0;
+            color: white;
+            display: none;
+            width: 100px;
 
-}
+        }
 
-/*서브메뉴 클릭시*/
-.sub1 > li:hover {
-    background-color: dodgerblue;
-    border-bottom-left-radius: 5px;
-    border-bottom-right-radius: 5px;
+        .menu > li .sub2 {
+            position: absolute;
+            width: 100px;
+            top: 80px;
+            line-height: 70px;
+            background-color: #00B0F0;
+            color: white;
+            display: none;
 
-}
+        }
 
-.sub2 > li:hover {
-    background-color: dodgerblue;
-    border-bottom-left-radius: 5px;
-    border-bottom-right-radius: 5px;
+        .menu > li .sub3 {
+            position: absolute;
+            width: 100px;
+            top: 80px;
+            line-height: 70px;
+            background-color: #00B0F0;
+            color: white;
+            display: none;
 
-}
-.sub3 > li:hover {
-    background-color: dodgerblue;
-    border-bottom-left-radius: 5px;
-    border-bottom-right-radius: 5px;
+        }
 
-}
 
-.logo {
-    float: left;
-}
+        .menu > li:hover .sub1 {
+            display: block;
+            color: black;
 
-.menu {
-    float: right;
-}
+        }
 
-body {
-    background-color: white;
-}
+        .menu > li:hover .sub2 {
+            display: block;
+            color: black;
 
-.body_container {
-    background-color: white;
-}
+        }
 
-/*서브메뉴 라운드 값*/
-.sub1 {
-    border-bottom-left-radius: 5px;
-    border-bottom-right-radius: 5px;
-    list-style: none;
+        .menu > li:hover .sub3 {
+            display: block;
+            color: black;
 
-}
+        }
 
-.sub2 {
-    border-bottom-left-radius: 5px;
-    border-bottom-right-radius: 5px;
-    list-style: none;
+        /*서브메뉴 클릭시*/
+        .sub1 > li:hover {
+            background-color: dodgerblue;
+            border-bottom-left-radius: 5px;
+            border-bottom-right-radius: 5px;
 
-}
-.sub3{
-    border-bottom-left-radius: 5px;
-    border-bottom-right-radius: 5px;
-    list-style: none;
-}
+        }
+
+        .sub2 > li:hover {
+            background-color: dodgerblue;
+            border-bottom-left-radius: 5px;
+            border-bottom-right-radius: 5px;
+
+        }
+
+        .sub3 > li:hover {
+            background-color: dodgerblue;
+            border-bottom-left-radius: 5px;
+            border-bottom-right-radius: 5px;
+
+        }
+
+        .logo {
+            float: left;
+        }
+
+        .menu {
+            float: right;
+        }
+
+        body {
+        {#background-color: #fafafa;#} background-color: white;
+        }
+
+        .body_container {
+            background-color: white;
+        }
+
+        /*서브메뉴 라운드 값*/
+        .sub1 {
+            border-bottom-left-radius: 5px;
+            border-bottom-right-radius: 5px;
+            list-style: none;
+
+        }
+
+        .sub2 {
+            border-bottom-left-radius: 5px;
+            border-bottom-right-radius: 5px;
+            list-style: none;
+
+        }
+
+        .sub3 {
+            border-bottom-left-radius: 5px;
+            border-bottom-right-radius: 5px;
+            list-style: none;
+        }
 
     </style>
     {% block header %}
@@ -196,7 +203,8 @@ body {
     </div>
     <div class="nav">
         <ul class="menu">
-            <li><a href="{% url 'search:main_search' %}">홈</a></li>
+            <li><a id="home_btn" href="{% url 'search:main_search' %}">홈</a>
+            </li>
             <li><a href="{% url 'group_management:create_group' %}" id="group">그룹</a>
                 <ul class="sub1">
                     <li><a href="{% url 'group_management:create_group' %}">그룹 리스트</a></li>
@@ -204,7 +212,7 @@ body {
                 </ul>
             </li>
         {% if user.is_authenticated %}
-            <li><a href="{% url 'myprofile:profile_detail' request.user.pk %}">프로필</a>
+            <li><a href="{% url 'myprofile:my_profile' request.user.pk %}">프로필</a>
                 <ul class="sub2">
                     <li><a href="{% url 'myprofile:my_profile' request.user.pk %}">내 프로필</a></li>
                     <li><a href="{% url "myprofile:profile_edit" request.user.pk %}">프로필 변경</a></li>
@@ -221,6 +229,7 @@ body {
         </ul>
     </div>
 </div>
+
 <div class="body_container">
     {% block content %}
     {% endblock %}
