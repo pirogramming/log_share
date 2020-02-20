@@ -27,7 +27,6 @@ def logout(request):
     return redirect('/')
 
 
-
 def signup(request):
     if request.method == "POST":
         user_form = CreateUserForm(request.POST)
