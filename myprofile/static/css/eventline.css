@@ -29,6 +29,7 @@ body {
 }
 ol, ul {
 	list-style: none;
+    margin:0;
 }
 blockquote, q {
 	quotes: none;
@@ -54,8 +55,8 @@ table {
     position: absolute;
     top: 55px;
     bottom: auto;
-    color: #dfdfdf;
-    border: 2px solid #dfdfdf;
+    color: #b0bec9;
+    border: 2px solid #b0bec9;
     border-radius: 50%;
     width: 20px;
     height: 20px;
@@ -64,8 +65,8 @@ table {
     padding: 5px;
 }
 .timeline-nav:hover {
-    color: #808;
-    border: 2px solid #808;
+    color: #1a237e;
+    border: 2px solid #1a237e;
     cursor: pointer;
 }
 .nav-future {
@@ -75,11 +76,12 @@ table {
     left: 10px;
 }
 .timeline-nav.inactive:hover {
-    color: #dfdfdf;
-    border: 2px solid #dfdfdf;
+    color: #b0bec9;
+    border: 2px solid #b0bec9;
     cursor: not-allowed;
 }
 #timelineWrapper {
+    border: 2px solid #1a237e;
     position: relative;
     height: 100%;
     margin: 0 50px;
@@ -108,13 +110,13 @@ table {
     position: absolute;
     z-index: 1;
     top: 69px;
-    min-width: 900px;
+    min-width: 500px;
     height: 2px;
     background-color: #dfdfdf;
-    -webkit-transition: all 0.5s ease-in-out;
-    -moz-transition: all 0.5s ease-in-out;
-    -o-transition: all 0.5s ease-in-out;
-    transition: all 0.5s ease-in-out;
+    -webkit-transition: all 0.3s ease-in-out;
+    -moz-transition: all 0.3s ease-in-out;
+    -o-transition: all 0.3s ease-in-out;
+    transition: all 0.3s ease-in-out;
 }
 .event-marker {
     position: absolute;
@@ -122,23 +124,56 @@ table {
     width: 10px;
     height: 10px;
     background-color: #f8f8f8;
-    border: 2px solid #dfdfdf;
     border-radius: 50%;
-    -webkit-transition: all 0.5s ease-in-out;
-    -moz-transition: all 0.5s ease-in-out;
-    -o-transition: all 0.5s ease-in-out;
-    transition: all 0.5s ease-in-out;
+    -webkit-transition: all 0.2s ease-in-out;
+    -moz-transition: all 0.2s ease-in-out;
+    -o-transition: all 0.2s ease-in-out;
+    transition: all 0.2s ease-in-out;
+    overflow: hidden;
+}
+.event-marker a {
+    display: block;
+    color: transparent !important;
 }
 .event-marker.selected {
-    transform: scale(1.2);
-    background-color: #808;
-    border: 2px solid #808;
+    transform: scale(1.5);
+    background-color: #1a237e !important;
+    border: 2px solid mediumvioletred !important;
 }
 .event-marker:hover {
-    transform: scale(1.2);
-    background-color: #808;
-    border: 2px solid #808;
+    transform: scale(1.5);
+    background-color: transparent;
+    border: 2px solid #b0bec9;
 }
+
+/*이벤트마커 색깔 변경*/
+.event-marker.대외활동  {
+    background-color: darkred;
+    border: 2px solid #b0bec9 ;
+}
+.event-marker.공모전  {
+    background-color: darkorange;
+    border: 2px solid #b0bec9 ;
+}
+.event-marker.스터디  {
+    background-color: #f7e600;
+    border: 2px solid #b0bec9 ;
+}
+.event-marker.인턴  {
+    background-color: lightseagreen;
+    border: 2px solid #b0bec9 ;
+}
+.event-marker.강연  {
+    background-color: cornflowerblue;
+    border: 2px solid #b0bec9 ;
+}
+.event-marker.기타  {
+    background-color: mediumpurple;
+    border: 2px solid #b0bec9 ;
+}
+
+/*색깔변경 끝*/
+
 .event-date{
     position: relative;
     bottom: 25px;
@@ -154,8 +189,8 @@ table {
 .tick-label {
     position: absolute;
     bottom: 35px;
-    font-size: 7pt;
-    font-weight: bold;
+    font-size: 11pt;
+
 }
 .event-detail-container {
     min-height: 150px;
