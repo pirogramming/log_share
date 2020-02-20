@@ -19,4 +19,6 @@ urlpatterns = [
 
     path('delete/<int:pk>/', views.delete_group, name='delete_group'),
     path('secede/<int:pk>/', views.secede_group, name='secede_group'),
+
+    path('request_exist/', views.request_exist, name='request_exist'),
 ]

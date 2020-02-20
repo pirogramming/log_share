@@ -4,7 +4,10 @@
         $("#searchInput").autocomplete({
             source: function (request, response) {
                 var q = $("#searchInput").val()
-                var option = $('input[name="options"]:checked').val();
+                {#var option = $('input[name="options"]:checked').val();#}
+                {#var option = $('.btn.active').attr('data-value');#}
+                var option= $('#options-input').val()
+                console.log(option)
                 $.ajax({
                     type: 'get',
                     url: "{% url 'search:search_auto' %}",
@@ -43,7 +46,7 @@
             classes: {    //잘 모르겠음
                 "ui-autocomplete": "highlight"
             },
-            delay: 500,    //검색창에 글자 써지고 나서 autocomplete 창 뜰 때 까지 딜레이 시간(ms)
+            delay: 300,    //검색창에 글자 써지고 나서 autocomplete 창 뜰 때 까지 딜레이 시간(ms)
 //            disabled: true, //자동완성 기능 끄기
             position: {my: "right top", at: "right bottom"},    //잘 모르겠음
             close: function (event) {    //자동완성창 닫아질때 호출

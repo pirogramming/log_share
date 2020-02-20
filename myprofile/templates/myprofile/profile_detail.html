@@ -165,6 +165,13 @@
         cursor: pointer;
         outline: 2px groove #1a237e;
     }
+
+    .profile_email .fa-envelope::before{
+        display: none;
+    }
+    .profile_email a i{
+        font-size: 30px;
+    }
 </style>
 
 {% extends 'base.html' %}
@@ -261,7 +268,7 @@
                     </div>
                 </div>
                 <br>
-                <div class="profile_email"><a href="mailto:{{ profile.user.email }}" class="fa-envelope">Email</a></div>
+                <div class="profile_email"><a href="mailto:{{ profile.user.email }}" class="fa-envelope"><i class="fas fa-envelope-square"></i></a></div>
 
                 {% if profile.user.pk == user.pk %}
                     <div class="profile_bookmark"><a href="{% url 'myprofile:bookmark_list' profile.user.pk %}">북마크</a>
@@ -269,8 +276,6 @@
                     <div class="profile_post_create"><a href="{% url 'post:post_create' %}">글 작성하기</a></div>
                     <br>
                     <div class="profile_edit"><a href="{% url 'myprofile:profile_edit' profile.user.pk %}">프로필 수정하기</a>
-                    </div>
-                    <div class="profile_password_change"><a href="{% url "accounts:password_change" %}">비밀밀호 변경</a>
                     </div>
                 {% endif %}
             </div>

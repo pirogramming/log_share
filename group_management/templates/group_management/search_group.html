@@ -67,7 +67,7 @@
             color: #00B0F0;
         }
 
-        #searchOne:checked + label i :hover {
+        #searchOne:checked + label i:hover {
         / / background: white;
         }
 
@@ -97,7 +97,7 @@
         }
 
 
-        i {
+        label i {
             position: absolute;
             font-size: 30px;
             top: 63%;
@@ -115,7 +115,7 @@
             color: #1a237e;
         }
 
-        i:hover {
+        #group_icon:hover {
             color: #00B0F0;
         }
 
@@ -256,7 +256,7 @@
               autocomplete="off">{% csrf_token %}
             {{ access_code_form.group_name }}
             {{ access_code_form.access_code }}
-            <input class="access_code_sumbit" type="submit" value="가입 요청">
+            <input id="btn" group_name="{{ access_code_form.fields.group_name }}" class="access_code_sumbit" type="submit" value="가입 요청">
         </form>
         {% if messages %}
             <div class="messages">
@@ -269,14 +269,15 @@
             </div>
         {% endif %}
     </div>
+
     <div class="column">
         <div class="search">
             <div class="search_bar">
                 <form action="" method="get" autocomplete="off">
                     <input id="searchOne" type="checkbox" {% if q %} checked="checked" {% endif %}>
                     <label for="searchOne">
-                        <i class="fas fa-search"></i>
-                        <i class="fas fa-times"></i>
+                        <i id="group_icon" class="fas fa-search"></i>
+                        <i id="group_icon" class="fas fa-times"></i>
                         <p class="bar">|</p>
                     </label>
                     <input class="group_search_input" type="text" name="q" value="{{ q }}" placeholder="그룹을 검색하세요.">

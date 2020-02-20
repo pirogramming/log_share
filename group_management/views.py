@@ -6,7 +6,7 @@ from django.db.models import Q
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.decorators.http import require_POST
-from django.views.generic import DetailView
+from django.views.generic import TemplateView
 
 from group_management.forms import GroupForm, RequestWithCodeForm
 from group_management.models import CustomGroup, GroupRequest
@@ -83,7 +83,7 @@ def delete_member(request):
 
 def search_group(request):
     user = request.user
-    qs = None
+    qs = CustomGroup.objects.filter(is_searchable=1)
     q = request.GET.get('q', '')  # GET request의 인자중에 q 값이 있으면 가져오고, 없으면 빈 문자열 넣기
     if q:
         qs = CustomGroup.objects.filter(Q(group_name__icontains=q) & Q(is_searchable=1))
@@ -94,15 +94,6 @@ def search_group(request):
         'q': q,
     }
     return render(request, 'group_management/search_group.html', context)
-
-
-# def all_group(request):
-#     user = request.user
-#     groups = user.user_groups.all()
-#     context = {
-#         'groups': groups,
-#     }
-#     return render(request, 'group_management/all_group.html', context)
 
 
 def detail_group(request, pk):
@@ -127,12 +118,13 @@ def detail_group(request, pk):
         request.user,
         instance=group
     )
-
     group = get_object_or_404(CustomGroup, id=pk)
     q = request.GET.get('q', '')  # GET request의 인자중에 q 값이 있으면 가져오고, 없으면 빈 문자열 넣기
     user = request.user
     messages = GroupRequest.objects.filter(group=group)
+
     qs = group.members.all()
+    print(qs)
     if q:
         qs = group.members.filter(Q(username__icontains=q) | Q(user_profile__name__icontains=q))
     context = {
@@ -145,7 +137,9 @@ def detail_group(request, pk):
 
 
 def request_group(request, pk):
-    group = get_object_or_404(CustomGroup, id=pk)
+    group = get_object_or_404(CustomGroup, id=pk)  # 요청 보낸 그룹
+    #manager = group.manager
+
     if request.user in group.members.all():
         return redirect('group_management:detail_group', pk)
     try:
@@ -153,7 +147,8 @@ def request_group(request, pk):
             group=group,
             sender=request.user,
         )
-    except IntegrityError: # 이미 요청을 보낸 상태일 경우, 새로운 요청 생성하지 않고 원래 페이지로 이동.
+
+    except IntegrityError:  # 이미 요청을 보낸 상태일 경우, 새로운 요청 생성하지 않고 원래 페이지로 이동.
         return redirect('group_management:detail_group', pk)
     return redirect('group_management:detail_group', pk)
 
@@ -206,3 +201,18 @@ def secede_group(request, pk):
     group = get_object_or_404(CustomGroup, id=pk)
     group.members.remove(request.user)
     return redirect('group_management:detail_group', pk)
+
+def request_exist(request):
+    user = request.user
+    mygroup = CustomGroup.objects.filter(manager=user)
+    request = GroupRequest.objects.filter(group=mygroup)
+
+    if request:
+        icon =True
+    else:
+        icon = False
+
+    context = {
+        'icon':icon
+    }
+    return HttpResponse(context)

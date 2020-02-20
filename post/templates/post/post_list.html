@@ -88,6 +88,12 @@
         float: right;
         margin-right: 10px;
     }
+    .post_email .fa-envelope::before{
+        display: none;
+    }
+    .post_email a i{
+        font-size: 30px;
+    }
 </style>
 
 {% extends 'base.html' %}
@@ -129,9 +135,9 @@
                     </div>
                     <div class="bookmark_container">
                         <input type="submit" class="bookmark" id="bookmark-{{ post.id }}" name="{{ post.id }}" value=""
-                           style="background-image: {% if post.id in bm_post_list %}url('/media/baseline_bookmark_black_18dp.png'){% else %}url('/media/baseline_bookmark_border_black_18dp.png'){% endif %}"/>
+                           style="background-image: {% if post.id in bm_post_list %}url('/media/북마크_on-removebg-preview.png'){% else %}url('/media/북마크_off-removebg-preview.png'){% endif %}"/>
                     </div>
-                    <div class="post_email"><a href="mailto:{{ post.user.email }}" class="fa-envelope">Email</a></div>
+                    <div class="post_email"><a href="mailto:{{ post.user.email }}" class="fa-envelope"><i class="fas fa-envelope-square"></i></a></div>
                 </div>
                 <br>
             {% endfor %}
