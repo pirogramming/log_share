@@ -18,6 +18,7 @@ def announce_likes(sender, instance, created, **kwargs):
         async_to_sync(channel_layer.group_send)(
             # 그룹에 send
             # self.room_group_name = 'chat_%s' % self.room_name -> self.room_group_name 추가
+            # todo 김유빈 그룹 정하기
             "shares", {
                 "type": "share_message",
                 "message": instance.message,

@@ -6,6 +6,7 @@
 </head>
 <body>
     <textarea id="chat-log" cols="20" rows="10"></textarea>
+    <div><a href="{% url 'alarms:alarm_detail' %}">모든 알람 보기</a></div>
 </body>
 
 <script>
@@ -15,7 +16,7 @@
         'ws://' + window.location.host + '/ws/test/' + username + '/'
     );
 
-    //shareme에서 받아온 data를 통해 message 출력
+    //def post에서 받아온 data를 통해 message 출력
    chatSocket.onmessage = function (e) {
         console.log(e); //e == message
         var data = JSON.parse(e.data); //data를 받아와서

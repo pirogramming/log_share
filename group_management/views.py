@@ -6,10 +6,11 @@ from django.db.models import Q
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.decorators.http import require_POST
-from django.views.generic import DetailView
+from django.views.generic import TemplateView
 
 from group_management.forms import GroupForm, RequestWithCodeForm
 from group_management.models import CustomGroup, GroupRequest
+from alarms import models
 
 
 @login_required
@@ -88,8 +89,8 @@ def search_group(request):
         qs = CustomGroup.objects.filter(Q(group_name__icontains=q) & Q(is_searchable=1))
     access_code_form = RequestWithCodeForm();
     context = {
-        'groups' : qs,
-        'access_code_form' : access_code_form,
+        'groups': qs,
+        'access_code_form': access_code_form,
         'q': q,
     }
     return render(request, 'group_management/search_group.html', context)
@@ -142,7 +143,7 @@ def detail_group(request, pk):
     }
     return render(request, 'group_management/detail_group.html', context)
 
-
+#todo 김유빈
 def request_group(request, pk):
     group = get_object_or_404(CustomGroup, id=pk)
     if request.user in group.members.all():
@@ -152,7 +153,7 @@ def request_group(request, pk):
             group=group,
             sender=request.user,
         )
-    except IntegrityError: # 이미 요청을 보낸 상태일 경우, 새로운 요청 생성하지 않고 원래 페이지로 이동.
+    except IntegrityError:  # 이미 요청을 보낸 상태일 경우, 새로운 요청 생성하지 않고 원래 페이지로 이동.
         return redirect('group_management:detail_group', pk)
     return redirect('group_management:detail_group', pk)
 
