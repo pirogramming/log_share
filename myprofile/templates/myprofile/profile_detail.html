@@ -158,13 +158,12 @@
         font-size: 15px;
         margin: 2px 0px;
         padding: 5px;
+        transition: all .1s;
     }
 
-    .interested_tag:focus {
-        outline: none;
-    }
     .interested_tag:hover {
         cursor: pointer;
+        outline: 2px groove #1a237e;
     }
 </style>
 
@@ -258,7 +257,6 @@
             var r = Math.floor((Math.random() * 0xcc) + 0x11).toString(16);
             var g = Math.floor((Math.random() * 0xcc) + 0x11).toString(16);
             var b = Math.floor((Math.random() * 0xcc) + 0x11).toString(16);
-            console.log(r + g + b);
             return '#' + r + g + b;
         }
         $('.interested_tag').each(function () {
