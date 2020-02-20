@@ -5,6 +5,10 @@
 <head>
     <meta charset="UTF-8">
     <title>Log share</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" />
+
     <style>
         * {
     font-family: NanumSquare;
@@ -205,14 +209,14 @@ body {
                 </ul>
             </li>
         {% if user.is_authenticated %}
-            <li><a href="{% url 'myprofile:profile_detail' request.user.pk %}">프로필</a>
+            <li><a href="{% url 'myprofile:my_profile' request.user.pk %}">프로필</a>
                 <ul class="sub2">
                     <li><a href="{% url 'myprofile:my_profile' request.user.pk %}">내 프로필</a></li>
                     <li><a href="{% url "myprofile:profile_edit" request.user.pk %}">프로필 변경</a></li>
                 </ul>
             </li>
         {% endif %}
-            <li><a href="{% url 'post:post_create' %}">포트폴리오</a>
+            <li><a href="{% url 'myprofile:profile_detail' request.user.pk %}">포트폴리오</a>
                 <ul class="sub3">
                     <li><a href="{% url 'myprofile:profile_detail' request.user.pk %}">내 포폴</a></li>
                     <li><a href="{% url 'post:post_create' %}">포폴 작성</a></li>

@@ -364,12 +364,6 @@
                 </div>
                 <!--타임라인 끝-->
 
-                <div class="profile_url_container">
-                    대표 URL
-                    <div>네이버 URL:
-                        {% if profile.naver != None %}
-                            <a href="{{ profile.naver }}">{{ profile.naver }}</a>
-                        {% endif %}
                 {% if profile.naver != None %}
                     <div class="naver">
                         <div class="naver_label"><a href="{{ profile.naver }}">네이버</a></div>
@@ -404,7 +398,7 @@
                     <div class="profile_edit"><a href="{% url 'myprofile:profile_edit' profile.user.pk %}">프로필 수정하기</a>
                     </div>
                 {% endif %}
-            </div>
+
             <hr>
             <div class="profile_recent_tag">
                 최근 태그 리스트 :
