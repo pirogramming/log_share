@@ -83,7 +83,7 @@ def delete_member(request):
 
 def search_group(request):
     user = request.user
-    qs = None
+    qs = CustomGroup.objects.filter(is_searchable=1)
     q = request.GET.get('q', '')  # GET request의 인자중에 q 값이 있으면 가져오고, 없으면 빈 문자열 넣기
     if q:
         qs = CustomGroup.objects.filter(Q(group_name__icontains=q) & Q(is_searchable=1))
@@ -94,15 +94,6 @@ def search_group(request):
         'q': q,
     }
     return render(request, 'group_management/search_group.html', context)
-
-
-# def all_group(request):
-#     user = request.user
-#     groups = user.user_groups.all()
-#     context = {
-#         'groups': groups,
-#     }
-#     return render(request, 'group_management/all_group.html', context)
 
 
 def detail_group(request, pk):
@@ -127,12 +118,13 @@ def detail_group(request, pk):
         request.user,
         instance=group
     )
-
     group = get_object_or_404(CustomGroup, id=pk)
     q = request.GET.get('q', '')  # GET request의 인자중에 q 값이 있으면 가져오고, 없으면 빈 문자열 넣기
     user = request.user
     messages = GroupRequest.objects.filter(group=group)
+
     qs = group.members.all()
+    print(qs)
     if q:
         qs = group.members.filter(Q(username__icontains=q) | Q(user_profile__name__icontains=q))
     context = {
