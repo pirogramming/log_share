@@ -168,7 +168,7 @@ def request_withcode(request):
             print(group)
 
         except Exception:
-            messages.info(request, '해당하는 그룹이 없습니다.')
+            messages.info(request, '입력한 정보와 일치하는 그룹이 존재하지 않습니다.')
             return redirect('group_management:search_group')
 
         if request.user in group.members.all():
