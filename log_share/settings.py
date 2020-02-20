@@ -33,8 +33,6 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    #todo channels 추가 오류 - NotImplementedError
-    'channels',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -53,16 +51,12 @@ INSTALLED_APPS = [
     'main',
     'post',
     'search',
-    'alarms',
 
     # sass for searchbar
 
     # summernote
     'django_summernote',
 ]
-
-#알림
-ASGI_APPLICATION = 'log_share.routing.application'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -188,15 +182,7 @@ EMAIL_USE_TLS = True
 # EMAIL_USE_SSL = True
 DEFAULT_FROM_EMAIL = '이수경 <bobbeta22@gmail.com>'
 
-#channel_layers 추가
-CHANNEL_LAYERS = {
-    'default': {
-        'BACKEND': 'channels_redis.core.RedisChannelLayer',
-        'CONFIG': {
-            "hosts": [('127.0.0.1', 6379)],
-        },
-    },
-}
+
 # sass app config
 SASS_PROCESSOR_ENABLED = True
 SASS_PROCESSOR_ROOT = os.path.join(BASE_DIR, 'search', 'static')

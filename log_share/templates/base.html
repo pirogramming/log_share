@@ -5,6 +5,9 @@
 <head>
     <meta charset="UTF-8">
     <title>Log share</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" />
+
     <style>
         * {
     font-family: NanumSquare;
@@ -122,6 +125,11 @@ ul.menu > li {
 
 }
 
+.menu > li #alert_icon{
+    margin-left: 10px;
+    visibility: hidden;
+}
+
 /*서브메뉴 클릭시*/
 .sub1 > li:hover {
     background-color: dodgerblue;
@@ -196,7 +204,8 @@ body {
     </div>
     <div class="nav">
         <ul class="menu">
-            <li><a href="{% url 'search:main_search' %}">홈</a></li>
+            <li><a href="{% url 'search:main_search' %}">홈<i id="alert_icon" class="fas fa-exclamation-circle"></i></a>
+            </li>
             <li><a href="{% url 'group_management:create_group' %}" id="group">그룹</a>
                 <ul class="sub1">
                     <li><a href="{% url 'group_management:create_group' %}">그룹 리스트</a></li>
@@ -204,14 +213,14 @@ body {
                 </ul>
             </li>
         {% if user.is_authenticated %}
-            <li><a href="{% url 'myprofile:profile_detail' request.user.pk %}">프로필</a>
+            <li><a href="{% url 'myprofile:my_profile' request.user.pk %}">프로필</a>
                 <ul class="sub2">
                     <li><a href="{% url 'myprofile:my_profile' request.user.pk %}">내 프로필</a></li>
                     <li><a href="{% url "myprofile:profile_edit" request.user.pk %}">프로필 변경</a></li>
                 </ul>
             </li>
         {% endif %}
-            <li><a href="{% url 'post:post_create' %}">포스트</a>
+            <li><a href="{% url 'myprofile:profile_detail' request.user.pk %}">포스트</a>
                 <ul class="sub3">
                     <li><a href="{% url 'myprofile:profile_detail' request.user.pk %}">내 포스트</a></li>
                     <li><a href="{% url 'post:post_create' %}">포스트 작성</a></li>
@@ -221,6 +230,27 @@ body {
         </ul>
     </div>
 </div>
+
+<script type="text/javascript">
+    $.ajax({
+        url:'group_management:request_exist',
+        type:"GET",
+        data:{
+            'csrfmiddlewaretoken': '{{ csrf_token }}'
+        },
+        dataType:'html',
+
+        success:function(response){
+            if(response.icon){
+                $("#alert_icon").css("visibility", "visible");
+            }
+            else{
+                $("#alert_icon").css("visibility", "hidden");
+            }
+        }
+    })
+</script>
+
 <div class="body_container">
     {% block content %}
     {% endblock %}

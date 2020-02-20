@@ -27,7 +27,6 @@ urlpatterns = [
     path('post/',include('post.urls')),
     path('group/', include('group_management.urls')),
     path('search/', include('search.urls')),
-    path('alarms/', include('alarms.urls')),
 
     #3rd party apps
     path('summernote/', include('django_summernote.urls')),

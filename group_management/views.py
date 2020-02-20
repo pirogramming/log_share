@@ -143,9 +143,11 @@ def detail_group(request, pk):
     }
     return render(request, 'group_management/detail_group.html', context)
 
-#todo 김유빈
+
 def request_group(request, pk):
-    group = get_object_or_404(CustomGroup, id=pk)
+    group = get_object_or_404(CustomGroup, id=pk)  # 요청 보낸 그룹
+    #manager = group.manager
+
     if request.user in group.members.all():
         return redirect('group_management:detail_group', pk)
     try:
@@ -153,6 +155,7 @@ def request_group(request, pk):
             group=group,
             sender=request.user,
         )
+
     except IntegrityError:  # 이미 요청을 보낸 상태일 경우, 새로운 요청 생성하지 않고 원래 페이지로 이동.
         return redirect('group_management:detail_group', pk)
     return redirect('group_management:detail_group', pk)
@@ -206,3 +209,18 @@ def secede_group(request, pk):
     group = get_object_or_404(CustomGroup, id=pk)
     group.members.remove(request.user)
     return redirect('group_management:detail_group', pk)
+
+def request_exist(request):
+    user = request.user
+    mygroup = CustomGroup.objects.filter(manager=user)
+    request = GroupRequest.objects.filter(group=mygroup)
+
+    if request:
+        icon =True
+    else:
+        icon = False
+
+    context = {
+        'icon':icon
+    }
+    return HttpResponse(context)
