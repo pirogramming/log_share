@@ -41,7 +41,7 @@
             font-size: 20px;
             color: #1a237e;
             border-radius: 5px;
-            text-transform: uppercase;
+            {#text-transform: uppercase;#}
             font-family: 'Nunito', sans-serif;
 
         }
@@ -158,7 +158,7 @@
             font-size: 20px;
             color: #1a237e;
             border-radius: 5px;
-            text-transform: uppercase;
+            {#text-transform: uppercase;#}
             text-align: center;
             font-family: NanumSquare;
         }
@@ -177,7 +177,7 @@
             font-size: 20px;
             color: #1a237e;
             border-radius: 5px;
-            text-transform: uppercase;
+            {#text-transform: uppercase;#}
             text-align: center;
             font-family: NanumSquare;
         }
@@ -255,6 +255,15 @@
             {{ access_code_form.access_code }}
             <input class="access_code_sumbit" type="submit" value="가입 요청">
         </form>
+        {% if messages %}
+            <div class="messages">
+                {% for message in messages %}
+                    <div {% if message.tags %} class="alert alert-{{ message.tags }}"{% endif %}>
+                        {{ message.message }}
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
     </div>
     <div class="column">
         <div class="search">
