@@ -18,6 +18,12 @@
         border-bottom: 2px solid #b0bec9;
     }
 
+    .my_container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
     .big_title {
         float: left;
         font-size: 20px;
@@ -78,16 +84,19 @@
         display: inline-block;
         margin: 50px;
     }
-    .url_content >div{
-        color:black;
+
+    .url_content > div {
+        color: black;
         position: relative;
         width: 300px;
-        margin:  50px 60px;
+        margin: 50px 60px;
     }
-    .profile_name{
-        color:black;
+
+    .profile_name {
+        color: black;
     }
-    .btn_profile_card, .btn_profile_edit{
+
+    .btn_profile_card, .btn_profile_edit {
         background-color: #00B0F0;
         display: inline-block;
         color: white;
@@ -101,22 +110,43 @@
         text-align: center;
         line-height: 30px;
     }
-    .btn_profile_edit:hover{
+
+    .btn_profile_edit:hover {
         background: #1E88E5;
         color: white;
         border: 1px solid #1E88E5;
     }
-     .btn_profile_card:hover{
-         background: #1E88E5;
-         color: white;
-         border: 1px solid #1E88E5;
-     }
 
+    .btn_profile_card:hover {
+        background: #1E88E5;
+        color: white;
+        border: 1px solid #1E88E5;
+    }
+
+    .interested_tag {
+        color: white;
+        border: 0px;
+        border-radius: 2px;
+        font-size: 15px;
+        margin: 2px 0px;
+        padding: 5px;
+        transition: all .1s;
+    }
+
+    .interested_tag:hover {
+        cursor: pointer;
+        outline: 2px groove #1a237e;
+    }
 
 
 </style>
-
 {% extends 'base.html' %}
+
+{% block header %}
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+            integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+            crossorigin="anonymous"></script>
+{% endblock %}
 
 
 {% block content %}
@@ -124,58 +154,75 @@
         <div class="topbar">
             <div class="big_title">내 정보 변경</div>
         </div>
-        <div class="my_info">
-            <div class="title">내 프로필</div>
-            <div class="profile_photo">
-                {% if profile.photo %}
-                    <img src="{{ profile.photo.url }}" alt="" id="profile_img"/>
-                {% endif %}
+        <div class = my_container>
+            <div class="my_info">
+                <div class="title">내 프로필</div>
+                <div class="profile_photo">
+                    {% if profile.photo %}
+                        <img src="{{ profile.photo.url }}" alt="" id="profile_img"/>
+                    {% endif %}
+                </div>
+                <div class="profile_first_content">
+                    <div class="profile_name">이름: {{ profile.name }}</div>
+                    <div class="profile_depart">소속: {{ profile.department }}</div>
+                    <div class="profile_intro">자기소개:<p>
+                        {% if profile.description != None %}
+                            {{ profile.description }}
+                        {% endif %}
+                    </p>
+                    </div>
+                    <div>관심태그:
+                        {% if profile.interested_tag != None %}
+                            {% for tag, size in interested_tag_dict.items %}
+                                <a href="#">
+                                    <button class="interested_tag">#{{ tag }}</button>
+                                </a>
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+                    <div class="btn_profile_card"><a href="{% url "accounts:password_change" %}">비밀번호 변경</a></div>
+                    <div class="btn_profile_edit"><a href="{% url "myprofile:profile_edit" request.user.pk %}">프로필
+                        수정</a>
+                    </div>
+                </div>
             </div>
-            <div class="profile_first_content">
-                <div class="profile_name">이름: {{ profile.name }}</div>
-                <div class="profile_depart">소속: {{ profile.department }}</div>
-                <div class="profile_intro">자기소개:<p>
-                    {% if profile.description != None %}
-                        {{ profile.description }}
-                    {% endif %}
-                </p>
-                </div>
-                <div>관심태그:
-                    {% if profile.interested_tag != None %}
-                        {% for tag, size in interested_tag_dict.items %}
-                            {{ tag }}
-                        {% endfor %}
-                    {% endif %}
-                </div>
-                <div class="btn_profile_card"><a href="{% url "accounts:password_change" %}">비밀번호 변경</a></div>
-                <div class="btn_profile_edit"><a href="{% url "myprofile:profile_edit" request.user.pk %}">프로필 수정</a></div>
-            </div>
-        </div>
-        <div class="my_url">
-            <div class="title">내 연락처</div>
-            <div class="url_content">
-                <div>네이버 URL:
-                    {% if profile.naver != None %}
-                        <div>{{ profile.naver }}</div>
-                    {% endif %}
-                </div>
-                <div>다음 URL:
-                    {% if profile.daum != None %}
-                        {{ profile.daum }}
-                    {% endif %}
-                </div>
-                <div>github URL:
-                    {% if profile.github != None %}
-                        {{ profile.github }}
-                    {% endif %}
-                </div>
-                <div>other URL:
-                    {% if profile.other_url != None %}
-                        <a href="{{ profile.other_url }}">{{ profile.other_url }}</a>
-                    {% endif %}
+            <div class="my_url">
+                <div class="title">내 연락처</div>
+                <div class="url_content">
+                    <div>네이버 URL:
+                        {% if profile.naver != None %}
+                            <div>{{ profile.naver }}</div>
+                        {% endif %}
+                    </div>
+                    <div>다음 URL:
+                        {% if profile.daum != None %}
+                            {{ profile.daum }}
+                        {% endif %}
+                    </div>
+                    <div>github URL:
+                        {% if profile.github != None %}
+                            {{ profile.github }}
+                        {% endif %}
+                    </div>
+                    <div>other URL:
+                        {% if profile.other_url != None %}
+                            <a href="{{ profile.other_url }}">{{ profile.other_url }}</a>
+                        {% endif %}
+                    </div>
                 </div>
             </div>
         </div>
     </div>
+    <script type="text/javascript">
+        var get_random_RGB = function () {
+            var r = Math.floor((Math.random() * 0xcc) + 0x11).toString(16);
+            var g = Math.floor((Math.random() * 0xcc) + 0x11).toString(16);
+            var b = Math.floor((Math.random() * 0xcc) + 0x11).toString(16);
+            return '#' + r + g + b;
+        }
+        $('.interested_tag').each(function () {
+            $(this).css('background-color', get_random_RGB);
+        })
+    </script>
 {% endblock %}
 
