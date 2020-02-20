@@ -4,7 +4,9 @@
         $("#searchInput").autocomplete({
             source: function (request, response) {
                 var q = $("#searchInput").val()
-                var option = $('input[name="options"]:checked').val();
+                {#var option = $('input[name="options"]:checked').val();#}
+                var option = $('.btn.active').attr('data-value');
+                console.log(option)
                 $.ajax({
                     type: 'get',
                     url: "{% url 'search:search_auto' %}",
