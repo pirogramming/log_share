@@ -12,12 +12,12 @@
         border: 0.5px solid #b0bec9;
     }
 
-    .profile_first_container div {
+    .profile_first_container > div {
         background-color: transparent;
         padding: 10px 0;
     }
 
-    .profile_first_container div a {
+    .profile_first_container > div a {
         text-decoration: none;
         color: black;
     }
@@ -151,23 +151,31 @@
         font-weight: bold;
     }
 
-    {#.interested_tag {#}
-    {#    color: white;#}
-    {#    border: 0px;#}
-    {#    border-radius: 2px;#}
-    {#    font-size: 15px;#}
-    {#    margin: 2px 0px;#}
-    {#    padding: 5px;#}
-    {#    transition: all .1s;#}
-    {#{}#}
-    {##}
-    {#.interested_tag:hover {#}
-    {#    cursor: pointer;#}
-    {#    outline: 2px groove #1a237e;#}
-    {#{}#}
+    .interested_tag {
+        color: white;
+        border: 0px;
+        border-radius: 2px;
+        font-size: 15px;
+        margin: 2px 0px;
+        padding: 5px;
+        transition: all .1s;
+    }
+
+    .interested_tag:hover {
+        cursor: pointer;
+        outline: 2px groove #1a237e;
+    }
+
+    .profile_email .fa-envelope::before{
+        display: none;
+    }
+    .profile_email a i{
+        font-size: 30px;
+    }
 </style>
 
 {% extends 'base.html' %}
+{% load staticfiles %}
 
 {% block header %}
     <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -175,8 +183,9 @@
             integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
             crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
-    <link rel='stylesheet' href="eventline.css">
-    <script src='eventline.js'></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/locale/ko.js"></script>
+    <link rel='stylesheet' href="{% static 'css/eventline.css' %}">
+{#    <script async src='{% static 'js/eventline.js' %}'></script>#}
 {% endblock %}
 
 {% block content %}
@@ -221,72 +230,70 @@
                         </div>
                     </div>
                     <div class="timeline-nav nav-future" id="navFuture"><span class='fa fa-angle-right'></span></div>
-                    <div id="eventDetailContainer" class="event-detail-container">
-                        <div class="selected-event">
-                            <div class="event-title"></div>
-                            <div class="event--range">
-                            <div class="event-start-date"></div>
-                            <div class="event-separator">&nbsp;-&nbsp;</div>
-                            <div class="event-end-date"></div>
-                        </div>
-                        <div class="event-notes"></div>
+{#                    <div id="eventDetailContainer" class="event-detail-container">#}
+{#                        <div class="selected-event">#}
+{#                            <div class="event-title"></div>#}
+{#                            <div class="event--range">#}
+{#                                <div class="event-start-date"></div>#}
+{#                                <div class="event-separator">&nbsp;-&nbsp;</div>#}
+{#                                <div class="event-end-date"></div>#}
+{#                            </div>#}
+{#                            <div class="event-notes"></div>#}
+{#                        </div>#}
+{#                    </div>#}
+                </div>
+                <!--타임라인 끝-->
+
+                <div class="profile_url_container">
+                    대표 URL
+                    <div>네이버 URL:
+                        {% if profile.naver != None %}
+                            <a href="{{ profile.naver }}">{{ profile.naver }}</a>
+                        {% endif %}
+                    </div>
+                    <div>다음 URL:
+                        {% if profile.daum != None %}
+                            <a href="{{ profile.daum }}">{{ profile.daum }}</a>
+                        {% endif %}
+                    </div>
+                    <div>github URL:
+                        {% if profile.github != None %}
+                            <a href="{{ profile.github }}">{{ profile.github }}</a>
+                        {% endif %}
+                    </div>
+                    <div>other URL:
+                        {% if profile.other_url != None %}
+                            <a href="{{ profile.other_url }}">{{ profile.other_url }}</a>
+                        {% endif %}
                     </div>
                 </div>
-            </div>
-            <!--타임라인 끝-->
+                <br>
+                <div class="profile_email"><a href="mailto:{{ profile.user.email }}" class="fa-envelope"><i class="fas fa-envelope-square"></i></a></div>
 
-            <div class="profile_url_container">
-                대표 URL
-                <div>네이버 URL:
-                    {% if profile.naver != None %}
-                        <a href="{{ profile.naver }}">{{ profile.naver }}</a>
+                {% if profile.user.pk == user.pk %}
+                    <div class="profile_bookmark"><a href="{% url 'myprofile:bookmark_list' profile.user.pk %}">북마크</a>
+                    </div>
+                    <div class="profile_post_create"><a href="{% url 'post:post_create' %}">글 작성하기</a></div>
+                    <br>
+                    <div class="profile_edit"><a href="{% url 'myprofile:profile_edit' profile.user.pk %}">프로필 수정하기</a>
+                    </div>
+                {% endif %}
+            </div>
+            <hr>
+            <div class="profile_recent_tag">
+                최근 태그 리스트 :
+                {% for tag_name, tag_count in recent_tags_count.items %}
+                    {% if tag_count >= 2 %} <!—숫자는 추후 조정—>
+                        <span style="font-size: x-large">
+                         <a class="tags" href="{% url 'search:tag_search' tag_name %}">#{{ tag_name }}</a></span>
+                    {% else %}
+                        <span><a class="tags" href="{% url 'search:tag_search' tag_name %}">#{{ tag_name }}</a></span>
                     {% endif %}
-                </div>
-                <div>다음 URL:
-                    {% if profile.daum != None %}
-                        <a href="{{ profile.daum }}">{{ profile.daum }}</a>
-                    {% endif %}
-                </div>
-                <div>github URL:
-                    {% if profile.github != None %}
-                        <a href="{{ profile.github }}">{{ profile.github }}</a>
-                    {% endif %}
-                </div>
-                <div>other URL:
-                    {% if profile.other_url != None %}
-                        <a href="{{ profile.other_url }}">{{ profile.other_url }}</a>
-                    {% endif %}
-                </div>
+                {% endfor %}
             </div>
             <br>
-            <div class="profile_email"><a href="mailto:{{ profile.user.email }}" class="fa-envelope">Email</a></div>
-
-            {% if profile.user.pk == user.pk %}
-                <div class="profile_bookmark"><a href="{% url 'myprofile:bookmark_list' profile.user.pk %}">북마크</a>
-                </div>
-                <div class="profile_post_create"><a href="{% url 'post:post_create' %}">글 작성하기</a></div>
-                <br>
-                <div class="profile_edit"><a href="{% url 'myprofile:profile_edit' profile.user.pk %}">프로필 수정하기</a>
-                </div>
-                <div class="profile_password_change"><a href="{% url "accounts:password_change" %}">비밀밀호 변경</a>
-                </div>
-            {% endif %}
+            {% include 'post/myprofile_post_list.html' %}
         </div>
-        <hr>
-        <div class="profile_recent_tag">
-            최근 태그 리스트 :
-            {% for tag_name, tag_count in recent_tags_count.items %}
-                {% if tag_count >= 2 %} <!—숫자는 추후 조정—>
-                    <span style="font-size: x-large">
-                         <a class="tags" href="{% url 'search:tag_search' tag_name %}">#{{ tag_name }}</a></span>
-                {% else %}
-                    <span><a class="tags" href="{% url 'search:tag_search' tag_name %}">#{{ tag_name }}</a></span>
-                {% endif %}
-            {% endfor %}
-        </div>
-        <br>
-        {% include 'post/myprofile_post_list.html' %}
-    </div>
     </div>
     <script type="text/javascript">
         var get_random_RGB = function () {
@@ -299,5 +306,6 @@
             $(this).css('background-color', get_random_RGB);
         })
     </script>
+    {% include 'myprofile/eventline.html' %}
 {% endblock %}
 

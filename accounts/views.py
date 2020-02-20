@@ -15,7 +15,7 @@ def login(request):
         user = auth.authenticate(request, username=username, password=password)
         if user is not None:
             auth.login(request, user)
-            return redirect('myprofile:profile_detail', user.pk)
+            return redirect('search:main_search')
         else:
             return render(request, 'accounts/login.html', {'error': 'login error'})
     else:

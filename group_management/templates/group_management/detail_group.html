@@ -193,6 +193,7 @@
             color: #1a237e;
             transition: all .1s;
         }
+
         .a_tag:hover {
             color: #00B0F0;
         }
@@ -314,12 +315,17 @@
             font-size: 20px;
         }
 
+    .fa-sort-down {
+        margin:50px 50px 50px 50px;
+        color: #6cc0e5;
+        font-size: 30px;
+    }
 
     </style>
 {% endblock %}
 
 {% block content %}
-
+    <i class="fas fa-sort-down"></i>
     <div class="group_detail_content">
         <div class="group_detail_content_row">
             <div class="group_detail_content_col group_detail_content_col_1">
@@ -384,21 +390,24 @@
                             </form>
                         </div>
                         <br><br>
-
+                        <div class="member_list">
+                            <i class="fas fa-crown"></i>
+                            <a class="a_tag" href="{% url 'myprofile:profile_detail' group.manager.id %}">
+                                {{ group.manager.user_profile.name }} ({{ group.manager.username }})</a>
+                            <br><br>
+                        </div>
                         {% for member in members %}
-                            <div class="member_list" id="delete_member_div-{{ member.id }}">
-                                {% if member == group.manager %}
-                                    <i class="fas fa-crown"></i>
-                                {% elif request.user == group.manager and member != group.manager %}
+                            {% if request.user == group.manager and member != group.manager %}
+                                <div class="member_list" id="delete_member_div-{{ member.id }}">
                                     <button title="회원 삭제" type="button" class="delete_member_button"
                                             id="delete_member_button-{{ member.id }}" member_id="{{ member.id }}"
                                             group_id="{{ group.id }}"><i class="fas fa-minus-circle"></i>
                                     </button>
-                                {% endif %}
-                                <a class="a_tag" href="{% url 'myprofile:profile_detail' member.pk %}">
-                                    {{ member.user_profile.name }} ({{ member.username }})</a>
-                                <br><br>
-                            </div>
+                                    <a class="a_tag" href="{% url 'myprofile:profile_detail' member.pk %}">
+                                        {{ member.user_profile.name }} ({{ member.username }})</a>
+                                    <br><br>
+                                </div>
+                            {% endif %}
                         {% endfor %}
                     </div>
 
@@ -440,15 +449,20 @@
                         </form>
                         <br><br>
 
+                        <div class="member_list">
+                            <i class="fas fa-crown"></i>
+                            <a class="a_tag" href="{% url 'myprofile:profile_detail' group.manager.id %}">
+                                {{ group.manager.user_profile.name }} ({{ group.manager.username }})</a>
+                            <br><br>
+                        </div>
                         {% for member in members %}
-                            <div id="delete_member_div-{{ member.id }}">
-                                <a class="a_tag" href="{% url 'myprofile:profile_detail' member.pk %}">
-                                    {{ member.user_profile.name }} ({{ member.username }})</a>
-                                {% if member == group.manager %}
-                                    <i class="fas fa-crown"></i>
-                                {% endif %}
-                                <br><br>
-                            </div>
+                            {% if member != group.manager %}
+                                <div class="member_list">
+                                    <a class="a_tag" href="{% url 'myprofile:profile_detail' member.pk %}">
+                                        {{ member.user_profile.name }} ({{ member.username }})</a>
+                                    <br><br>
+                                </div>
+                            {% endif %}
                         {% endfor %}
                     </div>
                 </div>

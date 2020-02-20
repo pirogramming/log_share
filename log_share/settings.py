@@ -43,8 +43,6 @@ INSTALLED_APPS = [
     # 3rd party apps
     'taggit',
     'rest_framework',
-
-
     'django_summernote',
 
 
@@ -55,8 +53,6 @@ INSTALLED_APPS = [
     'main',
     'post',
     'search',
-    # sass for searchbar
-
 
 ]
 
@@ -108,8 +104,12 @@ WSGI_APPLICATION = 'log_share.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'log_share',
+        'USER': 'root',
+        'PASSWORD': '123',
+        'HOST': 'localhost',
+        'PORT': '3306',
     }
 }
 
@@ -148,8 +148,14 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATIC_URL = '/static/'
+#STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 STATICFILES_DIRS = (os.path.join(BASE_DIR, "static"),)
 # STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+
+STATICFILES_FINDERS = (
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+)
 
 # image
 MEDIA_URL = '/media/'
@@ -178,6 +184,7 @@ EMAIL_HOST_PASSWORD = 'tn340115'
 EMAIL_USE_TLS = True
 # EMAIL_USE_SSL = True
 DEFAULT_FROM_EMAIL = '이수경 <bobbeta22@gmail.com>'
+
 
 # sass app config
 SASS_PROCESSOR_ENABLED = True

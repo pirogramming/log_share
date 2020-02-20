@@ -111,7 +111,7 @@
 
             {% if user != request.user %}
                 <input type="submit" class="bookmark" name="{{ post.id }}" value=""
-                       style="background-image: {% if bm %}url('/media/baseline_bookmark_black_18dp.png'){% else %}url('/media/baseline_bookmark_border_black_18dp.png'){% endif %}">
+                       style="background-image: {% if bm %}url('/media/북마크_on-removebg-preview.png'){% else %}url('/media/북마크_off-removebg-preview.png'){% endif %}">
                 <p class="bookmark_count" id="count-{{ post.id }}">북마크{{ post.bookmark.count }}개</p>
 
 {#                <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>#}
