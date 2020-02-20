@@ -20,7 +20,7 @@
         background-color: transparent;
     }
 
-    .post_detail_container .btn_con{
+    .post_detail_container .btn_con {
         display: flex;
         justify-content: space-around;
     }
@@ -63,7 +63,7 @@
         margin-top: 20px;
     }
 
-    .post_detail_container .post_date{
+    .post_detail_container .post_date {
         width: 100%;
         text-align: center;
         margin-bottom: 40px;
@@ -73,6 +73,7 @@
         display: block;
         margin-right: 20px;
         float: right;
+        padding-top: 6px;
     }
 
     .post_detail_container .post_user a {
@@ -89,7 +90,21 @@
         border: none;
     }
 
-    .post_detail_container .margin{
+    .post_bookmark{
+        display: inline;
+    }
+
+    .bookmark_count{
+        display: inline;
+        color: #514aac;
+        font-weight: bold;
+    }
+
+    .post_bookmark_con{
+        float: right;
+    }
+
+    .post_detail_container .margin {
         width: 100%;
         height: 70px;
     }
@@ -104,20 +119,20 @@
         color: black;
     }
 
-    .post_detail_container .post_copy_button{
+    .post_detail_container .post_copy_button {
         width: 100%;
         vertical-align: bottom;
-        text-align:right;
+        text-align: right;
     }
 
     .post_detail_container .post_copy_button button {
-        background-color: #1a237e;
-        border-radius: 10px;
+        border: none;
         color: white;
         margin-top: 10px;
-        margin-bottom: 10px;
-        width: 40px;
-        height: 40px;
+        margin-bottom: 15px;
+        width: 30px;
+        height: 30px;
+        margin-right: 10px;
     }
 
     .post_detail_container .post_copy_button button:hover {
@@ -128,26 +143,45 @@
         margin-left: 20px;
     }
 
-    .post_detail_container .post_url{
+    .post_detail_container .post_url {
         padding-top: 50px;
         margin-bottom: 5px;
     }
 
-    .post_detail_container .post_url label{
+    .post_detail_container .post_url label {
         font-size: 15px;
         color: dodgerblue;
     }
 
-    .post_detail_container .post_tag label{
+    .post_tag{
+        height: 30px;
+    }
+
+
+    .post_tag a:hover {
+        color: dodgerblue;
+        font-weight: bold;
+    }
+
+    .post_tag div{
+        width:100px;
+        border-radius: 5px;
+        border: 2px solid #b0bec9;
+        text-align: center;
+        height: 20px;
+        display: inline;
+    }
+
+    .post_detail_container .post_tag label {
         font-size: 15px;
         color: dodgerblue;
     }
 
-    .post_detail_container .post_category{
+    .post_detail_container .post_category {
         margin-bottom: 5px;
     }
 
-    .post_detail_container .post_category label{
+    .post_detail_container .post_category label {
         font-size: 15px;
         color: dodgerblue;
     }
@@ -164,10 +198,7 @@
         font-weight: bold;
     }
 
-    .post_detail_container .post_tag a:hover {
-        color: #514aac;
-        font-weight: bold;
-    }
+
 
 </style>
 
@@ -189,28 +220,19 @@
         <div class="post_detail_container">
 
             <div class="rateit" data-rateit-value="{{ post.score }}" data-rateit-ispreset="true"
-                 data-rateit-readonly="true" data-rateit-mode="font"  style="font-size:50px"></div>
+                 data-rateit-readonly="true" data-rateit-mode="font" style="font-size:50px"></div>
 
             <div class="post_title">{{ post.title }}</div>
 
             <div class="post_date">{{ post.start_date }} ~ {{ post.end_date }}</div>
 
-            <div class="post_user">writed by
-                <a href="{% url 'myprofile:profile_detail' user.pk %}">{{ user.user_profile.name }}</a></div>
-
-            <div class="margin"></div>
-
-            {% if post.photo %}
-                <div class="post_image"><img src="{{ post.photo.url }}" style="max-width: 100%; max-height: 400px">
-                </div>
-            {% endif %}
-
             {% if user != request.user %}
-                <div class="post_bookmark"><input type="button" class="bookmark" name="{{ post.id }}" value=""
-                                                  style="background-image: {% if bm %}url('/media/bookmark_on.jpg'){% else %}url('/media/bookmark_off.jpg'){% endif %}">
+                <div class="post_bookmark_con">
+                    <div class="post_bookmark"><input type="button" class="bookmark" name="{{ post.id }}" value=""
+                                                      style="background-image: {% if bm %}url('/media/bookmark_on.jpg'){% else %}url('/media/bookmark_off.jpg'){% endif %}">
+                    </div>
+                    <div class="bookmark_count" id="count-{{ post.id }}">{{ post.bookmark.count }}개</div>
                 </div>
-                <div class="post_bookmark_count"><p class="bookmark_count" id="count-{{ post.id }}">
-                    북마크{{ post.bookmark.count }}개</p></div>
 
                 {#                <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>#}
                 <script type="text/javascript">
@@ -227,7 +249,7 @@
                             success: function (response) {
                                 alert(response.message);
                                 $(".bookmark").css("background-image", "url(" + response.img_url + ")");
-                                $("#count-" + pk).html("북마크" + response.bookmark_count + "개");
+                                $("#count-" + pk).html(response.bookmark_count + "개");
                             },
                             error: function (request, status, error) {
                                 alert("로그인이 필요합니다.");
@@ -237,6 +259,16 @@
                     })
                 </script>
 
+            {% endif %}
+
+            <div class="post_user">writed by
+                <a href="{% url 'myprofile:profile_detail' user.pk %}">{{ user.user_profile.name }}</a></div>
+
+            <div class="margin"></div>
+
+            {% if post.photo %}
+                <div class="post_image"><img src="{{ post.photo.url }}" style="max-width: 100%; max-height: 400px">
+                </div>
             {% endif %}
 
             <div class="post_copy_button">
@@ -254,7 +286,7 @@
                     alert("Copied");
                 })
             </script>
-        <div class="margin2"></div>
+            <div class="margin2"></div>
             <div id="post_content-{{ post.id }}">{{ post.contents | safe }}</div>
             <div class="post_url"><label>[참고 URL] </label>
                 {% if post.reference %}
@@ -267,12 +299,12 @@
             <div class="post_tag">
                 <label>[ 태그 ] </label>
                 {% for post_tag in post.tags.all %}
-                    <a href="{% url 'search:tag_search' post_tag %}">#{{ post_tag }}</a>
+                    <div><a href="{% url 'search:tag_search' post_tag %}">#{{ post_tag }}</a></div>
                 {% endfor %}
             </div>
             <br>
             <div class="btn_con">
-                <button><a href="{% url 'post:post_list' %}">돌아가기</a></button>
+                <button><a href="{% url 'search:main_search' %}">돌아가기</a></button>
                 {% if post.user == request.user %}
                     <button><a href="{% url 'post:post_update' post.pk %}">수정하기</a></button>
                     <button id="delete_button" type="submit" name="{{ post.pk }}">삭제하기</button>
