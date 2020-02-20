@@ -43,8 +43,6 @@ INSTALLED_APPS = [
     # 3rd party apps
     'taggit',
     'rest_framework',
-
-
     'django_summernote',
 
 
@@ -55,8 +53,6 @@ INSTALLED_APPS = [
     'main',
     'post',
     'search',
-    # sass for searchbar
-
 
 ]
 
