@@ -37,14 +37,13 @@ def main_search(request):
     else:
         qs = Post.objects.filter(user__user_groups__in=user.user_groups.all()).distinct()
 
-
-    group_id_list(request,user)
+    group_id_list(request, user)
     print("카테고리 필터링 전", qs)
     qs = process_category(request, user, qs)
 
     print("카테고리 필터링 후: ", qs)
 
-    posts=None
+    posts = None
     if qs:
 
         paginator = Paginator(qs, 2)
@@ -69,7 +68,7 @@ def main_search(request):
         'q': q,
         'groups': user.user_groups.all(),
         'posts': posts,
-        'option': (option),
+        'option': option,
     })
 
 
@@ -99,6 +98,7 @@ def search_auto(request):
     q = request.GET.get('q', '')
     option = request.GET['option']
     results = None
+    print('Ajax요청', q, option)
     if option == 'posts':
         qs = filter_posts(q, user)
         results = [
@@ -114,23 +114,23 @@ def search_auto(request):
             Q(name__icontains=q)
         ).distinct()
         results = [
-                {
-                    'id': tag.id,
-                    'name': tag.name,
-                } for tag in qs
-            ]
+            {
+                'id': tag.id,
+                'name': tag.name,
+            } for tag in qs
+        ]
     elif option == 'users':
+        # qs = User.objects.filter(user_groups__in=user.user_groups.all()).distinct()
+        print(User.objects.filter(user_groups__in=user.user_groups.all()))
         qs = User.objects.filter(user_groups__in=user.user_groups.all()).distinct()
-        # qs = filter_users(q, user)
         results = [
             {
-                'id': user.id,
-                'name': user.user_profile.name,
-            } for user in qs
+                'id': users.id,
+                'name': users.user_profile.name
+            } for users in qs
         ]
 
     print('Ajax응답', results)
-
 
     data = {
         'results': results,

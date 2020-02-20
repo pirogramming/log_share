@@ -38,96 +38,6 @@
     </style>
 
     <form class="filter-form" action="" method="get">
-        {#        <div class="content row">#}
-        {#            <div class="content-side col-4 row">#}
-        {#                <div class="content-profile col-12">#}
-        {#                    current user: {{ request.user.user_profile.name }}#}
-        {#                    <br>#}
-        {#                    <br>#}
-        {#                    {{ request.user.user_profile.name }}의 그룹#}
-        {#                    <ul>#}
-        {#                        {% for group in request.user.groups.all %}#}
-        {#                            <li>#}
-        {#                                {{ group.name }}#}
-        {#                            </li>#}
-        {#                        {% endfor %}#}
-        {#                    </ul>#}
-        {##}
-        {#                </div>#}
-        {#                <div class="content-filter col-12">#}
-        {#                    <div class="content-filter-item row">#}
-        {#                        <div class="filter-date col-12">#}
-        {#                            <span>시작: </span>#}
-        {#                            <input name="date-start" type="date">#}
-        {#                            <span>끝: </span>#}
-        {#                            <input name="date-end" type="date">#}
-        {#                        </div>#}
-        {#                        <div class="filter-group col-12">#}
-        {#                            <div class="dropdown dropright">#}
-        {#                                <button class="btn btn-lg dropdown-toggle" type="button" data-toggle="dropdown"#}
-        {#                                        aria-haspopup="true" aria-expanded="false">#}
-        {#                                    그룹 선택#}
-        {#                                </button>#}
-        {#                                <div class="dropdown-menu keep-open">#}
-        {#                            그룹 드롭다운 체크박스#}
-        {#                                    {% for group in groups %}#}
-        {#                                        <label class="dropdown-item">#}
-        {#                                            <input name="group{{ group.id }}" value="{{ group.id }}" type="checkbox"#}
-        {#                                                   checked>#}
-        {#                                            <span>{{ group.group_name }}</span>#}
-        {#                                        </label>#}
-        {#                                    {% endfor %}#}
-        {#                                    <div class="dropdown-divider"></div>#}
-        {#                                </div>#}
-        {#                            </div>#}
-        {#                        </div>#}
-        {#                        <div class="filter-category col-12">#}
-        {#                            <select name="filter-category" class="category-list">#}
-        {#                                <option value="">-</option>#}
-        {#                                <option value="대외활동">대외활동</option>#}
-        {#                                <option value="공모전">공모전</option>#}
-        {#                                <option value="스터디">스터디</option>#}
-        {#                                <option value="인턴">인턴</option>#}
-        {#                                <option value="강연">강연</option>#}
-        {#                                <option value="기타">기타</option>#}
-        {#                            </select>#}
-        {#                        </div>#}
-        {#                    </div>#}
-        {#                </div>#}
-        {#            </div>#}
-        {#            <div class="content-main col-8 row">#}
-        {#                <div class="content-search col-12">#}
-        {#                    <div class="input-group">#}
-        {#                        <input type="text" name="q" id="searchInput" class="form-control" value="{{ q }}">#}
-        {#                        <div class="input-group-append">#}
-        {#                            <span id="btn-submit" class="btn btn-secondary">#}
-        {#                                <i class="fa fa-search"></i>#}
-        {#                            </span>#}
-        {#                        </div>#}
-        {#                    </div>#}
-        {#                    <div class="btn-group btn-group-toggle" data-toggle="buttons">#}
-        {#                        <label class="btn btn-primary">#}
-        {#                            <input type="radio" name="options" value="posts"> 제목 + 내용#}
-        {#                        </label>#}
-        {#                        <label class="btn btn-primary">#}
-        {#                            <input type="radio" name="options" value="tags"> 태그#}
-        {#                        </label>#}
-        {#                        <label class="btn btn-primary">#}
-        {#                            <input type="radio" name="options" value="users"> 작성자#}
-        {#                        </label>#}
-        {#                    </div>#}
-        {##}
-        {#                </div>#}
-        {#                <div class="content-feed col-12">#}
-        {#                    {% include 'search/main_search.html' %}#}
-        {##}
-        {#                </div>#}
-        {#            </div>#}
-        {#        </div>#}
-
-        <br>
-        <hr>
-        <br>
         {% include 'search/post_list_css.html' %}
         <style>
             .main-content {
@@ -230,21 +140,29 @@
                     <div class="search-option">
                         <div class="container">
                             <div class="btn-group">
-                                <div class="btn">First</div>
-                                <div class="btn active">Middle</div>
-                                <div class="btn">Last</div>
+                                <div class="btn" data-value="posts">제목 + 내용
+                                    <input type="radio" name="options" value="posts">
+                                </div>
+                                <div class="btn" data-value="tags">태그
+                                    <input type="radio" name="options" value="tags">
+                                </div>
+                                <div class="btn" data-value="users">작성자
+                                    <input type="radio" name="options" value="users">
+                                </div>
                             </div>
+                            {#                            <div class="btn-group">#}
+                            {#                                <label class="btn">#}
+                            {#                                    <input type="radio" name="options" value="posts"> 제목 + 내용#}
+                            {#                                </label>#}
+                            {#                                <label class="btn">#}
+                            {#                                    <input type="radio" name="options" value="tags"> 태그#}
+                            {#                                </label>#}
+                            {#                                <label class="btn">#}
+                            {#                                    <input type="radio" name="options" value="users"> 작성자#}
+                            {#                                </label>#}
+                            {#                            </div>#}
                         </div>
 
-                        <label class="btn">
-                            <input type="radio" name="options" value="posts"> 제목 + 내용
-                        </label>
-                        <label class="btn">
-                            <input type="radio" name="options" value="tags"> 태그
-                        </label>
-                        <label class="btn">
-                            <input type="radio" name="options" value="users"> 작성자
-                        </label>
                     </div>
                 </div>
                 <div class="body-feed">
@@ -266,9 +184,14 @@
         {#$("input:radio[name='options']:radio[value='posts']").prop('checked', false); // 해제하기#}
         if ('{{ option }}') {
             $("input:radio[name='options']:radio[value={{ option }}]").prop('checked', true);
+            $("input:radio[name='options']:radio[value={{ option }}]").addClass('active');
+            $('div[data-value="{{option}}"]').addClass('active');
 
         } else {
             $("input:radio[name='options']:radio[value='posts']").prop('checked', true); // 선택하기
+            $("input:radio[name='options']:radio[value='posts']").addClass('active');
+            $('div[data-value="posts"]').addClass('active');
+
         } // 선택하기
 
         $('.dropdown-menu.keep-open').click(function (e) {
@@ -277,20 +200,6 @@
 
         {#옵션 버튼 애니메이션#}
 
-        $('.field').on('focus', function () {
-            $('body').addClass('is-focus');
-        });
-
-        $('.field').on('blur', function () {
-            $('body').removeClass('is-focus is-type');
-        });
-
-        $('.field').on('keydown', function (event) {
-            $('body').addClass('is-type');
-            if ((event.which === 8) && $(this).val() === '') {
-                $('body').removeClass('is-type');
-            }
-        });
 
         const pathLength = 68 * 2 + 200;
 
