@@ -5,7 +5,7 @@ from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from taggit.models import Tag
 
-from group_management.models import CustomGroup
+from group_management.models import CustomGroup, GroupRequest
 from post.models import Post
 from .models import *
 
@@ -58,9 +58,14 @@ def main_search(request):
 
     # print(paginator, page)
     # print(posts)
-    print('Request.GET:', request.GET)
-    print(qs)
+    # print('Request.GET:', request.GET)
+    # print(qs)
 
+
+    manage_groups = list(request.user.user_manage_groups.all())
+    request_messages = list()
+    for g in manage_groups:
+        request_messages += list(GroupRequest.objects.filter(group=g))
     return render(request, 'search/main.html', {
         'request': request,
         # 'results': qs,   # 1: post, 2: user
@@ -69,6 +74,7 @@ def main_search(request):
         'groups': user.user_groups.all(),
         'posts': posts,
         'option': option,
+        'request_messages_cnt': len(request_messages),
     })
 
 

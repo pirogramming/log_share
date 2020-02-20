@@ -29,7 +29,7 @@
             .main-content {
                 display: flex;
                 justify-content: center;
-                width: 80%;
+                width: 70%;
                 margin: 50px auto;
             {#align-content: center;#}
             }
@@ -62,7 +62,6 @@
                 text-align: center;
             }
 
-
             #profile-photo img {
                 width: 40%;
                 height: 50%;
@@ -70,9 +69,46 @@
                 object-fit: cover;
             }
 
+            #profile-name {
+                font-size: larger;
+                font-weight: bold;
+                margin-bottom: 10px;
+            }
+
+            #profile-name a {
+                color: black;
+            }
+
+            #profile-name-span {
+                color: #1a237e;
+            }
+
             #profile-bookmark a {
                 color: black;
             }
+
+            #welcome {
+                color: black;
+                font-size: larger;
+                font-weight: bold;
+            }
+
+            .bookmark_button, .request_button {
+                cursor: pointer;
+                width: 80%;
+                height: 30px;
+                font-size: 16px;
+                background-color: #00B0F0;
+                display: inline-block;
+                padding: .5em 0.5em;
+                color: white;
+                font-weight: bold;
+                border-radius: 5px;
+                border: 1px solid #00B0F0;
+                margin-bottom: 1px;
+                margin-top:1px;
+            }
+
 
             {#------------------------------- side-filter css -----------------------------------------#}
             .filter_start {
@@ -236,7 +272,7 @@
             }
 
             .filter-date input {
-                width: 130px;
+                width: 110px;
                 height: 30px;
                 font-size: 14px;
                 border: 2px solid #6cc0e5;
@@ -248,21 +284,37 @@
         <div class="main-content">
             <div class="content-side">
                 <div class="side-profile">
-                    <div id="profile-photo">
+                    <div class="profile-content" id="profile-photo">
                         {% if request.user.user_profile.photo %}
                             <img src="{{ request.user.user_profile.photo.url }}" alt="프로필 이미지"/>
+                        {% else %}
+                            <img src="{% static 'img/person.jpg' %}" alt="프로필 이미지"/>
                         {% endif %}
                     </div>
-                    <div id="profile-username">{{ request.user }}</div>
-                    <div id="profile-name">{{ request.user.user_profile.name }}</div>
-                    <div id="profile-bookmark"><a href="{% url 'myprofile:bookmark_list' request.user.pk %}">북마크</a>
+                    <br>
+                    <div class="profile-content">
+                        <br>
+                        <div id="profile-name"><a href="{% url 'myprofile:profile_detail' request.user.pk %}">
+                            <span id="profile-name-span">{{ request.user.user_profile.name }}</span>님
+                            ( {{ request.user }} )</a>
+                        </div>
+                        <div id="welcome">환영합니다!</div>
+                        <br>
+                        <div id="profile-bookmark">
+                            <a href="{% url 'myprofile:bookmark_list' request.user.pk %}">
+                                <button type="button" class="bookmark_button">나의 스크랩 목록 보기</button>
+                            </a>
+                        </div>
+                        <br>
+                        <div id="profile-request-alarm"><a href="{% url 'group_management:create_group' %}">
+                                <button type="button" class="request_button">새로운 가입 요청 ( {{ request_messages_cnt }} )
+                                </button></a>
+                        </div>
                     </div>
-                    <div id="profile-request-alarm">들어온 가입 요청 알람</div>
-
                 </div>
                 <div class="side-filter">
                     <div class="filter">
-                        <div class="filter_start"><i class="fas fa-search"></i> &nbsp검색 필터 </div>
+                        <div class="filter_start"><i class="fas fa-search"></i> &nbsp검색 필터</div>
                         <br>
                         <hr>
                         <br>
