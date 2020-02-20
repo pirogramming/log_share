@@ -11,152 +11,210 @@
         margin: 50px auto;
     }
 
-    .profile_first_container {
-        background-color: white;
-        border-radius: 5px;
-        box-shadow: 2px 2px 2px #b0bec9;
-        padding: 10px 40px;
-        border: 0.5px solid #b0bec9;
-    }
-
-    .profile_first_container div {
-        background-color: transparent;
-        padding: 10px 0;
-    }
-
-    .profile_first_container div a {
-        text-decoration: none;
-        color: black;
-    }
-
-    .profile_first_container a:hover {
-        color: #514aac;
-        font-weight: bold;
-    }
-
-    .profile_first_container .profile_first_front_container {
-        margin: 20px 0;
-        text-align: center;
-        border: 2px solid #e3f2fd;
-        border-radius: 5px;
-    }
-
-    .profile_first_container .profile_first_content {
-        display: inline-block;
-        text-align: left;
-        padding-left: 60px;
-        width: 40%;
-        height: 300px;
-    }
-
-    .profile_first_container .profile_first_content .profile_name {
-        font-size: 20px;
-        font-weight: bold;
-        vertical-align: text-top;
-        height: 80px;
-    }
-
-    .profile_first_container .profile_first_content .profile_depart {
-        height: 50px;
-    }
-
-    .profile_first_container .profile_first_content .profile_intro {
-        height: 40px;
-    }
-
-    .profile_first_container .profile_photo {
-        display: inline-block;
-    }
-
-    .profile_first_container .profile_photo img {
-        border-radius: 100%;
-        object-fit: cover;
-    }
-
-    .profile_recent_tag {
+    .post_list {
         background-color: white;
         border-radius: 5px;
         padding: 10px 20px;
-        box-sizing: border-box;
-        box-shadow: 2px 2px 2px #b0bec9;
-        margin: 10px 0;
+        padding-bottom: 30px;
         border: 0.5px solid #b0bec9;
+        box-shadow: 2px 2px 2px #b0bec9;
     }
 
-    .profile_recent_tag span {
+    .post_list div {
         background-color: transparent;
     }
 
-    .profile_recent_tag span a {
+    .post_list div a {
         text-decoration: none;
         color: black;
     }
 
-    .profile_recent_tag span a:hover {
-        font-weight: bold;
-        color: #514aac;
-    }
-
-    .profile_post_list {
-        background-color: white;
-        border-radius: 5px;
-        padding: 10px 20px;
-        box-shadow: 2px 2px 2px #b0bec9;
-        border: 0.5px solid #b0bec9;
-    }
-
-    .profile_post_list div {
-        background-color: transparent;
-    }
-
-    .profile_post_list div a:hover {
+    .post_list div a:hover {
         color: #514aac;
         font-weight: bold;
     }
 
-    .profile_post_list div a {
-        text-decoration: none;
-        color: black;
+    .post_list .post_score {
+        display: inline;
     }
 
-    .profile_post_list .rateit {
+    .post_list .bookmark_container {
+        display: inline;
+    }
+
+    .post_list .post_score .rateit {
         width: 80px;
         height: 17px;
         overflow: hidden;
     }
 
-    .profile_post_list_ajax {
+
+    .post_list_ajax {
         background-color: white;
         border-radius: 5px;
         padding: 10px 20px;
         box-shadow: 2px 2px 2px #b0bec9;
         border: 0.5px solid #b0bec9;
+        padding-bottom: 30px;
     }
 
-    .profile_post_list_ajax div {
+    .post_list_ajax div {
         background-color: transparent;
     }
 
-    .profile_post_list_ajax div a {
+    .post_list_ajax div a {
         text-decoration: none;
         color: black;
     }
 
-    .profile_post_list_ajax div a:hover {
+    .post_list_ajax div a:hover {
         color: #514aac;
         font-weight: bold;
     }
 
-    .profile_post_list_ajax .rateit {
+    .post_list_ajax .rateit {
         width: 80px;
         height: 17px;
         overflow: hidden;
     }
 
-    #callmorepost{
+    .post_list_ajax .post_score {
+        display: inline;
+    }
+
+    .post_list_ajax .bookmark_container {
+        display: inline;
+    }
+
+    {# 북마크 & 이메일 - ajax랑 동시에 적용됨#}
+    .bookmark {
+        background-color: transparent;
+        background-repeat: no-repeat;
+        padding: 10px 20px;
+        display: inline;
+        float: right;
+        border: none;
+    }
+
+    .post_email {
+        display: inline;
+        float: right;
+        margin-right: 10px;
+    }
+
+    .post_email .fa-envelope::before {
+        display: none;
+    }
+
+    .post_email a i {
+        font-size: 38px;
+    }
+
+    #callmorepost {
         position: relative;
-        width: 80%;
-        {#text-align: center;#}
-        margin: 0 auto;
+        width: 100%;
+        height: 35px;
+        color: #ffe7f5;
+        background-color: #0086b3;
+        padding: 0;
+        font-weight: bold;
+        font-size: 17px;
+        border: none;
+    {#text-align: center;#} margin: 0 auto;
     }
+
+    {#------------new feed css------------#}
+    .feed {
+        width: 100%;
+        height: 150px;
+    {#padding: 0px 10px;#} border: #e9ecef 1px solid;
+        border-radius: 30px;
+        box-shadow: cadetblue 5px 5px 5px;
+    }
+    .feed a{
+        color: black;
+    }
+    .feed-content {
+        padding: 10px;
+    }
+
+    .feed-main {
+        display: flex;
+        justify-content: space-between;
+        padding: 0px 10px;
+        margin: 10px auto 25px;
+    }
+
+    .feed-title {
+        font-size: 24px;
+        font-weight: bold;
+        display: flex;
+        align-items: center;
+    }
+
+    .meta-category {
+        margin-left: 15px;
+        font-size: 16px;
+        font-weight: lighter;
+    }
+
+    .feed-name {
+        padding: 10px;
+        font-size: 17px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .meta-bookmark {
+        font-size: 32px;
+    }
+
+    .feed-meta {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .meta-info {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .badge {
+        display: inline-block;
+        padding: .25em .4em;
+        font-size: 75%;
+        font-weight: 700;
+        line-height: 1;
+        text-align: center;
+        white-space: nowrap;
+        vertical-align: baseline;
+        border-radius: .25rem;
+    }
+
+    .badge-dark {
+        color: #fff;
+        background-color: #343a40;
+    }
+
+    .meta-info > div {
+        padding-right: 5px;
+        margin-right: 5px;
+        border-right: 1px solid black;
+    }
+
+    div.meta-etc {
+        display: flex;
+    }
+
+    hr {
+        box-sizing: content-box;
+        height: 0;
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+        border-top: 1px solid;
+    }
+
+    {#---------------------------------add post feed css-------------------------------------#}
+
 </style>
