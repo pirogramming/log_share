@@ -18,7 +18,7 @@ def main_search(request):
     option = request.GET.get('options', '')
     # category = request.GET.get()
     user = request.user
-    # print('Request:', request)
+    print('Request:', request.GET.keys())
     qs = None
     # 검색창 옆에 필터 선택 -> request로 받고, 그 값에 따라 결과값 필터링 **
     if q:  # q가 있으면
@@ -47,7 +47,7 @@ def main_search(request):
     posts = None
     if qs:
 
-        paginator = Paginator(qs, 2)
+        paginator = Paginator(qs, 3)
         page = request.POST.get('page')
 
         try:
@@ -175,8 +175,9 @@ def search_scroll(request):
 
     qs = process_category(request, user, qs)
     post_list = qs
-    paginator = Paginator(post_list, 2)
+    paginator = Paginator(post_list, 3)
     page = request.GET.get('page')  # ajax로부터 POST 타입을 전달받음
+    bm_list = user.user_bookmark.values_list('post_id', flat=True)
 
     try:
         posts = paginator.page(page)  # 해당 페이지의 포스트(post_list)
@@ -187,6 +188,8 @@ def search_scroll(request):
     print(page, posts)
     print('--')
     context = {
-        'posts': posts
+        'posts': posts,
+        'bm_post_list': bm_list,
+
     }
-    return render(request, 'search/main_search.html', context)  # ajax_datatype => dataType: 'html'
+    return render(request, 'search/scroll_template.html', context)  # ajax_datatype => dataType: 'html'

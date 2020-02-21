@@ -1,12 +1,10 @@
-{# profile_detail -> posts, profile #}
 {% load static %}
-
 <link rel="stylesheet" href="{% static 'widgets/rateit/rateit.css' %}"/>
+<script src="{% static 'widgets/rateit/jquery.rateit.min.js' %}"></script>
 {#<script#}
 {#        src="https://code.jquery.com/jquery-3.4.1.min.js"#}
 {#        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="#}
 {#        crossorigin="anonymous"></script>#}
-<script src="{% static 'widgets/rateit/jquery.rateit.min.js' %}"></script>
 {% if posts %}
     {% for post in posts %}
 
@@ -84,37 +82,3 @@
         <hr>
     {% endfor %}
 {% endif %}
-<div id="post_list_ajax"></div>
-
-<div id="profile_post_list_ajax"></div>
-{# ajax 결과물 추가할 곳 #}
-<input id="page" type="hidden" value="2"> {# 첫 next_page == 2 #}
-<input id="user" type="hidden" name="{{ profile.user.pk }}"> {# profile.user.pk를 ajax에서 사용하기 위해 #}
-<button id="callmorepost" type="button">More Post</button>
-<script>
-    $(".bookmark").click(function () {
-        var pk = $(this).attr('name');
-        $.ajax({
-            //bookmark button 클릭 -> ajax로 서버와 통신하기
-            type: "POST", //데이터를 전송하는 방법
-            url: "{% url 'post:post_bookmark' %}",  //통신할 url
-            data: {
-                'pk': pk,
-                'csrfmiddlewaretoken': '{{ csrf_token }}'
-            }, // 서버로 데이터 전송시 옵션
-            dataType: "json", //전달받은 데이터 타입 = json -> {'bookmark_count':post.bookmark.count(), 'message':message,}
-                              // 서버측에서 전송한 Response 데이터 형식 (json)
-            // 통신 성공 -> 북마크 처리(response 처리)
-            success: function (response) {
-                console.log(response.img_url)
-
-                alert(response.message);
-                $("#bookmark-" + pk).css("background-image", "url(" + response.img_url + ")");
-            },
-            error: function (request, status, error) {
-                alert("로그인이 필요합니다.")
-                window.location.replace("/accounts/login/")
-            },
-        });
-    });
-</script>

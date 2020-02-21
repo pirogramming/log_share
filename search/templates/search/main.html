@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {#{% load sass_tags %}#}
+{% load static %}
 
 {% block header %}
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
@@ -7,7 +8,6 @@
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
     {#    <link rel="stylesheet" href="{% sass_src 'search/search_bar.scss' %}">#}
-    {% load static %}
     <link rel="stylesheet" href="{% static "search/search.css" %}">
     <style>
 
@@ -439,13 +439,7 @@
                 {% include 'search/main_search.html' %}
                 {#                    {% include 'post/myprofile_post_list.html' %}#}
             </div>
-            <div id="post_list_ajax"></div>
 
-            <div id="profile_post_list_ajax"></div>
-            {# ajax 결과물 추가할 곳 #}
-            <input id="page" type="hidden" value="2"> {# 첫 next_page == 2 #}
-            <input id="user" type="hidden" name="{{ profile.user.pk }}"> {# profile.user.pk를 ajax에서 사용하기 위해 #}
-            <button id="callmorepost" type="button">More Post</button>
             {# ajax 결과물 추가할 곳 #}
         </div>
     </div>
