@@ -32,13 +32,14 @@
         text-align: center;
         border: 2px solid #e3f2fd;
         border-radius: 5px;
+        padding: 20px 0;
     }
 
     .profile_first_container .profile_first_content {
         display: inline-block;
         text-align: left;
         padding-left: 60px;
-        width: 40%;
+        width: 48%;
         min-height: 40%;
         margin-top: 20px;
     }
@@ -52,8 +53,8 @@
     }
 
     .profile_first_container .profile_first_content .label_name {
-        padding: 0 20px;
-        font-size: 20px;
+        padding: 7px 10px;
+        font-size: 15px;
         border: 2px solid #e3f2fd;
         border-radius: 5px;
         margin-right: 10px;
@@ -61,53 +62,83 @@
         font-weight: lighter;
     }
 
-    .profile_first_container .profile_first_content .profile_depart {
-        height: 50px;
-        font-size: 20px;
+    .depart_con{
+        margin: 20px 0;
     }
 
-    .profile_first_container .profile_first_content .profile_depart .label_depart {
-        padding: 0 20px;
+    .profile_depart {
+        height: 50px;
         font-size: 20px;
+        display: inline;
+    }
+
+    .label_depart {
+        padding: 7px 10px;
+        text-align: center;
+        width:50px;
+        font-size: 15px;
         border: 2px solid #e3f2fd;
         border-radius: 5px;
         margin-right: 10px;
+        margin-top: 10px;
         display: inline;
     }
 
     .profile_first_container .profile_first_content .profile_intro {
         font-size: 20px;
         width: 30%;
+        margin-bottom: 20px;
+        padding-left: 10px;
     }
 
-    .profile_first_container .profile_first_content .profile_intro .label_intro {
-        padding: 0 20px;
-        font-size: 20px;
+    .profile_first_container .profile_first_content .label_intro {
+        width: 80px;
+        font-size: 15px;
         border: 2px solid #e3f2fd;
         border-radius: 5px;
         margin-right: 10px;
-        display: inline;
+        margin-bottom: 10px;
+        text-align: center;
+        padding: 8px 0;
     }
 
-    .profile_first_container .profile_first_front_container .profile_photo {
+    .photo_con{
+        width: 45%;
         float: left;
-        margin-left: 18%;
     }
 
-    .profile_first_container .profile_first_front_container .profile_photo img {
+    .photo_con .profile_photo {
+        align-items: center;
+        justify-content: center;
+        float: right;
+        padding-right: 10%;
+        display: flex;
+    }
+
+    .photo_con .profile_photo img {
+        width: 300px;
+        height: 300px;
         border-radius: 100%;
         object-fit: cover;
+        justify-content: center;
+        align-items: center;
     }
 
-    {# --------------------------------------------------------------- #}
+    {# ------------------------------최신 태그--------------------------------- #}
     .profile_recent_tag {
         background-color: white;
         border-radius: 5px;
-        padding: 10px 20px;
         box-sizing: border-box;
         box-shadow: 2px 2px 2px #b0bec9;
         margin: 10px 0;
         border: 0.5px solid #b0bec9;
+    }
+
+    .recent_tag_label{
+        display: inline;
+        color: #514aac;
+        padding: 0 10px;
+        font-weight: bold;
     }
 
     .profile_recent_tag span {
@@ -153,6 +184,21 @@
         overflow: hidden;
     }
 
+    #callmorepost {
+        position: relative;
+        width: 100%;
+        height: 35px;
+        color: #ffe7f5;
+        background-color: #0086b3;
+        padding: 0;
+        font-weight: bold;
+        font-size: 17px;
+        border: none;
+    {#text-align: center;#} margin: 0 auto;
+        border-radius: 5px;
+        margin-bottom: 15px;
+    }
+
     .profile_post_list_ajax {
         background-color: white;
         border-radius: 5px;
@@ -181,11 +227,11 @@
         overflow: hidden;
     }
 
-    {# --------------------------------------------------- #}
+    {# ---------------------------under------------------------------ #}
     .interested_tag_header {
         font-size: 15pt;
-        padding: 0 20px;
-        font-size: 20px;
+        padding: 7px 10px;
+        font-size: 15px;
         border: 2px solid #e3f2fd;
         border-radius: 5px;
         margin-right: 10px;
@@ -210,6 +256,7 @@
     .profile_email {
         display: inline;
         margin-right: 20px;
+        margin-left: 20px;
     }
 
     .profile_email .fa-envelope::before {
@@ -233,26 +280,21 @@
 
     .profile_edit {
         padding-bottom: 20px;
-        margin-left: 88%;
+        float:right;
     }
 
-    .naver {
-        margin-bottom: 8px;
+    .profile_margin{
+        width: 100%;
+        height: 40px;
     }
 
-    .daum {
-        margin-bottom: 8px;
+    .url_container{
+        text-align: center;
+        margin-top: 25px;
+        margin-bottom: 15px;
     }
 
-    .github {
-        margin-bottom: 8px;
-    }
-
-    .other {
-        margin-bottom: 8px;
-    }
-
-    .naver .naver_label {
+    .naver_label {
         font-size: 18px;
         border: 2px solid #e3f2fd;
         border-radius: 5px;
@@ -261,7 +303,7 @@
         padding: 5px 5px;
     }
 
-    .daum .daum_label {
+    .daum_label {
         font-size: 18px;
         border: 2px solid #e3f2fd;
         border-radius: 5px;
@@ -270,7 +312,7 @@
         padding: 5px 5px;
     }
 
-    .github .github_label {
+    .github_label {
         font-size: 18px;
         border: 2px solid #e3f2fd;
         border-radius: 5px;
@@ -279,7 +321,7 @@
         padding: 5px 5px;
     }
 
-    .other .other_label {
+    .other_label {
         font-size: 18px;
         border: 2px solid #e3f2fd;
         border-radius: 5px;
@@ -291,6 +333,7 @@
 
 {% extends 'base.html' %}
 {% load staticfiles %}
+{% load static %}  {# 기본 프로필 이미지 #}
 
 {% block header %}
     <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -300,108 +343,105 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/locale/ko.js"></script>
     <link rel='stylesheet' href="{% static 'css/eventline.css' %}">
-{#    <script async src='{% static 'js/eventline.js' %}'></script>#}
+    {#    <script async src='{% static 'js/eventline.js' %}'></script>#}
 {% endblock %}
 
 {% block content %}
     <div class="temp">
-        <div class="profile_container">
-            <div class="profile_first_container">
-                <div class="profile_first_front_container">
-                    <div class="profile_photo">
-                        {% if profile.photo %}
-                            <img src="{{ profile.photo.url }}" alt="" width="300px" height="300px"/>
+    <div class="profile_container">
+        <div class="profile_first_container">
+            <div class="profile_first_front_container">
+            <div class="photo_con">
+                <div class="profile_photo">
+                    {% if profile.photo %}
+                        <img src="{{ profile.photo.url }}" alt=""/>
+                    {% else %}
+                        <img src="{% static 'img/person.jpg' %}" alt=""/>
+                    {% endif %}
+                </div>
+            </div>
+                <div class="profile_first_content">
+                    <div class="label_name">이름</div><div class="profile_name">{{ profile.name }}</div>
+                    <div class="depart_con">
+                    <div class="label_depart">소속</div><div class="profile_depart">{{ profile.department }}</div>
+                    </div>
+                    <div class="label_intro">자기소개</div>
+                    <div class="profile_intro">
+                        {% if profile.description != None %}
+                            {{ profile.description }}
                         {% endif %}
                     </div>
-                    <div class="profile_first_content">
-                        <div class="profile_name">
-                            <div class="label_name">이름</div>
-                            {{ profile.name }}</div>
-                        <div class="profile_depart">
-                            <div class="label_depart">소속</div>
-                            {{ profile.department }}</div>
-                        <div class="profile_intro">
-                            <div class="label_intro">자기소개</div>
-                            {% if profile.description != None %}
-                                {{ profile.description }}
-                            {% endif %}
-                        </div>
-                        <div><p class="interested_tag_header">관심태그</p>
-                            {% if profile.interested_tag != None %}
-                                {% for tag, size in interested_tag_dict.items %}
-                                    <a href="{% url 'search:tag_search' tag %}">
-                                        <button class="interested_tag"> #{{ tag }} </button>
-                                    </a>
-                                {% endfor %}
-                            {% endif %}
-                        </div>
+                    <div><p class="interested_tag_header">관심태그</p>
+                        {% if profile.interested_tag != None %}
+                            {% for tag, size in interested_tag_dict.items %}
+                                <a href="{% url 'search:tag_search' tag %}">
+                                    <button class="interested_tag"> #{{ tag }} </button>
+                                </a>
+                            {% endfor %}
+                        {% endif %}
                     </div>
                 </div>
+            </div>
 
-                <!--타임라인-->
-                <div id="timelineContainer" class="timeline-container">
-                    <div class="timeline-nav nav-past" id="navPast"><span class='fa fa-angle-left'></span></div>
-                    <div id="timelineWrapper">
-                        <div id="timeline">
-                            <ol id="ticks">
-                            </ol>
-                            <ol id="eventList">
-                            </ol>
-                        </div>
+            <!---------------------------------타임라인--------------------------------------->
+            <div id="timelineContainer" class="timeline-container">
+                <div class="timeline-nav nav-past" id="navPast"><span class='fa fa-angle-left'></span></div>
+                <div id="timelineWrapper">
+                    <div id="timeline">
+                        <ol id="ticks">
+                        </ol>
+                        <ol id="eventList">
+                        </ol>
                     </div>
-                    <div class="timeline-nav nav-future" id="navFuture"><span class='fa fa-angle-right'></span></div>
-{#                    <div id="eventDetailContainer" class="event-detail-container">#}
-{#                        <div class="selected-event">#}
-{#                            <div class="event-title"></div>#}
-{#                            <div class="event--range">#}
-{#                                <div class="event-start-date"></div>#}
-{#                                <div class="event-separator">&nbsp;-&nbsp;</div>#}
-{#                                <div class="event-end-date"></div>#}
-{#                            </div>#}
-{#                            <div class="event-notes"></div>#}
-{#                        </div>#}
-{#                    </div>#}
                 </div>
-                <!--타임라인 끝-->
-
+                <div class="timeline-nav nav-future" id="navFuture"><span class='fa fa-angle-right'></span></div>
+                {#                    <div id="eventDetailContainer" class="event-detail-container">#}
+                {#                        <div class="selected-event">#}
+                {#                            <div class="event-title"></div>#}
+                {#                            <div class="event--range">#}
+                {#                                <div class="event-start-date"></div>#}
+                {#                                <div class="event-separator">&nbsp;-&nbsp;</div>#}
+                {#                                <div class="event-end-date"></div>#}
+                {#                            </div>#}
+                {#                            <div class="event-notes"></div>#}
+                {#                        </div>#}
+                {#                    </div>#}
+            </div>
+            <!---------------------------------타임라인 끝-------------------------------------------->
+            <div class="url_container">
                 {% if profile.naver != None %}
-                    <div class="naver">
-                        <div class="naver_label"><a href="{{ profile.naver }}">네이버</a></div>
-                    </div>
+                    <div class="naver_label"><a href="{{ profile.naver }}">네이버</a></div>
                 {% endif %}
                 {% if profile.daum != None %}
-                    <div class="daum">
-                        <div class="daum_label"><a href="{{ profile.daum }}">다음</a></div>
-                    </div>
+                    <div class="daum_label"><a href="{{ profile.daum }}">다음</a></div>
                 {% endif %}
                 {% if profile.github != None %}
-                    <div class="github">
-                        <div class="github_label"><a href="{{ profile.github }}">Github</a></div>
-                    </div>
+                    <div class="github_label"><a href="{{ profile.github }}"><i class="fab fa-github"></i>  Github</a></div>
                 {% endif %}
                 {% if profile.other_url != None %}
-                    <div class="other">
-                        <div class="other_label"><a href="{{ profile.other_url }}">others</a></div>
-                    </div>
+                    <div class="other_label"><a href="{{ profile.other_url }}">others</a></div>
                 {% endif %}
+            </div>
+
+            <br>
+            <div class="profile_email"><a href="mailto:{{ profile.user.email }}" class="fa-envelope"><i
+                    class="fas fa-envelope-square"></i></a></div>
+
+            {% if profile.user.pk == user.pk %}
+                <div class="profile_bookmark"><a href="{% url 'myprofile:bookmark_list' profile.user.pk %}"><i
+                        class="fas fa-bookmark"></i></a>
+                </div>
+                <div class="profile_post_create"><a href="{% url 'post:post_create' %}"><i
+                        class="fas fa-pen-square"></i></a></div>
                 <br>
-                <div class="profile_email"><a href="mailto:{{ profile.user.email }}" class="fa-envelope"><i
-                        class="fas fa-envelope-square"></i></a></div>
+                <div class="profile_edit">
+                    <a href="{% url 'myprofile:profile_edit' profile.user.pk %}">프로필 수정하기</a>
+                </div>
+            {% endif %}
+            <div class="profile_margin"></div>
 
-                {% if profile.user.pk == user.pk %}
-                    <div class="profile_bookmark"><a href="{% url 'myprofile:bookmark_list' profile.user.pk %}"><i
-                            class="fas fa-bookmark"></i></a>
-                    </div>
-                    <div class="profile_post_create"><a href="{% url 'post:post_create' %}"><i
-                            class="fas fa-pen-square"></i></a></div>
-                    <br>
-                    <div class="profile_edit"><a href="{% url 'myprofile:profile_edit' profile.user.pk %}">프로필 수정하기</a>
-                    </div>
-                {% endif %}
-
-            <hr>
             <div class="profile_recent_tag">
-                최근 태그 리스트 :
+                <div class="recent_tag_label">최근 태그 리스트</div>
                 {% for tag_name, tag_count in recent_tags_count.items %}
                     {% if tag_count >= 2 %} <!—숫자는 추후 조정—>
                         <span style="font-size: x-large">
