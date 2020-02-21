@@ -18,7 +18,7 @@ def main_search(request):
     option = request.GET.get('options', '')
     # category = request.GET.get()
     user = request.user
-    # print('Request:', request)
+    print('Request:', request.GET.keys())
     qs = None
     # 검색창 옆에 필터 선택 -> request로 받고, 그 값에 따라 결과값 필터링 **
     if q:  # q가 있으면
@@ -42,11 +42,12 @@ def main_search(request):
     qs = process_category(request, user, qs)
 
     print("카테고리 필터링 후: ", qs)
-
+    bm_list = user.user_bookmark.values_list('post_id', flat=True)
+    print('북마크 리스트', bm_list)
     posts = None
     if qs:
 
-        paginator = Paginator(qs, 2)
+        paginator = Paginator(qs, 3)
         page = request.POST.get('page')
 
         try:
@@ -61,7 +62,6 @@ def main_search(request):
     # print('Request.GET:', request.GET)
     # print(qs)
 
-
     manage_groups = list(request.user.user_manage_groups.all())
     request_messages = list()
     for g in manage_groups:
@@ -75,6 +75,8 @@ def main_search(request):
         'posts': posts,
         'option': option,
         'request_messages_cnt': len(request_messages),
+        'bm_post_list': bm_list,
+
     })
 
 
@@ -151,13 +153,31 @@ def search_auto(request):
 
 
 def search_scroll(request):
-    # pk = request.POST.get('pk', None)
-    # user = User.objects.get(pk=pk)  # 프로필의 user
+    q = request.GET.get('q', '')  # GET request의 인자중에 q 값이 있으면 가져오고, 없으면 빈 문자열 넣기
+    option = request.GET.get('options', '')
     user = request.user
-    print(request)
-    post_list = user.user_post.order_by('-start_date', '-end_date')
-    paginator = Paginator(post_list, 2)
-    page = request.POST.get('page')  # ajax로부터 POST 타입을 전달받음
+    qs = None
+    if q:  # q가 있으면
+
+        if option == 'posts':  # 제목에 q가 포함되어 있는 레코드만 필터링 + 나랑 관련된 사람.
+            qs = filter_posts(q, user)
+            print('option: posts')
+        elif option == 'tags':  # 이름에 q 포함 + 접속 유저와 관련된 그룹원
+            qs = filter_tags(q, user)
+            print('option: tags')
+
+        elif option == 'users':  # 그룹명에 q가 포함된 그룹
+            qs = filter_users(q, user)
+            print('option: users')
+
+    else:
+        qs = Post.objects.filter(user__user_groups__in=user.user_groups.all()).distinct()
+
+    qs = process_category(request, user, qs)
+    post_list = qs
+    paginator = Paginator(post_list, 3)
+    page = request.GET.get('page')  # ajax로부터 POST 타입을 전달받음
+    bm_list = user.user_bookmark.values_list('post_id', flat=True)
 
     try:
         posts = paginator.page(page)  # 해당 페이지의 포스트(post_list)
@@ -168,6 +188,8 @@ def search_scroll(request):
     print(page, posts)
     print('--')
     context = {
-        'posts': posts
+        'posts': posts,
+        'bm_post_list': bm_list,
+
     }
-    return render(request, 'post/myprofile_post_list_ajax.html', context)  # ajax_datatype => dataType: 'html'
+    return render(request, 'search/scroll_template.html', context)  # ajax_datatype => dataType: 'html'
