@@ -1,0 +1,147 @@
+<script>
+    $(function () {    //화면 다 뜨면 시작
+
+        $("#searchInput").autocomplete({
+            source: function (request, response) {
+                var q = $("#searchInput").val()
+                {#var option = $('input[name="options"]:checked').val();#}
+                {#var option = $('.btn.active').attr('data-value');#}
+                var option = $('#options-input').val()
+                console.log(option)
+                $.ajax({
+                    type: 'get',
+                    url: "{% url 'search:search_auto' %}",
+                    dataType: "json",
+                    data: {
+                        'q': q,
+                        'option': option,
+                    },
+                    success: function (data) {
+                        console.log(data) //바보 멍충이 으아아ㅏ
+                        //서버에서 json 데이터 response 후 목록에 추가
+                        response(
+                            $.map(data.results, function (result) {    //json[i] 번째 에 있는게 item 임.
+                                return {
+                                    label: result.name,    //UI 에서 보여지는 글자, 실제 검색어랑 비교 대상
+                                    value: result.name,    //그냥 사용자 설정값?
+                                    {#test: item + "test"    //이런식으로 사용#}
+                                }
+                            })
+                        );
+                    }
+                });
+            },    // source 는 자동 완성 대상
+            select: function (event, ui) {    //아이템 선택시
+                console.log(ui);//사용자가 오토컴플릿이 만들어준 목록에서 선택을 하면 반환되는 객체
+                console.log(ui.item.label);    //김치 볶음밥label
+                console.log(ui.item.value);    //김치 볶음밥
+                {#console.log(ui.item.test);    //김치 볶음밥test#}
+
+            },
+            focus: function (event, ui) {    //포커스 가면
+                return false;//한글 에러 잡기용도로 사용됨
+            },
+            minLength: 1,// 최소 글자수
+            autoFocus: false, //첫번째 항목 자동 포커스 기본값 false
+            classes: {    //잘 모르겠음
+                "ui-autocomplete": "highlight"
+            },
+            delay: 300,    //검색창에 글자 써지고 나서 autocomplete 창 뜰 때 까지 딜레이 시간(ms)
+//            disabled: true, //자동완성 기능 끄기
+            position: {my: "right top", at: "right bottom"},    //잘 모르겠음
+            close: function (event) {    //자동완성창 닫아질때 호출
+                console.log(event);
+            }
+        }).autocomplete("instance")._renderItem = function (ul, item) {    //요 부분이 UI를 마음대로 변경하는 부분
+            return $("<li>")    //기본 tag가 li로 되어 있음
+                .append("<div>" + item.value + "<br>" + item.label + "</div>")    //여기에다가 원하는 모양의 HTML을 만들면 UI가 원하는 모양으로 변함.
+                .appendTo(ul);
+        };
+    });
+
+    {#scroll ajax#}
+    $('#callmorepost').click(function () {
+        var page = $("#page").val();
+        var end_page = {{ posts.paginator.num_pages }};
+        if (page > end_page) {  //더이상 스크롤 할 페이지가 없는 경우
+            alert('더이상 페이지가 없습니다.')
+        }
+        callMorePostAjax(page);
+        $("#page").val(parseInt(page) + 1);
+    });
+
+    $(window).scroll(function () {
+        var scrollHeight = $(window).scrollTop() + $(window).height();
+        var documentHeight = $(document).height();
+
+        if (scrollHeight + 100 >= documentHeight) {
+            var page = $("#page").val();
+            var end_page = {{ posts.paginator.num_pages }};
+            if (page > end_page) {  //더이상 스크롤 할 페이지가 없는 경우
+                return;
+            }
+            callMorePostAjax(page);
+            $("#page").val(parseInt(page) + 1);
+        }
+    });
+
+    // 스크롤 내린 다음 페이지를 가져온다(포스트를 보이게 한다)
+    function callMorePostAjax(page) {
+        var end_page = {{ posts.paginator.num_pages }};
+        console.log(end_page, page)
+        if (page > end_page) {
+            return;
+        }
+        //ajax가 서버에게 전달하는 data
+        $.ajax({
+            type: 'POST', //데이터를 전송하는 방법
+            url: "{% url 'search:search_scroll' %}",
+            data: {
+                'page': page,  //가져와야하는 페이지 보냄
+                'csrfmiddlewaretoken': '{{ csrf_token }}'
+            },
+            success: addMorePostAjax,  //받아온 dataType를 어디에 둘것인가
+            dataType: 'html',
+            error: function (request, status, error) {
+                alert('오류발생');
+            },
+        });
+    }
+
+    function addMorePostAjax(data, textStatus, jqXHR) {
+        $('#profile_post_list_ajax').append(data);  //dev post_list_ajax 자리에 포스트를 올린다.
+    }
+
+
+    //<<<<<북마크>>>>>>>>
+    $(".bookmark").click(function () {
+        var pk = $(this).attr('name');
+        $.ajax({
+            //bookmark button 클릭 -> ajax로 서버와 통신하기
+            type: "POST", //데이터를 전송하는 방법
+            url: "{% url 'post:post_bookmark' %}",  //통신할 url
+            data: {
+                'pk': pk,
+                'csrfmiddlewaretoken': '{{ csrf_token }}'
+            }, // 서버로 데이터 전송시 옵션
+            dataType: "json", //전달받은 데이터 타입 = json -> {'bookmark_count':post.bookmark.count(), 'message':message,}
+                              // 서버측에서 전송한 Response 데이터 형식 (json)
+            // 통신 성공 -> 북마크 처리(response 처리)
+            success: function (response) {
+                alert(response.message);
+                $("#bookmark-" + pk).css("background-image", "url(" + response.img_url + ")");
+            },
+            error: function (request, status, error) {
+                alert("로그인이 필요합니다.")
+                window.location.replace("/accounts/login/")
+            },
+        });
+    });
+
+</script>
+<script async>
+    console.log(document.getElementsByClassName("profile_post_contents"));
+    var contentsText = document.getElementsByClassName("profile_post_contents").innerText;
+    console.log(contentsText);
+    document.getElementsByClassName("profile_post_contents").innerHTML = contentsText;
+</script>

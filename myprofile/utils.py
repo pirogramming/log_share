@@ -1,0 +1,28 @@
+import os
+from uuid import uuid4
+from django.utils import timezone
+
+def date_upload_to(instance, filename):
+  # upload_to="%Y/%m/%d" 처럼 날짜로 세분화
+  ymd_path = timezone.now().strftime('%Y/%m/%d')
+  # 길이 32 인 uuid 값
+  uuid_name = uuid4().hex
+  # 확장자 추출
+  extension = os.path.splitext(filename)[-1].lower()
+  # 결합 후 return
+  return '/'.join([
+    ymd_path,
+    uuid_name + extension,
+  ])
+
+def recent_tag_counting(post_list):
+  recent_post_list = post_list[:10]
+  # 아래 딕셔너리는 orderdDict여야 하므로 파이썬 3.6 버전 이상에서만 제대로 동작하는 코드.
+  recent_tags_count = {}
+  for post in recent_post_list:
+    for tag in post.tags.all():
+      if tag in recent_tags_count:
+        recent_tags_count[tag] += 1
+      else:
+        recent_tags_count[tag] = 1
+  return recent_tags_count

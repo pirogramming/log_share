@@ -1,0 +1,340 @@
+<style>
+    .temp {
+        width: 70%;
+        margin: 50px auto;
+    }
+
+    .post_detail_container {
+        background-color: white;
+        border-radius: 5px;
+        padding: 20px 30px;
+        box-shadow: 2px 2px 2px #b0bec9;
+        border: 0.5px solid #b0bec9;
+    }
+
+    .post_detail_container div {
+        background-color: transparent;
+    }
+
+    .post_detail_container form {
+        background-color: transparent;
+    }
+
+    .post_detail_container .btn_con {
+        display: flex;
+        justify-content: space-around;
+    }
+
+    .post_detail_container button {
+        background-color: #1a237e;
+        border-radius: 5px;
+        color: white;
+        margin-top: 10px;
+        margin-bottom: 10px;
+        width: 150px;
+        height: 40px;
+    }
+
+    .post_detail_container button:hover {
+        background-color: #534bae;
+    }
+
+    .post_detail_container form {
+        display: inline;
+    }
+
+    .post_detail_container button a {
+        text-decoration: none;
+        color: white;
+    }
+
+    {# ----------------구성요소---------------- #}
+    .post_detail_container .rateit {
+        width: 100%;
+        text-align: center;
+    }
+
+    .post_detail_container .post_title {
+        font-size: 35px;
+        padding-bottom: 10px;
+        width: 100%;
+        text-align: center;
+        margin-right: 10px;
+        margin-top: 20px;
+    }
+
+    .post_detail_container .post_date {
+        width: 100%;
+        text-align: center;
+        margin-bottom: 40px;
+    }
+
+    .post_detail_container .post_user {
+        display: block;
+        margin-right: 20px;
+        float: right;
+        padding-top: 6px;
+    }
+
+    .post_detail_container .post_user a {
+        text-decoration: none;
+        color: black;
+        font-weight: bold;
+        font-size: 20px;
+    }
+
+    {# bookmark #}
+    .post_detail_container input {
+        background-repeat: no-repeat;
+        padding: 10px 20px;
+        border: none;
+    }
+
+    .post_bookmark{
+        display: inline;
+    }
+
+    .bookmark_count{
+        display: inline;
+        color: #514aac;
+        font-weight: bold;
+    }
+
+    .post_bookmark_con{
+        float: right;
+    }
+
+    .post_detail_container .margin {
+        width: 100%;
+        height: 70px;
+    }
+
+    .post_detail_container .post_url a {
+        text-decoration: none;
+        color: black;
+    }
+
+    .post_detail_container .post_tag a {
+        text-decoration: none;
+        color: black;
+    }
+
+    .post_detail_container .post_copy_button {
+        width: 100%;
+        vertical-align: bottom;
+        text-align: right;
+    }
+
+    .post_detail_container .post_copy_button button {
+        border: none;
+        color: white;
+        margin-top: 10px;
+        margin-bottom: 15px;
+        width: 30px;
+        height: 30px;
+        margin-right: 10px;
+    }
+
+    .post_detail_container .post_copy_button button:hover {
+        background-color: #534bae;
+    }
+
+    .post_detail_container .post_image {
+        margin-left: 20px;
+    }
+
+    .post_detail_container .post_url {
+        padding-top: 50px;
+        margin-bottom: 5px;
+    }
+
+    .post_detail_container .post_url label {
+        font-size: 15px;
+        color: dodgerblue;
+    }
+
+    .post_tag{
+        height: 30px;
+    }
+
+
+    .post_tag a:hover {
+        color: dodgerblue;
+        font-weight: bold;
+    }
+
+    .post_tag div{
+        width:100px;
+        border-radius: 5px;
+        border: 2px solid #b0bec9;
+        text-align: center;
+        height: 20px;
+        display: inline;
+    }
+
+    .post_detail_container .post_tag label {
+        font-size: 15px;
+        color: dodgerblue;
+    }
+
+    .post_detail_container .post_category {
+        margin-bottom: 5px;
+    }
+
+    .post_detail_container .post_category label {
+        font-size: 15px;
+        color: dodgerblue;
+    }
+
+    {# ----------------구성요소- end--------------- #}
+
+    .post_detail_container .post_user a:hover {
+        color: #514aac;
+        font-weight: bold;
+    }
+
+    .post_detail_container .post_url a:hover {
+        color: #514aac;
+        font-weight: bold;
+    }
+
+
+
+</style>
+
+{% extends 'base.html' %}
+{% load static %}
+
+{% block header %}
+    <link rel="stylesheet" href="{% static 'widgets/rateit/rateit.css' %}"/>
+    <script
+            src="https://code.jquery.com/jquery-3.4.1.min.js"
+            integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+            crossorigin="anonymous"></script>
+    <script src="{% static 'widgets/rateit/jquery.rateit.min.js' %}"></script>
+{% endblock %}
+
+<!--인자: post 작성한 user, post-->
+{% block content %}
+    <div class="temp">
+        <div class="post_detail_container">
+
+            <div class="rateit" data-rateit-value="{{ post.score }}" data-rateit-ispreset="true"
+                 data-rateit-readonly="true" data-rateit-mode="font" style="font-size:50px"></div>
+
+            <div class="post_title">{{ post.title }}</div>
+
+            <div class="post_date">{{ post.start_date }} ~ {{ post.end_date }}</div>
+
+            {% if user != request.user %}
+                <div class="post_bookmark_con">
+                    <div class="post_bookmark"><input type="button" class="bookmark" name="{{ post.id }}" value=""
+                                                      style="background-image: {% if bm %}url('/media/bookmark_on.jpg'){% else %}url('/media/bookmark_off.jpg'){% endif %}">
+                    </div>
+                    <div class="bookmark_count" id="count-{{ post.id }}">{{ post.bookmark.count }}개</div>
+                </div>
+
+                {#                <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>#}
+                <script type="text/javascript">
+                    $(".bookmark").click(function () {
+                        var pk = $(this).attr('name');
+                        $.ajax({
+                            //bookmark button 클릭 -> ajax로 서버와 통신하기
+                            type: "POST", //데이터를 전송하는 방법
+                            url: "{% url 'post:post_bookmark' %}",  //통신할 url
+                            data: {'pk': pk, 'csrfmiddlewaretoken': '{{ csrf_token }}'}, // 서버로 데이터 전송시 옵션
+                            dataType: "json", //전달받은 데이터 타입 = json -> {'bookmark_count':post.bookmark.count(), 'message':message,}
+                                              // 서버측에서 전송한 Response 데이터 형식 (json)
+                            // 통신 성공 -> 북마크 처리(response 처리)
+                            success: function (response) {
+                                alert(response.message);
+                                $(".bookmark").css("background-image", "url(" + response.img_url + ")");
+                                $("#count-" + pk).html(response.bookmark_count + "개");
+                            },
+                            error: function (request, status, error) {
+                                alert("로그인이 필요합니다.");
+                                window.location.replace("/accounts/login/");
+                            },
+                        });
+                    })
+                </script>
+
+            {% endif %}
+
+            <div class="post_user">writed by
+                <a href="{% url 'myprofile:profile_detail' user.pk %}">{{ user.user_profile.name }}</a></div>
+
+            <div class="margin"></div>
+
+            {% if post.photo %}
+                <div class="post_image"><img src="{{ post.photo.url }}" style="max-width: 100%; max-height: 400px">
+                </div>
+            {% endif %}
+
+            <div class="post_copy_button">
+                <button class="copy_button" id="copy_button-{{ post.id }}"><i class="fas fa-paperclip"></i></button>
+            </div>
+            <script type="text/javascript">
+                $("#copy_button-{{ post.id }}").click(function () {
+                    var copyText = document.getElementById("post_content-{{ post.id }}");
+                    var t = document.createElement("textarea");
+                    document.body.appendChild(t);
+                    t.value = copyText.innerText;
+                    t.select();
+                    document.execCommand("copy");
+                    document.body.removeChild(t);
+                    alert("Copied");
+                })
+            </script>
+            <div class="margin2"></div>
+            <div id="post_content-{{ post.id }}">{{ post.contents | safe }}</div>
+            <div class="post_url"><label>[참고 URL] </label>
+                {% if post.reference %}
+                    <a href="{{ post.reference }}">{{ post.reference }}</a>
+                {% endif %}
+            </div>
+            <div class="post_category"><label>[ 카테고리 ] </label>{{ post.category }}</div>
+            {# 아래의 join:","는 각 태그의 name만을 가져오고 한줄로 join해주는 역할 #}
+            {#태그 : {{ post.tags.all |join:"," }} <br>#}
+            <div class="post_tag">
+                <label>[ 태그 ] </label>
+                {% for post_tag in post.tags.all %}
+                    <div><a href="{% url 'search:tag_search' post_tag %}">#{{ post_tag }}</a></div>
+                {% endfor %}
+            </div>
+            <br>
+            <div class="btn_con">
+                <button><a href="{% url 'search:main_search' %}">돌아가기</a></button>
+                {% if post.user == request.user %}
+                    <button><a href="{% url 'post:post_update' post.pk %}">수정하기</a></button>
+                    <button id="delete_button" type="submit" name="{{ post.pk }}">삭제하기</button>
+                    <script type="text/javascript">
+                        $('#delete_button').click(function () {
+                            if (confirm("정말로 삭제하시겠습니까?")) {
+                                var pk = $(this).attr('name');
+                                $.ajax({
+                                    type: "POST",
+                                    url: "{% url 'post:post_delete'%}",
+                                    data: {
+                                        'pk': pk,
+                                        'csrfmiddlewaretoken': '{{ csrf_token }}',
+                                    },
+                                    dataType: "html",
+                                    success: function (response) {  //통신 성공시 메시지 출력
+                                        alert("정상적으로 삭제되었습니다.");
+                                        window.location.replace("{% url 'myprofile:profile_detail' request.user.id %}");
+                                    },
+                                    error: function (request, status, error) { //통신 실패시 요청관리페이지로 리다이렉트
+                                        alert("잘못된 요청입니다. error:" + error);
+                                    },
+                                })
+                            } else {
+                                return
+                            }
+                        });
+                    </script>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

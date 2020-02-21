@@ -1,0 +1,8 @@
+<form action="" method="post">{% csrf_token %}
+    <table>
+        <tr>
+            {{ form.as_p }}
+        </tr>
+    </table>
+    <input type="submit" value="가입 요청">
+</form>

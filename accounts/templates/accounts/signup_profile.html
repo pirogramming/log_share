@@ -1,0 +1,75 @@
+<style>
+    .container {
+        background-color: #00B0F0;
+        color: white;
+        height: 900px;
+    }
+    form {
+        background-color: white;
+        width: 600px;
+        padding: 40px;
+        border-radius: 5px;
+        border: solid 1px black;
+        margin: 0px auto;
+    }
+
+    h2 {
+        text-align: center;
+        line-height: 80px;
+
+    }
+
+    table {
+        line-height: 60px;
+        font-size: 15px;
+        margin: 0 auto;
+    }
+
+    input {
+        width: 250px;
+        height: 40px;
+        border-radius: 5px;
+        border: solid 1px #b0bec9;
+        padding-left: 10px;
+    }
+
+    #save {
+        margin-left: 205px;
+        background-color: #1E88E5;
+        border-radius: 5px;
+        color: white;
+    }
+
+    #savebox {
+        margin-top: 20px;
+    }
+    footer{
+        display: none;
+    }
+    input[type="file"]{
+        border: none;
+        padding: 5px;
+    }
+    textarea{
+        border: solid 1px #b0bec9;
+        border-radius: 5px;
+    }
+
+</style>
+{% extends "accounts/signupbase.html" %}
+{% block content %}
+    <div class="container">
+        <h2>로그 쉐어에 당신의 프로필을 작성해주세요!</h2>
+        <div class="formbox">
+            <form action="" method="post" enctype="multipart/form-data">
+                <div>
+                    {% csrf_token %}
+                    <table>
+                        <div id="box">{{ profile_form.as_table }}</div>
+                    </table>
+                    <div id="savebox"><input type="submit" id="save" value="다음"/></div>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}

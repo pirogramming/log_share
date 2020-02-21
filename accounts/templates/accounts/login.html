@@ -1,0 +1,96 @@
+<style>
+    * {
+        font-family: 나눔스퀘어;
+        text-decoration: none;
+        margin: 0;
+        padding: 0;
+    }
+
+    .container {
+        box-shadow: 2px 2px 2px #b0bec9;
+        border: solid 1px #b0bec9;
+        border-radius: 5px;
+        margin: 80px auto;
+        text-align: center;
+        width: 400px;
+        padding-top: 30px;
+        padding-bottom: 30px;
+    }
+
+    h1 {
+        color: #1a237e;
+        line-height: 60px;
+    }
+
+    .start_logo {
+        line-height: 60px;
+        font-size: 25px;
+    }
+
+    form {
+        font-size: 20px;
+    }
+
+    input {
+        width: 300px;
+        height: 40px;
+        border-radius: 5px;
+        border: solid 1px #b0bec9;
+        margin-top: 20px;
+        padding-left: 10px;
+    }
+
+    a {
+        color: #1a237e;
+        font-weight: bold;
+    }
+
+    #help {
+        line-height: 50px;
+    }
+
+    #error {
+        font-size: 15px;
+        margin: 0;
+        padding: 0;
+    }
+
+    footer > div {
+        display: inline-block;
+        font-size: 14px;
+        margin: 10px;
+    }
+
+    input[type=password] {
+        font-family: "Adobe 고딕 Std B";
+    }
+
+    input[type=submit] {
+        background-color: #1E88E5;
+        border: 1px solid #00B0F0;
+        color: white;
+        font-size: 15px;
+    }
+
+</style>
+{% extends "accounts/signupbase.html" %}
+
+{% block content %}
+    <div class="container">
+        <div>
+            <h1>LOG SHARE</h1>
+        </div>
+        <div class="start_logo">지금 로그쉐어를 시작하세요!</div>
+        <form method="POST" action="{% url 'accounts:login' %}">
+            {% csrf_token %}
+            <div id="error">{{ error }}</div>
+            <input name="username" type="text" placeholder="아이디">
+            <input name="password" type="password" placeholder="비밀번호">
+            <input type="submit" class="btn btn-primary" value="로그인">
+        </form>
+        <div id="help"><a href="{% url "accounts:password_reset" %}">암호를 잊으셨나요?</a></div>
+        <div>로그쉐어는 처음이신가요? <a href="{% url "accounts:signup" %}">회원가입</a></div>
+    </div>
+{% endblock %}
+</body>
+</html>

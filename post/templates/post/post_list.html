@@ -1,0 +1,237 @@
+<style>
+    .temp {
+        width: 80%;
+        margin: 50px auto;
+    }
+    .post_list {
+        background-color: white;
+        border-radius: 5px;
+        padding: 10px 20px;
+        padding-bottom: 30px;
+        border: 0.5px solid #b0bec9;
+        box-shadow: 2px 2px 2px #b0bec9;
+    }
+
+    .post_list div {
+        background-color: transparent;
+    }
+
+    .post_list div a {
+        text-decoration: none;
+        color: black;
+    }
+
+    .post_list div a:hover {
+        color: #514aac;
+        font-weight: bold;
+    }
+
+    .post_list .post_score{
+        display: inline;
+    }
+    .post_list .bookmark_container{
+        display: inline;
+    }
+
+    .post_list .post_score .rateit{
+        width: 80px;
+        height: 17px;
+        overflow: hidden;
+    }
+
+
+
+
+    .post_list_ajax {
+        background-color: white;
+        border-radius: 5px;
+        padding: 10px 20px;
+        box-shadow: 2px 2px 2px #b0bec9;
+        border: 0.5px solid #b0bec9;
+        padding-bottom: 30px;
+    }
+
+    .post_list_ajax div {
+        background-color: transparent;
+    }
+
+    .post_list_ajax div a {
+        text-decoration: none;
+        color: black;
+    }
+
+    .post_list_ajax div a:hover {
+        color: #514aac;
+        font-weight: bold;
+    }
+
+    .post_list_ajax .rateit{
+        width: 80px;
+        height: 17px;
+        overflow: hidden;
+    }
+
+    .post_list_ajax .post_score{
+        display: inline;
+    }
+    .post_list_ajax .bookmark_container{
+        display: inline;
+    }
+
+    {# 북마크 & 이메일 - ajax랑 동시에 적용됨#}
+    .bookmark{
+        background-color: transparent;
+        background-repeat: no-repeat;
+        padding: 10px 20px;
+        display: inline;
+        float: right;
+        border: none;
+    }
+    .post_email{
+        display: inline;
+        float: right;
+        margin-right: 10px;
+    }
+    .post_email .fa-envelope::before{
+        display: none;
+    }
+    .post_email a i{
+        font-size: 38px;
+    }
+</style>
+
+{% extends 'base.html' %}
+{% load static %}
+
+{% block header %}
+    <link rel="stylesheet" href="{% static 'widgets/rateit/rateit.css' %}"/>
+    <script
+            src="https://code.jquery.com/jquery-3.4.1.min.js"
+            integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+            crossorigin="anonymous"></script>
+    <script src="{% static 'widgets/rateit/jquery.rateit.min.js' %}"></script>
+{% endblock %}
+
+{% block content %}
+<div class="temp">
+    <div>
+        {% if posts %}
+            {% for post in posts %}
+                <div class="post_list">
+                    <div class="post_title"><a href="{% url 'post:post_detail' post.pk %}">{{ post.title }}</a>
+                    </div>
+                    <div>작성자 : <a
+                            href="{% url 'myprofile:profile_detail' post.user.pk %}">{{ post.user.user_profile.name }}</a>
+                    </div>
+                    <div>활동기간: {{ post.start_date }} ~ {{ post.end_date }}</div>
+                    <div class="post_tag">
+                        태그 :
+                        {% for post_tag in post.tags.all %}
+
+                            <a href="{% url 'search:main_search' %}?q={{ post_tag }}&options=tags">#{{ post_tag }}</a>
+{#                            <a href="./?q={{ post_tag }}&options=tags">#{{ post_tag }}</a>#}
+{#                            <a href="{% url 'search:tag_search' post_tag %}">#{{ post_tag }}</a>#}
+                        {% endfor %}
+                    </div>
+                    <div class="post_contents">내용: {{ post.contents | truncatechars_html:85|safe }}</div>
+                    <div class="post_score">평점:
+                        <div class="rateit" data-rateit-value="{{ post.score }}" data-rateit-ispreset="true" data-rateit-readonly="true"></div>
+                    </div>
+                    <div class="bookmark_container">
+                        <input type="button" class="bookmark" id="bookmark-{{ post.id }}" name="{{ post.id }}" value=""
+                           style="background-image: {% if post.id in bm_post_list %}url('/media/bookmark_on.jpg'){% else %}url('/media/bookmark_off.jpg'){% endif %}"/>
+                    </div>
+                    <div class="post_email"><a href="mailto:{{ post.user.email }}" class="fa-envelope"><i class="fas fa-envelope-square"></i></a></div>
+                </div>
+                <br>
+            {% endfor %}
+        {% endif %}
+    </div>
+
+    <div id="post_list_ajax"></div>  {# ajax 결과물 추가할 곳 #}
+    <input id="page" type="hidden" value="2">  {# 첫 next_page == 2 #}
+    <button id="callmorepost" type="button">More Post</button>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script type="text/javascript">
+        //<<<<<북마크>>>>>>>>
+        $(".bookmark").click(function () {
+            var pk = $(this).attr('name');
+            $.ajax({
+                //bookmark button 클릭 -> ajax로 서버와 통신하기
+                type: "POST", //데이터를 전송하는 방법
+                url: "{% url 'post:post_bookmark' %}",  //통신할 url
+                data: {
+                    'pk': pk,
+                    'csrfmiddlewaretoken': '{{ csrf_token }}'
+                }, // 서버로 데이터 전송시 옵션
+                dataType: "json", //전달받은 데이터 타입 = json -> {'bookmark_count':post.bookmark.count(), 'message':message,}
+                                  // 서버측에서 전송한 Response 데이터 형식 (json)
+                // 통신 성공 -> 북마크 처리(response 처리)
+                success: function (response) {
+                    alert(response.message);
+                    $("#bookmark-" + pk).css("background-image", "url(" + response.img_url + ")");
+                },
+                error: function (request, status, error) {
+                    alert("로그인이 필요합니다.")
+                    window.location.replace("/accounts/login/")
+                },
+            });
+        });
+
+        //<<<<<<무한 스크롤>>>>>>>>
+        $('#callmorepost').click(function () {
+            var page = $("#page").val();
+            var end_page = {{ posts.paginator.num_pages }};
+            if (page > end_page) {  //더이상 스크롤 할 페이지가 없는 경우
+                alert('더이상 페이지가 없습니다.')
+            }
+            callMorePostAjax(page);
+            $("#page").val(parseInt(page) + 1);
+        });
+
+        $(window).scroll(function () {
+            var scrollHeight = $(window).scrollTop() + $(window).height();
+            var documentHeight = $(document).height();
+
+            if (scrollHeight + 100 >= documentHeight) {
+                var page = $("#page").val();
+                var end_page = {{ posts.paginator.num_pages }};
+                if (page > end_page) {  //더이상 스크롤 할 페이지가 없는 경우
+                    return;
+                }
+                callMorePostAjax(page);
+                $("#page").val(parseInt(page) + 1);
+            }
+        });
+
+        // 스크롤 내린 다음 페이지를 가져온다(포스트를 보이게 한다)
+        function callMorePostAjax(page) {
+            var end_page = {{ posts.paginator.num_pages }};
+
+            if (page > end_page) {
+                return;
+            }
+            //ajax가 서버에게 전달하는 data
+            $.ajax({
+                type: 'POST', //데이터를 전송하는 방법
+                url: "{% url 'post:post_list_ajax' %}",
+                data: {
+                    'page': page,  //가져와야하는 페이지 보냄
+                    'csrfmiddlewaretoken': '{{ csrf_token }}'
+                },
+                success: addMorePostAjax,  //받아온 dataType를 어디에 둘것인가
+                dataType: 'html',
+                error: function (request, status, error) {
+                    alert('오류발생');
+                },
+            });
+        }
+
+        function addMorePostAjax(data, textStatus, jqXHR) {
+            console.log(data)
+            $('#post_list_ajax').append(data);  //dev post_list_ajax 자리에 포스트를 올린다.
+        }
+    </script>
+</div>
+{% endblock %}

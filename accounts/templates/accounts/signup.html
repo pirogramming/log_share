@@ -1,0 +1,82 @@
+<style>
+    .container {
+        background-color: #00B0F0;
+        color: white;
+        height: 900px;
+    }
+
+    form {
+        background-color: white;
+        width: 600px;
+        padding: 40px;
+        border-radius: 5px;
+        margin: 0px auto;
+    }
+
+    h2 {
+        text-align: center;
+        line-height: 80px;
+
+    }
+
+    table {
+        line-height: 40px;
+        font-size: 15px;
+        margin: 0 auto;
+    }
+    th{
+        vertical-align: text-top;
+        line-height: 60px;
+    }
+
+    input {
+        width: 250px;
+        height: 40px;
+        border-radius: 5px;
+        border: solid 1px #b0bec9;;
+        margin-top: 10px;
+        padding-left: 10px;
+    }
+
+    #save {
+        margin-left: 171px;
+        background-color: #1E88E5;
+        border-radius: 5px;
+        color: white;
+    }
+
+    #savebox {
+        margin-top: 10px;
+    }
+    input[type=password] {
+    font-family: "Adobe 고딕 Std B";
+    }
+    footer{
+        display: none;
+    }
+    ul{
+        list-style: none;
+    }
+    li{
+        line-height: 30px;
+    }
+
+</style>
+{% extends "accounts/signupbase.html" %}
+{% block content %}
+    <div class="container">
+        <h2>로그 쉐어에 가입해보세요!</h2>
+        <div class="formbox">
+            <form action="" method="post" enctype="multipart/form-data">
+                <div>
+                    {% csrf_token %}
+                    <table>
+                        <div id="box">{{ user_form.as_table }}</div>
+                    </table>
+                    <div id="savebox"><input type="submit" id="save" value="다음"/></div>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}
+

@@ -1,0 +1,94 @@
+<style>
+    * {
+    font-family: 나눔스퀘어, NanumSquare;
+    text-decoration: none;
+    margin: 0;
+    padding: 0;
+}
+.wrapper {
+    width: 100%;
+    height: 80px;
+    background-color: #00B0F0;
+    /*border:solid 1px black;*/
+    margin:0px;
+    padding: 0px;
+}
+.logo {
+    margin-left: 45%;
+}
+#logoimg {
+    width: 50px;
+    line-height: 80px;
+    position: absolute;
+    left: 54%;
+    top:17px;
+
+}
+.logofont {
+    color: white;
+    font-size: 25px;
+    line-height: 80px;
+    display: inline;
+    /*font-weight: bold; style로 해줌.*/
+}
+
+.logoimg_div {
+    display: inline-block;
+    align-content: center;
+}
+footer{
+    background-color: white;
+    height: 80px;
+    border:solid 0.7px gray;
+    border-bottom: none;
+    text-align: center;
+    position: absolute;
+    bottom: 0%;
+    width: 100%;
+}
+footer >div{
+    background-color: white;
+    display: inline-block;
+    font-size: 14px;
+    margin: 10px;
+
+}
+</style>
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Log Share</title>
+</head>
+<body>
+<div class="wrapper">
+    <div class="logo">
+        <a href="{% url 'main:main_front' %}">
+            <a href="{% url 'main:main_front' %}">
+            <div class="logofont" style="font-weight: bold">LOG SHARE</div>
+            <div class="logoimg_div"><img id="logoimg" src="{% static 'img/로고%20하얀.png' %}" alt=""/></div>
+        </a>
+        </a>
+    </div>
+</div>
+
+<div class="body_container">
+        {% block content %}
+        {% endblock %}
+</div>
+<footer>
+    <div>Log share</div>
+    <div>© 2020</div>
+    <div>사용자 약관</div>
+    <div>개인 정보 취급 방침</div>
+    <div>커뮤니티 정책</div>
+    <div>쿠키 정책</div>
+    <div>저작권 정책</div>
+    <div>피로그래밍 12기</div>
+</footer>
+</body>
+</html>

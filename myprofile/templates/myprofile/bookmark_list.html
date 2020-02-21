@@ -1,0 +1,52 @@
+<style>
+    .temp {
+        width: 80%;
+        margin: 50px auto;
+    }
+
+    .bookmark_container {
+        background-color: white;
+        border-radius: 5px;
+        padding: 10px 10px;
+        margin-bottom: 10px;
+        box-shadow: 2px 2px 2px #b0bec9;
+        border: 0.5px solid #b0bec9;
+    }
+
+    .bookmark_container div {
+        background-color: white;
+    }
+
+    .bookmark_container div a {
+        text-decoration: none;
+        color: black;
+    }
+
+    .bookmark_container div a:hover {
+        color: #514aac;
+        font-weight: bold;
+    }
+
+    .bookmark_container .bookmark_delete a:hover {
+        color: #c2185b;
+        font-weight: bold;
+    }
+</style>
+
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="temp">
+        {% if bookmarks %}
+            {% for bookmark in bookmarks %}
+                <div class="bookmark_container">
+                    <div>제목: <a href="{% url 'post:post_detail' bookmark.post.pk %}">{{ bookmark }}</a></div>
+                    <div>내용: {{ bookmark.post.contents|truncatechars:90|safe}}</div>
+                    <div class="bookmark_delete"><a href="{% url 'myprofile:bookmark_delete' bookmark.pk %}">북마크 취소</a></div>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p>북마크 없음</p>
+        {% endif %}
+    </div>
+{% endblock %}

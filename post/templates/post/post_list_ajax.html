@@ -1,0 +1,60 @@
+{% load static %}
+
+<script src="{% static 'widgets/rateit/jquery.rateit.min.js' %}"></script>
+
+{% if posts %}
+    {% for post in posts %}
+        <div class="post_list_ajax">
+            <div>제목 : <a href="{% url 'post:post_detail' post.pk %}">{{ post.title }}</a></div>
+            <div>작성자 : <a href="{% url 'myprofile:profile_detail' post.user.pk %}">{{ post.user.user_profile.name }}</a>
+            </div>
+            <div>활동기간: {{ post.start_date }} ~ {{ post.end_date }}</div>
+            <div>
+                태그 :
+                {% for post_tag in post.tags.all %}
+                    <a href="{% url 'search:main_search' %}?q={{ post_tag }}&options=tags">#{{ post_tag }}</a>
+{#                    <a href="./?q={{ post_tag }}&options=tags">#{{ post_tag }}</a>#}
+{#                    <a href="{% url 'search:tag_search' post_tag %}">#{{ post_tag }}</a>#}
+                {% endfor %}
+            </div>
+            <div>내용: {{ post.contents|truncatechars_html:85|safe }}</div>
+            <div class="post_score">평점:
+                <div class="rateit" data-rateit-value="{{ post.score }}" data-rateit-ispreset="true" data-rateit-readonly="true"></div>
+            </div>
+            <div class="bookmark_container">
+                <input type="button" class="bookmark_ajax" id="bookmark_ajax-{{ post.id }}" name="{{ post.id }}" value=""
+                    style="background-image: {% if post.id in bm_post_list %}url('/media/bookmark_on.jpg'){% else %}url('/media/bookmark_off.jpg'){% endif %}">
+            </div>
+            <div class="post_email"><a href="mailto:{{ post.user.email }}" class="fa-envelope">Email</a></div>
+        </div>
+        <br>
+    {% endfor %}
+{% endif %}
+
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<script type="text/javascript">
+    //<<<<<북마크>>>>>>>>
+    $(".bookmark_ajax").click(function () {
+        var pk = $(this).attr('name');
+        $.ajax({
+            //bookmark button 클릭 -> ajax로 서버와 통신하기
+            type: "POST", //데이터를 전송하는 방법
+            url: "{% url 'post:post_bookmark' %}",  //통신할 url
+            data: {
+                'pk': pk,
+                'csrfmiddlewaretoken': '{{ csrf_token }}',
+            }, // 서버로 데이터 전송시 옵션
+            dataType: "json", //전달받은 데이터 타입 = json -> {'bookmark_count':post.bookmark.count(), 'message':message,}
+                              // 서버측에서 전송한 Response 데이터 형식 (json)
+            // 통신 성공 -> 북마크 처리(response 처리)
+            success: function (response) {
+                alert(response.message);
+                $("#bookmark_ajax-" + pk).css("background-image", "url(" + response.img_url + ")");
+            },
+            error: function (request, status, error) {
+                alert("로그인이 필요합니다.")
+                window.location.replace("/accounts/login/")
+            },
+        });
+    });
+</script>

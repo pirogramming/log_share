@@ -11,10 +11,13 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
 import os
+from django.urls import reverse_lazy
+from django.contrib.messages import constants as messages_constants
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
+
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
@@ -27,7 +30,6 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -37,6 +39,21 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    # 3rd party apps
+    'taggit',
+    'rest_framework',
+    'django_summernote',
+
+
+    # app
+    'group_management',
+    'myprofile',
+    'accounts',
+    'main',
+    'post',
+    'search',
+
 ]
 
 MIDDLEWARE = [
@@ -54,7 +71,9 @@ ROOT_URLCONF = 'log_share.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [
+            os.path.join(BASE_DIR, 'log_share', 'templates')
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -69,17 +88,30 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'log_share.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
+#
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': 'log_share',
+#         'USER': 'root',
+#         'PASSWORD': '123',
+#         'HOST': 'localhost',
+#         'PORT': '3306',
+#     }
+# }pytho
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'log_share',
+        'USER': 'root',
+        'PASSWORD': '123123',
+        'HOST': 'localhost',
+        'PORT': '3306',
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
@@ -99,7 +131,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/3.0/topics/i18n/
 
@@ -113,8 +144,49 @@ USE_L10N = True
 
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATIC_URL = '/static/'
+#STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+STATICFILES_DIRS = (os.path.join(BASE_DIR, "static"),)
+# STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+
+STATICFILES_FINDERS = (
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+)
+
+# image
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+# login & logout
+from django.conf.global_settings import LOGIN_REDIRECT_URL
+
+LOGIN_URL = reverse_lazy('login')
+LOGIN_REDIRECT_URL = '/../../'  # move to main
+LOGOUT_REDIRECT_URL = reverse_lazy('login')
+
+# Taggit settings
+TAGGIT_CASE_INSENSITIVE = True
+MESSAGE_LEVEL = messages_constants.DEBUG
+
+# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+# 메일을 호스트하는 서버
+EMAIL_PORT = '587'
+# gmail과의 통신하는 포트
+EMAIL_HOST_USER = 'bobbeta22@gmail.com'
+# 발신할 이메일
+EMAIL_HOST_PASSWORD = 'tn340115'
+# 발신할 메일의 비밀번호
+EMAIL_USE_TLS = True
+# EMAIL_USE_SSL = True
+DEFAULT_FROM_EMAIL = '이수경 <bobbeta22@gmail.com>'
+
+
+# sass app config
+SASS_PROCESSOR_ENABLED = True
+SASS_PROCESSOR_ROOT = os.path.join(BASE_DIR, 'search', 'static')
+SASS_OUTPUT_STYLE = 'compact'
