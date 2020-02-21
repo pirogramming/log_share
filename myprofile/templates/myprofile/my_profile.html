@@ -95,6 +95,7 @@
         border: 1px solid #1E88E5;
 
     }
+
     .backcolor {
         background-color: #00B0F0;
         height: 200px;
@@ -112,6 +113,17 @@
         margin-left: 340px;
         border: 4px solid #ffffff;
         float: left;
+    }
+
+    #profile_base {
+        width: 200px;
+        height: 200px;
+        border-radius: 100px;
+        margin-top: 100px;
+        margin-left: 340px;
+        border: 4px solid #ffffff;
+        float: left;
+
     }
 
     .profile_card_content {
@@ -133,56 +145,59 @@
         border: 1px solid #b0bec9;
         margin-bottom: 20px;
     }
-     .naver_label {
+
+    .naver_label {
         font-size: 15px;
-         width: 140px;
-         height: 26px;
+        width: 140px;
+        height: 26px;
         border-radius: 5px;
-         display: inline-block;
-         text-align: center;
-         background-color: #6cc0e5;
-         margin-left: 20px;
+        display: inline-block;
+        text-align: center;
+        background-color: #6cc0e5;
+        margin-left: 20px;
     }
 
     .daum_label {
         font-size: 15px;
-         width: 140px;
-         height: 26px;
+        width: 140px;
+        height: 26px;
         border-radius: 5px;
-         display: inline-block;
-         text-align: center;
-         background-color: #6cc0e5;
+        display: inline-block;
+        text-align: center;
+        background-color: #6cc0e5;
         margin-left: 20px;
     }
 
     .github_label {
         font-size: 15px;
-         width: 140px;
-         height: 26px;
+        width: 140px;
+        height: 26px;
         border-radius: 5px;
-         display: inline-block;
-         text-align: center;
-         background-color: #6cc0e5;
+        display: inline-block;
+        text-align: center;
+        background-color: #6cc0e5;
         margin-left: 20px;
     }
 
     .other_label {
         font-size: 15px;
-         width: 140px;
-         height: 26px;
+        width: 140px;
+        height: 26px;
         border-radius: 5px;
-         display: inline-block;
-         text-align: center;
-         background-color: #6cc0e5;
+        display: inline-block;
+        text-align: center;
+        background-color: #6cc0e5;
         margin-left: 20px;
     }
-    #a_tag{
+
+    #a_tag {
         width: 100%;
         height: 100%;
         color: white;
     }
-    #profile_logo{
-        color:white;
+
+    #profile_logo {
+        color: white;
         margin-right: 20px;
         line-height: 40px;
         font-weight: bold;
@@ -206,6 +221,9 @@
                 <div class="box_profile_img">
                     {% if profile.photo %}
                         <img src="{{ profile.photo.url }}" alt="" class="profile_img"/>
+
+                    {% else %}
+                        <img src="{% static "img/profile_base.jpg" %}" id="profile_base">
                     {% endif %}
                 </div>
                 <p id="profile_logo">LOGSHARE PROFILE</p>
@@ -243,12 +261,14 @@
                         </div>
                         <div>github URL:
                             {% if profile.github != None %}
-                                 <div class="github_label"><a href="{{ profile.github }}" id="a_tag">Github URL 바로가기</a></div>
+                                <div class="github_label"><a href="{{ profile.github }}" id="a_tag">Github URL 바로가기</a>
+                                </div>
                             {% endif %}
                         </div>
                         <div>other URL:
                             {% if profile.other_url != None %}
-                                <div class="other_label"><a href="{{ profile.other_url }}" id="a_tag">others URL 바로가기</a></div>
+                                <div class="other_label"><a href="{{ profile.other_url }}" id="a_tag">others URL
+                                    바로가기</a></div>
                             {% endif %}
                         </div>
 
