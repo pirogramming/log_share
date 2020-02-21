@@ -300,104 +300,106 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/locale/ko.js"></script>
     <link rel='stylesheet' href="{% static 'css/eventline.css' %}">
-{#    <script async src='{% static 'js/eventline.js' %}'></script>#}
+    {#    <script async src='{% static 'js/eventline.js' %}'></script>#}
 {% endblock %}
 
 {% block content %}
     <div class="temp">
-        <div class="profile_container">
-            <div class="profile_first_container">
-                <div class="profile_first_front_container">
-                    <div class="profile_photo">
-                        {% if profile.photo %}
-                            <img src="{{ profile.photo.url }}" alt="" width="300px" height="300px"/>
+    <div class="profile_container">
+        <div class="profile_first_container">
+            <div class="profile_first_front_container">
+                <div class="profile_photo">
+                    {% if profile.photo %}
+                        <img src="{{ profile.photo.url }}" alt="프로필 이미지" width="300px" height="300px"/>
+                    {% else %}
+                        <img src="{% static 'img/person.jpg' %}" alt="프로필 이미지" width="300px" height="300px"/>
+                    {% endif %}
+                </div>
+                <div class="profile_first_content">
+                    <div class="profile_name">
+                        <div class="label_name">이름</div>
+                        {{ profile.name }}</div>
+                    <div class="profile_depart">
+                        <div class="label_depart">소속</div>
+                        {{ profile.department }}</div>
+                    <div class="profile_intro">
+                        <div class="label_intro">자기소개</div>
+                        {% if profile.description != None %}
+                            {{ profile.description }}
                         {% endif %}
                     </div>
-                    <div class="profile_first_content">
-                        <div class="profile_name">
-                            <div class="label_name">이름</div>
-                            {{ profile.name }}</div>
-                        <div class="profile_depart">
-                            <div class="label_depart">소속</div>
-                            {{ profile.department }}</div>
-                        <div class="profile_intro">
-                            <div class="label_intro">자기소개</div>
-                            {% if profile.description != None %}
-                                {{ profile.description }}
-                            {% endif %}
-                        </div>
-                        <div><p class="interested_tag_header">관심태그</p>
-                            {% if profile.interested_tag != None %}
-                                {% for tag, size in interested_tag_dict.items %}
-                                    <a href="{% url 'search:tag_search' tag %}">
-                                        <button class="interested_tag"> #{{ tag }} </button>
-                                    </a>
-                                {% endfor %}
-                            {% endif %}
-                        </div>
+                    <div><p class="interested_tag_header">관심태그</p>
+                        {% if profile.interested_tag != None %}
+                            {% for tag, size in interested_tag_dict.items %}
+                                <a href="{% url 'search:tag_search' tag %}">
+                                    <button class="interested_tag"> #{{ tag }} </button>
+                                </a>
+                            {% endfor %}
+                        {% endif %}
                     </div>
                 </div>
+            </div>
 
-                <!--타임라인-->
-                <div id="timelineContainer" class="timeline-container">
-                    <div class="timeline-nav nav-past" id="navPast"><span class='fa fa-angle-left'></span></div>
-                    <div id="timelineWrapper">
-                        <div id="timeline">
-                            <ol id="ticks">
-                            </ol>
-                            <ol id="eventList">
-                            </ol>
-                        </div>
+            <!--타임라인-->
+            <div id="timelineContainer" class="timeline-container">
+                <div class="timeline-nav nav-past" id="navPast"><span class='fa fa-angle-left'></span></div>
+                <div id="timelineWrapper">
+                    <div id="timeline">
+                        <ol id="ticks">
+                        </ol>
+                        <ol id="eventList">
+                        </ol>
                     </div>
-                    <div class="timeline-nav nav-future" id="navFuture"><span class='fa fa-angle-right'></span></div>
-{#                    <div id="eventDetailContainer" class="event-detail-container">#}
-{#                        <div class="selected-event">#}
-{#                            <div class="event-title"></div>#}
-{#                            <div class="event--range">#}
-{#                                <div class="event-start-date"></div>#}
-{#                                <div class="event-separator">&nbsp;-&nbsp;</div>#}
-{#                                <div class="event-end-date"></div>#}
-{#                            </div>#}
-{#                            <div class="event-notes"></div>#}
-{#                        </div>#}
-{#                    </div>#}
                 </div>
-                <!--타임라인 끝-->
+                <div class="timeline-nav nav-future" id="navFuture"><span class='fa fa-angle-right'></span></div>
+                {#                    <div id="eventDetailContainer" class="event-detail-container">#}
+                {#                        <div class="selected-event">#}
+                {#                            <div class="event-title"></div>#}
+                {#                            <div class="event--range">#}
+                {#                                <div class="event-start-date"></div>#}
+                {#                                <div class="event-separator">&nbsp;-&nbsp;</div>#}
+                {#                                <div class="event-end-date"></div>#}
+                {#                            </div>#}
+                {#                            <div class="event-notes"></div>#}
+                {#                        </div>#}
+                {#                    </div>#}
+            </div>
+            <!--타임라인 끝-->
 
-                {% if profile.naver != None %}
-                    <div class="naver">
-                        <div class="naver_label"><a href="{{ profile.naver }}">네이버</a></div>
-                    </div>
-                {% endif %}
-                {% if profile.daum != None %}
-                    <div class="daum">
-                        <div class="daum_label"><a href="{{ profile.daum }}">다음</a></div>
-                    </div>
-                {% endif %}
-                {% if profile.github != None %}
-                    <div class="github">
-                        <div class="github_label"><a href="{{ profile.github }}">Github</a></div>
-                    </div>
-                {% endif %}
-                {% if profile.other_url != None %}
-                    <div class="other">
-                        <div class="other_label"><a href="{{ profile.other_url }}">others</a></div>
-                    </div>
-                {% endif %}
+            {% if profile.naver != None %}
+                <div class="naver">
+                    <div class="naver_label"><a href="{{ profile.naver }}">네이버</a></div>
+                </div>
+            {% endif %}
+            {% if profile.daum != None %}
+                <div class="daum">
+                    <div class="daum_label"><a href="{{ profile.daum }}">다음</a></div>
+                </div>
+            {% endif %}
+            {% if profile.github != None %}
+                <div class="github">
+                    <div class="github_label"><a href="{{ profile.github }}">Github</a></div>
+                </div>
+            {% endif %}
+            {% if profile.other_url != None %}
+                <div class="other">
+                    <div class="other_label"><a href="{{ profile.other_url }}">others</a></div>
+                </div>
+            {% endif %}
+            <br>
+            <div class="profile_email"><a href="mailto:{{ profile.user.email }}" class="fa-envelope"><i
+                    class="fas fa-envelope-square"></i></a></div>
+
+            {% if profile.user.pk == user.pk %}
+                <div class="profile_bookmark"><a href="{% url 'myprofile:bookmark_list' profile.user.pk %}"><i
+                        class="fas fa-bookmark"></i></a>
+                </div>
+                <div class="profile_post_create"><a href="{% url 'post:post_create' %}"><i
+                        class="fas fa-pen-square"></i></a></div>
                 <br>
-                <div class="profile_email"><a href="mailto:{{ profile.user.email }}" class="fa-envelope"><i
-                        class="fas fa-envelope-square"></i></a></div>
-
-                {% if profile.user.pk == user.pk %}
-                    <div class="profile_bookmark"><a href="{% url 'myprofile:bookmark_list' profile.user.pk %}"><i
-                            class="fas fa-bookmark"></i></a>
-                    </div>
-                    <div class="profile_post_create"><a href="{% url 'post:post_create' %}"><i
-                            class="fas fa-pen-square"></i></a></div>
-                    <br>
-                    <div class="profile_edit"><a href="{% url 'myprofile:profile_edit' profile.user.pk %}">프로필 수정하기</a>
-                    </div>
-                {% endif %}
+                <div class="profile_edit"><a href="{% url 'myprofile:profile_edit' profile.user.pk %}">프로필 수정하기</a>
+                </div>
+            {% endif %}
 
             <hr>
             <div class="profile_recent_tag">
