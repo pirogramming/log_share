@@ -273,8 +273,8 @@
         margin-right: 35px;
         width: 300px;
         height: 250px;
-        border: 2px solid orange;
-        box-shadow: 2px 2px 2px orange;
+        border: 2px solid lightcoral;
+        box-shadow: 2px 2px 2px #b0bec9;
         display: block;
         float: left;
         border-radius: 5px;
@@ -283,6 +283,9 @@
 
     .my_grouplist:hover {
         background-color: #b0bec9;
+    }
+    .my_grouplist_alarm:hover {
+        background-color: lightcoral;
     }
 
 
@@ -374,7 +377,7 @@
                 {% for group in groups %}
                     <div class="mark2">
                     {% if group.manager == request.user %}
-                        <div class="mark"><img id="manage_img" src="../../media/관리자 왕관.png" alt=""/></div>
+                        <div class="mark"><img id="manage_img" src={% static 'img/관리자 왕관.png' %} alt=""/></div>
                         <div class="manager_text">manager</div>
                         {% if group in requested_groups %}
                             <div class="my_grouplist_alarm">

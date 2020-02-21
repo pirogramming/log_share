@@ -204,6 +204,21 @@
 
     }
 
+    .interested_tag {
+        color: white;
+        border: 0px;
+        border-radius: 2px;
+        font-size: 15px;
+        margin: 2px 0px;
+        padding: 5px;
+        transition: all .1s;
+    }
+
+    .interested_tag:hover {
+        cursor: pointer;
+        outline: 2px groove #1a237e;
+    }
+
 
 </style>
 
@@ -244,7 +259,7 @@
                     <div class="profile_tag">관심태그<br>
                         {% if profile.interested_tag != None %}
                             {% for tag, size in interested_tag_dict.items %}
-                                {{ tag }}
+                                <a href="" class="interested_tag">{{ tag }}</a>
                             {% endfor %}
                         {% endif %}
                     </div>
@@ -279,5 +294,19 @@
 
     </div>
     </div>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+            integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+            crossorigin="anonymous"></script>
+    <script type="text/javascript">
+        var get_random_RGB = function () {
+            var r = Math.floor((Math.random() * 0xcc) + 0x11).toString(16);
+            var g = Math.floor((Math.random() * 0xcc) + 0x11).toString(16);
+            var b = Math.floor((Math.random() * 0xcc) + 0x11).toString(16);
+            return '#' + r + g + b;
+        }
+        $('.interested_tag').each(function () {
+            $(this).css('background-color', get_random_RGB);
+        })
+    </script>
 
 {% endblock %}

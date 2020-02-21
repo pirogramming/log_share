@@ -86,7 +86,7 @@
 
     .profile_first_container .profile_first_content .profile_intro {
         font-size: 20px;
-        width: 30%;
+        width: 100%;
         margin-bottom: 20px;
         padding-left: 10px;
     }
@@ -159,13 +159,14 @@
     .profile_post_list {
         background-color: white;
         border-radius: 5px;
-        padding: 10px 20px;
+        padding: 10px 20px !important;
         box-shadow: 2px 2px 2px #b0bec9;
         border: 0.5px solid #b0bec9;
     }
 
     .profile_post_list div {
         background-color: transparent;
+        margin-top: 2px;
     }
 
     .profile_post_list div a:hover {
@@ -177,8 +178,9 @@
         text-decoration: none;
         color: black;
     }
+    .profile_post_list
 
-    .profile_post_list .rateit {
+    .profile_post_list rateit {
         width: 80px;
         height: 17px;
         overflow: hidden;
@@ -221,7 +223,7 @@
         font-weight: bold;
     }
 
-    .profile_post_list_ajax .rateit {
+    .profile_post_list_ajax rateit {
         width: 80px;
         height: 17px;
         overflow: hidden;
@@ -371,7 +373,7 @@
                             {{ profile.description }}
                         {% endif %}
                     </div>
-                    <div><p class="interested_tag_header">관심태그</p>
+                    <div><p class="interested_tag_header">관심태그</p><br><br>
                         {% if profile.interested_tag != None %}
                             {% for tag, size in interested_tag_dict.items %}
                                 <a href="{% url 'search:tag_search' tag %}">
