@@ -293,13 +293,15 @@
         font-size: 18px;
         font-weight: bold;
     }
-    .tag{
+
+    .tag {
         padding-top: 20px;
-        color:white;
+        color: white;
         margin-left: 20px;
     }
-    .tag2{
-        color:white;
+
+    .tag2 {
+        color: white;
         font-size: 12px;
         line-height: 20px;
         margin-left: 20px;
@@ -383,7 +385,9 @@
                 <div class="card_content">
                     <div class="profile_photo">
                         {% if profile.photo %}
-                            <img src="{{ profile.photo.url }}" alt="" id="profile_img"/>
+                            <img src="{{ profile.photo.url }}" alt="프로필 이미지" id="profile_img"/>
+                        {% else %}
+                            <img src="{% static 'img/person.jpg' %}" alt="프로필 이미지" id="profile_img"/>
                         {% endif %}
                     </div>
                     <div class="card_name">{{ profile.name }}</div>

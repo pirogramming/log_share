@@ -196,7 +196,7 @@
             .checks.etrans input[type="checkbox"] + label {
                 padding-left: 40px;
                 padding-right: 30px;
-                padding-bottom: 20px;
+                padding-bottom: 10px;
             }
 
             .checks.etrans input[type="checkbox"] + label:before {
@@ -220,7 +220,7 @@
                 border-radius: 0;
                 opacity: 1;
                 background: transparent;
-                border-color: transparent #6cc0e5 #6cc0e5 transparent;
+                border-color: transparent #6cc0e5 #6cc0e5;
                 border-top-color: transparent;
                 border-left-color: transparent;
                 -ms-transform: rotate(45deg);
@@ -275,7 +275,7 @@
             }
 
             .filter-date input {
-                width: 110px;
+                width: 60%;
                 height: 30px;
                 font-size: 14px;
                 border: 2px solid #6cc0e5;
@@ -351,7 +351,7 @@
                         </div>
                     </div>
 
-                    <hr class="filter-split">
+                    <hr><hr>
 
                     <div class="filter">
                         <div class="filter_name">카테고리</div>
@@ -386,9 +386,12 @@
                         <div class="filter_name">기간 설정</div>
                         <br>
                         <div class="filter-content filter-date">
-                            <input name="date-start" type="date">
-                            <span> &nbsp&nbsp~&nbsp&nbsp </span>
-                            <input name="date-end" type="date">
+{#                            <input name="date-start" type="date">#}
+{#                            <span> &nbsp&nbsp~&nbsp&nbsp </span>#}
+{#                            <input name="date-end" type="date">#}
+                            시작일 : <input name="date-start" type="date">
+                            <br>
+                            종료일 : <input name="date-end" type="date">
                         </div>
                     </div>
                 </div>
