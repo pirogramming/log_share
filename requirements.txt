@@ -1,7 +1,5 @@
 asgiref==3.2.3
 Django==2.2.9
-django-appconf==1.0.3
-django-compressor==2.4
 django-summernote==0.8.11.6
 django-taggit==1.2.0
 djangorestframework==3.11.0
