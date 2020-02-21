@@ -17,19 +17,24 @@ from django.contrib.messages import constants as messages_constants
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 
 
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+###BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'mcpbqgams#0ku14#-^a8g_5ka73vtq)q2@m@-qkd1j#w9yky#j'
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+ROOT_DIR = os.path.dirname(BASE_DIR)
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+# .config_secret 폴더 및 하위 파일 경로
+CONFIG_SECRET_DIR = os.path.join(ROOT_DIR, '.config_secret')
+CONFIG_SECRET_COMMON_FILE = os.path.join(CONFIG_SECRET_DIR, 'settings_common.json')
+CONFIG_SECRET_DEBUG_FILE = os.path.join(CONFIG_SECRET_DIR, 'settings_debug.json')
+CONFIG_SECRET_DEPLOY_FILE = os.path.join(CONFIG_SECRET_DIR, 'settings_deploy.json')
 
-ALLOWED_HOSTS = ['*',]
+config_secret_common = json.loads(open(CONFIG_SECRET_COMMON_FILE).read())
 
+SECRET_KEY = config_secret_common['django']['secret_key']
 # Application definition
 
 INSTALLED_APPS = [
@@ -72,7 +77,7 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
-            os.path.join(BASE_DIR, 'log_share', 'templates')
+            os.path.join(BASE_DIR, '../..', 'templates')
         ],
         'APP_DIRS': True,
         'OPTIONS': {
@@ -100,23 +105,12 @@ WSGI_APPLICATION = 'log_share.wsgi.application'
 #         'HOST': 'localhost',
 #         'PORT': '3306',
 #     }
-# }pytho
-
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.mysql',
-#         'NAME': 'log_share',
-#         'USER': 'root',
-#         'PASSWORD': '123',
-#         'HOST': 'localhost',
-#         'PORT': '3306',
-#     }
 # }
 
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'NAME': os.path.join(BASE_DIR, '../../db.sqlite3'),
     }
 }
 
@@ -155,8 +149,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles/')
-STATICFILES_DIRS = (os.path.join(BASE_DIR, "static"),)
+STATIC_ROOT = os.path.join(BASE_DIR, '../../staticfiles/')
+STATICFILES_DIRS = (os.path.join(BASE_DIR, "../../static"),)
 
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
@@ -165,7 +159,7 @@ STATICFILES_FINDERS = (
 
 # image
 MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_ROOT = os.path.join(BASE_DIR, '../../media')
 
 # login & logout
 from django.conf.global_settings import LOGIN_REDIRECT_URL
@@ -179,20 +173,20 @@ TAGGIT_CASE_INSENSITIVE = True
 MESSAGE_LEVEL = messages_constants.DEBUG
 
 # EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
 # 메일을 호스트하는 서버
-EMAIL_PORT = '587'
+EMAIL_HOST = config_secret_common['django']['EMAIL_HOST']
 # gmail과의 통신하는 포트
-EMAIL_HOST_USER = 'bobbeta22@gmail.com'
+EMAIL_PORT = config_secret_common['django']['EMAIL_PORT']
 # 발신할 이메일
-EMAIL_HOST_PASSWORD = 'tn340115'
+EMAIL_HOST_USER = config_secret_common['django']['EMAIL_HOST_USER']
 # 발신할 메일의 비밀번호
-EMAIL_USE_TLS = True
+EMAIL_HOST_PASSWORD = config_secret_common['django']['EMAIL_HOST_PASSWORD']
 # EMAIL_USE_SSL = True
-DEFAULT_FROM_EMAIL = '이수경 <bobbeta22@gmail.com>'
+EMAIL_USE_TLS = config_secret_common['django']['EMAIL_USE_TLS']
+DEFAULT_FROM_EMAIL = config_secret_common['django']['DEFAULT_FROM_EMAIL']
 
 
 # sass app config
 SASS_PROCESSOR_ENABLED = True
-SASS_PROCESSOR_ROOT = os.path.join(BASE_DIR, 'search', 'static')
+SASS_PROCESSOR_ROOT = os.path.join(BASE_DIR, '../../search', 'static')
 SASS_OUTPUT_STYLE = 'compact'
