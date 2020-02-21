@@ -32,11 +32,18 @@ def all_create_group(request):
             group.members.add(request.user)
 
     groups = request.user.user_groups.all()
+
+    requested_groups = list()
+    for group in list(request.user.user_manage_groups.all()):
+        temp =GroupRequest.objects.filter(group=group)
+        if temp:
+            requested_groups.append(group)
+
     form = GroupForm(
         request.user,  # 여기로 get타고 들어와서 request.POST 빼버림.
     )
     return render(request, 'group_management/create_group.html', {
-        'form': form, 'groups': groups,
+        'form': form, 'groups': groups, 'requested_groups': requested_groups,
     })
 
 
@@ -124,7 +131,7 @@ def detail_group(request, pk):
     messages = GroupRequest.objects.filter(group=group)
 
     qs = group.members.all()
-    print(qs)
+
     if q:
         qs = group.members.filter(Q(username__icontains=q) | Q(user_profile__name__icontains=q))
     context = {
@@ -161,7 +168,7 @@ def request_withcode(request):
         try:
             group = CustomGroup.objects.get(
                 Q(group_name=form.data['group_name']) & Q(access_code=form.data['access_code']))
-            print(group)
+
 
         except Exception:
             messages.info(request, '입력한 정보와 일치하는 그룹이 존재하지 않습니다.')
@@ -207,10 +214,7 @@ def secede_group(request, pk):
 def request_exist(request):
     user = request.user
     mygroup = CustomGroup.objects.filter(manager=user)
-    print('김유빈!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1')
-    print(mygroup)
     request_set = GroupRequest.objects.filter(group=mygroup)
-    print(request_set)
 
     if request_set:
         icon = True

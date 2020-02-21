@@ -69,7 +69,6 @@ class Search(APIView):
 ### Rest API 끝 ###
 
 
-
 def post_create(request):
     context = {}
     if request.method == 'POST':
@@ -83,13 +82,13 @@ def post_create(request):
             if post.is_valid_date:
                 post.save()
             else:
-                #todo 에러메시지?
+                # todo 에러메시지?
                 return
             # tag개수(최대10개) 제한
             tag_count_check(request, post)
             return redirect('myprofile:profile_detail', request.user.pk)
         else:
-            #todo 에러메세지
+            # todo 에러메세지
             return
     else:
         postform = PostModelForm()
@@ -112,7 +111,7 @@ def post_detail(request, pk):
     context = {
         'post': post,
         'user': user,
-        'bm':bm,
+        'bm': bm,
     }
     print(context)
     return render(request, 'post/post_detail.html', context)
@@ -135,7 +134,7 @@ def post_update(request, pk):
                 # tag개수(최대10개) 제한
                 tag_count_check(request, post)
             else:
-                #todo 에러메시지?
+                # todo 에러메시지?
                 return
         return redirect('post:post_detail', post.pk)
 
@@ -158,6 +157,7 @@ def post_delete(request):
 def post_bookmark(request):
     pk = request.POST.get('pk', None)
     post = get_object_or_404(Post, pk=pk)
+
     bookmark, bookmark_created = BookMark.objects.get_or_create(user=request.user, post=post)
     # 기존에 있는 북마크이면 북마크 취소하기
     if not bookmark_created:
@@ -171,6 +171,7 @@ def post_bookmark(request):
         'bookmark_count': post.bookmark.count(),
         'message': message,
         'img_url': img_url,
+
     }
     return HttpResponse(json.dumps(context),
                         content_type="application/json")  # context를 json 타입으로(json.dumps() - string일 때 괜찮고,
@@ -225,10 +226,10 @@ def post_list_ajax(request):
     paginator = Paginator(post_list, 4)
     page = request.POST.get('page')  # 현재 페이지 숫자
 
-    bm_list = user.user_bookmark.all() #user의 북마크들
+    bm_list = user.user_bookmark.all()  # user의 북마크들
     bm_post_list = []
     for bm in bm_list:
-        bm_post_list.append(bm.post_id) # user의 북마크의 포스트 리스트
+        bm_post_list.append(bm.post_id)  # user의 북마크의 포스트 리스트
 
     try:
         posts = paginator.page(page)  # 해당 페이지의 포스트(post_list) - Page 객체
@@ -238,7 +239,7 @@ def post_list_ajax(request):
         posts = paginator.page(paginator.num_pages)
     context = {
         'posts': posts,
-        'bm_post_list':bm_post_list,
+        'bm_post_list': bm_post_list,
     }
 
     return render(request, 'post/post_list_ajax.html', context)

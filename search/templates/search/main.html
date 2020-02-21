@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {#{% load sass_tags %}#}
+{% load static %}
 
 {% block header %}
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
@@ -7,9 +8,11 @@
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
     {#    <link rel="stylesheet" href="{% sass_src 'search/search_bar.scss' %}">#}
-    {% load static %}
     <link rel="stylesheet" href="{% static "search/search.css" %}">
     <style>
+    *{
+        font-family: 나눔스퀘어;
+    }
 
         :root {
             --primary-2: #1E88E5;
@@ -25,191 +28,180 @@
     </style>
 
     <form class="filter-form" action="" method="get">
-        {% include 'search/post_list_css.html' %}
-        <style>
-            {#----------------------------content css--------------------------------#}
-         
-            .main-content {
-                display: flex;
-                justify-content: center;
-                width: 70%;
-                margin: 50px auto;
-            {#align-content: center;#}
-            }
+    {% include 'search/post_list_css.html' %}
+    <style>
+        {#----------------------------content css--------------------------------#}
 
-            .content-side {
-                flex: 1;
-                padding: 30px;
-            }
+        .main-content {
+            display: flex;
+            justify-content: center;
+            width: 70%;
+            margin: 50px auto;
+        {#align-content: center;#}
+        }
 
-            .content-body {
-                flex: 2;
-                padding: 30px;
-            }
+        .content-side {
+            flex: 1;
+            padding: 30px;
+        }
 
-            .body-search {
-                display: flex;
-                flex-direction: column;
-                justify-content: center;
-                align-content: center;
-                align-items: center;
-            }
+        .content-body {
+            flex: 2;
+            padding: 30px;
+        }
 
-            {#------------------------------- side-profle css -----------------------------------------#}
+        .body-search {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-content: center;
+            align-items: center;
+        }
 
-            .side-profile {
-                border: 0.1px solid #b0bec9;
-                box-shadow: 2px 2px 2px #b0bec9;
-                margin-bottom: 40px;
-                padding: 20px 40px 20px 40px;
-                text-align: center;
-            }
+        {#------------------------------- side-profle css -----------------------------------------#}
 
-            #profile-photo img {
-                width: 150px;
-                height: 150px;
-                border-radius: 100%;
-                object-fit: cover;
-            }
+        .side-profile {
+            border: 0.1px solid #b0bec9;
+            box-shadow: 2px 2px 2px #b0bec9;
+            margin-bottom: 40px;
+            padding: 20px 40px 20px 40px;
+            text-align: center;
+        }
 
-            #profile-name {
-                font-size: larger;
-                font-weight: bold;
-                margin-bottom: 10px;
-            }
+        #profile-photo img {
+            width: 150px;
+            height: 150px;
+            border-radius: 100%;
+            object-fit: cover;
+        }
 
-            #profile-name a {
-                color: black;
-            }
+        #profile-name {
+            font-size: larger;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
 
-            #profile-name-span {
-                color: #1a237e;
-            }
+        #profile-name a {
+            color: black;
+        }
 
-            #profile-bookmark a {
-                color: black;
-            }
+        #profile-name-span {
+            color: #1a237e;
+        }
 
-            #welcome {
-                color: black;
-                font-size: larger;
-                font-weight: bold;
-            }
+        #profile-bookmark a {
+            color: black;
+        }
 
-            .bookmark_button, .request_button {
-                cursor: pointer;
-                width: 80%;
-                height: 30px;
-                font-size: 16px;
-                background-color: #00B0F0;
-                display: inline-block;
-                padding: .5em 0.5em;
-                color: white;
-                font-weight: bold;
-                border-radius: 5px;
-                border: 1px solid #00B0F0;
-                margin-bottom: 1px;
-                margin-top: 1px;
-            }
+        #welcome {
+            color: black;
+            font-size: larger;
+            font-weight: bold;
+        }
+
+        .bookmark_button, .request_button {
+            cursor: pointer;
+            width: 80%;
+            height: 30px;
+            font-size: 16px;
+            background-color: #00B0F0;
+            display: inline-block;
+            padding: .5em 0.5em;
+            color: white;
+            font-weight: bold;
+            border-radius: 5px;
+            border: 1px solid #00B0F0;
+            margin-bottom: 1px;
+            margin-top: 1px;
+        }
 
 
-            {#------------------------------- side-filter css -----------------------------------------#}
-            .filter_start {
-                font-size: x-large;
-                font-weight: bold;
-            }
+        {#------------------------------- side-filter css -----------------------------------------#}
+        .filter_start {
+            font-size: x-large;
+            font-weight: bold;
+        }
 
-            .fa-search {
-                color: #6cc0e5;
-                line-height: 24px;
-                font-size: 24px;
-            }
+        .fa-search {
+            color: #6cc0e5;
+            line-height: 24px;
+            font-size: 24px;
+        }
 
-            .side-filter {
-                padding: 20px 40px 20px 40px;
-                border: 0.1px solid #b0bec9;
-                box-shadow: 2px 2px 2px #b0bec9;
-            }
+        .side-filter {
+            padding: 20px 40px 20px 40px;
+            border: 0.1px solid #b0bec9;
+            box-shadow: 2px 2px 2px #b0bec9;
+        }
 
-            .filter {
-                margin-bottom: 20px;
-                margin-top: 20px;
-            }
+        .filter {
+            margin-bottom: 20px;
+            margin-top: 20px;
+        }
 
-            .filter_name {
-                font-weight: bold;
-                font-size: larger;
-            }
+        .filter_name {
+            font-weight: bold;
+            font-size: larger;
+        }
 
-            hr {
-                border-top: 1px dashed #bbb;
-            }
+        hr {
+            border-top: 1px dashed #bbb;
+        }
 
-            .filter-group label {
-                color: #3c3c3c;
-            }
+        .filter-group label {
+            color: #3c3c3c;
+        }
 
-            .checks {
-                position: relative;
-            }
+        .checks {
+            position: relative;
+        }
 
-            .checks input[type="checkbox"] { /* 실제 체크박스는 화면에서 숨김 */
-                position: absolute;
-                width: 1px;
-                height: 1px;
-                padding: 0;
-                margin: -1px;
-                overflow: hidden;
-                clip: rect(0, 0, 0, 0);
-                border: 0
-            }
+        .checks input[type="checkbox"] { /* 실제 체크박스는 화면에서 숨김 */
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            border: 0
+        }
 
-            .checks input[type="checkbox"] + label {
-                display: inline-block;
-                position: relative;
-                cursor: pointer;
-                -webkit-user-select: none;
-                -moz-user-select: none;
-                -ms-user-select: none;
-            }
+        .checks input[type="checkbox"] + label {
+            display: inline-block;
+            position: relative;
+            cursor: pointer;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+        }
 
-            .checks input[type="checkbox"] + label:before { /* 가짜 체크박스 */
-                content: ' ';
-                display: inline-block;
-                width: 21px; /* 체크박스의 너비를 지정 */
-                height: 21px; /* 체크박스의 높이를 지정 */
-                line-height: 21px; /* 세로정렬을 위해 높이값과 일치 */
-                margin: -2px 8px 0 0;
-                text-align: center;
-                vertical-align: middle;
-                background: #fafafa;
-                border: 1px solid #cacece;
-                border-radius: 3px;
-                box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.05), inset 0px -15px 10px -12px rgba(0, 0, 0, 0.05);
-            }
-
-            .checks input[type="checkbox"] + label:active:before,
-            .checks input[type="checkbox"]:checked + label:active:before {
-                box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05), inset 0px 1px 3px rgba(0, 0, 0, 0.1);
-            }
+        .checks input[type="checkbox"] + label:before { /* 가짜 체크박스 */
+            content: ' ';
+            display: inline-block;
+            width: 21px; /* 체크박스의 너비를 지정 */
+            height: 21px; /* 체크박스의 높이를 지정 */
+            line-height: 21px; /* 세로정렬을 위해 높이값과 일치 */
+            margin: -2px 8px 0 0;
+            text-align: center;
+            vertical-align: middle;
+            background: #fafafa;
+            border: 1px solid #cacece;
+            border-radius: 3px;
+            box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.05), inset 0px -15px 10px -12px rgba(0, 0, 0, 0.05);
+        }
 
             .checks.etrans input[type="checkbox"] + label {
                 padding-left: 40px;
                 padding-right: 30px;
-                padding-bottom: 20px;
+                padding-bottom: 10px;
             }
 
-            .checks.etrans input[type="checkbox"] + label:before {
-                position: absolute;
-                left: 0;
-                top: 0;
-                margin-top: 0;
-                opacity: .6;
-                box-shadow: none;
-                border-color: #6cc0e5;
-                -webkit-transition: all .12s, border-color .08s;
-                transition: all .12s, border-color .08s;
-            }
+        .checks.etrans input[type="checkbox"] + label {
+            padding-left: 40px;
+            padding-right: 30px;
+            padding-bottom: 20px;
+        }
 
             .checks.etrans input[type="checkbox"]:checked + label:before {
                 position: absolute;
@@ -220,7 +212,7 @@
                 border-radius: 0;
                 opacity: 1;
                 background: transparent;
-                border-color: transparent #6cc0e5 #6cc0e5 transparent;
+                border-color: transparent #6cc0e5 #6cc0e5;
                 border-top-color: transparent;
                 border-left-color: transparent;
                 -ms-transform: rotate(45deg);
@@ -228,54 +220,67 @@
                 transform: rotate(45deg);
             }
 
-            .no-csstransforms .checks.etrans input[type="checkbox"]:checked + label:before {
-                /*content:"\2713";*/
-                content: "\2714";
-                top: 0;
-                left: 0;
-                width: 21px;
-                line-height: 21px;
-                color: #6cc0e5;
-                text-align: center;
-                border: 1px solid #6cc0e5;
-            }
+        .checks.etrans input[type="checkbox"]:checked + label:before {
+            position: absolute;
+            content: "";
+            width: 10px;
+            top: -5px;
+            left: 5px;
+            border-radius: 0;
+            opacity: 1;
+            background: transparent;
+            border-color: transparent #6cc0e5 #6cc0e5 transparent;
+            border-top-color: transparent;
+            border-left-color: transparent;
+            -ms-transform: rotate(45deg);
+            -webkit-transform: rotate(45deg);
+            transform: rotate(45deg);
+        }
 
-            div#select_box {
-                position: relative;
-                width: 200px;
-                height: 32px;
-                background: url({% static 'img/select_arrow.png' %}) 170px center no-repeat;
-                background-size: contain;
-                border: 2px solid #6cc0e5;
-                /* 화살표 이미지 */
-            }
+        .no-csstransforms .checks.etrans input[type="checkbox"]:checked + label:before {
+            /*content:"\2713";*/
+            content: "\2714";
+            top: 0;
+            left: 0;
+            width: 21px;
+            line-height: 21px;
+            color: #6cc0e5;
+            text-align: center;
+            border: 1px solid #6cc0e5;
+        }
 
-            div#select_box label {
-                position: absolute;
-                font-size: 14px;
-                color: #3c3c3c;
-                top: 7px;
-                left: 12px;
-                letter-spacing: 1px;
-            }
+        div#select_box {
+            position: relative;
+            width: 200px;
+            height: 32px;
+            background: url({% static 'img/select_arrow.png' %}) 170px center no-repeat;
+            background-size: contain;
+            border: 2px solid #6cc0e5;
+            /* 화살표 이미지 */
+        }
 
-            div#select_box select#category {
-                width: 100%;
-                height: 32px;
-                min-height: 32px;
-                line-height: 32px;
-                padding: 0 10px;
-                opacity: 0;
-                filter: alpha(opacity=0);
-                /* IE 8 */
-            }
+        div#select_box label {
+            position: absolute;
+            font-size: 14px;
+            color: #3c3c3c;
+            top: 7px;
+            left: 12px;
+            letter-spacing: 1px;
+        }
 
-            #category {
-                font-size: 18px;
-            }
+        div#select_box select#category {
+            width: 100%;
+            height: 32px;
+            min-height: 32px;
+            line-height: 32px;
+            padding: 0 10px;
+            opacity: 0;
+            filter: alpha(opacity=0);
+            /* IE 8 */
+        }
 
             .filter-date input {
-                width: 110px;
+                width: 60%;
                 height: 30px;
                 font-size: 14px;
                 border: 2px solid #6cc0e5;
@@ -284,193 +289,207 @@
                 color: #3c3c3c;
             }
 
-            {#-------------------------------body-search css -----------------------------------------#}
-            .body-search {
-                display: flex;
-                flex-direction: column;
-                justify-content: center;
-                align-content: center;
-                align-items: center;
-            }
+        .filter-date input {
+            width: 110px;
+            height: 30px;
+            font-size: 14px;
+            border: 2px solid #6cc0e5;
+            padding-left: 10px;
+            margin-bottom: 3px;
+            color: #3c3c3c;
+        }
 
-            .search-text {
-                margin-right: 4.5%;
-                z-index: 0;
-            }
+        {#-------------------------------body-search css -----------------------------------------#}
+        .body-search {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-content: center;
+            align-items: center;
+        }
 
-        </style>
-    {% endblock%}
+        .search-text {
+            margin-right: 4.5%;
+            z-index: 0;
+        }
+
+    </style>
+{% endblock %}
 {% block content %}
-        <div class="main-content">
-            <div class="content-side">
-                <div class="side-profile">
-                    <div class="profile-content" id="profile-photo">
-                        {% if request.user.user_profile.photo %}
-                            <img src="{{ request.user.user_profile.photo.url }}" alt="프로필 이미지"/>
-                        {% else %}
-                            <img src="{% static 'img/person.jpg' %}" alt="프로필 이미지"/>
-                        {% endif %}
+    <div class="main-content">
+        <div class="content-side">
+            <div class="side-profile">
+                <div class="profile-content" id="profile-photo">
+                    {% if request.user.user_profile.photo %}
+                        <img src="{{ request.user.user_profile.photo.url }}" alt="프로필 이미지"/>
+                    {% else %}
+                        <img src="{% static 'img/person.jpg' %}" alt="프로필 이미지"/>
+                    {% endif %}
+                </div>
+                <br>
+                <div class="profile-content">
+                    <br>
+                    <div id="profile-name"><a href="{% url 'myprofile:profile_detail' request.user.pk %}">
+                        <span id="profile-name-span">{{ request.user.user_profile.name }}</span>님
+                        ( {{ request.user }} )</a>
+                    </div>
+                    <div id="welcome">환영합니다!</div>
+                    <br>
+                    <div id="profile-bookmark">
+                        <a href="{% url 'myprofile:bookmark_list' request.user.pk %}">
+                            <button type="button" class="bookmark_button">나의 스크랩 목록 보기</button>
+                        </a>
                     </div>
                     <br>
-                    <div class="profile-content">
-                        <br>
-                        <div id="profile-name"><a href="{% url 'myprofile:profile_detail' request.user.pk %}">
-                            <span id="profile-name-span">{{ request.user.user_profile.name }}</span>님
-                            ( {{ request.user }} )</a>
-                        </div>
-                        <div id="welcome">환영합니다!</div>
-                        <br>
-                        <div id="profile-bookmark">
-                            <a href="{% url 'myprofile:bookmark_list' request.user.pk %}">
-                                <button type="button" class="bookmark_button">나의 스크랩 목록 보기</button>
-                            </a>
-                        </div>
-                        <br>
-                        <div id="profile-request-alarm"><a href="{% url 'group_management:create_group' %}">
-                            <button type="button" class="request_button">새로운 가입 요청 ( {{ request_messages_cnt }} )
-                            </button>
-                        </a>
-                        </div>
+                    <div id="profile-request-alarm"><a href="{% url 'group_management:create_group' %}">
+                        <button type="button" class="request_button">새로운 가입 요청 ( {{ request_messages_cnt }} )
+                        </button>
+                    </a>
                     </div>
                 </div>
-                <div class="side-filter">
-                    <div class="filter">
-                        <div class="filter_start"><i class="fas fa-search"></i> &nbsp검색 필터</div>
-                        <br>
-                        <hr>
-                        <br>
-                        <div class="filter_name">그룹 선택</div>
-                        <br>
-                        <div class="filter-group checks etrans">
-                            {% for group in groups %}
-                                <input id="group{{ group.id }}" name="group{{ group.id }}" value="{{ group.id }}"
-                                       type="checkbox" checked>
-                                <label for="group{{ group.id }}">{{ group.group_name }}</label>
-                                <br>
-                            {% endfor %}
-                        </div>
+            </div>
+            <div class="side-filter">
+                <div class="filter">
+                    <div class="filter_start"><i class="fas fa-search"></i> &nbsp검색 필터</div>
+                    <br>
+                    <hr>
+                    <br>
+                    <div class="filter_name">그룹 선택</div>
+                    <br>
+                    <div class="filter-group checks etrans">
+                        {% for group in groups %}
+                            <input id="group{{ group.id }}" name="group{{ group.id }}" value="{{ group.id }}"
+                                   type="checkbox" checked>
+                            <label for="group{{ group.id }}">{{ group.group_name }}</label>
+                            <br>
+                        {% endfor %}
                     </div>
+                </div>
 
-                    <hr class="filter-split">
+                    <hr><hr>
 
-                    <div class="filter">
-                        <div class="filter_name">카테고리</div>
-                        <br>
-                        <div id="select_box">
-                            <label for="category">category</label>
-                            <select id="category" title="select category">
-                                <option value="" selected="selected">category</option>
-                                <option value="대외활동">대외활동</option>
-                                <option value="공모전">공모전</option>
-                                <option value="스터디">스터디</option>
-                                <option value="인턴">인턴</option>
-                                <option value="강연">강연</option>
-                                <option value="기타">기타</option>
-                            </select>
-                        </div>
+                <div class="filter">
+                    <div class="filter_name">카테고리</div>
+                    <br>
+                    <div id="select_box">
+                        <label for="category">category</label>
+                        <select id="category" title="select category">
+                            <option value="" selected="selected">category</option>
+                            <option value="대외활동">대외활동</option>
+                            <option value="공모전">공모전</option>
+                            <option value="스터디">스터디</option>
+                            <option value="인턴">인턴</option>
+                            <option value="강연">강연</option>
+                            <option value="기타">기타</option>
+                        </select>
                     </div>
-                    <script type="text/javascript">
-                        $(function () {
-                            var select = $("select#category");
+                </div>
+                <script type="text/javascript">
+                    $(function () {
+                        var select = $("select#category");
 
-                            select.change(function () {
-                                var select_name = $(this).children("option:selected").text();
-                                $(this).siblings("label").text(select_name);
-                            });
+                        select.change(function () {
+                            var select_name = $(this).children("option:selected").text();
+                            $(this).siblings("label").text(select_name);
                         });
-                    </script>
+                    });
+                </script>
 
-                    <hr class="filter-split">
+                <hr class="filter-split">
 
                     <div class="filter">
                         <div class="filter_name">기간 설정</div>
                         <br>
                         <div class="filter-content filter-date">
-                            <input name="date-start" type="date">
-                            <span> &nbsp&nbsp~&nbsp&nbsp </span>
-                            <input name="date-end" type="date">
+{#                            <input name="date-start" type="date">#}
+{#                            <span> &nbsp&nbsp~&nbsp&nbsp </span>#}
+{#                            <input name="date-end" type="date">#}
+                            시작일 : <input name="date-start" type="date">
+                            <br>
+                            종료일 : <input name="date-end" type="date">
                         </div>
                     </div>
                 </div>
-            </div>
-
-
-            <div class="content-body">
-                <div class="body-search">
-                    <div class="search-text">
-                        {#                        검색 바#}
-                        <fieldset class="field-container">
-                            <input type="text" name="q" id="searchInput" placeholder="Search..." class="field"
-                                   value="{{ q }}"/>
-                            <div class="icons-container">
-                                <div class="icon-search"></div>
-                                <div class="icon-close">
-                                    <div class="x-up"></div>
-                                    <div class="x-down"></div>
-                                </div>
-                            </div>
-                        </fieldset>
-
-                    </div>
-                    <div class="search-option">
-                        <div class="container">
-                            <div class="btn-group">
-                                <div class="btn" data-value="posts">제목 + 내용</div>
-                                <div class="btn" data-value="tags">태그</div>
-                                <div class="btn" data-value="users">작성자</div>
-                            </div>
-                            <input type="hidden" id="options-input" name="options" value="">
-                            {#                            <div class="btn-group">#}
-                            {#                                <label class="btn">#}
-                            {#                                    <input type="radio" name="options" value="posts"> 제목 + 내용#}
-                            {#                                </label>#}
-                            {#                                <label class="btn">#}
-                            {#                                    <input type="radio" name="options" value="tags"> 태그#}
-                            {#                                </label>#}
-                            {#                                <label class="btn">#}
-                            {#                                    <input type="radio" name="options" value="users"> 작성자#}
-                            {#                                </label>#}
-                            {#                            </div>#}
-                        </div>
-
-                    </div>
-                </div>
-                <div class="body-feed">
-                    {% include 'search/main_search.html' %}
-                    {#                    {% include 'post/myprofile_post_list.html' %}#}
-                </div>
-                <div id="post_list_ajax"></div>
-                {# ajax 결과물 추가할 곳 #}
             </div>
         </div>
+
+
+        <div class="content-body">
+            <div class="body-search">
+                <div class="search-text">
+                    {#                        검색 바#}
+                    <fieldset class="field-container">
+                        <input type="text" name="q" id="searchInput" placeholder="Search..." class="field"
+                               value="{{ q }}"/>
+                        <div class="icons-container">
+                            <div class="icon-search"></div>
+                            <div class="icon-close">
+                                <div class="x-up"></div>
+                                <div class="x-down"></div>
+                            </div>
+                        </div>
+                    </fieldset>
+
+                </div>
+                <div class="search-option">
+                    <div class="container">
+                        <div class="btn-group">
+                            <div class="btn" data-value="posts">제목 + 내용</div>
+                            <div class="btn" data-value="tags">태그</div>
+                            <div class="btn" data-value="users">작성자</div>
+                        </div>
+                        <input type="hidden" id="options-input" name="options" value="">
+                        {#                            <div class="btn-group">#}
+                        {#                                <label class="btn">#}
+                        {#                                    <input type="radio" name="options" value="posts"> 제목 + 내용#}
+                        {#                                </label>#}
+                        {#                                <label class="btn">#}
+                        {#                                    <input type="radio" name="options" value="tags"> 태그#}
+                        {#                                </label>#}
+                        {#                                <label class="btn">#}
+                        {#                                    <input type="radio" name="options" value="users"> 작성자#}
+                        {#                                </label>#}
+                        {#                            </div>#}
+                    </div>
+
+                </div>
+            </div>
+            <div class="body-feed">
+                {% include 'search/main_search.html' %}
+                {#                    {% include 'post/myprofile_post_list.html' %}#}
+            </div>
+
+            {# ajax 결과물 추가할 곳 #}
+        </div>
+    </div>
     </form>
 
     <br>
     {# -------------------------알림 요청 오면 알림 뜨는 것---------------------------- #}
-    <script type="text/javascript">
-        //현재 '홈'버튼 클릭하면
-        $("#home_btn").click(function () {
-            $.ajax({
-                type: "GET",
-                url: "{% url 'group_management:request_exist' %}",
-                data: {
-                    'csrfmiddlewaretoken': '{{ csrf_token }}'
-                },
-                dataType: "html",
-
-                success: function (response) {
-                    if (response.icon) {
-                        $("#alert_icon").css("visibility", "visible");
-                    } else {
-                        $("#alert_icon").css("visibility", "hidden");
-                    }
-                },
-                error: function (request, status, error) {
-                    alert("요청 알림 오류");
-                }
-            });
-        })
-    </script>
+{#    <script type="text/javascript">#}
+{#        //현재 '홈'버튼 클릭하면#}
+{#        $("#home_btn").click(function () {#}
+{#            $.ajax({#}
+{#                type: "GET",#}
+{#                url: "{% url 'group_management:request_exist' %}",#}
+{#                data: {#}
+{#                    'csrfmiddlewaretoken': '{{ csrf_token }}'#}
+{#                },#}
+{#                dataType: "html",#}
+{##}
+{#                success: function (response) {#}
+{#                    if (response.icon) {#}
+{#                        $("#alert_icon").css("visibility", "visible");#}
+{#                    } else {#}
+{#                        $("#alert_icon").css("visibility", "hidden");#}
+{#                    }#}
+{#                },#}
+{#                error: function (request, status, error) {#}
+{#                    alert("요청 알림 오류");#}
+{#                }#}
+{#            });#}
+{#        })#}
+{#    </script>#}
     {#-------------------------------------------------------------------------------#}
 
     {#    <input id="page" type="hidden" value="2"> {# 첫 next_page == 2 #}

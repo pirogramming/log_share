@@ -52,90 +52,97 @@
             close: function (event) {    //자동완성창 닫아질때 호출
                 console.log(event);
             }
-        }).autocomplete("instance")._renderItem = function (ul, item) {    //요 부분이 UI를 마음대로 변경하는 부분
-            return $("<li>")    //기본 tag가 li로 되어 있음
-                .append("<div>" + item.value + "<br>" + item.label + "</div>")    //여기에다가 원하는 모양의 HTML을 만들면 UI가 원하는 모양으로 변함.
-                .appendTo(ul);
-        };
-    });
+        })
+        {#    .autocomplete("instance")._renderItem = function (ul, item) {    //요 부분이 UI를 마음대로 변경하는 부분#}
+        {#    return $("<li>")    //기본 tag가 li로 되어 있음#}
+        {#        .append(#}
+        {#            "<div>" + item.value + "<br>" + item.label + "</div>"#}
+        {#        )    //여기에다가 원하는 모양의 HTML을 만들면 UI가 원하는 모양으로 변함.#}
+        {#        .appendTo(ul);#}
+        {#};#}
 
-    {#scroll ajax#}
-    $('#callmorepost').click(function () {
-        var page = $("#page").val();
-        var end_page = {{ posts.paginator.num_pages }};
-        if (page > end_page) {  //더이상 스크롤 할 페이지가 없는 경우
-            alert('더이상 페이지가 없습니다.')
-        }
-        callMorePostAjax(page);
-        $("#page").val(parseInt(page) + 1);
-    });
-
-    $(window).scroll(function () {
-        var scrollHeight = $(window).scrollTop() + $(window).height();
-        var documentHeight = $(document).height();
-
-        if (scrollHeight + 100 >= documentHeight) {
+        {#scroll ajax#}
+        $('#callmorepost').click(function () {
             var page = $("#page").val();
             var end_page = {{ posts.paginator.num_pages }};
             if (page > end_page) {  //더이상 스크롤 할 페이지가 없는 경우
-                return;
+                alert('더이상 페이지가 없습니다.')
             }
             callMorePostAjax(page);
             $("#page").val(parseInt(page) + 1);
-        }
-    });
-
-    // 스크롤 내린 다음 페이지를 가져온다(포스트를 보이게 한다)
-    function callMorePostAjax(page) {
-        var end_page = {{ posts.paginator.num_pages }};
-        console.log(end_page, page)
-        if (page > end_page) {
-            return;
-        }
-        //ajax가 서버에게 전달하는 data
-        $.ajax({
-            type: 'POST', //데이터를 전송하는 방법
-            url: "{% url 'search:search_scroll' %}",
-            data: {
-                'page': page,  //가져와야하는 페이지 보냄
-                'csrfmiddlewaretoken': '{{ csrf_token }}'
-            },
-            success: addMorePostAjax,  //받아온 dataType를 어디에 둘것인가
-            dataType: 'html',
-            error: function (request, status, error) {
-                alert('오류발생');
-            },
         });
-    }
 
-    function addMorePostAjax(data, textStatus, jqXHR) {
-        $('#profile_post_list_ajax').append(data);  //dev post_list_ajax 자리에 포스트를 올린다.
-    }
+        $(window).scroll(function () {
+            var scrollHeight = $(window).scrollTop() + $(window).height();
+            var documentHeight = $(document).height();
 
+            if (scrollHeight  >= documentHeight) {
+                var page = $("#page").val();
+                var end_page = {{ posts.paginator.num_pages }};
+                if (page > end_page) {  //더이상 스크롤 할 페이지가 없는 경우
+                    return;
+                }
+                callMorePostAjax(page);
 
-    //<<<<<북마크>>>>>>>>
-    $(".bookmark").click(function () {
-        var pk = $(this).attr('name');
-        $.ajax({
-            //bookmark button 클릭 -> ajax로 서버와 통신하기
-            type: "POST", //데이터를 전송하는 방법
-            url: "{% url 'post:post_bookmark' %}",  //통신할 url
-            data: {
-                'pk': pk,
-                'csrfmiddlewaretoken': '{{ csrf_token }}'
-            }, // 서버로 데이터 전송시 옵션
-            dataType: "json", //전달받은 데이터 타입 = json -> {'bookmark_count':post.bookmark.count(), 'message':message,}
-                              // 서버측에서 전송한 Response 데이터 형식 (json)
-            // 통신 성공 -> 북마크 처리(response 처리)
-            success: function (response) {
-                alert(response.message);
-                $("#bookmark-" + pk).css("background-image", "url(" + response.img_url + ")");
-            },
-            error: function (request, status, error) {
-                alert("로그인이 필요합니다.")
-                window.location.replace("/accounts/login/")
-            },
+                $("#page").val(parseInt(page) + 1);
+            }
         });
+
+        // 스크롤 내린 다음 페이지를 가져온다(포스트를 보이게 한다)
+        function callMorePostAjax(page) {
+            var end_page = {{ posts.paginator.num_pages }};
+            {#var posts = {{ posts }};#}
+            console.log(end_page, page)
+            if (page > end_page) {
+                return;
+            }
+            //ajax가 서버에게 전달하는 data
+            $.ajax({
+                type: 'GET', //데이터를 전송하는 방법
+                url: "{% url 'search:search_scroll' %}",
+                data: {
+                    'page': page,  //가져와야하는 페이지 보냄
+                    {#'posts': posts,#}
+                },
+                success: addMorePostAjax,  //받아온 dataType를 어디에 둘것인가
+                dataType: 'html',
+                error: function (request, status, error) {
+                    alert('오류발생');
+                },
+            });
+        }
+
+        function addMorePostAjax(data, textStatus, jqXHR) {
+            $('#profile_post_list_ajax').append(data);  //dev post_list_ajax 자리에 포스트를 올린다.
+        }
+
+
+        //<<<<<북마크>>>>>>>>
+        {#$(".bookmark").click(function () {#}
+        {#    var pk = $(this).attr('name');#}
+        {#    $.ajax({#}
+        {#        //bookmark button 클릭 -> ajax로 서버와 통신하기#}
+        {#        type: "POST", //데이터를 전송하는 방법#}
+        {#        url: "{% url 'post:post_bookmark' %}",  //통신할 url#}
+        {#        data: {#}
+        {#            'pk': pk,#}
+        {#            'csrfmiddlewaretoken': '{{ csrf_token }}'#}
+        {#        }, // 서버로 데이터 전송시 옵션#}
+        {#        dataType: "json", //전달받은 데이터 타입 = json -> {'bookmark_count':post.bookmark.count(), 'message':message,}#}
+        {#                          // 서버측에서 전송한 Response 데이터 형식 (json)#}
+        {#        // 통신 성공 -> 북마크 처리(response 처리)#}
+        {#        success: function (response) {#}
+        {#            console.log(response.img_url)#}
+        {##}
+        {#            alert(response.message);#}
+        {#            $("#bookmark-" + pk).css("background-image", "url(" + response.img_url + ")");#}
+        {#        },#}
+        {#        error: function (request, status, error) {#}
+        {#            alert("로그인이 필요합니다.")#}
+        {#            window.location.replace("/accounts/login/")#}
+        {#        },#}
+        {#    });#}
+        {#});#}
     });
 
 </script>

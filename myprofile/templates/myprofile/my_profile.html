@@ -1,14 +1,14 @@
 <style>
-
     .wrap {
         width: 75%;
-        border-bottom: none;
         margin: 60px auto;
         border: 1px solid #b0bec9;
+        border-bottom: none;
         box-shadow: 2px 2px 2px #b0bec9;
         border-radius: 5px;
-        border-radius: 5px;
         background-color: white;
+        margin-bottom: 100px;
+        padding-bottom: 100px;
     }
 
     .topbar {
@@ -27,56 +27,19 @@
     }
 
     .my_info {
-        width: 400px;
-        height: 400px;
-        background-color: white;
+        width: 900px;
         box-shadow: 2px 2px 2px #417690;
         border: 1px solid #b0bec9;
-        padding: 30px;
         border-radius: 5px;
         display: inline-block;
-        margin: 50px;
-        float: left;
-
-
-    }
-
-    .title {
-        width: 300px;
-        height: 40px;
-        background-color: #1a237e;
-        border-radius: 5px;
-        line-height: 40px;
-        margin: 25px auto;
-        text-align: center;
-        font-size: 20px;
-        color: white;
-    }
-
-    #profile_img {
-        width: 150px;
-        height: 150px;
-        border-radius: 30px;
-        margin-left: 120px;
-
+        margin-left: 8%;
+        margin-top: 3%;
     }
 
     .profile_first_content {
         margin-top: 30px;
         line-height: 30px;
         margin-left: 90px;
-    }
-
-    .my_url {
-        width: 400px;
-        height: 400px;
-        background-color: white;
-        box-shadow: 2px 2px 2px #417690;
-        border: 1px solid #b0bec9;
-        padding: 30px;
-        border-radius: 5px;
-        display: inline-block;
-        margin: 50px;
     }
 
     .url_content > div {
@@ -86,24 +49,39 @@
         margin: 50px 60px;
     }
 
-    .profile_name {
-        color: black;
-    }
-
-    .btn_profile_password, .btn_profile_edit {
+    .btn_profile_password {
         background-color: #00B0F0;
         display: inline-block;
         color: white;
         border-radius: 5px;
         border: 1px solid #00B0F0;
-        float: left;
-        margin-right: 15px;
-        margin-top: 20px;
+        float: right;
         width: 100px;
         height: 30px;
         text-align: center;
         line-height: 30px;
+        margin-top: 30px;
+        margin-right: 90px;
+        margin-left: 20px;
+        box-shadow: 2px 2px 2px #b0bec9;
     }
+
+    .btn_profile_edit {
+        background-color: #00B0F0;
+        display: inline-block;
+        color: white;
+        border-radius: 5px;
+        border: 1px solid #00B0F0;
+        float: right;
+        width: 100px;
+        height: 30px;
+        text-align: center;
+        line-height: 30px;
+        margin-top: 30px;
+        box-shadow: 2px 2px 2px #b0bec9;
+
+    }
+
 
     .btn_profile_edit:hover {
         background: #1E88E5;
@@ -115,195 +93,132 @@
         background: #1E88E5;
         color: white;
         border: 1px solid #1E88E5;
+
     }
 
-    .profile_card {
-        margin-left: 155px;
-        cursor: pointer;
-        background-color: white;
-        display: inline-block;
-        width: 80px;
-        height: 30px;
-        text-align: center;
-        color: #1a237e;
-        border-radius: 5px;
-        border: 3px solid #1a237e;
-        font-weight: bolder;
-        font-size: 20px;
-        line-height: 30px;
-        margin-top: 10px;
-    }
-
-    .profile_card:hover {
-        background-color: #1a237e;
-        color: white;
-    }
-
-    .modal {
-        opacity: 0;
-        visibility: hidden;
-        position: fixed;
-        top: 0;
-        right: 0;
-        bottom: 0;
-        left: 0;
-        text-align: left;
-        background: rgba(0, 0, 0, .6);
-        transition: opacity .25s ease;
-    }
-
-    .modal_bg {
-        position: absolute;
-        top: 0;
-        right: 0;
-        bottom: 0;
-        left: 0;
-        cursor: pointer;
-    }
-
-    .modal-state {
-        display: none;
-    }
-
-    .modal-state:checked + .modal {
-        opacity: 1;
-        visibility: visible;
-    }
-
-    .modal-state:checked + .modal .modal__inner {
-        top: 0;
-    }
-
-    .modal_inner {
-        transition: top .25s ease;
-        position: absolute;
-        top: 2%;
-        right: 0;
-        bottom: 0;
-        left: 0;
-        width: 23%;
-        margin: auto;
-        overflow: auto;
-        background: #fff;
-        border-radius: 5px;
-        padding: 1em 2em;
-        height: 85%;
-    }
-
-    .modal_close {
-        position: absolute;
-        right: 1em;
-        top: 1em;
-        width: 1.1em;
-        height: 1.1em;
-        cursor: pointer;
-    }
-
-    .modal_close:after,
-    .modal_close:before {
-        content: '';
-        position: absolute;
-        width: 2px;
-        height: 1.5em;
-        background: #ccc;
-        display: block;
-        transform: rotate(45deg);
-        left: 50%;
-        margin: -3px 0 0 -1px;
-        top: 0;
-    }
-
-    .modal_close:hover:after,
-    .modal_close:hover:before {
-        background: #aaa;
-    }
-
-    .modal_close:before {
-        transform: rotate(-45deg);
-    }
-
-    @media screen and (max-width: 768px) {
-
-        .modal_inner {
-            width: 90%;
-            height: 90%;
-            box-sizing: border-box;
-        }
-    }
-
-    .card_inside {
-        margin-top: 20px;
+    .backcolor {
         background-color: #00B0F0;
-        width: 100%;
-        border-radius: 30px;
-        height: 620px;
-        padding: 25px;
-        box-sizing: border-box;
+        height: 200px;
+        border-radius-topleft: 5px;
+        border-radius-topright: 5px;
+        border: 1px solid #00B0F0;
+        text-align: right;
+    }
+
+    .profile_img {
+        width: 200px;
+        height: 200px;
+        border-radius: 100px;
+        margin-top: 100px;
+        margin-left: 340px;
+        border: 4px solid #ffffff;
+        float: left;
+    }
+
+    #profile_base {
+        width: 200px;
+        height: 200px;
+        border-radius: 100px;
+        margin-top: 100px;
+        margin-left: 340px;
+        border: 4px solid #ffffff;
+        float: left;
+
+    }
+
+    .profile_card_content {
+        margin-top: 120px;
+        padding-bottom: 60px;
+    }
+
+    .profile_name {
+        font-size: 24px;
+        font-weight: bold;
+        margin-left: 420px;
+    }
+
+    .profile_depart, .profile_intro, .profile_tag, .profile_url {
+        padding: 10px;
+        width: 700px;
+        border-radius: 5px;
         box-shadow: 2px 2px 2px #b0bec9;
+        border: 1px solid #b0bec9;
+        margin-bottom: 20px;
     }
 
-    .card_content {
-        width: 340px;
-        height: 480px;
-        border-radius: 20px;
-        background-color: white;
-    }
-
-    .card_logo {
-        margin-left: 35%;
-        color: white;
-        line-height: 30px;
-        font-size: 20px;
-    }
-
-    #profile_img {
-        width: 295px;
-        height: 245px;
-        margin-left: 6%;
-        margin-top: 20px;
-        border-radius: 20px 20px 0 0;
-    }
-
-    .card_name {
-        font-weight: bold;
-        text-align: center;
-        margin-top: 30px;
-        font-size: 23px;
-    }
-
-    .icon {
-        width: 40px;
-        margin-left: 30px;
-
-    }
-
-    .card_logo_box {
-        float: left;
-        margin-top: 60px;
-    }
-
-    .card_email {
-        float: left;
-        margin-top: 60px;
-        margin-left: 10px;
+    .naver_label {
         font-size: 15px;
+        width: 140px;
+        height: 26px;
+        border-radius: 5px;
+        display: inline-block;
+        text-align: center;
+        background-color: #6cc0e5;
+        margin-left: 20px;
     }
 
-    #email {
-        font-size: 18px;
+    .daum_label {
+        font-size: 15px;
+        width: 140px;
+        height: 26px;
+        border-radius: 5px;
+        display: inline-block;
+        text-align: center;
+        background-color: #6cc0e5;
+        margin-left: 20px;
+    }
+
+    .github_label {
+        font-size: 15px;
+        width: 140px;
+        height: 26px;
+        border-radius: 5px;
+        display: inline-block;
+        text-align: center;
+        background-color: #6cc0e5;
+        margin-left: 20px;
+    }
+
+    .other_label {
+        font-size: 15px;
+        width: 140px;
+        height: 26px;
+        border-radius: 5px;
+        display: inline-block;
+        text-align: center;
+        background-color: #6cc0e5;
+        margin-left: 20px;
+    }
+
+    #a_tag {
+        width: 100%;
+        height: 100%;
+        color: white;
+    }
+
+    #profile_logo {
+        color: white;
+        margin-right: 20px;
+        line-height: 40px;
         font-weight: bold;
+
     }
-    .tag{
-        padding-top: 20px;
-        color:white;
-        margin-left: 20px;
+
+    .interested_tag {
+        color: white;
+        border: 0px;
+        border-radius: 2px;
+        font-size: 15px;
+        margin: 2px 0px;
+        padding: 5px;
+        transition: all .1s;
     }
-    .tag2{
-        color:white;
-        font-size: 12px;
-        line-height: 20px;
-        margin-left: 20px;
+
+    .interested_tag:hover {
+        cursor: pointer;
+        outline: 2px groove #1a237e;
     }
+
 
 </style>
 
@@ -314,93 +229,84 @@
 {% block content %}
     <div class="wrap">
         <div class="topbar">
-            <div class="big_title">내 정보 변경</div>
+            <div class="big_title">내 프로필</div>
         </div>
         <div class="my_info">
-            <div class="title">내 프로필</div>
-            {#            <div class="profile_photo">#}
-            {#                {% if profile.photo %}#}
-            {#                    <img src="{{ profile.photo.url }}" alt="" id="profile_img"/>#}
-            {#                {% endif %}#}
-            {#            </div>#}
-            <label class="profile_card" for="open-pop">{{ profile.name }}</label>
-            <div class="profile_first_content">
-                {#                <div class="profile_name">이름: {{ profile.name }}</div>#}
-                <div class="profile_depart">소속: {{ profile.department }}</div>
-                <div class="profile_intro">자기소개:<p>
-                    {% if profile.description != None %}
-                        {{ profile.description }}
-                    {% endif %}
-                </p>
-                </div>
-                <div>관심태그:
-                    {% if profile.interested_tag != None %}
-                        {% for tag, size in interested_tag_dict.items %}
-                            {{ tag }}
-                        {% endfor %}
-                    {% endif %}
-                </div>
-                <div class="btn_profile_password"><a href="{% url "accounts:password_change" %}">비밀번호 변경</a></div>
-                <div class="btn_profile_edit"><a href="{% url "myprofile:profile_edit" request.user.pk %}">프로필 수정</a>
-                </div>
-            </div>
-        </div>
-        <div class="my_url">
-            <div class="title">내 연락처</div>
-            <div class="url_content">
-                <div>네이버 URL:
-                    {% if profile.naver != None %}
-                        <div>{{ profile.naver }}</div>
-                    {% endif %}
-                </div>
-                <div>다음 URL:
-                    {% if profile.daum != None %}
-                        {{ profile.daum }}
-                    {% endif %}
-                </div>
-                <div>github URL:
-                    {% if profile.github != None %}
-                        {{ profile.github }}
-                    {% endif %}
-                </div>
-                <div>other URL:
-                    {% if profile.other_url != None %}
-                        <a href="{{ profile.other_url }}">{{ profile.other_url }}</a>
-                    {% endif %}
-                </div>
-            </div>
-        </div>
-    </div>
+            <div class="backcolor">
+                <div class="box_profile_img">
+                    {% if profile.photo %}
+                        <img src="{{ profile.photo.url }}" alt="" class="profile_img"/>
 
-    {#    전자 명함#}
-    <input class="modal-state" id="open-pop" type="checkbox"/>
-    <div class="modal">
-        <label class="modal_bg" for="open-pop"></label>
-        <div class="modal_inner">
-            <label class="modal_close" for="open-pop"></label>
-            <div class="card_inside">
-                <div class="card_logo">LOG SHARE</div>
-                <div class="card_content">
-                    <div class="profile_photo">
-                        {% if profile.photo %}
-                            <img src="{{ profile.photo.url }}" alt="" id="profile_img"/>
+                    {% else %}
+                        <img src="{% static "img/profile_base.jpg" %}" id="profile_base">
+                    {% endif %}
+                </div>
+                <p id="profile_logo">LOGSHARE PROFILE</p>
+            </div>
+            <div class="btn_profile_password"><a href="{% url "accounts:password_change" %}">비밀번호 변경</a></div>
+            <div class="btn_profile_edit"><a href="{% url "myprofile:profile_edit" request.user.pk %}">프로필 수정</a>
+            </div>
+            <div class="profile_card_content">
+                <div class="profile_name">{{ profile.name }}</div>
+                <div class="profile_first_content">
+                    <div class="profile_depart">소속<br>{{ profile.department }}</div>
+                    <div class="profile_intro">자기소개<p>
+                        {% if profile.description != None %}
+                            {{ profile.description }}
+                        {% endif %}
+                    </p>
+                    </div>
+                    <div class="profile_tag">관심태그<br>
+                        {% if profile.interested_tag != None %}
+                            {% for tag, size in interested_tag_dict.items %}
+                                <a href="" class="interested_tag">{{ tag }}</a>
+                            {% endfor %}
                         {% endif %}
                     </div>
-                    <div class="card_name">{{ profile.name }}</div>
-                    <div class="card_logo_box"><img src="{% static 'img/공유아이콘.png' %}" class="icon"></div>
-                    <div class="card_email">email
-                        <div id="email">{{ profile.user.email }}</div>
+                    <div class="profile_url">사이트<br>
+                        <div>네이버 URL:
+                            {% if profile.naver != None %}
+                                <div class="naver_label"><a href="{{ profile.naver }}" id="a_tag">네이버 URL 바로가기</a></div>
+                            {% endif %}
+                        </div>
+                        <div>다음 URL:
+                            {% if profile.daum != None %}
+                                <div class="daum_label"><a href="{{ profile.daum }}" id="a_tag">다음 URL 바로가기</a></div>
+                            {% endif %}
+                        </div>
+                        <div>github URL:
+                            {% if profile.github != None %}
+                                <div class="github_label"><a href="{{ profile.github }}" id="a_tag">Github URL 바로가기</a>
+                                </div>
+                            {% endif %}
+                        </div>
+                        <div>other URL:
+                            {% if profile.other_url != None %}
+                                <div class="other_label"><a href="{{ profile.other_url }}" id="a_tag">others URL
+                                    바로가기</a></div>
+                            {% endif %}
+                        </div>
+
                     </div>
-                    <div></div>
-                </div>
-                <div class="tag">Tags of interest</div>
-                <div class="tag2">{% if profile.interested_tag != None %}
-                    {% for tag, size in interested_tag_dict.items %}
-                        {{ tag }}
-                    {% endfor %}
-                {% endif %}
                 </div>
             </div>
         </div>
+
     </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+            integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+            crossorigin="anonymous"></script>
+    <script type="text/javascript">
+        var get_random_RGB = function () {
+            var r = Math.floor((Math.random() * 0xcc) + 0x11).toString(16);
+            var g = Math.floor((Math.random() * 0xcc) + 0x11).toString(16);
+            var b = Math.floor((Math.random() * 0xcc) + 0x11).toString(16);
+            return '#' + r + g + b;
+        }
+        $('.interested_tag').each(function () {
+            $(this).css('background-color', get_random_RGB);
+        })
+    </script>
+
 {% endblock %}

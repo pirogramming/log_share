@@ -5,7 +5,7 @@
     <title>main_front</title>
     <style>
         * {
-            font-family: NanumSquare, "나눔스퀘어 ExtraBold";
+           font-family: 나눔스퀘어, NanumSquare;
             text-decoration: none;
             margin: 0;
             padding: 0;
@@ -113,6 +113,7 @@
             font-size: 25px;
             line-height: 80px;
             display: inline;
+            font-weight: bold;
         }
 
         .logoimg_div {
@@ -144,7 +145,7 @@
             position: absolute;
             top: 170px;
             font-size: 80px;
-            font-family: "나눔스퀘어 ExtraBold", NanumSquare ExtraBold;
+            font-family: "나눔스퀘어 ExtraBold";
             left: 35%;
             color: rgb(36, 63, 118);
         }
@@ -168,6 +169,28 @@
             position: absolute;
             top: 380px;
             left: 43%;
+            animation-name: btn_oscillate;
+            animation-duration: 2s;
+            animation-iteration-count: infinite;
+            animation-direction: alternate-reverse;
+        }
+
+        @keyframes btn_oscillate {
+            0% {
+                transform: translate(10%, -15%);
+            }
+            10% {
+                transform: translate(-10%, 15%);
+            }
+            20% {
+                transform: translateY(10%, -15%);
+            }
+            30% {
+                transform: translateY(0);
+            }
+            100% {
+                transform: translateY(0);
+            }
         }
 
         .port {
@@ -178,22 +201,50 @@
 
         }
 
-        #port_text {
-            width: 350px;
-            height: 350px;
+
+        #port_note {
+            width: 300px;
+            height: 330px;
             margin-left: 17%;
             margin-top: 8%;
             float: left;
         }
 
+        #port_pen {
+            transform: translateY(200%);
+            animation: pen_oscillate 3s infinite alternate-reverse;
+        }
+
+        @keyframes pen_oscillate {
+            0% {
+                transform: translate(-40%, 220%);
+            }
+            20% {
+                transform: translate(-20%, 200%);
+            }
+            40% {
+                transform: translate(-40%, 220%);
+            }
+            60% {
+                transform: translate(-20%, 200%);
+            }
+            100% {
+                transform: translate(-20%, 200%);
+            }
+        }
+
         .port_title {
             color: white;
             font-size: 45px;
-            font-family: "나눔스퀘어 ExtraBold", NanumSquare ExtraBold;
+            font-family: "나눔스퀘어 ExtraBold";
             float: right;
             text-align: right;
             margin-right: 300px;
             margin-top: 200px;
+        }
+
+        .port_title:hover {
+            color: rgb(36, 63, 118);
         }
 
         .port_content {
@@ -217,12 +268,25 @@
             margin-left: 30%;
             margin-top: 4%;
             float: left;
+            animation: share_oscillate 5s infinite alternate-reverse;
+        }
+
+        @keyframes share_oscillate {
+            0% {
+                transform: translateX(-10%);
+            }
+            50% {
+                transform: translateX(10%);
+            }
+            100% {
+                transform: translateX(-10%);
+            }
         }
 
         .share_title {
             color: white;
             font-size: 45px;
-            font-family: "나눔스퀘어 ExtraBold", NanumSquare ExtraBold;
+            font-family: "나눔스퀘어 ExtraBold";
             text-align: center;
             margin-top: 450px;
         }
@@ -233,32 +297,41 @@
             text-align: center;
             margin-top: 30px;
         }
-        .search{
+
+        .search {
             width: 100%;
             height: 700px;
             margin: 0px;
-            background-color: rgb(255,124,128);
+            background-color: rgb(255, 124, 128);
             animation: color_change 1s infinite alternate-reverse;
         }
 
         @keyframes color_change {
-            0% { background-color: rgb(255,124,128);}
-            100% { background-color: rgb(255,204,204);}
+            0% {
+                background-color: rgb(255, 124, 128);
+            }
+            100% {
+                background-color: rgb(255, 204, 204);
+            }
         }
-        .search_title{
+
+
+        .search_title {
             color: white;
             font-size: 45px;
             font-family: "나눔스퀘어 ExtraBold";
             text-align: center;
             margin-top: 200px;
         }
-        .search_content{
+
+        .search_content {
             color: #4f4f4f;
             font-size: 23px;
-            text-align:center;
+            text-align: center;
             margin-top: 30px;
         }
-        .search_bar{
+
+        .search_bar {
             width: 330px;
             height: 70px;
             background-color: white;
@@ -268,14 +341,67 @@
             line-height: 70px;
             margin-top: 20px;
             border: 8px solid #3c3c3c;
-            padding-left: 20px;
+            padding-left: 13px;
         }
-        .hidden_text{
-            color:#3c3c3c;
+
+        .search_bar input {
+            width: 95%;
+            height: 85%;
+            border: none;
+            font-size: 25px;
+        {#text-align: center;#}
+        }
+
+        .search_bar input:focus {
+            outline: none;
+        }
+
+        .hidden_text_div {
+            color: #3c3c3c;
             font-size: 27px;
             text-align: center;
-             margin-top: 80px;
+            margin: 0 auto;
+            margin-top: 40px;
             font-weight: bold;
+            width: 400px;
+            height: 50px;
+            overflow: hidden;
+        }
+
+        @keyframes pop {
+            0% {
+                transform: translateY(-150%);
+                animation-timing-function: ease-in-out;
+            }
+            100% {
+                transform: translateY(0);
+                animation-timing-function: ease-in-out;
+            }
+        }
+
+        .hidden_text {
+            color: #3c3c3c;
+            font-size: 27px;
+            text-align: center;
+            margin-top: 80px;
+            font-weight: bold;
+        }
+
+        footer {
+            background-color: white;
+            height: 80px;
+            border-bottom: none;
+            text-align: center;
+            bottom: 0;
+
+        }
+
+        footer > div {
+            background-color: white;
+            display: inline-block;
+            font-size: 14px;
+            margin: 10px;
+
         }
 
 
@@ -303,7 +429,9 @@
         <div class="btn_signup"><a href="{% url "accounts:signup" %}">바로 가입하기</a></div>
     </div>
     <div class="port">
-        <div><img id="port_text" src="{% static 'img/port_text.png' %}" alt=""/></div>
+        <div class="port_text"><img id="port_note" src="{% static 'img/port_note.png' %}" alt=""/><img id="port_pen"
+                                                                                                       src="{% static 'img/port_pen.png' %}"
+                                                                                                       alt=""></div>
         <div class="port_title">지금까지 쌓아온 나의 스펙, <br>한 번에 정리 가능</div>
         <div class="port_content">분산되어 있는 나의 스펙들, 이젠 한 곳에 정리해보세요. <br>내 포트폴리오를 한번에 볼 수 있고, 에디터를 사용해 편집도 가능합니다.</div>
     </div>
@@ -317,12 +445,22 @@
     <div class="search">
         <div class="search_title">내 그룹의 스펙을 검색하세요!</div>
         <div class="search_content">그룹 선택, 그룹별 카테고리, 활동 기간별로 필터를 선택해 스펙을 검색 할 수 있습니다.<br>
-        또한, 가입하고 싶은 그룹을 추천 받고 검색할 수 있습니다.
+            또한, 가입하고 싶은 그룹을 추천 받고 검색할 수 있습니다.
         </div>
         <div class="hidden_text">가입하고 싶은 그룹명을 입력하세요.</div>
-        <div class="search_bar">Search...</div>
+        <div class="search_bar"><input id="field" type="text" placeholder="Search..."></div>
     </div>
 </div>
+<footer>
+    <div>Log share</div>
+    <div>© 2020</div>
+    <div>사용자 약관</div>
+    <div>개인 정보 취급 방침</div>
+    <div>커뮤니티 정책</div>
+    <div>쿠키 정책</div>
+    <div>저작권 정책</div>
+    <div>피로그래밍 12기</div>
+</footer>
 
 </body>
 </html>

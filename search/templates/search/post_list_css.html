@@ -127,22 +127,35 @@
     .feed {
         width: 100%;
         height: 150px;
-    {#padding: 0px 10px;#} border: #e9ecef 1px solid;
-        border-radius: 30px;
-        box-shadow: cadetblue 5px 5px 5px;
+        border: #e9ecef 1px solid;
+        border-radius: 10px;
+        box-shadow: cadetblue 2px 2px 2px;
     }
-    .feed a{
+
+    .feed a {
         color: black;
     }
+
     .feed-content {
+    {#height: 100%;#} margin: 0px;
         padding: 10px;
+        display: flex;
+        flex-direction: column;
+    {#justify-content: space-around;#}
+    }
+
+    .feed-content > p {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        width: 700px;
+        height: 24px;
     }
 
     .feed-main {
         display: flex;
         justify-content: space-between;
-        padding: 0px 10px;
-        margin: 10px auto 25px;
+    {#padding: 0px 10px;#}
     }
 
     .feed-title {
@@ -166,6 +179,11 @@
         align-items: center;
     }
 
+    .feed-name p {
+        color: #1a237e;
+
+    }
+
     .meta-bookmark {
         font-size: 32px;
     }
@@ -177,7 +195,14 @@
 
     .meta-info {
         display: flex;
+        align-items: center;
         justify-content: space-between;
+    }
+
+    .meta-date {
+        display: flex;
+        font-size: 14px;
+        color: #3c3c3c;
     }
 
     .badge {

@@ -58,7 +58,7 @@
         background: #fff;
         border-radius: 5px;
         padding: 1em 2em;
-        height: 60%;
+        height: 70%;
     }
 
     .modal_close {
@@ -128,6 +128,7 @@
         line-height: 20px;
         align-content: center;
         padding-left: 10px;
+        font-size: 16px;
     }
 
     input[type=checkbox] {
@@ -141,9 +142,7 @@
         background-color: #1a237e;
         border-radius: 5px;
         color: white;
-    }
-    #id_notes{
-         border: solid 1px #b0bec9;
+        margin-bottom: 40px;
     }
 
     h3 {
@@ -161,6 +160,17 @@
         border-radius: 5px;
         border: solid 1px #b0bec9;
     }
+
+    #id_group_category {
+        font-size: 16px;
+    }
+
+    #id_notes {
+        margin-top: 10px;
+        font-size: 16px;
+        border: solid 1px #b0bec9;
+    }
+
     .my_group {
         width: 75%;
         border-bottom: none;
@@ -174,14 +184,14 @@
         height: 35px;
         padding: 20px 40px 10px;
         border-bottom: 2px solid #b0bec9;
-        {#background-color: #1a237e;#}
+    {#background-color: #1a237e;#}
 
     }
 
     #title {
         float: left;
         font-size: 20px;
-        color:#1a237e;
+        color: #1a237e;
         line-height: 35px;
         font-weight: bold;
     }
@@ -258,14 +268,29 @@
         transition: all .2s;
     }
 
+    .my_grouplist_alarm {
+        position: relative;
+        margin-right: 35px;
+        width: 300px;
+        height: 250px;
+        border: 2px solid lightcoral;
+        box-shadow: 2px 2px 2px #b0bec9;
+        display: block;
+        float: left;
+        border-radius: 5px;
+        transition: all .2s;
+    }
+
     .my_grouplist:hover {
         background-color: #b0bec9;
+    }
+    .my_grouplist_alarm:hover {
+        background-color: lightcoral;
     }
 
 
     .box_my_grouplist {
-        {#padding-left: 85px;#}
-        padding-top: 50px;
+    {#padding-left: 85px;#} padding-top: 50px;
         overflow: hidden;
         display: flex;
         flex-wrap: wrap;
@@ -305,10 +330,11 @@
     #manage_img {
         width: 50px;
         position: relative;
-        {#margin-bottom: 10px;#}
+    {#margin-bottom: 10px;#}
 
     }
-    .mark2{
+
+    .mark2 {
         display: inline-block;
         overflow: hidden;
         width: 310px;
@@ -317,9 +343,10 @@
         text-align: center;
 
     }
-    .manager_text{
+
+    .manager_text {
         font-size: 15px;
-        color:#1a237e;
+        color: #1a237e;
         margin-bottom: 5px;
     }
 
@@ -330,45 +357,55 @@
 
 {% block content %}
     <div class="background">
-        <div class="my_group">
-            <div id="topbar">
-                <div id="title">내 그룹 리스트</div>
-                <label class="btn" for="open-pop">그룹 만들기</label>
+    <div class="my_group">
+        <div id="topbar">
+            <div id="title">내 그룹 리스트</div>
+            <label class="btn" for="open-pop">그룹 만들기</label>
+        </div>
+        <div>
+            {% if not groups %}
+                <div class="imgbox">
+                    <h2><a style="color: #1a237e; font-weight: bold; font-size: 35px;">Group</a>이 아직 없어요. <a
+                            style="font-size: 20px; color:black;">그룹을 찾아볼까요?</a></h2>
+                    <img id="group_search_img" src="{% static 'img/그룹%20검색.png' %}" git alt=""/>
+                    <h4>가입하고 싶은 그룹을 검색하거나 원하는 그룹을 검색해 보세요.</h4>
+                    <div class="btn_search"><a href="{% url 'group_management:search_group' %}" id="search_link">그룹
+                        검색</a></div>
+                </div>
+            {% else %}
+                <div class="box_my_grouplist">
+                {% for group in groups %}
+                    <div class="mark2">
+                    {% if group.manager == request.user %}
+                        <div class="mark"><img id="manage_img" src={% static 'img/관리자 왕관.png' %} alt=""/></div>
+                        <div class="manager_text">manager</div>
+                        {% if group in requested_groups %}
+                            <div class="my_grouplist_alarm">
+                        {% else %}
+                            <div class="my_grouplist">
+                        {% endif %}
+                    {% else %}
+                        <div class="mark"><img id="manage_img" src="" alt="" style="visibility: hidden;"/>
+                        </div>
+                        <div class="manager_text"></div>
+                        <div class="my_grouplist">
+                    {% endif %}
+
+                <a class="group" href="{% url 'group_management:detail_group' group.id %}">
+                    <div class="group_name"><p> {{ group.group_name }}</p></div>
+                    <div class="group_content">
+                        <p>관리자:({{ group.manager }})</p>
+                        <p>카테고리 : {{ group.get_group_category_display }}</p>
+                        <p>회원 수:{{ group.members.count }}</p>
+                    </div>
+                </a>
+                </div>
+
+
+                </div>
+                {% endfor %}
             </div>
-            <div>
-                {% if not groups %}
-                    <div class="imgbox">
-                        <h2><a style="color: #1a237e; font-weight: bold; font-size: 35px;">Group</a>이 아직 없어요. <a style="font-size: 20px; color:black;">그룹을 찾아볼까요?</a></h2>
-                        <img id="group_search_img" src="{% static 'img/그룹%20검색.png' %}"git alt=""/>
-                        <h4>가입하고 싶은 그룹을 검색하거나 원하는 그룹을 검색해 보세요.</h4>
-                        <div class="btn_search"><a href="{% url 'group_management:search_group' %}" id="search_link">그룹
-                            검색</a></div>
-                    </div>
-                {% else %}
-                    <div class="box_my_grouplist">
-                        {% for group in groups %}
-                            <div class="mark2">
-                                {% if group.manager == request.user %}
-                                    <div class="mark"><img id="manage_img" src="../../media/관리자 왕관.png" alt=""/></div>
-                                    <div class="manager_text">manager</div>
-                                {% else %}
-                                    <div class="mark"><img id="manage_img" src="" alt="" style="visibility: hidden;"/></div>
-                                    <div class="manager_text"></div>
-                                {% endif %}
-                                <div class="my_grouplist">
-                                    <a class="group" href="{% url 'group_management:detail_group' group.id %}">
-                                        <div class="group_name"><p> {{ group.group_name }}</p></div>
-                                        <div class="group_content">
-                                            <p>관리자:({{ group.manager }})</p>
-                                            <p>카테고리 : {{ group.get_group_category_display }}</p>
-                                            <p>회원 수:{{ group.members.count }}</p>
-                                        </div>
-                                    </a>
-                                </div>
-                            </div>
-                        {% endfor %}
-                    </div>
-                {% endif %}
+            {% endif %}
             </div>
         </div>
     </div>
