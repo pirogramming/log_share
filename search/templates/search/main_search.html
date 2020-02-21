@@ -9,37 +9,6 @@
 <script src="{% static 'widgets/rateit/jquery.rateit.min.js' %}"></script>
 {% if posts %}
     {% for post in posts %}
-        <div class="post_list">
-            <div class="post_title"><a href="{% url 'post:post_detail' post.pk %}">{{ post.title }}</a>
-            </div>
-            <div>작성자 : <a href="{% url 'myprofile:profile_detail' post.user.pk %}">{{ post.user.user_profile.name }}</a>
-            </div>
-            <div>활동기간: {{ post.start_date }} ~ {{ post.end_date }}</div>
-            <div class="post_tag">
-                태그 :
-                {% for post_tag in post.tags.all %}
-
-                    <a href="{% url 'search:main_search' %}?q={{ post_tag }}&options=tags">#{{ post_tag }}</a>
-                    {#                            <a href="./?q={{ post_tag }}&options=tags">#{{ post_tag }}</a>#}
-                    {#                            <a href="{% url 'search:tag_search' post_tag %}">#{{ post_tag }}</a>#}
-                {% endfor %}
-            </div>
-            <div class="post_contents">내용: {{ post.contents | striptags | truncatechars:100 }}</div>
-
-            <div class="post_score">평점:
-                <div class="rateit" data-rateit-value="{{ post.score }}" data-rateit-ispreset="true"
-                     data-rateit-readonly="true"></div>
-            </div>
-            <div class="bookmark_container">
-                <input type="button" class="bookmark" id="bookmark-{{ post.id }}" name="{{ post.id }}" value=""
-                       style="background-image: {% if post.id in bm_post_list %}url('/media/bookmark_on.jpg'){% else %}url('/media/bookmark_off.jpg'){% endif %}"/>
-            </div>
-            <div class="post_email"><a href="mailto:{{ post.user.email }}" class="fa-envelope">
-                <i class="fas fa-envelope-square"></i></a></div>
-        </div>
-        <br>
-
-        <br>
 
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
         <div class="feed">
@@ -74,7 +43,7 @@
                         </div>
                         <div class="meta-book-count">
                             <i class="fas fa-bookmark"></i>
-                            북마크 수
+                            {{ post.bookmark.count }}
                         </div>
                         <div class="meta-star">
                             <div class="post_score">
@@ -98,7 +67,17 @@
                                    value=""
                                    style="background-image: {% if post.id in bm_post_list %}url('/media/bookmark_on.jpg'){% else %}url('/media/bookmark_off.jpg'){% endif %}"/>
                         </div>
+
                     </div>
+                </div>
+                <div class="meta-tags">
+                    <i class="fa fa-tags"
+                       aria-hidden="true"></i>
+                    {% for post_tag in post.tags.all %}
+                        <a href="{% url 'search:main_search' %}?q={{ post_tag }}&options=tags">
+                            <span class="badge badge-dark">{{ post_tag }}</span>
+                        </a>
+                    {% endfor %}
                 </div>
             </div>
         </div>
@@ -106,7 +85,3 @@
     {% endfor %}
 {% endif %}
 
-<div id="profile_post_list_ajax"></div>  {# ajax 결과물 추가할 곳 #}
-<input id="page" type="hidden" value="2">  {# 첫 next_page == 2 #}
-<input id="user" type="hidden" name="{{ profile.user.pk }}"> {# profile.user.pk를 ajax에서 사용하기 위해 #}
-<button id="callmorepost" type="button">More Post</button>
