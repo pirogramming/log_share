@@ -32,11 +32,19 @@ def all_create_group(request):
             group.members.add(request.user)
 
     groups = request.user.user_groups.all()
+
+    requested_groups = list()
+    print(list(request.user.user_manage_groups.all()))
+    for group in list(request.user.user_manage_groups.all()):
+        temp =GroupRequest.objects.filter(group=group)
+        if temp:
+            requested_groups.append(group)
+
     form = GroupForm(
         request.user,  # 여기로 get타고 들어와서 request.POST 빼버림.
     )
     return render(request, 'group_management/create_group.html', {
-        'form': form, 'groups': groups,
+        'form': form, 'groups': groups, 'requested_groups': requested_groups,
     })
 
 
