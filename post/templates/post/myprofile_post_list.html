@@ -11,21 +11,27 @@
 {% if posts %}
     {% for post in posts %}
         <div class="profile_post_list">
-            <div class="profile_post_title">제목 : <a href="{% url 'post:post_detail' post.pk %}">{{ post.title }}</a>
+            <div class="profile_post_first_con">
+                <div class="profile_post_title"><a href="{% url 'post:post_detail' post.pk %}">{{ post.title }}</a>
+                </div>
+                <div class="profile_post_category">{{ post.category }}</div>
             </div>
-            <div>작성자 : {{ post.user.user_profile.name }}</div>
-            <div>활동기간: {{ post.start_date }} ~ {{ post.end_date }}</div>
-            <div class="profile_post_tag">
-                태그 :
-                {% for post_tag in post.tags.all %}
-                    <a href="{% url 'search:main_search' %}?q={{ post_tag }}&options=tags">#{{ post_tag }}</a>
-                    {#                    <a href="{% url 'search:tag_search' post_tag %}">#{{ post_tag }}</a>#}
-                {% endfor %}
-            </div>
-            <div class="profile_post_contents">내용: {{ post.contents| striptags | truncatechars:100 }}</div>
-            <div>평점:
+            <div class="profile_post_contents">{{ post.contents| striptags | truncatechars:100 }}</div>
+            <div class="profile_post_sec_con">
+                <div class="profile_post_date"><i class="far fa-calendar-alt"></i> {{ post.start_date }}
+                    ~ {{ post.end_date }}</div>
+                <div class="profile_post_bookmark_count">
+                    <i class="fas fa-bookmark"></i> {{ post.bookmark.count }}
+                </div>
                 <div class="rateit" data-rateit-value="{{ post.score }}" data-rateit-ispreset="true"
                      data-rateit-readonly="true"></div>
+            </div>
+            <div class="profile_post_tag">
+                <i class="fa fa-tags" aria-hidden="true"></i>
+                {% for post_tag in post.tags.all %}
+                    <a href="{% url 'search:main_search' %}?q={{ post_tag }}&options=tags"><span class="badge badge-dark">{{ post_tag }}</span></a>
+                    {#                    <a href="{% url 'search:tag_search' post_tag %}">#{{ post_tag }}</a>#}
+                {% endfor %}
             </div>
         </div>
         <br>
@@ -54,7 +60,7 @@
         var scrollHeight = $(window).scrollTop() + $(window).height();
         var documentHeight = $(document).height();
 
-        if (scrollHeight - 550 >= documentHeight) {
+        if (scrollHeight -700 >= documentHeight) {
             var page = $("#page").val();
             var end_page = {{ posts.paginator.num_pages }};
             if (page > end_page) {  //더이상 스크롤 할 페이지가 없는 경우

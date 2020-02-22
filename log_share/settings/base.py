@@ -91,7 +91,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'log_share.wsgi.application'
+###WSGI_APPLICATION = 'log_share.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
@@ -99,12 +99,12 @@ WSGI_APPLICATION = 'log_share.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'log_share',
-        'USER': 'root',
-        'PASSWORD': 'admin',
-        'HOST': 'localhost',
+        'NAME': 'DB',
+        'USER': 'KCM',
+        'PASSWORD': 'qkqajrwk',
+        'HOST': 'log-share-db.cwbjg4vet3be.ap-northeast-2.rds.amazonaws.com',
         'PORT': '3306',
-    }
+        }
 }
 
 # DATABASES = {
@@ -149,7 +149,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, '../staticfiles/')
+STATIC_ROOT = os.path.join(BASE_DIR, '../static/')
 STATICFILES_DIRS = (os.path.join(BASE_DIR, "../static"),)
 
 STATICFILES_FINDERS = (

@@ -10,9 +10,9 @@
     {#    <link rel="stylesheet" href="{% sass_src 'search/search_bar.scss' %}">#}
     <link rel="stylesheet" href="{% static "search/search.css" %}">
     <style>
-    *{
-        font-family: 나눔스퀘어;
-    }
+        * {
+            font-family: 나눔스퀘어;
+        }
 
         :root {
             --primary-2: #1E88E5;
@@ -191,11 +191,11 @@
             box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.05), inset 0px -15px 10px -12px rgba(0, 0, 0, 0.05);
         }
 
-            .checks.etrans input[type="checkbox"] + label {
-                padding-left: 40px;
-                padding-right: 30px;
-                padding-bottom: 10px;
-            }
+        .checks.etrans input[type="checkbox"] + label {
+            padding-left: 40px;
+            padding-right: 30px;
+            padding-bottom: 10px;
+        }
 
         .checks.etrans input[type="checkbox"] + label {
             padding-left: 40px;
@@ -203,22 +203,22 @@
             padding-bottom: 20px;
         }
 
-            .checks.etrans input[type="checkbox"]:checked + label:before {
-                position: absolute;
-                content: "";
-                width: 10px;
-                top: -5px;
-                left: 5px;
-                border-radius: 0;
-                opacity: 1;
-                background: transparent;
-                border-color: transparent #6cc0e5 #6cc0e5;
-                border-top-color: transparent;
-                border-left-color: transparent;
-                -ms-transform: rotate(45deg);
-                -webkit-transform: rotate(45deg);
-                transform: rotate(45deg);
-            }
+        .checks.etrans input[type="checkbox"]:checked + label:before {
+            position: absolute;
+            content: "";
+            width: 10px;
+            top: -5px;
+            left: 5px;
+            border-radius: 0;
+            opacity: 1;
+            background: transparent;
+            border-color: transparent #6cc0e5 #6cc0e5;
+            border-top-color: transparent;
+            border-left-color: transparent;
+            -ms-transform: rotate(45deg);
+            -webkit-transform: rotate(45deg);
+            transform: rotate(45deg);
+        }
 
         .checks.etrans input[type="checkbox"]:checked + label:before {
             position: absolute;
@@ -279,15 +279,15 @@
             /* IE 8 */
         }
 
-            .filter-date input {
-                width: 60%;
-                height: 30px;
-                font-size: 14px;
-                border: 2px solid #6cc0e5;
-                padding-left: 10px;
-                margin-bottom: 3px;
-                color: #3c3c3c;
-            }
+        .filter-date input {
+            width: 60%;
+            height: 30px;
+            font-size: 14px;
+            border: 2px solid #6cc0e5;
+            padding-left: 10px;
+            margin-bottom: 3px;
+            color: #3c3c3c;
+        }
 
         .filter-date input {
             width: 110px;
@@ -313,8 +313,12 @@
             z-index: 0;
         }
 
+        .feed-name {
+            width: 80px;
+        }
     </style>
 {% endblock %}
+
 {% block content %}
     <div class="main-content">
         <div class="content-side">
@@ -366,14 +370,14 @@
                     </div>
                 </div>
 
-                    <hr><hr>
+                <hr class="filter-split">
 
                 <div class="filter">
                     <div class="filter_name">카테고리</div>
                     <br>
                     <div id="select_box">
                         <label for="category">category</label>
-                        <select id="category" title="select category">
+                        <select id="category" name='filter-category' title="select category">
                             <option value="" selected="selected">category</option>
                             <option value="대외활동">대외활동</option>
                             <option value="공모전">공모전</option>
@@ -397,17 +401,13 @@
 
                 <hr class="filter-split">
 
-                    <div class="filter">
-                        <div class="filter_name">기간 설정</div>
-                        <br>
-                        <div class="filter-content filter-date">
-{#                            <input name="date-start" type="date">#}
-{#                            <span> &nbsp&nbsp~&nbsp&nbsp </span>#}
-{#                            <input name="date-end" type="date">#}
-                            시작일 : <input name="date-start" type="date">
-                            <br>
-                            종료일 : <input name="date-end" type="date">
-                        </div>
+                <div class="filter">
+                    <div class="filter_name">기간 설정</div>
+                    <br>
+                    <div class="filter-content filter-date">
+                        <input name="date-start" type="date">
+                        <span> &nbsp&nbsp~&nbsp&nbsp </span>
+                        <input name="date-end" type="date">
                     </div>
                 </div>
             </div>
@@ -458,7 +458,13 @@
                 {% include 'search/main_search.html' %}
                 {#                    {% include 'post/myprofile_post_list.html' %}#}
             </div>
+            <div id="post_list_ajax"></div>
 
+            <div id="profile_post_list_ajax"></div>
+            {# ajax 결과물 추가할 곳 #}
+            <input id="page" type="hidden" value="2"> {# 첫 next_page == 2 #}
+            <input id="user" type="hidden" name="{{ profile.user.pk }}"> {# profile.user.pk를 ajax에서 사용하기 위해 #}
+            <button id="callmorepost" type="button">More Post</button>
             {# ajax 결과물 추가할 곳 #}
         </div>
     </div>
@@ -466,30 +472,30 @@
 
     <br>
     {# -------------------------알림 요청 오면 알림 뜨는 것---------------------------- #}
-{#    <script type="text/javascript">#}
-{#        //현재 '홈'버튼 클릭하면#}
-{#        $("#home_btn").click(function () {#}
-{#            $.ajax({#}
-{#                type: "GET",#}
-{#                url: "{% url 'group_management:request_exist' %}",#}
-{#                data: {#}
-{#                    'csrfmiddlewaretoken': '{{ csrf_token }}'#}
-{#                },#}
-{#                dataType: "html",#}
-{##}
-{#                success: function (response) {#}
-{#                    if (response.icon) {#}
-{#                        $("#alert_icon").css("visibility", "visible");#}
-{#                    } else {#}
-{#                        $("#alert_icon").css("visibility", "hidden");#}
-{#                    }#}
-{#                },#}
-{#                error: function (request, status, error) {#}
-{#                    alert("요청 알림 오류");#}
-{#                }#}
-{#            });#}
-{#        })#}
-{#    </script>#}
+    <script type="text/javascript">
+        //현재 '홈'버튼 클릭하면
+        $("#home_btn").click(function () {
+            $.ajax({
+                type: "GET",
+                url: "{% url 'group_management:request_exist' %}",
+                data: {
+                    'csrfmiddlewaretoken': '{{ csrf_token }}'
+                },
+                dataType: "html",
+
+                success: function (response) {
+                    if (response.icon) {
+                        $("#alert_icon").css("visibility", "visible");
+                    } else {
+                        $("#alert_icon").css("visibility", "hidden");
+                    }
+                },
+                error: function (request, status, error) {
+                    alert("요청 알림 오류");
+                }
+            });
+        })
+    </script>
     {#-------------------------------------------------------------------------------#}
 
     {#    <input id="page" type="hidden" value="2"> {# 첫 next_page == 2 #}
@@ -627,3 +633,4 @@
     </script>
     {% include "search/Search_Ajax.html" %}
 {% endblock %}
+

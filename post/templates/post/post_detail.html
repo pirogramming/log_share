@@ -90,17 +90,17 @@
         border: none;
     }
 
-    .post_bookmark{
+    .post_bookmark {
         display: inline;
     }
 
-    .bookmark_count{
+    .bookmark_count {
         display: inline;
         color: #514aac;
         font-weight: bold;
     }
 
-    .post_bookmark_con{
+    .post_bookmark_con {
         float: right;
     }
 
@@ -153,7 +153,7 @@
         color: dodgerblue;
     }
 
-    .post_tag{
+    .post_tag {
         height: 30px;
     }
 
@@ -163,8 +163,8 @@
         font-weight: bold;
     }
 
-    .post_tag div{
-        width:100px;
+    .post_tag div {
+        width: 100px;
         border-radius: 5px;
         border: 2px solid #b0bec9;
         text-align: center;
@@ -197,7 +197,6 @@
         color: #514aac;
         font-weight: bold;
     }
-
 
 
 </style>
@@ -299,7 +298,9 @@
             <div class="post_tag">
                 <label>[ 태그 ] </label>
                 {% for post_tag in post.tags.all %}
-                    <div><a href="{% url 'search:tag_search' post_tag %}">#{{ post_tag }}</a></div>
+{#                    <div><a href="{% url 'search:tag_search' post_tag %}">#{{ post_tag }}</a></div>#}
+                    <a href="{% url 'search:main_search' %}?q={{ post_tag }}&options=tags">
+                        #{{ post_tag }}</a>
                 {% endfor %}
             </div>
             <br>

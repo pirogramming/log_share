@@ -18,7 +18,6 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 
-
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('accounts/', include('accounts.urls')),
@@ -27,9 +26,11 @@ urlpatterns = [
     path('post/',include('post.urls')),
     path('group/', include('group_management.urls')),
     path('search/', include('search.urls')),
+    
 
     #3rd party apps
     path('summernote/', include('django_summernote.urls')),
 ]
+
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -192,4 +192,4 @@ def search_scroll(request):
         'bm_post_list': bm_list,
 
     }
-    return render(request, 'search/scroll_template.html', context)  # ajax_datatype => dataType: 'html'
+    return render(request, 'search/main_search.html', context)  # ajax_datatype => dataType: 'html'

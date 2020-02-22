@@ -64,5 +64,5 @@ def process_category(request, user, qs):
         Q(start_date__gte=rq['date-start']) &
         Q(end_date__lte=rq['date-end']) &
         Q(user__user_groups__id__in=group_id_list(request, user)) &
-        Q(category__in=rq['filter-category'])
+        (Q(category__in=rq['filter-category']) | Q(category=rq['filter-category']))
     ).distinct().order_by('-start_date', '-end_date')

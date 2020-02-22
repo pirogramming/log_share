@@ -4,6 +4,12 @@
         margin: 50px auto;
     }
 
+    .rateit {
+        width: 80px;
+        height: 17.5px;
+        overflow: hidden;
+    }
+
     .profile_first_container {
         background-color: white;
         border-radius: 5px;
@@ -62,7 +68,7 @@
         font-weight: lighter;
     }
 
-    .depart_con{
+    .depart_con {
         margin: 20px 0;
     }
 
@@ -75,7 +81,7 @@
     .label_depart {
         padding: 7px 10px;
         text-align: center;
-        width:50px;
+        width: 50px;
         font-size: 15px;
         border: 2px solid #e3f2fd;
         border-radius: 5px;
@@ -102,7 +108,7 @@
         padding: 8px 0;
     }
 
-    .photo_con{
+    .photo_con {
         width: 45%;
         float: left;
     }
@@ -134,7 +140,7 @@
         border: 0.5px solid #b0bec9;
     }
 
-    .recent_tag_label{
+    .recent_tag_label {
         display: inline;
         color: #514aac;
         padding: 0 10px;
@@ -156,10 +162,15 @@
     }
 
     {#---------------------------- post_list---------------------------------------- #}
-    .profile_post_list {
+    .profile_post_first_con {
+        padding-bottom: 10px;
+    }
+
+    .profile_container .profile_post_list {
         background-color: white;
         border-radius: 5px;
-        padding: 10px 20px !important;
+        padding: 20px 20px;
+        margin-bottom: 10px;
         box-shadow: 2px 2px 2px #b0bec9;
         border: 0.5px solid #b0bec9;
     }
@@ -178,33 +189,12 @@
         text-decoration: none;
         color: black;
     }
-    .profile_post_list
 
-    .profile_post_list rateit {
-        width: 80px;
-        height: 17px;
-        overflow: hidden;
-    }
-
-    #callmorepost {
-        position: relative;
-        width: 100%;
-        height: 35px;
-        color: #ffe7f5;
-        background-color: #0086b3;
-        padding: 0;
-        font-weight: bold;
-        font-size: 17px;
-        border: none;
-    {#text-align: center;#} margin: 0 auto;
-        border-radius: 5px;
-        margin-bottom: 15px;
-    }
-
-    .profile_post_list_ajax {
+    .profile_container .profile_post_list_ajax {
         background-color: white;
         border-radius: 5px;
-        padding: 10px 20px;
+        padding: 20px 20px;
+        margin-bottom: 10px;
         box-shadow: 2px 2px 2px #b0bec9;
         border: 0.5px solid #b0bec9;
     }
@@ -223,11 +213,79 @@
         font-weight: bold;
     }
 
-    .profile_post_list_ajax rateit {
-        width: 80px;
-        height: 17px;
-        overflow: hidden;
+    {# contents #}
+
+
+    .profile_post_title {
+        font-weight: bold;
+        font-size: 20px;
+        display: inline;
+        padding: 5px 0;
+        padding-right: 10px;
     }
+
+    .profile_post_category {
+        display: inline;
+        padding: 5px 0;
+    }
+
+    .profile_post_contents {
+        padding-left: 10px;
+        padding-bottom: 20px;
+    }
+
+    .profile_post_date {
+        display: inline;
+        padding-right: 10px;
+    }
+
+    .profile_post_bookmark_count {
+        display: inline;
+        padding-right: 10px;
+    }
+
+    .profile_post_tag {
+        padding-top: 10px;
+    }
+
+    .profile_post_tag a .badge {
+        display: inline-block;
+        padding: .25em .4em;
+        font-size: 75%;
+        font-weight: 700;
+        line-height: 1;
+        text-align: center;
+        white-space: nowrap;
+        vertical-align: baseline;
+        border-radius: .25rem;
+    }
+
+    .profile_post_tag .badge badge-dark {
+        color: #fff;
+        background-color: #343a40;
+    }
+
+    .profile_post_list rateit {
+        display: inline;
+        padding-right: 10px;
+        vertical-align: bottom;
+    }
+
+    #callmorepost {
+        position: relative;
+        width: 100%;
+        height: 35px;
+        color: white;
+        background-color: #0086b3;
+        padding: 0;
+        font-weight: bold;
+        font-size: 17px;
+        border: none;
+    {#text-align: center;#} margin: 0 auto;
+        border-radius: 5px;
+        margin-bottom: 15px;
+    }
+
 
     {# ---------------------------under------------------------------ #}
     .interested_tag_header {
@@ -282,15 +340,15 @@
 
     .profile_edit {
         padding-bottom: 20px;
-        float:right;
+        float: right;
     }
 
-    .profile_margin{
+    .profile_margin {
         width: 100%;
         height: 40px;
     }
 
-    .url_container{
+    .url_container {
         text-align: center;
         margin-top: 25px;
         margin-bottom: 15px;
@@ -331,6 +389,10 @@
         display: inline;
         padding: 5px 5px;
     }
+    .logofont{
+	    font-family: 나눔스퀘어 !important;
+
+    }
 </style>
 
 {% extends 'base.html' %}
@@ -353,19 +415,21 @@
     <div class="profile_container">
         <div class="profile_first_container">
             <div class="profile_first_front_container">
-            <div class="photo_con">
-                <div class="profile_photo">
-                    {% if profile.photo %}
-                        <img src="{{ profile.photo.url }}" alt=""/>
-                    {% else %}
-                        <img src="{% static 'img/person.jpg' %}" alt=""/>
-                    {% endif %}
+                <div class="photo_con">
+                    <div class="profile_photo">
+                        {% if profile.photo %}
+                            <img src="{{ profile.photo.url }}" alt=""/>
+                        {% else %}
+                            <img src="{% static 'img/person.jpg' %}" alt=""/>
+                        {% endif %}
+                    </div>
                 </div>
-            </div>
                 <div class="profile_first_content">
-                    <div class="label_name">이름</div><div class="profile_name">{{ profile.name }}</div>
+                    <div class="label_name">이름</div>
+                    <div class="profile_name">{{ profile.name }}</div>
                     <div class="depart_con">
-                    <div class="label_depart">소속</div><div class="profile_depart">{{ profile.department }}</div>
+                        <div class="label_depart">소속</div>
+                        <div class="profile_depart">{{ profile.department }}</div>
                     </div>
                     <div class="label_intro">자기소개</div>
                     <div class="profile_intro">
@@ -376,9 +440,11 @@
                     <div><p class="interested_tag_header">관심태그</p><br><br>
                         {% if profile.interested_tag != None %}
                             {% for tag, size in interested_tag_dict.items %}
-                                <a href="{% url 'search:tag_search' tag %}">
+
+                                <a href="{% url 'search:main_search' %}?q={{ tag }}&options=tags">
                                     <button class="interested_tag"> #{{ tag }} </button>
                                 </a>
+
                             {% endfor %}
                         {% endif %}
                     </div>
@@ -418,7 +484,8 @@
                     <div class="daum_label"><a href="{{ profile.daum }}">다음</a></div>
                 {% endif %}
                 {% if profile.github != None %}
-                    <div class="github_label"><a href="{{ profile.github }}"><i class="fab fa-github"></i>  Github</a></div>
+                    <div class="github_label"><a href="{{ profile.github }}"><i class="fab fa-github"></i> Github</a>
+                    </div>
                 {% endif %}
                 {% if profile.other_url != None %}
                     <div class="other_label"><a href="{{ profile.other_url }}">others</a></div>
@@ -447,9 +514,15 @@
                 {% for tag_name, tag_count in recent_tags_count.items %}
                     {% if tag_count >= 2 %} <!—숫자는 추후 조정—>
                         <span style="font-size: x-large">
-                         <a class="tags" href="{% url 'search:tag_search' tag_name %}">#{{ tag_name }}</a></span>
+                        <a href="{% url 'search:main_search' %}?q={{ tag_name }}&options=tags">
+                            #{{ tag_name }}</a>
+                        </span>
                     {% else %}
-                        <span><a class="tags" href="{% url 'search:tag_search' tag_name %}">#{{ tag_name }}</a></span>
+                        <span>
+                            <a href="{% url 'search:main_search' %}?q={{ tag_name }}&options=tags">
+                            #{{ tag_name }}
+                            </a>
+                        </span>
                     {% endif %}
                 {% endfor %}
             </div>
