@@ -303,4 +303,4 @@ pip-selfcheck.json
 
 # End of https://www.gitignore.io/api/macos,django,python,pycharm,virtualenv
 
-.config_secret
+.config_secret/
