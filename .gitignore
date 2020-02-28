@@ -306,3 +306,4 @@ pip-selfcheck.json
 .config_secret/
 log_share/settings/
 log_share/wsgi/
+staticfiles/
