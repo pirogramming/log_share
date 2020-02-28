@@ -35,7 +35,7 @@
         .main-content {
             display: flex;
             justify-content: center;
-            width: 70%;
+            width: 80%;
             margin: 50px auto;
         {#align-content: center;#}
         }
@@ -148,112 +148,80 @@
             border-top: 1px dashed #bbb;
         }
 
-        .filter-group label {
-            color: #3c3c3c;
+        .filter-group {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-size: 13px;
         }
 
-        .checks {
-            position: relative;
+        ul.ks-cboxtags {
+            list-style: none;
+            padding: 2px;
         }
 
-        .checks input[type="checkbox"] { /* 실제 체크박스는 화면에서 숨김 */
-            position: absolute;
-            width: 1px;
-            height: 1px;
-            padding: 0;
-            margin: -1px;
-            overflow: hidden;
-            clip: rect(0, 0, 0, 0);
-            border: 0
+        ul.ks-cboxtags li {
+            display: inline;
         }
 
-        .checks input[type="checkbox"] + label {
+        ul.ks-cboxtags li label {
             display: inline-block;
-            position: relative;
-            cursor: pointer;
+            background-color: rgba(255, 255, 255, .9);
+            border: 2px solid rgba(139, 139, 139, .3);
+            color: #adadad;
+            border-radius: 25px;
+            white-space: nowrap;
+            margin: 3px 0px;
+            -webkit-touch-callout: none;
             -webkit-user-select: none;
             -moz-user-select: none;
             -ms-user-select: none;
+            user-select: none;
+            -webkit-tap-highlight-color: transparent;
+            transition: all .2s;
+            padding: 8px 12px;
+            cursor: pointer;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            max-width: 200px;
         }
 
-        .checks input[type="checkbox"] + label:before { /* 가짜 체크박스 */
-            content: ' ';
+
+        ul.ks-cboxtags li label::before {
             display: inline-block;
-            width: 21px; /* 체크박스의 너비를 지정 */
-            height: 21px; /* 체크박스의 높이를 지정 */
-            line-height: 21px; /* 세로정렬을 위해 높이값과 일치 */
-            margin: -2px 8px 0 0;
-            text-align: center;
-            vertical-align: middle;
-            background: #fafafa;
-            border: 1px solid #cacece;
-            border-radius: 3px;
-            box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.05), inset 0px -15px 10px -12px rgba(0, 0, 0, 0.05);
+            font-style: normal;
+            font-variant: normal;
+            text-rendering: auto;
+            -webkit-font-smoothing: antialiased;
+            font-family: "Font Awesome 5 Free";
+            font-weight: 900;
+            font-size: 14px;
+            padding: 2px 6px 2px 2px;
+            content: "\f067";
+            transition: transform .3s ease-in-out;
         }
 
-        .checks.etrans input[type="checkbox"] + label {
-            padding-left: 40px;
-            padding-right: 30px;
-            padding-bottom: 10px;
+        ul.ks-cboxtags li input[type="checkbox"]:checked + label::before {
+            content: "\f00c";
+            transform: rotate(-360deg);
+            transition: transform .3s ease-in-out;
         }
 
-        .checks.etrans input[type="checkbox"] + label {
-            padding-left: 40px;
-            padding-right: 30px;
-            padding-bottom: 20px;
+        ul.ks-cboxtags li input[type="checkbox"]:checked + label {
+            border: 2px solid #1bdbf8;
+            background-color: #00B0F0;
+            color: #fff;
+            transition: all .2s;
         }
 
-        .checks.etrans input[type="checkbox"]:checked + label:before {
+        ul.ks-cboxtags li input[type="checkbox"] {
             position: absolute;
-            content: "";
-            width: 10px;
-            top: -5px;
-            left: 5px;
-            border-radius: 0;
-            opacity: 1;
-            background: transparent;
-            border-color: transparent #6cc0e5 #6cc0e5;
-            border-top-color: transparent;
-            border-left-color: transparent;
-            -ms-transform: rotate(45deg);
-            -webkit-transform: rotate(45deg);
-            transform: rotate(45deg);
-        }
-
-        .checks.etrans input[type="checkbox"]:checked + label:before {
-            position: absolute;
-            content: "";
-            width: 10px;
-            top: -5px;
-            left: 5px;
-            border-radius: 0;
-            opacity: 1;
-            background: transparent;
-            border-color: transparent #6cc0e5 #6cc0e5 transparent;
-            border-top-color: transparent;
-            border-left-color: transparent;
-            -ms-transform: rotate(45deg);
-            -webkit-transform: rotate(45deg);
-            transform: rotate(45deg);
-        }
-
-        .no-csstransforms .checks.etrans input[type="checkbox"]:checked + label:before {
-            /*content:"\2713";*/
-            content: "\2714";
-            top: 0;
-            left: 0;
-            width: 21px;
-            line-height: 21px;
-            color: #6cc0e5;
-            text-align: center;
-            border: 1px solid #6cc0e5;
+            opacity: 0;
         }
 
         div#select_box {
             position: relative;
-            width: 200px;
+            width: 90%;
             height: 32px;
-            background: url({% static 'img/select_arrow.png' %}) 170px center no-repeat;
+            background: url({% static 'img/select_arrow.png' %}) 100% center no-repeat;
             background-size: contain;
             border: 2px solid #6cc0e5;
             /* 화살표 이미지 */
@@ -279,23 +247,22 @@
             /* IE 8 */
         }
 
-        .filter-date input {
-            width: 60%;
-            height: 30px;
-            font-size: 14px;
-            border: 2px solid #6cc0e5;
-            padding-left: 10px;
-            margin-bottom: 3px;
-            color: #3c3c3c;
+        .date-span {
+            font-size: 13px;
+            color: #b0bec9;
+            margin-left: 10px;
+
         }
 
         .filter-date input {
-            width: 110px;
+            width: 80%;
             height: 30px;
             font-size: 14px;
             border: 2px solid #6cc0e5;
             padding-left: 10px;
             margin-bottom: 3px;
+            margin-top: 1px;
+            margin-left: 10px;
             color: #3c3c3c;
         }
 
@@ -316,10 +283,11 @@
         .feed-name {
             width: 80px;
         }
-	.btn {
-		color:black;
-		font-weight: bold;
-	}
+
+        .btn {
+            color: black;
+            font-weight: bold;
+        }
     </style>
 {% endblock %}
 
@@ -365,12 +333,13 @@
                     <div class="filter_name">그룹 선택</div>
                     <br>
                     <div class="filter-group checks etrans">
-                        {% for group in groups %}
-                            <input id="group{{ group.id }}" name="group{{ group.id }}" value="{{ group.id }}"
-                                   type="checkbox" checked>
-                            <label for="group{{ group.id }}">{{ group.group_name }}</label>
-                            <br>
-                        {% endfor %}
+                        <ul class="ks-cboxtags">
+                            {% for group in groups %}
+                                <li><input id="group{{ group.id }}" name="group{{ group.id }}" value="{{ group.id }}"
+                                           type="checkbox" checked>
+                                    <label for="group{{ group.id }}">{{ group.group_name }}</label></li>
+                                {#                            <br>#}
+                            {% endfor %}
                     </div>
                 </div>
 
@@ -407,11 +376,11 @@
 
                 <div class="filter">
                     <div class="filter_name">기간 설정</div>
-                    <br>
                     <div class="filter-content filter-date">
-                        <input name="date-start" type="date" style="width:70%;">
-                        <span> &nbsp&nbsp~&nbsp&nbsp </span>
-                        <input name="date-end" type="date" style="width:70%;">
+                        <span class="date-span">Start Date</span><br>
+                        <input name="date-start" type="date"><br>
+                        <span class="date-span">End Date</span><br>
+                        <input name="date-end" type="date"><br>
                     </div>
                 </div>
             </div>
@@ -443,17 +412,6 @@
                             <div class="btn" data-value="users">작성자</div>
                         </div>
                         <input type="hidden" id="options-input" name="options" value="">
-                        {#                            <div class="btn-group">#}
-                        {#                                <label class="btn">#}
-                        {#                                    <input type="radio" name="options" value="posts"> 제목 + 내용#}
-                        {#                                </label>#}
-                        {#                                <label class="btn">#}
-                        {#                                    <input type="radio" name="options" value="tags"> 태그#}
-                        {#                                </label>#}
-                        {#                                <label class="btn">#}
-                        {#                                    <input type="radio" name="options" value="users"> 작성자#}
-                        {#                                </label>#}
-                        {#                            </div>#}
                     </div>
 
                 </div>
