@@ -1,0 +1,154 @@
+/*{#------------------------------- side-filter css -----------------------------------------#}*/
+{% load static %}
+
+.filter_start {
+    font-size: x-large;
+    font-weight: bold;
+}
+
+.fa-search {
+    color: #6cc0e5;
+    line-height: 24px;
+    font-size: 24px;
+}
+
+.side-filter {
+    padding: 20px 40px 20px 40px;
+    border: 0.1px solid #b0bec9;
+    box-shadow: 2px 2px 2px #b0bec9;
+}
+
+.filter {
+    margin-bottom: 20px;
+    margin-top: 20px;
+}
+
+.filter_name {
+    font-weight: bold;
+    font-size: larger;
+}
+
+hr {
+    border-top: 1px dashed #bbb;
+}
+
+.filter-group {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 13px;
+}
+
+ul.ks-cboxtags {
+    list-style: none;
+    padding: 2px;
+}
+
+ul.ks-cboxtags li {
+    display: inline;
+}
+
+ul.ks-cboxtags li label {
+    display: inline-block;
+    background-color: rgba(255, 255, 255, .9);
+    border: 2px solid rgba(139, 139, 139, .3);
+    color: #adadad;
+    border-radius: 25px;
+    white-space: nowrap;
+    margin: 3px 0px;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+    transition: all .2s;
+    padding: 8px 12px;
+    cursor: pointer;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    max-width: 200px;
+}
+
+
+ul.ks-cboxtags li label::before {
+    display: inline-block;
+    font-style: normal;
+    font-variant: normal;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    font-size: 14px;
+    padding: 2px 6px 2px 2px;
+    content: "\f067";
+    transition: transform .3s ease-in-out;
+}
+
+ul.ks-cboxtags li input[type="checkbox"]:checked + label::before {
+    content: "\f00c";
+    transform: rotate(-360deg);
+    transition: transform .3s ease-in-out;
+}
+
+ul.ks-cboxtags li input[type="checkbox"]:checked + label {
+    border: 2px solid #1bdbf8;
+    background-color: #00B0F0;
+    color: #fff;
+    transition: all .2s;
+}
+
+ul.ks-cboxtags li input[type="checkbox"] {
+    position: absolute;
+    opacity: 0;
+}
+
+div#select_box {
+    position: relative;
+    width: 90%;
+    height: 32px;
+    background: url("/static/img/select_arrow.png") 100% center no-repeat; /* 화살표 이미지 */
+    background-size: contain;
+    border: 2px solid #6cc0e5;
+}
+
+div#select_box label {
+    position: absolute;
+    font-size: 14px;
+    color: #3c3c3c;
+    top: 7px;
+    left: 12px;
+    letter-spacing: 1px;
+}
+
+div#select_box select#category {
+    width: 100%;
+    height: 32px;
+    min-height: 32px;
+    line-height: 32px;
+    padding: 0 10px;
+    opacity: 0;
+    filter: alpha(opacity=0);
+    /* IE 8 */
+}
+
+select {
+    font-size: 14px;
+}
+
+.date-span {
+    font-size: 13px;
+    color: #b0bec9;
+    margin-left: 10px;
+
+}
+
+.filter-date input {
+    width: 80%;
+    height: 30px;
+    font-size: 14px;
+    border: 2px solid #6cc0e5;
+    padding-left: 10px;
+    margin-bottom: 3px;
+    margin-top: 1px;
+    margin-left: 10px;
+    color: #3c3c3c;
+}

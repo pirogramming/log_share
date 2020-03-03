@@ -1,0 +1,56 @@
+/*{#-------------------------------side-profle css -----------------------------------------#}*/
+
+.side-profile {
+    border: 0.1px solid #b0bec9;
+    box-shadow: 2px 2px 2px #b0bec9;
+    margin-bottom: 40px;
+    padding: 20px 40px 20px 40px;
+    text-align: center;
+}
+
+#profile-photo img {
+    width: 150px;
+    height: 150px;
+    border-radius: 100%;
+    object-fit: cover;
+}
+
+#profile-name {
+    font-size: larger;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+#profile-name a {
+    color: black;
+}
+
+#profile-name-span {
+    color: #1a237e;
+}
+
+#profile-bookmark a {
+    color: black;
+}
+
+#welcome {
+    color: black;
+    font-size: larger;
+    font-weight: bold;
+}
+
+.bookmark_button, .request_button {
+    cursor: pointer;
+    width: 80%;
+    height: 30px;
+    font-size: 16px;
+    background-color: #00B0F0;
+    display: inline-block;
+    padding: .5em 0.5em;
+    color: white;
+    font-weight: bold;
+    border-radius: 5px;
+    border: 1px solid #00B0F0;
+    margin-bottom: 1px;
+    margin-top: 1px;
+}
