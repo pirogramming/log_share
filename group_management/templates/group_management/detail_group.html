@@ -340,6 +340,7 @@
                 <div class="group_detail">
                     <div class="group_title">그룹명: {{ group.group_name }}</div>
                     <br><br>
+                    <div><img src="{{ group.photo.url }}" alt="" width="100px"/></div>
                     <span class="bold">카테고리:</span> {{ group.get_group_category_display }}<br><br>
                     <span class="bold">그룹 관리자:</span> {{ group.manager.user_profile.name }}({{ group.manager }})<br><br>
                     <span class="bold">그룹 설명:</span><br>
@@ -360,7 +361,6 @@
                     <br>
 
                     {% if request.user == group.manager %}
-                        {#                        <a class="a_tag" href="{% url 'group_management:update_group' group.id %}">그룹 정보 변경</a><br><br>#}
                         <label class="a_tag open-pop-label" for="open-pop">그룹 정보 변경</label><br><br>
                         <a class="a_tag" href="javascript:delete_group()">그룹 삭제</a><br><br>
                     {% elif request.user in group.members.all %}

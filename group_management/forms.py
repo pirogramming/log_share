@@ -7,11 +7,12 @@ class GroupForm(forms.ModelForm):
 
     class Meta:
         model = CustomGroup
-        fields = ('group_name', 'group_category', 'notes', 'is_searchable', 'access_code')
+        fields = ('group_name', 'group_category', 'notes', 'photo', 'is_searchable', 'access_code')
         labels = {
             'group_name': '그룹명',
             'group_category': '카테고리',
             'notes': '그룹 설명',
+            'photo': '그룹 대표 사진',
             'is_searchable': '검색 허용',
             'access_code': '그룹 가입 코드'
         }
