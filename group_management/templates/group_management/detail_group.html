@@ -219,6 +219,15 @@
             font-size: 12px;
         }
 
+        #photo-div {
+            max-width: 100%;
+        }
+
+        #photo-div img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+        }
         .message_box {
             display: block;
         }
@@ -339,8 +348,10 @@
             <div class="group_detail_content_col group_detail_content_col_1">
                 <div class="group_detail">
                     <div class="group_title">그룹명: {{ group.group_name }}</div>
-                    <br><br>
-                    <div><img src="{{ group.photo.url }}" alt="" width="100px"/></div>
+                    <br>
+                    {% if group.photo %}
+                        <div id="photo-div"><img src="{{ group.photo.url }}" alt=""/></div>
+                    {% endif %}
                     <span class="bold">카테고리:</span> {{ group.get_group_category_display }}<br><br>
                     <span class="bold">그룹 관리자:</span> {{ group.manager.user_profile.name }}({{ group.manager }})<br><br>
                     <span class="bold">그룹 설명:</span><br>
