@@ -1,5 +1,6 @@
 from .models import CustomGroup
 from django import forms
+from django.forms import FileInput
 from django.contrib.auth import get_user_model
 
 
@@ -16,10 +17,13 @@ class GroupForm(forms.ModelForm):
             'is_searchable': '검색 허용',
             'access_code': '그룹 가입 코드'
         }
+        widgets = {
+            'photo': FileInput(),
+        }
 
     def __init__(self, username, *args, **kwargs):# -> object:
         super(GroupForm, self).__init__(*args, **kwargs)
-
+        self.fields['photo'].widget.attrs = {'id': 'selectedFile'}
 
 class RequestWithCodeForm(forms.Form):
     group_name = forms.CharField(label='그룹명', max_length=50)

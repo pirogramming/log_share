@@ -484,7 +484,7 @@
         <div class="modal_inner">
             <label class="modal_close" for="open-pop"></label>
             <div class="group_create_form">
-                <form action="" method="post" class="form-horizontal">
+                <form action="" method="post" class="form-horizontal" enctype="multipart/form-data">
                     {% csrf_token %}
                     <h3>그룹의 정보를 수정해보세요!</h3>
                     {% for error in form.non_field_errors %}
