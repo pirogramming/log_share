@@ -51,11 +51,12 @@
     }
 
     .profile_first_container .profile_first_content .profile_name {
-        font-size: 20px;
+        font-size: 30px;
         font-weight: bold;
         vertical-align: text-top;
         height: 80px;
         display: inline;
+        font-family: 'Gaegu', cursive;
     }
 
     .profile_first_container .profile_first_content .label_name {
@@ -76,6 +77,7 @@
         height: 50px;
         font-size: 20px;
         display: inline;
+        font-family: 'Gaegu', cursive;
     }
 
     .label_depart {
@@ -90,10 +92,11 @@
     }
 
     .profile_first_container .profile_first_content .profile_intro {
-        font-size: 18px;
-        width: 90%;
+        font-size: 20px;
+        width: 95%;
         margin-bottom: 30px;
         padding-left: 10px;
+        font-family: 'Gaegu', cursive;
     }
 
     .profile_first_container .profile_first_content .profile_intro p {
@@ -414,6 +417,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/locale/ko.js"></script>
     <link rel='stylesheet' href="{% static 'css/eventline.css' %}">
+    <link href="https://fonts.googleapis.com/css?family=Gaegu&display=swap" rel="stylesheet">
     {#    <script async src='{% static 'js/eventline.js' %}'></script>#}
 {% endblock %}
 
@@ -457,7 +461,6 @@
                     </div>
                 </div>
             </div>
-
             <!---------------------------------타임라인--------------------------------------->
             <div id="timelineContainer" class="timeline-container">
                 <div class="timeline-nav nav-past" id="navPast"><span class='fa fa-angle-left'></span></div>
