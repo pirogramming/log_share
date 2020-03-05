@@ -110,7 +110,7 @@ table {
     position: absolute;
     z-index: 1;
     top: 69px;
-    min-width: 500px;
+    min-width: 0px;
     height: 2px;
     background-color: #dfdfdf;
     -webkit-transition: all 0.3s ease-in-out;

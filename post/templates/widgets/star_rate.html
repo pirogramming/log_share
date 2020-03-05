@@ -7,10 +7,26 @@
 
 <link rel="stylesheet" href="{% static 'widgets/rateit/rateit.css' %}">
 <script
-{#  src="https://code.jquery.com/jquery-3.4.1.min.js"#}
-  integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
-  crossorigin="anonymous"></script>
-<script src="{% static 'widgets/rateit/jquery.rateit.min.js' %}" ></script>
+        {#  src="https://code.jquery.com/jquery-3.4.1.min.js"#}
+        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+        crossorigin="anonymous"></script>
+<script src="{% static 'widgets/rateit/jquery.rateit.min.js' %}"></script>
+<link rel='stylesheet' href="{% static 'css/eventline.css' %}">
 
 
-<div id="star_{{ widget.attrs.id }}" class="rateit" data-rateit-backingfld="#{{ widget.attrs.id }}"></div>
+<div id="star_{{ widget.attrs.id }}" class="rateit" data-rateit-resetable="false"
+     data-rateit-backingfld="#{{ widget.attrs.id }}" data-rateit-mode="font" data-rateit-icon="" style="font-family:fontawesome; font-size: 20px;"></div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.16/webfont.js"></script>
+<script type="text/javascript">
+    var configFontAwesome = {
+        custom: {
+            families: ['fontawesome'],
+            urls: ['https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css']
+        },
+        fontactive: function () {
+            $('.rateit-fa').rateit();
+        }
+    };
+    WebFont.load(configFontAwesome);
+</script>

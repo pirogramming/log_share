@@ -219,6 +219,15 @@
             font-size: 12px;
         }
 
+        #photo-div {
+            max-width: 100%;
+        }
+
+        #photo-div img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+        }
         .message_box {
             display: block;
         }
@@ -339,7 +348,10 @@
             <div class="group_detail_content_col group_detail_content_col_1">
                 <div class="group_detail">
                     <div class="group_title">그룹명: {{ group.group_name }}</div>
-                    <br><br>
+                    <br>
+                    {% if group.photo %}
+                        <div id="photo-div"><img src="{{ group.photo.url }}" alt=""/></div>
+                    {% endif %}
                     <span class="bold">카테고리:</span> {{ group.get_group_category_display }}<br><br>
                     <span class="bold">그룹 관리자:</span> {{ group.manager.user_profile.name }}({{ group.manager }})<br><br>
                     <span class="bold">그룹 설명:</span><br>
@@ -360,7 +372,6 @@
                     <br>
 
                     {% if request.user == group.manager %}
-                        {#                        <a class="a_tag" href="{% url 'group_management:update_group' group.id %}">그룹 정보 변경</a><br><br>#}
                         <label class="a_tag open-pop-label" for="open-pop">그룹 정보 변경</label><br><br>
                         <a class="a_tag" href="javascript:delete_group()">그룹 삭제</a><br><br>
                     {% elif request.user in group.members.all %}
@@ -484,7 +495,7 @@
         <div class="modal_inner">
             <label class="modal_close" for="open-pop"></label>
             <div class="group_create_form">
-                <form action="" method="post" class="form-horizontal">
+                <form action="" method="post" class="form-horizontal" enctype="multipart/form-data">
                     {% csrf_token %}
                     <h3>그룹의 정보를 수정해보세요!</h3>
                     {% for error in form.non_field_errors %}

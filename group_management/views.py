@@ -19,6 +19,7 @@ def all_create_group(request):
         form = GroupForm(
             request.user,
             request.POST,
+            request.FILES,
         )
         if form.is_valid():
             group = CustomGroup.objects.create(
@@ -26,6 +27,7 @@ def all_create_group(request):
                 group_name=form.cleaned_data['group_name'],
                 group_category=form.cleaned_data['group_category'],
                 notes=form.cleaned_data['notes'],
+                photo=form.cleaned_data['photo'],
                 is_searchable=form.cleaned_data['is_searchable'],
                 access_code=form.cleaned_data['access_code'],
             )
@@ -110,8 +112,10 @@ def detail_group(request, pk):
         form = GroupForm(
             request.user,
             request.POST,
+            request.FILES,
             instance=group,
         )
+
         if form.is_valid():
             group = form.save()
             return redirect('group_management:detail_group', pk)
@@ -123,7 +127,7 @@ def detail_group(request, pk):
         )
     form = GroupForm(
         request.user,
-        instance=group
+        instance=group,
     )
     group = get_object_or_404(CustomGroup, id=pk)
     q = request.GET.get('q', '')  # GET request의 인자중에 q 값이 있으면 가져오고, 없으면 빈 문자열 넣기

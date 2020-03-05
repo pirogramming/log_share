@@ -1,6 +1,7 @@
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import User
 from django.db import models
+from myprofile.utils import date_upload_to
 
 
 class CustomGroup(models.Model):
@@ -19,6 +20,7 @@ class CustomGroup(models.Model):
     group_name = models.CharField(max_length=50, unique=True, verbose_name='그룹명')
     group_category = models.CharField(max_length=50, default='etc', choices=categories, verbose_name='카테고리')
     notes = models.TextField(blank=True, verbose_name='그룹설명')
+    photo = models.ImageField(upload_to=date_upload_to, null=True, blank=True, verbose_name='그룹대표사진')
     is_searchable = models.BooleanField(verbose_name='검색허용')
     access_code = models.CharField(max_length=50, blank=True, verbose_name='그룹가입코드')
 
