@@ -261,12 +261,10 @@
         white-space: nowrap;
         vertical-align: baseline;
         border-radius: .25rem;
-    }
-
-    .profile_post_tag .badge badge-dark {
         color: #fff;
         background-color: #343a40;
     }
+
 
     .profile_post_list .rateit .rateit-selected {
         color: #ffeb3b;
@@ -542,15 +540,20 @@
             <div class="profile_margin"></div>
 
             <div class="profile_recent_tag">
-                <div class="recent_tag_label">최근 태그 리스트</div>
+                <div class="recent_tag_label" style="font-size: 20px">최근태그목록</div>
                 {% for tag_name, tag_count in recent_tags_count.items %}
-                    {% if tag_count >= 2 %} <!—숫자는 추후 조정—>
-                        <span style="font-size: x-large">
+                    {% if tag_count >= 3 %} <!—숫자는 추후 조정—>
+                        <span style="font-size: 30px">
+                        <a href="{% url 'search:main_search' %}?q={{ tag_name }}&options=tags">
+                            #{{ tag_name }}</a>
+                        </span>
+                    {% elif tag_count == 2 %}
+                        <span style="font-size: 25px">
                         <a href="{% url 'search:main_search' %}?q={{ tag_name }}&options=tags">
                             #{{ tag_name }}</a>
                         </span>
                     {% else %}
-                        <span>
+                        <span style="font-size: 20px">
                             <a href="{% url 'search:main_search' %}?q={{ tag_name }}&options=tags">
                             #{{ tag_name }}
                             </a>
