@@ -286,10 +286,11 @@
             {% endif %}
 
             <div class="post_copy_button">
-                <button class="copy_button" id="copy_button-{{ post.id }}" title="클립보드"><i class="fas fa-paperclip"></i></button>
+                <button class="copy_button" id="copy_button-{{ post.id }}" title="클립보드"><i class="fas fa-paperclip"></i>
+                </button>
             </div>
             <script type="text/javascript">
-                 $("#copy_button-{{ post.id }}").mouseover();
+                $("#copy_button-{{ post.id }}").mouseover();
                 $("#copy_button-{{ post.id }}").click(function () {
                     var copyText = document.getElementById("post_content-{{ post.id }}");
                     var t = document.createElement("textarea");

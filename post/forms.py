@@ -21,7 +21,6 @@ class PostModelForm(ModelForm):
         }
         labels = {
             'tags': '태그',
-
         }
         '''
                 #todo 사진 변경시에 원래 있던 사진 삭제를 자동으로 해주는 기능.
