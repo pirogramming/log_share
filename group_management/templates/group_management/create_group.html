@@ -279,11 +279,12 @@
         float: left;
         border-radius: 5px;
         transition: all .2s;
+        background-size: cover;
     }
 
-    .my_grouplist:hover {
-        background-color: #b0bec9;
-    }
+    {#.my_grouplist:hover {#}
+    {#    background-color: #b0bec9;#}
+    {#{}#}
     .my_grouplist_alarm:hover {
         background-color: lightcoral;
     }
@@ -320,6 +321,7 @@
         margin: 28px;
         line-height: 40px;
         font-size: 20px;
+        color:white;
     }
 
     .mark {
@@ -355,6 +357,7 @@
 {% extends 'base.html' %}
 {% load static %}
 
+
 {% block content %}
     <div class="background">
     <div class="my_group">
@@ -382,19 +385,19 @@
                         {% if group in requested_groups %}
                             <div class="my_grouplist_alarm">
                         {% else %}
-                            <div class="my_grouplist">
+                            <div class="my_grouplist" style="background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('{{ group.photo.url }}');background-size: cover;">
                         {% endif %}
                     {% else %}
                         <div class="mark"><img id="manage_img" src="" alt="" style="visibility: hidden;"/>
                         </div>
                         <div class="manager_text"></div>
-                        <div class="my_grouplist">
+                        <div class="my_grouplist" style="background-image: url('{{ group.photo.url }}');">
                     {% endif %}
 
                 <a class="group" href="{% url 'group_management:detail_group' group.id %}">
                     <div class="group_name"><p> {{ group.group_name }}</p></div>
                     <div class="group_content">
-                        <p>관리자:({{ group.manager }})</p>
+                        <p>관리자:{{ group.manager.user_profile.name }}({{ group.manager }})</p>
                         <p>카테고리 : {{ group.get_group_category_display }}</p>
                         <p>회원 수:{{ group.members.count }}</p>
                     </div>
