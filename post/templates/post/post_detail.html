@@ -54,6 +54,10 @@
         text-align: center;
     }
 
+    .post_detail_container .rateit .rateit-selected {
+        color: #ffeb3b;
+    }
+
     .post_detail_container .post_title {
         font-size: 35px;
         padding-bottom: 10px;
@@ -205,11 +209,11 @@
 {% load static %}
 
 {% block header %}
-    <link rel="stylesheet" href="{% static 'widgets/rateit/rateit.css' %}"/>
-    <script
-            src="https://code.jquery.com/jquery-3.4.1.min.js"
-            integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+            integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
             crossorigin="anonymous"></script>
+    <link rel='stylesheet' href="{% static 'css/eventline.css' %}">
+    <link rel="stylesheet" href="{% static 'widgets/rateit/rateit.css' %}"/>
     <script src="{% static 'widgets/rateit/jquery.rateit.min.js' %}"></script>
 {% endblock %}
 
@@ -218,47 +222,58 @@
     <div class="temp">
         <div class="post_detail_container">
 
-            <div class="rateit" data-rateit-value="{{ post.score }}" data-rateit-ispreset="true"
-                 data-rateit-readonly="true" data-rateit-mode="font" style="font-size:50px"></div>
+            <div class="rateit" data-rateit-value="{{ post.score }}"
+                 data-rateit-readonly="true" data-rateit-mode="font" data-rateit-icon=""
+                 style="font-family:fontawesome; font-size: 40px;"></div>
+            <script type="text/javascript">
+                var configFontAwesome = {
+                    custom: {
+                        families: ['fontawesome'],
+                        urls: ['https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css']
+                    },
+                    fontactive: function () {
+                        $('.rateit-fa').rateit();
+                    }
+                };
+                WebFont.load(configFontAwesome);
+            </script>
 
             <div class="post_title">{{ post.title }}</div>
 
             <div class="post_date">{{ post.start_date }} ~ {{ post.end_date }}</div>
 
-            {% if user != request.user %}
-                <div class="post_bookmark_con">
-                    <div class="post_bookmark"><input type="button" class="bookmark" name="{{ post.id }}" value=""
-                                                      style="background-image: {% if bm %}url('/media/bookmark_on.jpg'){% else %}url('/media/bookmark_off.jpg'){% endif %}">
-                    </div>
-                    <div class="bookmark_count" id="count-{{ post.id }}">{{ post.bookmark.count }}개</div>
+
+            <div class="post_bookmark_con">
+                <div class="post_bookmark"><input type="button" class="bookmark" name="{{ post.id }}" value=""
+                                                  style="background-image: {% if bm %}url('/media/bookmark_on.jpg'){% else %}url('/media/bookmark_off.jpg'){% endif %}"/>
                 </div>
+                <div class="bookmark_count" id="count-{{ post.id }}">{{ post.bookmark.count }}개</div>
+            </div>
 
-                {#                <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>#}
-                <script type="text/javascript">
-                    $(".bookmark").click(function () {
-                        var pk = $(this).attr('name');
-                        $.ajax({
-                            //bookmark button 클릭 -> ajax로 서버와 통신하기
-                            type: "POST", //데이터를 전송하는 방법
-                            url: "{% url 'post:post_bookmark' %}",  //통신할 url
-                            data: {'pk': pk, 'csrfmiddlewaretoken': '{{ csrf_token }}'}, // 서버로 데이터 전송시 옵션
-                            dataType: "json", //전달받은 데이터 타입 = json -> {'bookmark_count':post.bookmark.count(), 'message':message,}
-                                              // 서버측에서 전송한 Response 데이터 형식 (json)
-                            // 통신 성공 -> 북마크 처리(response 처리)
-                            success: function (response) {
-                                alert(response.message);
-                                $(".bookmark").css("background-image", "url(" + response.img_url + ")");
-                                $("#count-" + pk).html(response.bookmark_count + "개");
-                            },
-                            error: function (request, status, error) {
-                                alert("로그인이 필요합니다.");
-                                window.location.replace("/accounts/login/");
-                            },
-                        });
-                    })
-                </script>
-
-            {% endif %}
+            <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+            <script type="text/javascript">
+                $(".bookmark").click(function () {
+                    var pk = $(this).attr('name');
+                    $.ajax({
+                        //bookmark button 클릭 -> ajax로 서버와 통신하기
+                        type: "POST", //데이터를 전송하는 방법
+                        url: "{% url 'post:post_bookmark' %}",  //통신할 url
+                        data: {'pk': pk, 'csrfmiddlewaretoken': '{{ csrf_token }}'}, // 서버로 데이터 전송시 옵션
+                        dataType: "json", //전달받은 데이터 타입 = json -> {'bookmark_count':post.bookmark.count(), 'message':message,}
+                                          // 서버측에서 전송한 Response 데이터 형식 (json)
+                        // 통신 성공 -> 북마크 처리(response 처리)
+                        success: function (response) {
+                            alert(response.message);
+                            $(".bookmark").css("background-image", "url(" + response.img_url + ")");
+                            $("#count-" + pk).html(response.bookmark_count + "개");
+                        },
+                        error: function (request, status, error) {
+                            alert("로그인이 필요합니다.");
+                            window.location.replace("/accounts/login/");
+                        },
+                    });
+                })
+            </script>
 
             <div class="post_user">writed by
                 <a href="{% url 'myprofile:profile_detail' user.pk %}">{{ user.user_profile.name }}</a></div>
@@ -271,9 +286,10 @@
             {% endif %}
 
             <div class="post_copy_button">
-                <button class="copy_button" id="copy_button-{{ post.id }}"><i class="fas fa-paperclip"></i></button>
+                <button class="copy_button" id="copy_button-{{ post.id }}" title="클립보드"><i class="fas fa-paperclip"></i></button>
             </div>
             <script type="text/javascript">
+                 $("#copy_button-{{ post.id }}").mouseover();
                 $("#copy_button-{{ post.id }}").click(function () {
                     var copyText = document.getElementById("post_content-{{ post.id }}");
                     var t = document.createElement("textarea");
@@ -282,7 +298,7 @@
                     t.select();
                     document.execCommand("copy");
                     document.body.removeChild(t);
-                    alert("Copied");
+                    alert("복사되었습니다.");
                 })
             </script>
             <div class="margin2"></div>
@@ -298,7 +314,7 @@
             <div class="post_tag">
                 <label>[ 태그 ] </label>
                 {% for post_tag in post.tags.all %}
-{#                    <div><a href="{% url 'search:tag_search' post_tag %}">#{{ post_tag }}</a></div>#}
+                    {#                    <div><a href="{% url 'search:tag_search' post_tag %}">#{{ post_tag }}</a></div>#}
                     <a href="{% url 'search:main_search' %}?q={{ post_tag }}&options=tags">
                         #{{ post_tag }}</a>
                 {% endfor %}

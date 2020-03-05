@@ -224,7 +224,7 @@
             <li><a href="{% url 'myprofile:profile_detail' request.user.pk %}">포트폴리오</a>
                 <ul class="sub3">
                     <li><a href="{% url 'myprofile:profile_detail' request.user.pk %}">내 포폴</a></li>
-                    <li><a href="{% url 'post:post_create' %}">포폴 작성</a></li>
+                    <li><a href="{% url 'myprofile:profile_edit' user.pk %}">포폴 수정</a></li>
                 </ul>
             </li>
             <li><a href="{% url "accounts:logout" %}">로그아웃</a></li>

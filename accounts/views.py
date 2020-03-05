@@ -65,7 +65,7 @@ def signup_profile(request):
                 other_url=profile_form.cleaned_data['other_url'],
                 interested_tag=profile_form.cleaned_data['interested_tag'],
             )
-            return redirect('myprofile:profile_detail', user.pk)
+            return redirect('search:main_search')
 
     elif request.method == "GET":
         profile_form = SignupModelForm()

@@ -69,7 +69,7 @@
     }
 
     .depart_con {
-        margin: 20px 0;
+        margin: 30px 0;
     }
 
     .profile_depart {
@@ -86,15 +86,18 @@
         border: 2px solid #e3f2fd;
         border-radius: 5px;
         margin-right: 10px;
-        margin-top: 10px;
         display: inline;
     }
 
     .profile_first_container .profile_first_content .profile_intro {
-        font-size: 20px;
-        width: 100%;
-        margin-bottom: 20px;
+        font-size: 18px;
+        width: 90%;
+        margin-bottom: 30px;
         padding-left: 10px;
+    }
+
+    .profile_first_container .profile_first_content .profile_intro p {
+        padding-bottom: 15px;
     }
 
     .profile_first_container .profile_first_content .label_intro {
@@ -163,7 +166,7 @@
 
     {#---------------------------- post_list---------------------------------------- #}
     .profile_post_first_con {
-        padding-bottom: 10px;
+        padding-bottom: 20px;
     }
 
     .profile_container .profile_post_list {
@@ -171,8 +174,7 @@
         border-radius: 5px;
         padding: 20px 20px;
         margin-bottom: 10px;
-        box-shadow: 2px 2px 2px #b0bec9;
-        border: 0.5px solid #b0bec9;
+    {#box-shadow: 2px 2px 2px #b0bec9;#} border: 0.5px solid #b0bec9;
     }
 
     .profile_post_list div {
@@ -195,8 +197,7 @@
         border-radius: 5px;
         padding: 20px 20px;
         margin-bottom: 10px;
-        box-shadow: 2px 2px 2px #b0bec9;
-        border: 0.5px solid #b0bec9;
+    {#box-shadow: 2px 2px 2px #b0bec9;#} border: 0.5px solid #b0bec9;
     }
 
     .profile_post_list_ajax div {
@@ -213,8 +214,7 @@
         font-weight: bold;
     }
 
-    {# contents #}
-
+    {#------------------------post_list contents------------------------- #}
 
     .profile_post_title {
         font-weight: bold;
@@ -265,10 +265,12 @@
         background-color: #343a40;
     }
 
-    .profile_post_list rateit {
-        display: inline;
-        padding-right: 10px;
-        vertical-align: bottom;
+    .profile_post_list .rateit .rateit-selected {
+        color: #ffeb3b;
+    }
+
+    .profile_post_list_ajax .rateit .rateit-selected {
+        color: #ffeb3b;
     }
 
     #callmorepost {
@@ -313,6 +315,11 @@
         outline: 2px groove #1a237e;
     }
 
+    .email_url_con{
+        margin-top: 30px;
+        margin-bottom: 15px;
+    }
+
     .profile_email {
         display: inline;
         margin-right: 20px;
@@ -350,8 +357,9 @@
 
     .url_container {
         text-align: center;
-        margin-top: 25px;
-        margin-bottom: 15px;
+        display: inline;
+        {#margin-left: 30%;#}
+        float: right;
     }
 
     .naver_label {
@@ -389,9 +397,9 @@
         display: inline;
         padding: 5px 5px;
     }
-    .logofont{
-	    font-family: 나눔스퀘어 !important;
 
+    .logofont {
+        font-family: 나눔스퀘어 !important;
     }
 </style>
 
@@ -400,7 +408,6 @@
 {% load static %}  {# 기본 프로필 이미지 #}
 
 {% block header %}
-    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
             integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
             crossorigin="anonymous"></script>
@@ -434,7 +441,7 @@
                     <div class="label_intro">자기소개</div>
                     <div class="profile_intro">
                         {% if profile.description != None %}
-                            {{ profile.description }}
+                            {{ profile.description|linebreaksbr }}
                         {% endif %}
                     </div>
                     <div><p class="interested_tag_header">관심태그</p><br><br>
@@ -476,37 +483,49 @@
                 {#                    </div>#}
             </div>
             <!---------------------------------타임라인 끝-------------------------------------------->
-            <div class="url_container">
-                {% if profile.naver != None %}
-                    <div class="naver_label"><a href="{{ profile.naver }}">네이버</a></div>
-                {% endif %}
-                {% if profile.daum != None %}
-                    <div class="daum_label"><a href="{{ profile.daum }}">다음</a></div>
-                {% endif %}
-                {% if profile.github != None %}
-                    <div class="github_label"><a href="{{ profile.github }}"><i class="fab fa-github"></i> Github</a>
+            <div class="email_url_con">
+                <div class="profile_email" title="이메일 보내기"><a href="mailto:{{ profile.user.email }}"
+                                                              class="fa-envelope"><i
+                        class="fas fa-envelope-square"></i></a></div>
+                <script type="text/javascript">
+                    $(".profile_email").mouseover();
+                </script>
+                {% if profile.user.pk == user.pk %}
+                    <div class="profile_bookmark" title="북마크 리스트"><a
+                            href="{% url 'myprofile:bookmark_list' profile.user.pk %}"><i
+                            class="fas fa-bookmark"></i></a>
                     </div>
+                    <script type="text/javascript">
+                        $(".profile_bookmark").mouseover();
+                    </script>
+                    <div class="profile_post_create" title="글 작성하기"><a href="{% url 'post:post_create' %}"><i
+                            class="fas fa-pen-square"></i></a></div>
+                    <script type="text/javascript">
+                        $(".profile_post_create").mouseover();
+                    </script>
+                    {#                <br>#}
+                    {#                <div class="profile_edit">#}
+                    {#                    <a href="{% url 'myprofile:profile_edit' profile.user.pk %}">프로필 수정하기</a>#}
+                    {#                </div>#}
                 {% endif %}
-                {% if profile.other_url != None %}
-                    <div class="other_label"><a href="{{ profile.other_url }}">others</a></div>
-                {% endif %}
+
+                <div class="url_container">
+                    {% if profile.naver != None %}
+                        <div class="naver_label"><a href="{{ profile.naver }}">네이버</a></div>
+                    {% endif %}
+                    {% if profile.daum != None %}
+                        <div class="daum_label"><a href="{{ profile.daum }}">다음</a></div>
+                    {% endif %}
+                    {% if profile.github != None %}
+                        <div class="github_label"><a href="{{ profile.github }}"><i class="fab fa-github"></i>
+                            Github</a>
+                        </div>
+                    {% endif %}
+                    {% if profile.other_url != None %}
+                        <div class="other_label"><a href="{{ profile.other_url }}">others</a></div>
+                    {% endif %}
+                </div>
             </div>
-
-            <br>
-            <div class="profile_email"><a href="mailto:{{ profile.user.email }}" class="fa-envelope"><i
-                    class="fas fa-envelope-square"></i></a></div>
-
-            {% if profile.user.pk == user.pk %}
-                <div class="profile_bookmark"><a href="{% url 'myprofile:bookmark_list' profile.user.pk %}"><i
-                        class="fas fa-bookmark"></i></a>
-                </div>
-                <div class="profile_post_create"><a href="{% url 'post:post_create' %}"><i
-                        class="fas fa-pen-square"></i></a></div>
-                <br>
-                <div class="profile_edit">
-                    <a href="{% url 'myprofile:profile_edit' profile.user.pk %}">프로필 수정하기</a>
-                </div>
-            {% endif %}
             <div class="profile_margin"></div>
 
             <div class="profile_recent_tag">
@@ -536,7 +555,7 @@
             var g = Math.floor((Math.random() * 0xcc) + 0x11).toString(16);
             var b = Math.floor((Math.random() * 0xcc) + 0x11).toString(16);
             return '#' + r + g + b;
-        }
+        };
         $('.interested_tag').each(function () {
             $(this).css('background-color', get_random_RGB);
         })
