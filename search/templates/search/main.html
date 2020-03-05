@@ -10,12 +10,12 @@
     <link rel="stylesheet" href="{% static "search/side_profile.css" %}">
     <link rel="stylesheet" href="{% static "search/side_filter.css" %}">
     <style>
-        * {
-            font-family: 나눔스퀘어, NanumSquare;
-        }
-
         :root {
             --primary-2: #1E88E5;
+        }
+
+        .side-profile{
+            width: 290px;
         }
 
         .content div {
@@ -25,13 +25,16 @@
         .content-search {
             text-align: center;
         }
+
+        .logofont {
+            font-family: 나눔스퀘어, NanumSquare;
+        }
     </style>
 
     {% include 'search/post_list_css.html' %}
 
     <style>
         {#----------------------------content css--------------------------------#}
-
         .main-content {
             display: flex;
             justify-content: center;
