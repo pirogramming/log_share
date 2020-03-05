@@ -220,6 +220,9 @@
         cursor: pointer;
         outline: 2px groove #1a237e;
     }
+    .profile_url>div{
+        margin-top: 10px;
+    }
 
 
 </style>
@@ -266,23 +269,23 @@
                         {% endif %}
                     </div>
                     <div class="profile_url">사이트<br>
-                        <div>네이버 URL:
+                        <div>
                             {% if profile.naver != None %}
-                                <div class="naver_label"><a href="{{ profile.naver }}" id="a_tag">네이버 URL 바로가기</a></div>
+                                <div class="naver_label"><a href="{{ profile.naver }}" id="a_tag">내 네이버 바로가기</a></div>
                             {% endif %}
                         </div>
-                        <div>다음 URL:
+                        <div>
                             {% if profile.daum != None %}
-                                <div class="daum_label"><a href="{{ profile.daum }}" id="a_tag">다음 URL 바로가기</a></div>
+                                <div class="daum_label"><a href="{{ profile.daum }}" id="a_tag">내 다음 바로가기</a></div>
                             {% endif %}
                         </div>
-                        <div>github URL:
+                        <div>
                             {% if profile.github != None %}
-                                <div class="github_label"><a href="{{ profile.github }}" id="a_tag">Github URL 바로가기</a>
+                                <div class="github_label"><a href="{{ profile.github }}" id="a_tag">내 깃헙 바로가기</a>
                                 </div>
                             {% endif %}
                         </div>
-                        <div>other URL:
+                        <div>
                             {% if profile.other_url != None %}
                                 <div class="other_label"><a href="{{ profile.other_url }}" id="a_tag">others URL
                                     바로가기</a></div>

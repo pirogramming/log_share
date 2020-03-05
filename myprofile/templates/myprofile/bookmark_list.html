@@ -85,6 +85,16 @@
         color: #c2185b;
         font-weight: bold;
     }
+    .logofont{
+        font-family: 나눔스퀘어;
+    }
+    .menu_bookmark_title{
+        font-size: 25px;
+        border-bottom: 3px solid #6cc0e5;
+        margin: 30px 0px;
+        width: 75px;
+        font-weight:bold;
+    }
 </style>
 {% extends 'base.html' %}
 
@@ -102,6 +112,7 @@
 
 {% block content %}
     <div class="temp">
+    <div class="menu_bookmark_title">북마크</div>
         {% if bookmarks %}
             {% for bookmark in bookmarks %}
                 <div class="bookmark_container">
@@ -120,7 +131,7 @@
                         <div class="bookmark_count"><i class="fas fa-bookmark"></i> {{ bookmark.post.bookmark.count }}
                         </div>
                         <div class="rateit" data-rateit-value="{{ bookmark.post.score }}"
-                             data-rateit-readonly="true" data-rateit-mode="font" data-rateit-icon=""
+                             data-rateit-readonly="true" data-rateit-mode="font" data-rateit-icon=" "
                              style="font-family:fontawesome; font-size: 15px;"></div>
                         <div class="bookmark_delete"><a href="{% url 'myprofile:bookmark_delete' bookmark.pk %}">북마크 <i
                                 class="fas fa-window-close"></i></a>
