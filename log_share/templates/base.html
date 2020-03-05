@@ -23,6 +23,7 @@
             height: 80px;
             background-color: #00B0F0;
             color: white;
+            box-shadow: 0px 3px 3px #b0bec9;
         }
 
         a {
@@ -57,23 +58,26 @@
 
 
         ul.menu > li {
-            line-height: 80px;
             display: inline-block;
             width: 100px;
             height: 80px;
             text-align: center;
             text-decoration: none;
             box-sizing: border-box;
-        {#border: 1px solid black;#} margin-right: 10px;
+            margin-right: 20px;
+            vertical-align: text-top;
         }
 
         .menu > li:hover {
             border-bottom: 5px solid white;
             box-sizing: border-box;
         }
+        #last_li:hover{
+            border-bottom: none;
+        }
 
         .menu {
-            margin-right: 200px;
+            margin-right: 140px;
         }
 
         /*드롭 다운 서브메뉴 */
@@ -83,21 +87,11 @@
             line-height: 70px;
             background-color: #00B0F0;
             color: white;
-            display: none;
             width: 100px;
+            font-size: 15px;
             z-index: 2;
-        }
-
-        .menu > li .sub2 {
-            position: absolute;
-            width: 100px;
-            top: 80px;
-            line-height: 70px;
-            background-color: #00B0F0;
-            color: white;
             display: none;
-            z-index: 2;
-
+            font-family: 나눔스퀘어;
         }
 
         .menu > li .sub3 {
@@ -108,17 +102,13 @@
             background-color: #00B0F0;
             color: white;
             display: none;
+            font-size: 15px;
             z-index: 2;
+            font-family: 나눔스퀘어;
         }
 
 
         .menu > li:hover .sub1 {
-            display: block;
-            color: black;
-
-        }
-
-        .menu > li:hover .sub2 {
             display: block;
             color: black;
 
@@ -176,17 +166,33 @@
 
         }
 
-        .sub2 {
-            border-bottom-left-radius: 5px;
-            border-bottom-right-radius: 5px;
-            list-style: none;
-
-        }
-
         .sub3 {
             border-bottom-left-radius: 5px;
             border-bottom-right-radius: 5px;
             list-style: none;
+        }
+
+        #icon {
+            font-size: 25px;
+            line-height: 25px;
+            margin-top: 20px;
+
+        }
+
+        #menufont{
+            font-size: 14px;
+        }
+        .logout_icon{
+            border: 2px solid white;
+            display: inline-block;
+            width: 100px;
+            height: 40px;
+            margin-top: 17px;
+            line-height: 40px;
+            border-radius: 5px;
+        }
+        .logout_icon:hover{
+            background-color: #c4dce8;
         }
 
     </style>
@@ -206,28 +212,24 @@
     </div>
     <div class="nav">
         <ul class="menu">
-            <li><a href="{% url 'search:main_search' %}">홈</a></li>
-            <li><a href="{% url 'group_management:create_group' %}" id="group">그룹</a>
+            <li><a href="{% url 'search:main_search' %}"><i class="fas fa-home" id="icon"><p id="menufont">홈</p></i></a></li>
+            <li><a href="{% url 'group_management:create_group' %}" id="group"><i class="fas fa-users" id="icon"><p id="menufont">그룹</p></i></a>
                 <ul class="sub1">
                     <li><a href="{% url 'group_management:create_group' %}">그룹 리스트</a></li>
                     <li><a href="{% url 'group_management:search_group' %}">그룹 검색</a></li>
                 </ul>
             </li>
-            {% if user.is_authenticated %}
-                <li><a href="{% url 'myprofile:my_profile' request.user.pk %}">프로필</a>
-                    <ul class="sub2">
-                        <li><a href="{% url 'myprofile:my_profile' request.user.pk %}">내 프로필</a></li>
-                        <li><a href="{% url "myprofile:profile_edit" request.user.pk %}">프로필 변경</a></li>
-                    </ul>
-                </li>
-            {% endif %}
-            <li><a href="{% url 'myprofile:profile_detail' request.user.pk %}">포트폴리오</a>
+            <li><a href="{% url 'myprofile:profile_detail' request.user.pk %}"><i class="fas fa-id-card" id="icon"><p id="menufont">포트폴리오</p></i></a>
                 <ul class="sub3">
-                    <li><a href="{% url 'myprofile:profile_detail' request.user.pk %}">내 포폴</a></li>
-                    <li><a href="{% url 'myprofile:profile_edit' user.pk %}">포폴 수정</a></li>
+                    <li><a href="{% url 'myprofile:profile_detail' request.user.pk %}">나의 포폴</a></li>
+                    <li><a href="{% url 'post:post_create' %}">포폴 작성</a></li>
                 </ul>
             </li>
-            <li><a href="{% url "accounts:logout" %}">로그아웃</a></li>
+            {% if user.is_authenticated %}
+                <li><a href="{% url 'myprofile:my_profile' request.user.pk %}"><i class="fas fa-user-cog" id="icon"><p id="menufont">계정관리</p></i></a>
+                </li>
+            {% endif %}
+            <li id="last_li"><div class="logout_icon"><a href="{% url "accounts:logout" %}">로그아웃</a></div></li>
         </ul>
     </div>
 </div>
