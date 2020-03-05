@@ -125,7 +125,7 @@ def profile_edit(request, pk):
         user_change_form = CustomUserChangeForm(instance=user)
         profile_form = SignupModelForm(instance=profile)
 
-    return render(request, 'myprofile/profile_edit.html', {
+    return render(request, 'accounts/signup_profile.html', {
         'user_change_form': user_change_form,
         'profile_form': profile_form,
     })

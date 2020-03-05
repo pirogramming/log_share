@@ -51,6 +51,10 @@ class SignupModelForm(forms.ModelForm):
             'photo': FileInput(),
         }
 
+        help_texts = {
+            'interested_tag': '띄어쓰기 없이 반점(,)으로 태그를 구별하여 입력하세요.'
+        }
+
         def __init__(self, *args, **kwargs):
             super(SignupModelForm, self).__init__(*args, **kwargs)
             self.fields['photo'].widget.attrs = {'id': 'selectedFile'}

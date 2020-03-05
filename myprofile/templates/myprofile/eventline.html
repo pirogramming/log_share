@@ -10,15 +10,14 @@
                notes: "This is the last catalyst we shall be tracking in the year 2017. There are no interesting events occurring after this one."
             },
         ];
-        console.log(post_context_json);
-
         return post_context_json
     }
 
     function CalculateEventPosition(earliestDate, startDate) {
         // Get number of months between the event's start date and ealiest event
         var date = new Date(startDate);
-        var monthOffset = Math.floor((date - earliestDate) / (1000 * 60 * 60 * 24 * 30));
+        {#var monthOffset = Math.floor((date - earliestDate) / (1000 * 60 * 60 * 24 * 30));#}
+        var monthOffset = date.getMonth()-earliestDate.getMonth();
 
         // The position should be moved right 100px for each month offset
         // and a fraction of 100px in the ratio of number of days in 30
@@ -38,10 +37,12 @@
 
         $.each(events, function(i, e) {
             // Calculate distance of event start date from today
-            distanceFromToday = Math.abs((new Date(e.startDate)) - (new Date()));
-            if (distanceFromToday < diff) {
+            {#distanceFromToday = Math.abs((new Date(e.startDate)) - (new Date()));#}
+            distanceFromToday = Math.abs((new Date()) - (new Date(e.startDate)));
+            if (distanceFromToday <= diff & new Date(e.startDate) <= new Date()) {
                 diff = distanceFromToday;
                 previousEvent = e;
+
             }
             else {
                 return false;
@@ -50,6 +51,7 @@
 
         return previousEvent;
     }
+
 
     function InitializeTimeline(post_context_json) {
         var monthPixels = 100;
@@ -62,6 +64,7 @@
 
         // Set timeline width based on number of months spanned adding one month for buffer
         $("#timeline").css("width", (timelineMonthSpan + 1) * monthPixels);
+
 
         // Add timeline ticks
         for (i = 0; i <= timelineMonthSpan + 1; i++) {
@@ -206,7 +209,6 @@
                 return e.id == eventId;
             })[0];
 
-            console.log(event);
 
             // Show event detail
             AddEventDetail(event);
