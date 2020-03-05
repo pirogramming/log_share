@@ -93,12 +93,12 @@
                         <br>
                         <div id="profile-bookmark">
                             <a href="{% url 'myprofile:bookmark_list' request.user.pk %}">
-                                <button type="button" class="bookmark_button">나의 스크랩 목록 보기</button>
+                                <button type="button" class="bookmark_button">나의 스크랩</button>
                             </a>
                         </div>
                         <br>
                         <div id="profile-request-alarm"><a href="{% url 'group_management:create_group' %}">
-                            <button type="button" class="request_button">새로운 가입 요청 ( {{ request_messages_cnt }} )
+                            <button type="button" class="request_button">가입 요청 ({{ request_messages_cnt }})
                             </button>
                         </a>
                         </div>
