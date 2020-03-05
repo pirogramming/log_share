@@ -108,12 +108,12 @@ def post_detail(request, pk):
 
     bm = request.user.user_bookmark.filter(post=post)
 
+
     context = {
         'post': post,
         'user': user,
         'bm': bm,
     }
-    print(context)
     return render(request, 'post/post_detail.html', context)
 
 

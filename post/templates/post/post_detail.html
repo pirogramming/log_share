@@ -321,7 +321,7 @@
             </div>
             <br>
             <div class="btn_con">
-                <button><a href="{% url 'search:main_search' %}">돌아가기</a></button>
+                <button><a class="page_return" href="">돌아가기</a></button>
                 {% if post.user == request.user %}
                     <button><a href="{% url 'post:post_update' post.pk %}">수정하기</a></button>
                     <button id="delete_button" type="submit" name="{{ post.pk }}">삭제하기</button>
@@ -349,6 +349,8 @@
                                 return
                             }
                         });
+                        var referrer = document.referrer;
+                        $(".page_return").attr("href", referrer);
                     </script>
                 {% endif %}
             </div>
