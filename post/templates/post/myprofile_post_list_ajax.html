@@ -16,13 +16,27 @@
                 <div class="profile_post_bookmark_count">
                     <i class="fas fa-bookmark"></i> {{ post.bookmark.count }}
                 </div>
-                <div class="rateit" data-rateit-value="{{ post.score }}" data-rateit-ispreset="true"
-                     data-rateit-readonly="true"></div>
+                <div class="rateit" data-rateit-value="{{ post.score }}"
+                     data-rateit-readonly="true" data-rateit-mode="font" data-rateit-icon=""
+                     style="font-family:fontawesome; font-size: 15px;"></div>
+                <script type="text/javascript">
+                    var configFontAwesome = {
+                        custom: {
+                            families: ['fontawesome'],
+                            urls: ['https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css']
+                        },
+                        fontactive: function () {
+                            $('.rateit-fa').rateit();
+                        }
+                    };
+                    WebFont.load(configFontAwesome);
+                </script>
             </div>
             <div class="profile_post_tag">
                 <i class="fa fa-tags" aria-hidden="true"></i>
                 {% for post_tag in post.tags.all %}
-                    <a href="{% url 'search:main_search' %}?q={{ post_tag }}&options=tags"><span class="badge badge-dark">{{ post_tag }}</span></a>
+                    <a href="{% url 'search:main_search' %}?q={{ post_tag }}&options=tags"><span
+                            class="badge badge-dark">{{ post_tag }}</span></a>
                     {#                    <a href="{% url 'search:tag_search' post_tag %}">#{{ post_tag }}</a>#}
                 {% endfor %}
             </div>

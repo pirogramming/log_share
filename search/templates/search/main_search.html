@@ -7,10 +7,9 @@
 {#        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="#}
 {#        crossorigin="anonymous"></script>#}
 <script src="{% static 'widgets/rateit/jquery.rateit.min.js' %}"></script>
+<link rel='stylesheet' href="{% static 'css/eventline.css' %}">
 {% if posts %}
     {% for post in posts %}
-
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
         <div class="feed">
             <div class="feed-content">
                 <div class="feed-main">
@@ -47,9 +46,22 @@
                         </div>
                         <div class="meta-star">
                             <div class="post_score">
-                                <div class="rateit" data-rateit-value="{{ post.score }}" data-rateit-ispreset="true"
-                                     data-rateit-readonly="true" data-rateit-mode="font" style="font-size:20px"></div>
-
+                                <div class="rateit" data-rateit-value="{{ post.score }}"
+                                     data-rateit-readonly="true" data-rateit-mode="font" data-rateit-icon=""
+                                     style="font-family:fontawesome; font-size: 15px;"></div>
+                                <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.16/webfont.js"></script>
+                                <script type="text/javascript">
+                                    var configFontAwesome = {
+                                        custom: {
+                                            families: ['fontawesome'],
+                                            urls: ['https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css']
+                                        },
+                                        fontactive: function () {
+                                            $('.rateit-fa').rateit();
+                                        }
+                                    };
+                                    WebFont.load(configFontAwesome);
+                                </script>
                             </div>
                         </div>
                         {#                        <div class="meta-tag">#}
@@ -62,13 +74,11 @@
                             <div class="post_email"><a href="mailto:{{ post.user.email }}" class="fa-envelope">
                                 <i class="fas fa-envelope-square"></i></a></div>
                         </div>
-                        {% if post.user != request.user %}
-                            <div class="meta-bookmark">
-                                <input type="button" class="bookmark" id="bookmark-{{ post.id }}" name="{{ post.id }}"
-                                       value=""
-                                       style="background-image: {% if post.id in bm_post_list %}url('/media/bookmark_on.jpg'){% else %}url('/media/bookmark_off.jpg'){% endif %}"/>
-                            </div>
-                        {% endif %}
+                        <div class="meta-bookmark">
+                            <input type="button" class="bookmark" id="bookmark-{{ post.id }}" name="{{ post.id }}"
+                                   value=""
+                                   style="background-image: {% if post.id in bm_post_list %}url('/media/bookmark_on.jpg'){% else %}url('/media/bookmark_off.jpg'){% endif %}"/>
+                        </div>
                     </div>
                 </div>
                 <div class="meta-tags">
