@@ -326,7 +326,7 @@
             </div>
             <br>
             <div class="btn_con">
-                <button><a href="javascript:history.back()">돌아가기</a></button>
+                <button><a href="javascript:window.location=document.referrer;">돌아가기</a></button>
                 {% if post.user == request.user %}
                     <button><a href="{% url 'post:post_update' post.pk %}">수정하기</a></button>
                     <button id="delete_button" type="submit" name="{{ post.pk }}">삭제하기</button>

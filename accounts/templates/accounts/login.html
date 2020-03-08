@@ -1,6 +1,6 @@
 <style>
     * {
-        font-family: 나눔스퀘어;
+        font-family: 나눔스퀘어, NanumSquare;
         text-decoration: none;
         margin: 0;
         padding: 0;
@@ -85,13 +85,9 @@
         <div class="start_logo">지금 로그쉐어를 시작하세요!</div>
         <form method="POST" action="{% url 'accounts:login' %}">
             {% csrf_token %}
-{#            <div id="error">{{ error }}</div>#}
-            <div id="error">
-                {% if error %}
-                     입력하신 정보와 일치하는 회원이 없습니다.
-                {% endif %}
-            </div>
-            <input name="username" type="text" placeholder="아이디">
+            <div id="error">{{ error }}</div>
+
+            <input name="username" type="text" placeholder="아이디" autofocus>
             <input name="password" type="password" placeholder="비밀번호">
             <input type="submit" class="btn btn-primary" value="로그인">
         </form>
@@ -99,5 +95,3 @@
         <div>로그쉐어는 처음이신가요? <a href="{% url "accounts:signup" %}">회원가입</a></div>
     </div>
 {% endblock %}
-</body>
-</html>
