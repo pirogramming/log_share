@@ -224,7 +224,9 @@
     .profile_url>div{
         margin-top: 10px;
     }
-
+    .label-name {
+        font-weight: bolder;
+    }
 
 </style>
 
@@ -255,21 +257,21 @@
             <div class="profile_card_content">
                 <div class="profile_name">{{ profile.name }}</div>
                 <div class="profile_first_content">
-                    <div class="profile_depart">소속<br>{{ profile.department }}</div>
-                    <div class="profile_intro">자기소개<p>
+                    <div class="profile_depart"><span class="label-name">소속</span><br>{{ profile.department }}</div>
+                    <div class="profile_intro"><span class="label-name">자기소개</span><p>
                         {% if profile.description != None %}
-                            {{ profile.description }}
+                            {{ profile.description|linebreaksbr }}
                         {% endif %}
                     </p>
                     </div>
-                    <div class="profile_tag">관심태그<br>
+                    <div class="profile_tag"><span class="label-name">관심태그</span><br>
                         {% if profile.interested_tag != None %}
                             {% for tag, size in interested_tag_dict.items %}
                                 <a href="" class="interested_tag">{{ tag }}</a>
                             {% endfor %}
                         {% endif %}
                     </div>
-                    <div class="profile_url">사이트<br>
+                <div class="profile_url"><span class="label-name">사이트</span><br>
                         <div>
                             {% if profile.naver != None %}
                                 <div class="naver_label"><a href="{{ profile.naver }}" id="a_tag">내 네이버 바로가기</a></div>
