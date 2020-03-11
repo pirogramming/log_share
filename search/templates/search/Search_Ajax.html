@@ -7,7 +7,7 @@
                 {#var option = $('input[name="options"]:checked').val();#}
                 {#var option = $('.btn.active').attr('data-value');#}
                 var option = $('#options-input').val();
-                console.log(option);
+                {#console.log(option);#}
                 $.ajax({
                     type: 'get',
                     url: "{% url 'search:search_auto' %}",
@@ -17,7 +17,7 @@
                         'option': option,
                     },
                     success: function (data) {
-                        console.log(data);//바보 멍충이 으아아ㅏ
+                        {#console.log(data);//바보 멍충이 으아아ㅏ#}
                         //서버에서 json 데이터 response 후 목록에 추가
                         response(
                             $.map(data.results, function (result) {    //json[i] 번째 에 있는게 item 임.
@@ -32,9 +32,9 @@
                 });
             },    // source 는 자동 완성 대상
             select: function (event, ui) {    //아이템 선택시
-                console.log(ui);//사용자가 오토컴플릿이 만들어준 목록에서 선택을 하면 반환되는 객체
-                console.log(ui.item.label);    //김치 볶음밥label
-                console.log(ui.item.value);    //김치 볶음밥
+                {#console.log(ui);//사용자가 오토컴플릿이 만들어준 목록에서 선택을 하면 반환되는 객체#}
+                {#console.log(ui.item.label);    //김치 볶음밥label#}
+                {#console.log(ui.item.value);    //김치 볶음밥#}
                 {#console.log(ui.item.test);    //김치 볶음밥test#}
 
             },
@@ -50,7 +50,7 @@
 //            disabled: true, //자동완성 기능 끄기
             position: {my: "right top", at: "right bottom"},    //잘 모르겠음
             close: function (event) {    //자동완성창 닫아질때 호출
-                console.log(event);
+                {#console.log(event);#}
             }
         });
 
@@ -85,12 +85,12 @@
         function callMorePostAjax(page) {
             var end_page = {{ posts.paginator.num_pages }};
             {#var posts = {{ posts }};#}
-            console.log(end_page, page);
+            {#console.log(end_page, page);#}
             {#form_data = $('.filter-form').serializeObject();#}
             form_data = getUrlParams();
             form_data['page'] = page;
             {#form_data = decodeURI(form_data);#}
-            console.log(form_data);
+            {#console.log(form_data);#}
             if (page > end_page) {
                 return;
             }
@@ -136,8 +136,6 @@
             window.location.search.replace(/[?&]+([^=&]+)=([^&]*)/gi, function (str, key, value) {
                 params[key] = decodeURIComponent(value);
             });
-            {#var search = location.search.substring(1);#}
-            {#return JSON.parse('{"' + decodeURI(search).replace(/"/g, '\\"').replace(/&/g, '","').replace(/=/g, '":"') + '"}')#}
             return params;
         }
 
@@ -146,8 +144,8 @@
     });
 </script>
 <script async>
-    console.log(document.getElementsByClassName("profile_post_contents"));
+    {#console.log(document.getElementsByClassName("profile_post_contents"));#}
     var contentsText = document.getElementsByClassName("profile_post_contents").innerText;
-    console.log(contentsText);
+    {#console.log(contentsText);#}
     document.getElementsByClassName("profile_post_contents").innerHTML = contentsText;
 </script>

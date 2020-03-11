@@ -2,10 +2,6 @@
 {% load static %}
 
 <link rel="stylesheet" href="{% static 'widgets/rateit/rateit.css' %}"/>
-{#<script#}
-{#        src="https://code.jquery.com/jquery-3.4.1.min.js"#}
-{#        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="#}
-{#        crossorigin="anonymous"></script>#}
 <script src="{% static 'widgets/rateit/jquery.rateit.min.js' %}"></script>
 <link rel='stylesheet' href="{% static 'css/eventline.css' %}">
 {% if posts %}
@@ -64,10 +60,7 @@
                                 </script>
                             </div>
                         </div>
-                        {#                        <div class="meta-tag">#}
-                        {#                            <i class="fa fa-tags" aria-hidden="true"></i>태그:#}
-                        {#                            <span class="badge badge-dark">bootstrap 4.0</span>#}
-                        {#                        </div>#}
+
                     </div>
                     <div class="meta-etc">
                         <div class="meta-call">
@@ -109,7 +102,6 @@
                               // 서버측에서 전송한 Response 데이터 형식 (json)
             // 통신 성공 -> 북마크 처리(response 처리)
             success: function (response) {
-                console.log(response.img_url);
 
                 alert(response.message);
                 $("#bookmark-" + pk).css("background-image", "url(" + response.img_url + ")");

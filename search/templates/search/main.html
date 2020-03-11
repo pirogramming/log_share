@@ -203,7 +203,6 @@
                 </div>
                 <div class="body-feed">
                     {% include 'search/main_search.html' %}
-                    {#                    {% include 'post/myprofile_post_list.html' %}#}
                 </div>
                 <div id="post_list_ajax"></div>
 
@@ -220,20 +219,12 @@
     <br>
 
 
-    {#    <input id="page" type="hidden" value="2"> {# 첫 next_page == 2 #}
-    {#    <button id="callmorepost" type="button">More Post</button>#}
-
     <script type="text/javascript">
-        {#$("input:radio[name='options']:radio[value='posts']").prop('checked', false); // 해제하기#}
 
         if ('{{ option }}') {
-            {#$("input:radio[name='options']:radio[value={{ option }}]").prop('checked', true);#}
-            {#$("input:radio[name='options']:radio[value={{ option }}]").addClass('active');#}
             $('div[data-value="{{option}}"]').addClass('active');
             $('#options-input').attr('value', '{{ option }}');
         } else {
-            {#$("input:radio[name='options']:radio[value='posts']").prop('checked', true); // 선택하기#}
-            {#$("input:radio[name='options']:radio[value='posts']").addClass('active');#}
             $('div[data-value="posts"]').addClass('active');
             $('#options-input').attr('value', 'posts');
         } // 선택하기
@@ -244,7 +235,6 @@
 
         {#옵션 버튼 애니메이션#}
         $('.btn-group .btn').click(function (e) {
-            {#console.log(e.attr('data-value'))#}
             data = $(this).attr("data-value");
             $('#options-input').val(data);
         });
@@ -331,14 +321,13 @@
                 this.removeClass('active');
                 this.currentIndex = index;
                 this.addClass('active');
-                {#$('#options-input').attr('value', this.)#}
                 this.refreshPath();
             }
         };
 
         const groups = Array.prototype.slice.call(document.querySelectorAll('.btn-group'));
         for (const group of groups) {
-            console.log(new BtnGroup(group));
+            {#console.log(new BtnGroup(group));#}
         }
 
         {#검색바 클릭 이벤트#}
@@ -369,34 +358,28 @@
         // 정렬방식 셀렉트 박스 유지
         $(document).ready(function () {
             var groupid = {{ selected_groupid }}
-                console.log(groupid)
             {#var sort = getUrlParameter('sort');#}
             var date_start = getUrlParameter('date-start');
             var date_end = getUrlParameter('date-end');
             var category = getUrlParameter('filter-category');
 
             if (date_start) {
-                console.log(date_start)
                 $('.filter-date input[name=date-start]').val(date_start)
             }
             if (date_end) {
-                console.log(date_end)
                 $('.filter-date input[name=date-end]').val(date_end)
 
             }
             if (category) {
-                console.log(category)
                 {#$('.filter-date input[name=date-end]').val(date_end)#}
                 var select = $("#category");
                 select.val(category).prop('selected', true);
 
                 var select_name = select.children("option:selected").text();
-                console.log('카테고리선택', select_name);
                 select.siblings("label").text(select_name);
             }
             if (groupid) {
                 groupid.map(function (e) {
-                    console.log(e)
                     $('.filter-group > ul > li >input[value="' + e + '"]').prop("checked", false);
                 })
             }
