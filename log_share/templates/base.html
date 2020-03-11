@@ -30,7 +30,7 @@
         }
 
         .logo {
-            margin-left: 200px;
+            margin-left: 15%;
             display: inline-block;
         }
 
@@ -51,7 +51,6 @@
             width: 50px;
             line-height: 80px;
             position: absolute;
-            left: 340px;
             top: 17px;
         }
 
@@ -63,7 +62,7 @@
             text-align: center;
             text-decoration: none;
             box-sizing: border-box;
-            margin-right: 20px;
+            margin-right: 10px;
             vertical-align: text-top;
         }
 
@@ -76,7 +75,7 @@
         }
 
         .menu {
-            margin-right: 140px;
+            margin-right: 10%;
         }
 
         /*드롭 다운 서브메뉴 */
@@ -93,7 +92,7 @@
             font-family: 나눔스퀘어;
         }
 
-        .menu > li .sub3 {
+        .menu > li .sub2 {
             position: absolute;
             width: 100px;
             top: 80px;
@@ -113,7 +112,7 @@
 
         }
 
-        .menu > li:hover .sub3 {
+        .menu > li:hover .sub2 {
             display: block;
             color: black;
 
@@ -134,7 +133,7 @@
 
         }
 
-        .sub3 > li:hover {
+        .sub2 > li:hover {
             background-color: dodgerblue;
             border-bottom-left-radius: 5px;
             border-bottom-right-radius: 5px;
@@ -165,7 +164,7 @@
 
         }
 
-        .sub3 {
+        .sub2 {
             border-bottom-left-radius: 5px;
             border-bottom-right-radius: 5px;
             list-style: none;
@@ -180,6 +179,7 @@
 
         #menufont{
             font-size: 14px;
+            font-family: 나눔스퀘어;
         }
         .logout_icon{
             border: 2px solid white;
@@ -189,9 +189,64 @@
             margin-top: 17px;
             line-height: 40px;
             border-radius: 5px;
+            font-family: 나눔스퀘어;
         }
         .logout_icon:hover{
             background-color: #c4dce8;
+        }
+        #br{
+            display: inline-block;
+        }
+        #logout_icon{
+            display: none;
+            font-size: 25px;
+            line-height: 25px;
+            margin-top: 30px;
+        }
+
+        @media screen and (max-width: 1400px){
+            .logo {
+                margin-left: 8%;
+            }
+        }
+        @media screen and (max-width: 1300px) {
+            #menufont{
+                display: none;
+            }
+            #icon{
+                margin-top: 30px;
+            }
+            .logo {
+                margin-left: 3%;
+            }
+            #logout_icon{
+                display: block;
+            }
+             .logout_icon{
+               display: none;
+           }
+        }
+       @media screen and (max-width: 880px){
+           ul.menu > li{
+             width: 70px;
+           }
+           .menu > li .sub1,.menu > li .sub2{
+               width: 70px;
+           }
+           #br{
+               display: none;
+           }
+           #logoimg{
+               display: none;
+           }
+       }
+         @media screen and (max-width: 690px){
+             ul.menu{
+                 display: none;
+             }
+         }
+        *{
+            font-family: 나눔스퀘어;
         }
 
     </style>
@@ -214,21 +269,21 @@
             <li><a href="{% url 'search:main_search' %}"><i class="fas fa-home" id="icon"><p id="menufont">홈</p></i></a></li>
             <li><a href="{% url 'group_management:create_group' %}" id="group"><i class="fas fa-users" id="icon"><p id="menufont">그룹</p></i></a>
                 <ul class="sub1">
-                    <li><a href="{% url 'group_management:create_group' %}">그룹 리스트</a></li>
-                    <li><a href="{% url 'group_management:search_group' %}">그룹 검색</a></li>
+                    <li><a href="{% url 'group_management:create_group' %}"><div id="br">그룹</div> 리스트</a></li>
+                    <li><a href="{% url 'group_management:search_group' %}"><div id="br">그룹</div> 검색</a></li>
                 </ul>
             </li>
             <li><a href="{% url 'myprofile:profile_detail' request.user.pk %}"><i class="fas fa-id-card" id="icon"><p id="menufont">포트폴리오</p></i></a>
-                <ul class="sub3">
-                    <li><a href="{% url 'myprofile:profile_detail' request.user.pk %}">나의 포폴</a></li>
-                    <li><a href="{% url 'post:post_create' %}">포폴 작성</a></li>
+                <ul class="sub2">
+                    <li><a href="{% url 'myprofile:profile_detail' request.user.pk %}"><div id="br">나의</div> 포폴</a></li>
+                    <li><a href="{% url 'post:post_create' %}"><div id="br">포폴</div>작성</a></li>
                 </ul>
             </li>
             {% if user.is_authenticated %}
                 <li><a href="{% url 'myprofile:my_profile' request.user.pk %}"><i class="fas fa-user-cog" id="icon"><p id="menufont">계정관리</p></i></a>
                 </li>
             {% endif %}
-            <li id="last_li"><div class="logout_icon"><a href="{% url "accounts:logout" %}">로그아웃</a></div></li>
+            <li id="last_li"><i class="fas fa-sign-out-alt" id="logout_icon"></i><div class="logout_icon"><a href="{% url "accounts:logout" %}">로그아웃</a></div></li>
         </ul>
     </div>
 </div>
