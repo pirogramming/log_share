@@ -14,7 +14,7 @@
             --primary-2: #1E88E5;
         }
 
-        .side-profile{
+        .side-profile {
             width: 290px;
         }
 
@@ -66,9 +66,21 @@
         .feed-name {
             width: 80px;
         }
-    .logofont{
-        font-family: 나눔스퀘어;
-    }
+
+        .logofont {
+            font-family: 나눔스퀘어;
+        }
+
+
+        {# --------TOP-------- #}
+        .filter-form .top {
+            color: #1E88E5;
+            opacity: 0.5;
+            position: fixed;
+            left: 96%;
+            top: 90%;
+            font-size: 30px;
+        }
 
     </style>
 {% endblock %}
@@ -123,6 +135,7 @@
                                                type="checkbox" checked>
                                         <label for="group{{ group.id }}">{{ group.group_name }}</label></li>
                                 {% endfor %}
+                            </ul>
                         </div>
                     </div>
 
@@ -173,7 +186,7 @@
             <div class="content-body">
                 <div class="body-search">
                     <div class="search-text">
-                        {#                        검색 바#}
+                        {# ------검색 바------ #}
                         <fieldset class="field-container">
                             <input type="text" name="q" id="searchInput" placeholder="Search..." class="field"
                                    value="{{ q }}"/>
@@ -213,11 +226,9 @@
                 {# ajax 결과물 추가할 곳 #}
             </div>
         </div>
+        <a href="#" class="top"><i class="fas fa-caret-square-up"></i></a>
     </form>
-
     <br>
-
-
     {#    <input id="page" type="hidden" value="2"> {# 첫 next_page == 2 #}
     {#    <button id="callmorepost" type="button">More Post</button>#}
 
@@ -398,6 +409,21 @@
                     $('.filter-group >input[value="' + e + '"]').prop("checked", false);
                 })
             }
+        });
+
+        //맨 위로 올라가게 하기
+        $(document).ready(function () {
+            $(window).scroll(function () {
+                if ($(this).scrollTop() > 400) {
+                    $('.top').fadeIn();
+                } else {
+                    $('.top').fadeOut();
+                }
+            });
+            $('.top').click(function () {
+                $('html, body').animate({scrollTop: 0}, 400);
+                return false;
+            });
         });
     </script>
     {% include "search/Search_Ajax.html" %}

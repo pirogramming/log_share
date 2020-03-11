@@ -162,10 +162,10 @@ def post_bookmark(request):
     # 기존에 있는 북마크이면 북마크 취소하기
     if not bookmark_created:
         bookmark.delete()
-        message = "북마크 취소"
+        message = "북마크가 취소되었습니다."
         img_url = "/media/bookmark_off.jpg"
     else:
-        message = "북마크"
+        message = "북마크되었습니다."
         img_url = "/media/bookmark_on.jpg"
     context = {
         'bookmark_count': post.bookmark.count(),
