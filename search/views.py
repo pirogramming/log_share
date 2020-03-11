@@ -41,7 +41,7 @@ def main_search(request):
     try:
         selected_groupid = set(map(int, group_id_list(request, user)))
     except TypeError:
-        selected_groupid = set()
+        selected_groupid = groupid
 
     unselected_groupid = groupid - selected_groupid
     print("카테고리 필터링 전", qs)
