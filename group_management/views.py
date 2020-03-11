@@ -1,13 +1,10 @@
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
-import simplejson as json
 from django.db import IntegrityError
 from django.db.models import Q
-from django.http import HttpResponse, JsonResponse
+from django.http import HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.decorators.http import require_POST
-from django.views.generic import TemplateView
-
 from group_management.forms import GroupForm, RequestWithCodeForm
 from group_management.models import CustomGroup, GroupRequest
 from django.contrib import messages
@@ -37,7 +34,7 @@ def all_create_group(request):
 
     requested_groups = list()
     for group in list(request.user.user_manage_groups.all()):
-        temp =GroupRequest.objects.filter(group=group)
+        temp = GroupRequest.objects.filter(group=group)
         if temp:
             requested_groups.append(group)
 
@@ -77,6 +74,7 @@ def disallow_request(request):
     return HttpResponse(context)
 
 
+@login_required
 def delete_member(request):
     member_id = request.POST.get('member_id', None)
     member = get_object_or_404(User, id=member_id)
@@ -90,6 +88,7 @@ def delete_member(request):
     return HttpResponse(context)
 
 
+@login_required
 def search_group(request):
     user = request.user
     qs = CustomGroup.objects.filter(is_searchable=1)
@@ -105,6 +104,7 @@ def search_group(request):
     return render(request, 'group_management/search_group.html', context)
 
 
+@login_required
 def detail_group(request, pk):
     group = get_object_or_404(CustomGroup, id=pk)
 
@@ -147,6 +147,7 @@ def detail_group(request, pk):
     return render(request, 'group_management/detail_group.html', context)
 
 
+@login_required
 def request_group(request, pk):
     group = get_object_or_404(CustomGroup, id=pk)  # 요청 보낸 그룹
     # manager = group.manager
@@ -164,6 +165,7 @@ def request_group(request, pk):
     return redirect('group_management:detail_group', pk)
 
 
+@login_required
 def request_withcode(request):
     if request.method == 'POST':
         form = RequestWithCodeForm(
@@ -172,7 +174,6 @@ def request_withcode(request):
         try:
             group = CustomGroup.objects.get(
                 Q(group_name=form.data['group_name']) & Q(access_code=form.data['access_code']))
-
 
         except Exception:
             messages.info(request, '입력한 정보와 일치하는 그룹이 존재하지 않습니다.')
@@ -194,38 +195,15 @@ def request_withcode(request):
     return redirect('group_management:search_group')
 
 
-def request_from(request):
-    request_messages = GroupRequest.objects.filter(sender_id=request.user)
-    request_messages.filter(Q(status=False) | Q(status=True)).delete()
-    context = {
-        'messages': request_messages,
-    }
-    return render(request, 'group_management/request_from.html', context)
-
-
+@login_required
 def delete_group(request, pk):
     group = get_object_or_404(CustomGroup, id=pk)
     group.delete()
     return redirect('group_management:create_group')
 
 
+@login_required
 def secede_group(request, pk):
     group = get_object_or_404(CustomGroup, id=pk)
     group.members.remove(request.user)
     return redirect('group_management:detail_group', pk)
-
-
-def request_exist(request):
-    user = request.user
-    mygroup = CustomGroup.objects.filter(manager=user)
-    request_set = GroupRequest.objects.filter(group=mygroup)
-
-    if request_set:
-        icon = True
-    else:
-        icon = False
-
-    context = {
-        'icon': icon
-    }
-    return HttpResponse(context)

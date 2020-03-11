@@ -48,7 +48,7 @@
         ::-webkit-input-placeholder { /* Safari, Chrome and Opera */
             color: #00B0F0;
             font-weight: 400;
-            font-family: NanumSquare;
+            font-family: 나눔스퀘어, NanumSquare;
         }
 
         #searchOne {
@@ -58,17 +58,17 @@
         #searchOne:checked + label + input {
             width: 230px;
             border: 5px solid #00B0F0;
-            text-indent: 0px;
+            text-indent: 0;
         }
 
         #searchOne:checked + label i {
-            right: 0px;
+            right: 0;
             transform: translateY(-50%) translateX(50%) rotate(360deg) scale(0);
             color: #00B0F0;
         }
 
         #searchOne:checked + label i:hover {
-        / / background: white;
+            background: white;
         }
 
 
@@ -78,7 +78,7 @@
         }
 
         #searchOne:checked + label .fa-times:hover {
-        / / background: white;
+            background: white;
         }
 
         #searchOne:checked + label p {
@@ -157,8 +157,8 @@
             font-size: 20px;
             color: #1a237e;
             border-radius: 5px;
-        {#text-transform: uppercase;#} text-align: center;
-            font-family: NanumSquare;
+            text-align: center;
+            font-family: 나눔스퀘어, NanumSquare;
         }
 
         .group_access_code_input {
@@ -175,8 +175,8 @@
             font-size: 20px;
             color: #1a237e;
             border-radius: 5px;
-        {#text-transform: uppercase;#} text-align: center;
-            font-family: NanumSquare;
+            text-align: center;
+            font-family: 나눔스퀘어, NanumSquare;
         }
 
         .access_code_sumbit {
@@ -236,8 +236,7 @@
         }
 
         .searched_group a:hover {
-            {#color: #514aac;#}
-            color: #00B0F0;
+        {#color: #514aac;#} color: #00B0F0;
             font-weight: bold;
         }
 
@@ -252,7 +251,7 @@
         }
 
         .messages {
-           color: #1a237e;
+            color: #1a237e;
             font-weight: bold;
             font-size: 16px;
         }
@@ -269,11 +268,12 @@
               autocomplete="off">{% csrf_token %}
             {{ access_code_form.group_name }}
             {{ access_code_form.access_code }}
-            <input id="btn" group_name="{{ access_code_form.fields.group_name }}" class="access_code_sumbit" type="submit" value="가입 요청">
+            <input id="btn" group_name="{{ access_code_form.fields.group_name }}" class="access_code_sumbit"
+                   type="submit" value="가입 요청">
         </form>
         {% if messages %}
             <div class="messages">
-            <br>
+                <br>
                 {% for message in messages %}
                     <div {% if message.tags %} class="alert alert-{{ message.tags }}"{% endif %}>
                         {{ message.message }}
@@ -299,11 +299,6 @@
             </div>
         </div>
     </div>
-    <div>
-
-
-    </div>
-
 
     <div class="searched_group_list">
         {% for group in groups %}
@@ -314,10 +309,7 @@
                 <span class="group_category_span">&nbsp&nbsp | &nbsp{{ group.get_group_category_display }}</span>
                 <br><br>
                 <span class="group_notes_span">{{ group.notes }}</span>
-
             </div>
         {% endfor %}
     </div>
-
-
 {% endblock %}
