@@ -119,7 +119,7 @@ def profile_edit(request, pk):
             profile.name = request.user.last_name + request.user.first_name  # user의 이름 -> profile.name
             profile.save()
 
-            return redirect('myprofile:profile_detail', request.user.pk)
+            return redirect('myprofile:my_profile', request.user.pk)
 
     elif request.method == "GET":
         user_change_form = CustomUserChangeForm(instance=user)

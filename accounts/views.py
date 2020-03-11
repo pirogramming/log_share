@@ -17,7 +17,7 @@ def login(request):
             auth.login(request, user)
             return redirect('search:main_search')
         else:
-            return render(request, 'accounts/login.html', {'error': 'login error'})
+            return render(request, 'accounts/login.html', {'error': '아이디 또는 비밀번호가 올바르지 않습니다'})
     else:
         return render(request, 'accounts/login.html')
 

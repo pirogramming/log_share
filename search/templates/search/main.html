@@ -10,12 +10,12 @@
     <link rel="stylesheet" href="{% static "search/side_profile.css" %}">
     <link rel="stylesheet" href="{% static "search/side_filter.css" %}">
     <style>
-        * {
-            font-family: 나눔스퀘어, NanumSquare;
-        }
-
         :root {
             --primary-2: #1E88E5;
+        }
+
+        .side-profile {
+            width: 290px;
         }
 
         .content div {
@@ -25,13 +25,16 @@
         .content-search {
             text-align: center;
         }
+
+        .logofont {
+            font-family: 나눔스퀘어, NanumSquare;
+        }
     </style>
 
     {% include 'search/post_list_css.html' %}
 
     <style>
         {#----------------------------content css--------------------------------#}
-
         .main-content {
             display: flex;
             justify-content: center;
@@ -64,6 +67,10 @@
             width: 80px;
         }
 
+        .logofont {
+            font-family: 나눔스퀘어;
+        }
+
     </style>
 {% endblock %}
 
@@ -90,12 +97,12 @@
                         <br>
                         <div id="profile-bookmark">
                             <a href="{% url 'myprofile:bookmark_list' request.user.pk %}">
-                                <button type="button" class="bookmark_button">나의 스크랩 목록 보기</button>
+                                <button type="button" class="bookmark_button">나의 스크랩</button>
                             </a>
                         </div>
                         <br>
                         <div id="profile-request-alarm"><a href="{% url 'group_management:create_group' %}">
-                            <button type="button" class="request_button">새로운 가입 요청 ( {{ request_messages_cnt }} )
+                            <button type="button" class="request_button">가입 요청 ({{ request_messages_cnt }})
                             </button>
                         </a>
                         </div>
@@ -117,6 +124,7 @@
                                                type="checkbox" checked>
                                         <label for="group{{ group.id }}">{{ group.group_name }}</label></li>
                                 {% endfor %}
+                            </ul>
                         </div>
                     </div>
 
@@ -228,7 +236,6 @@
             {#$("input:radio[name='options']:radio[value='posts']").addClass('active');#}
             $('div[data-value="posts"]').addClass('active');
             $('#options-input').attr('value', 'posts');
-
         } // 선택하기
 
         $('.dropdown-menu.keep-open').click(function (e) {
@@ -333,6 +340,67 @@
         for (const group of groups) {
             console.log(new BtnGroup(group));
         }
+
+        {#검색바 클릭 이벤트#}
+        $(document).on('ready', function () {
+            $('.field').on('keydown', function (event) {
+                $('body').addClass('is-type');
+                if ((event.which === 8) && $(this).val() === '') {
+                    $('body').removeClass('is-type');
+                }
+            });
+
+        });
+
+        var getUrlParameter = function getUrlParameter(sParam) {
+            var sPageURL = decodeURIComponent(window.location.search.substring(1)),
+                sURLVariables = sPageURL.split('&'),
+                sParameterName,
+                i;
+
+            for (i = 0; i < sURLVariables.length; i++) {
+                sParameterName = sURLVariables[i].split('=');
+
+                if (sParameterName[0] === sParam) {
+                    return sParameterName[1] === undefined ? true : sParameterName[1];
+                }
+            }
+        };
+        // 정렬방식 셀렉트 박스 유지
+        $(document).ready(function () {
+            var groupid = {{ selected_groupid }}
+                console.log(groupid)
+            {#var sort = getUrlParameter('sort');#}
+            var date_start = getUrlParameter('date-start');
+            var date_end = getUrlParameter('date-end');
+            var category = getUrlParameter('filter-category');
+
+            if (date_start) {
+                console.log(date_start)
+                $('.filter-date input[name=date-start]').val(date_start)
+            }
+            if (date_end) {
+                console.log(date_end)
+                $('.filter-date input[name=date-end]').val(date_end)
+
+            }
+            if (category) {
+                console.log(category)
+                {#$('.filter-date input[name=date-end]').val(date_end)#}
+                var select = $("#category");
+                select.val(category).prop('selected', true);
+
+                var select_name = select.children("option:selected").text();
+                console.log('카테고리선택', select_name);
+                select.siblings("label").text(select_name);
+            }
+            if (groupid) {
+                groupid.map(function (e) {
+                    console.log(e)
+                    $('.filter-group > ul > li >input[value="' + e + '"]').prop("checked", false);
+                })
+            }
+        });
     </script>
     {% include "search/Search_Ajax.html" %}
 {% endblock %}

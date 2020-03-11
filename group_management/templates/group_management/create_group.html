@@ -384,14 +384,20 @@
                         <div class="manager_text">manager</div>
                         {% if group in requested_groups %}
                             <div class="my_grouplist_alarm">
-                        {% else %}
+                        {% elif group.photo %}
                             <div class="my_grouplist" style="background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('{{ group.photo.url }}');background-size: cover;">
+                        {% else %}
+                            <div class="my_grouplist">
                         {% endif %}
                     {% else %}
                         <div class="mark"><img id="manage_img" src="" alt="" style="visibility: hidden;"/>
                         </div>
                         <div class="manager_text"></div>
-                        <div class="my_grouplist" style="background-image: url('{{ group.photo.url }}');">
+                        {% if group.photo %}
+                            <div class="my_grouplist" style="background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('{{ group.photo.url }}');background-size: cover;">
+                        {% else %}
+                            <div class="my_grouplist">
+                        {% endif %}
                     {% endif %}
 
                 <a class="group" href="{% url 'group_management:detail_group' group.id %}">

@@ -69,7 +69,7 @@
             var scrollHeight = $(window).scrollTop() + $(window).height();
             var documentHeight = $(document).height();
 
-            if (scrollHeight + 50 >= documentHeight) {
+            if (scrollHeight >= documentHeight) {
                 var page = $("#page").val();
                 var end_page = {{ posts.paginator.num_pages }};
                 if (page > end_page) {  //더이상 스크롤 할 페이지가 없는 경우
@@ -86,6 +86,11 @@
             var end_page = {{ posts.paginator.num_pages }};
             {#var posts = {{ posts }};#}
             console.log(end_page, page);
+            {#form_data = $('.filter-form').serializeObject();#}
+            form_data = getUrlParams();
+            form_data['page'] = page;
+            {#form_data = decodeURI(form_data);#}
+            console.log(form_data);
             if (page > end_page) {
                 return;
             }
@@ -93,10 +98,7 @@
             $.ajax({
                 type: 'GET', //데이터를 전송하는 방법
                 url: "{% url 'search:search_scroll' %}",
-                data: {
-                    'page': page,  //가져와야하는 페이지 보냄
-                    {#'posts': posts,#}
-                },
+                data: form_data,
                 success: addMorePostAjax,  //받아온 dataType를 어디에 둘것인가
                 dataType: 'html',
                 error: function (request, status, error) {
@@ -110,6 +112,34 @@
 
         }
 
+        jQuery.fn.serializeObject = function () {
+            var obj = null;
+            try {
+                if (this[0].tagName && this[0].tagName.toUpperCase() == "FORM") {
+                    var arr = this.serializeArray();
+                    if (arr) {
+                        obj = {};
+                        jQuery.each(arr, function () {
+                            obj[this.name] = this.value;
+                        });
+                    }
+                }
+            } catch (e) {
+                alert(e.message);
+            } finally {
+            }
+            return obj;
+        }
+
+        function getUrlParams() {
+            var params = {};
+            window.location.search.replace(/[?&]+([^=&]+)=([^&]*)/gi, function (str, key, value) {
+                params[key] = decodeURIComponent(value);
+            });
+            {#var search = location.search.substring(1);#}
+            {#return JSON.parse('{"' + decodeURI(search).replace(/"/g, '\\"').replace(/&/g, '","').replace(/=/g, '":"') + '"}')#}
+            return params;
+        }
 
         //<<<<<북마크>>>>>>>>
 

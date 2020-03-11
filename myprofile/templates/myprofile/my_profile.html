@@ -115,6 +115,7 @@
         border: 4px solid #ffffff;
         float: left;
         background-color: white;
+        object-fit: cover;
     }
 
     #profile_base {
@@ -220,7 +221,12 @@
         cursor: pointer;
         outline: 2px groove #1a237e;
     }
-
+    .profile_url>div{
+        margin-top: 10px;
+    }
+    .label-name {
+        font-weight: bolder;
+    }
 
 </style>
 
@@ -251,38 +257,38 @@
             <div class="profile_card_content">
                 <div class="profile_name">{{ profile.name }}</div>
                 <div class="profile_first_content">
-                    <div class="profile_depart">소속<br>{{ profile.department }}</div>
-                    <div class="profile_intro">자기소개<p>
+                    <div class="profile_depart"><span class="label-name">소속</span><br>{{ profile.department }}</div>
+                    <div class="profile_intro"><span class="label-name">자기소개</span><p>
                         {% if profile.description != None %}
-                            {{ profile.description }}
+                            {{ profile.description|linebreaksbr }}
                         {% endif %}
                     </p>
                     </div>
-                    <div class="profile_tag">관심태그<br>
+                    <div class="profile_tag"><span class="label-name">관심태그</span><br>
                         {% if profile.interested_tag != None %}
                             {% for tag, size in interested_tag_dict.items %}
                                 <a href="" class="interested_tag">{{ tag }}</a>
                             {% endfor %}
                         {% endif %}
                     </div>
-                    <div class="profile_url">사이트<br>
-                        <div>네이버 URL:
+                <div class="profile_url"><span class="label-name">사이트</span><br>
+                        <div>
                             {% if profile.naver != None %}
-                                <div class="naver_label"><a href="{{ profile.naver }}" id="a_tag">네이버 URL 바로가기</a></div>
+                                <div class="naver_label"><a href="{{ profile.naver }}" id="a_tag">내 네이버 바로가기</a></div>
                             {% endif %}
                         </div>
-                        <div>다음 URL:
+                        <div>
                             {% if profile.daum != None %}
-                                <div class="daum_label"><a href="{{ profile.daum }}" id="a_tag">다음 URL 바로가기</a></div>
+                                <div class="daum_label"><a href="{{ profile.daum }}" id="a_tag">내 다음 바로가기</a></div>
                             {% endif %}
                         </div>
-                        <div>github URL:
+                        <div>
                             {% if profile.github != None %}
-                                <div class="github_label"><a href="{{ profile.github }}" id="a_tag">Github URL 바로가기</a>
+                                <div class="github_label"><a href="{{ profile.github }}" id="a_tag">내 깃헙 바로가기</a>
                                 </div>
                             {% endif %}
                         </div>
-                        <div>other URL:
+                        <div>
                             {% if profile.other_url != None %}
                                 <div class="other_label"><a href="{{ profile.other_url }}" id="a_tag">others URL
                                     바로가기</a></div>

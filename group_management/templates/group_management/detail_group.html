@@ -219,17 +219,13 @@
             font-size: 12px;
         }
 
-        #photo-div {
-            max-width: 100%;
-            float: right;
-        }
-
         #photo-div img {
-            max-width: 100%;
+            max-width: 80%;
             height: auto;
-            max-height: 200px;
+            max-height: 300px;
             border-radius: 8px;
         }
+
         .message_box {
             display: block;
         }
@@ -256,7 +252,6 @@
         .input_button {
             outline: none;
             line-height: 38px;
-            width: 15%;
             height: 48px;
             cursor: pointer;
             background: transparent;
@@ -266,6 +261,7 @@
             border-radius: 5px;
             border: 2px solid #1a237e;
             float: left;
+            padding: 2px 8px;
             margin-bottom: 40px;
             margin-right: 30px;
         }
@@ -320,6 +316,9 @@
             margin-right: 10px;
         }
 
+        .member_list {
+            display: block;
+        }
 
         .delete_member_button {
             background: transparent;
@@ -354,10 +353,11 @@
                     {% if group.photo %}
                         <div id="photo-div"><img src="{{ group.photo.url }}" alt=""/></div>
                     {% endif %}
+                    <br>
                     <span class="bold">카테고리:</span> {{ group.get_group_category_display }}<br><br>
                     <span class="bold">그룹 관리자:</span> {{ group.manager.user_profile.name }}({{ group.manager }})<br><br>
                     <span class="bold">그룹 설명:</span><br>
-                    <div id="group_notes_show">{{ group.notes }}</div>
+                    <div id="group_notes_show">{{ group.notes|linebreaksbr }}</div>
                     <br>
                     <span class="bold">검색 허용:</span>
                     {% if group.is_searchable == True %}
@@ -386,6 +386,7 @@
                                data-id="{{ group.access_code }}">가입 신청</a><br>
                         {% endif %}
                     {% endif %}
+                <a href="javascript:window.location=document.referrer;" class="a_tag">돌아가기</a>
                 </div>
             </div>
 

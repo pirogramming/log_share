@@ -201,6 +201,10 @@
         color: #514aac;
         font-weight: bold;
     }
+    a{
+        width: 100%;
+        height: 100%;
+    }
 
 
 </style>
@@ -286,10 +290,11 @@
             {% endif %}
 
             <div class="post_copy_button">
-                <button class="copy_button" id="copy_button-{{ post.id }}" title="클립보드"><i class="fas fa-paperclip"></i></button>
+                <button class="copy_button" id="copy_button-{{ post.id }}" title="클립보드"><i class="fas fa-paperclip"></i>
+                </button>
             </div>
             <script type="text/javascript">
-                 $("#copy_button-{{ post.id }}").mouseover();
+                $("#copy_button-{{ post.id }}").mouseover();
                 $("#copy_button-{{ post.id }}").click(function () {
                     var copyText = document.getElementById("post_content-{{ post.id }}");
                     var t = document.createElement("textarea");
@@ -318,7 +323,7 @@
             </div>
             <br>
             <div class="btn_con">
-                <button><a class="page_return" href="">돌아가기</a></button>
+                <button><a href="javascript:window.location=document.referrer;">돌아가기</a></button>
                 {% if post.user == request.user %}
                     <button><a href="{% url 'post:post_update' post.pk %}">수정하기</a></button>
                     <button id="delete_button" type="submit" name="{{ post.pk }}">삭제하기</button>
@@ -357,3 +362,4 @@
         </div>
     </div>
 {% endblock %}
+
