@@ -377,16 +377,15 @@
                         <label class="a_tag open-pop-label" for="open-pop">그룹 정보 변경</label><br><br>
                         <a class="a_tag" href="javascript:delete_group()">그룹 삭제</a><br><br>
                     {% elif request.user in group.members.all %}
-                        <a class="a_tag" href="javascript:secede_group()">그룹 탈퇴</a><br>
+                        <a class="a_tag" href="javascript:secede_group()">그룹 탈퇴</a><br><br>
                     {% else %}
                         {% if group.access_code == '' %}
-                            <a class="a_tag" href="{% url 'group_management:request_group' group.id %}">가입 신청</a><br>
+                            <a class="a_tag" href="{% url 'group_management:request_group' group.id %}">가입 신청</a><br><br>
                         {% else %}
                             <a class="a_tag request_withcode" href="javascript:request_group_withcode()"
-                               data-id="{{ group.access_code }}">가입 신청</a><br>
+                               data-id="{{ group.access_code }}">가입 신청</a><br><br>
                         {% endif %}
                     {% endif %}
-                <a href="javascript:window.location=document.referrer;" class="a_tag">돌아가기</a>
                 </div>
             </div>
 

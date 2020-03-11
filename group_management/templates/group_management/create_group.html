@@ -1,3 +1,7 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block header %}
 <style>
     .group_create_form {
         padding: 10px 10px 10px 10px;
@@ -184,8 +188,6 @@
         height: 35px;
         padding: 20px 40px 10px;
         border-bottom: 2px solid #b0bec9;
-    {#background-color: #1a237e;#}
-
     }
 
     #title {
@@ -268,36 +270,32 @@
         transition: all .2s;
     }
 
+    .no_photo .group_content {
+        color: black;
+    }
+
     .my_grouplist_alarm {
         position: relative;
         margin-right: 35px;
         width: 300px;
         height: 250px;
-        border: 2px solid lightcoral;
+        border: 5px solid lightcoral;
+        box-sizing: border-box;
         box-shadow: 2px 2px 2px #b0bec9;
         display: block;
         float: left;
         border-radius: 5px;
         transition: all .2s;
-        background-size: cover;
+        z-index: 3;
     }
-
-    {#.my_grouplist:hover {#}
-    {#    background-color: #b0bec9;#}
-    {#{}#}
-    .my_grouplist_alarm:hover {
-        background-color: lightcoral;
-    }
-
 
     .box_my_grouplist {
-    {#padding-left: 85px;#} padding-top: 50px;
+        padding-top: 50px;
         overflow: hidden;
         display: flex;
         flex-wrap: wrap;
         justify-content: center;
     }
-
 
     .group_name {
         width: 240px;
@@ -310,6 +308,7 @@
         font-size: 20px;
         color: white;
         transition: all .2s;
+        z-index: 10;
     }
 
     .group_name:hover {
@@ -321,7 +320,7 @@
         margin: 28px;
         line-height: 40px;
         font-size: 20px;
-        color:white;
+        color: white;
     }
 
     .mark {
@@ -332,8 +331,6 @@
     #manage_img {
         width: 50px;
         position: relative;
-    {#margin-bottom: 10px;#}
-
     }
 
     .mark2 {
@@ -353,71 +350,73 @@
     }
 
 </style>
-
-{% extends 'base.html' %}
-{% load static %}
-
+{% endblock %}
 
 {% block content %}
     <div class="background">
     <div class="my_group">
-        <div id="topbar">
-            <div id="title">내 그룹 리스트</div>
-            <label class="btn" for="open-pop">그룹 만들기</label>
-        </div>
-        <div>
-            {% if not groups %}
-                <div class="imgbox">
-                    <h2><a style="color: #1a237e; font-weight: bold; font-size: 35px;">Group</a>이 아직 없어요. <a
-                            style="font-size: 20px; color:black;">그룹을 찾아볼까요?</a></h2>
-                    <img id="group_search_img" src="{% static 'img/group_search.png' %}" alt=""/>
-                    <h4>가입하고 싶은 그룹을 검색하거나 원하는 그룹을 검색해 보세요.</h4>
-                    <div class="btn_search"><a href="{% url 'group_management:search_group' %}" id="search_link">그룹
-                        검색</a></div>
-                </div>
-            {% else %}
-                <div class="box_my_grouplist">
-                {% for group in groups %}
-                    <div class="mark2">
-                    {% if group.manager == request.user %}
-                        <div class="mark"><img id="manage_img" src={% static 'img/관리자 왕관.png' %} alt=""/></div>
-                        <div class="manager_text">manager</div>
-                        {% if group in requested_groups %}
-                            <div class="my_grouplist_alarm">
-                        {% elif group.photo %}
-                            <div class="my_grouplist" style="background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('{{ group.photo.url }}');background-size: cover;">
-                        {% else %}
-                            <div class="my_grouplist">
-                        {% endif %}
-                    {% else %}
-                        <div class="mark"><img id="manage_img" src="" alt="" style="visibility: hidden;"/>
-                        </div>
-                        <div class="manager_text"></div>
-                        {% if group.photo %}
-                            <div class="my_grouplist" style="background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('{{ group.photo.url }}');background-size: cover;">
-                        {% else %}
-                            <div class="my_grouplist">
-                        {% endif %}
-                    {% endif %}
-
-                <a class="group" href="{% url 'group_management:detail_group' group.id %}">
-                    <div class="group_name"><p> {{ group.group_name }}</p></div>
-                    <div class="group_content">
-                        <p>관리자:{{ group.manager.user_profile.name }}({{ group.manager }})</p>
-                        <p>카테고리 : {{ group.get_group_category_display }}</p>
-                        <p>회원 수:{{ group.members.count }}</p>
-                    </div>
-                </a>
-                </div>
-
-
-                </div>
-                {% endfor %}
-            </div>
-            {% endif %}
-            </div>
-        </div>
+    <div id="topbar">
+        <div id="title">내 그룹 리스트</div>
+        <label class="btn" for="open-pop">그룹 만들기</label>
     </div>
+    <div>
+    {% if not groups %}
+        <div class="imgbox">
+            <h2><a style="color: #1a237e; font-weight: bold; font-size: 35px;">Group</a>이 아직 없어요. <a
+                    style="font-size: 20px; color:black;">그룹을 찾아볼까요?</a></h2>
+            <img id="group_search_img" src="{% static 'img/group_search.png' %}" alt=""/>
+            <h4>가입하고 싶은 그룹을 검색하거나 원하는 그룹을 검색해 보세요.</h4>
+            <div class="btn_search"><a href="{% url 'group_management:search_group' %}" id="search_link">그룹
+                검색</a></div>
+        </div>
+    {% else %}
+        <div class="box_my_grouplist">
+        {% for group in groups %}
+            <div class="mark2">
+            {% if group.manager == request.user %}
+                <div class="mark"><img id="manage_img" src={% static 'img/관리자 왕관.png' %} alt="관리자이미"/></div>
+                <div class="manager_text">manager</div>
+                {% if group in requested_groups and group.photo %}
+                    <div class="my_grouplist_alarm"
+                    style="background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('{{ group.photo.url }}');background-size: cover;">
+                {% elif group in requested_groups %}
+                    <div class="my_grouplist_alarm no_photo">
+                {% elif group.photo %}
+                    <div class="my_grouplist"
+                         style="background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('{{ group.photo.url }}');background-size: cover;">
+                {% else %}
+                    <div class="my_grouplist no_photo">
+                {% endif %}
+            {% else %}
+                <div class="mark"><img id="manage_img" src="" alt="" style="visibility: hidden;"/>
+                </div>
+                <div class="manager_text"></div>
+                {% if group.photo %}
+                    <div class="my_grouplist"
+                         style="background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('{{ group.photo.url }}');background-size: cover;">
+                {% else %}
+                    <div class="my_grouplist no_photo">
+                {% endif %}
+            {% endif %}
+
+        <a class="group" href="{% url 'group_management:detail_group' group.id %}">
+            <div class="group_name"><p> {{ group.group_name }}</p></div>
+            <div class="group_content">
+                <p>관리자:{{ group.manager.user_profile.name }}({{ group.manager }})</p>
+                <p>카테고리 : {{ group.get_group_category_display }}</p>
+                <p>회원 수:{{ group.members.count }}</p>
+            </div>
+        </a>
+        </div>
+
+
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+</div>
+</div>
+</div>
 
     <input class="modal-state" id="open-pop" type="checkbox"/>
     <div class="modal">
