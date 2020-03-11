@@ -316,10 +316,11 @@
         .feed-name {
             width: 80px;
         }
-	.btn {
-		color:black;
-		font-weight: bold;
-	}
+
+        .btn {
+            color: black;
+            font-weight: bold;
+        }
     </style>
 {% endblock %}
 
@@ -382,7 +383,7 @@
                     <div id="select_box">
                         <label for="category">category</label>
                         <select id="category" name='filter-category' title="select category">
-                            <option value="" selected="selected">category</option>
+                            <option value="">category</option>
                             <option value="대외활동">대외활동</option>
                             <option value="공모전">공모전</option>
                             <option value="스터디">스터디</option>
@@ -518,7 +519,6 @@
             {#$("input:radio[name='options']:radio[value='posts']").addClass('active');#}
             $('div[data-value="posts"]').addClass('active');
             $('#options-input').attr('value', 'posts');
-
         } // 선택하기
 
         $('.dropdown-menu.keep-open').click(function (e) {
@@ -633,6 +633,56 @@
                 }
             });
 
+        });
+
+        var getUrlParameter = function getUrlParameter(sParam) {
+            var sPageURL = decodeURIComponent(window.location.search.substring(1)),
+                sURLVariables = sPageURL.split('&'),
+                sParameterName,
+                i;
+
+            for (i = 0; i < sURLVariables.length; i++) {
+                sParameterName = sURLVariables[i].split('=');
+
+                if (sParameterName[0] === sParam) {
+                    return sParameterName[1] === undefined ? true : sParameterName[1];
+                }
+            }
+        };
+        // 정렬방식 셀렉트 박스 유지
+        $(document).ready(function () {
+            var groupid = {{ selected_groupid }}
+                console.log(groupid)
+            {#var sort = getUrlParameter('sort');#}
+            var date_start = getUrlParameter('date-start');
+            var date_end = getUrlParameter('date-end');
+            var category = getUrlParameter('filter-category');
+
+            if (date_start) {
+                console.log(date_start)
+                $('.filter-date input[name=date-start]').val(date_start)
+            }
+            if (date_end) {
+                console.log(date_end)
+                $('.filter-date input[name=date-end]').val(date_end)
+
+            }
+            if (category) {
+                console.log(category)
+                {#$('.filter-date input[name=date-end]').val(date_end)#}
+                var select = $("#category");
+                select.val(category).prop('selected', true);
+
+                var select_name = select.children("option:selected").text();
+                console.log('카테고리선택', select_name);
+                select.siblings("label").text(select_name);
+            }
+            if (groupid) {
+                groupid.map(function (e) {
+                    console.log(e)
+                    $('.filter-group >input[value="' + e + '"]').prop("checked", false);
+                })
+            }
         });
     </script>
     {% include "search/Search_Ajax.html" %}

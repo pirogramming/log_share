@@ -37,13 +37,21 @@ def main_search(request):
     else:
         qs = Post.objects.filter(user__user_groups__in=user.user_groups.all()).distinct()
 
-    group_id_list(request, user)
+    groupid = set(user.user_groups.values_list('id', flat=True))
+    try:
+        selected_groupid = set(map(int, group_id_list(request, user)))
+    except TypeError:
+        selected_groupid = set()
+
+    unselected_groupid = groupid - selected_groupid
     print("카테고리 필터링 전", qs)
     qs = process_category(request, user, qs)
 
     print("카테고리 필터링 후: ", qs)
     bm_list = user.user_bookmark.values_list('post_id', flat=True)
     print('북마크 리스트', bm_list)
+    print('그룹 체크박스', list(selected_groupid))
+    print('그룹', unselected_groupid)
     posts = None
     if qs:
 
@@ -76,7 +84,7 @@ def main_search(request):
         'option': option,
         'request_messages_cnt': len(request_messages),
         'bm_post_list': bm_list,
-
+        'selected_groupid': list(unselected_groupid),
     })
 
 
@@ -157,6 +165,7 @@ def search_scroll(request):
     option = request.GET.get('options', '')
     user = request.user
     qs = None
+    print('스크롤 GET요청', request.GET.values())
     if q:  # q가 있으면
 
         if option == 'posts':  # 제목에 q가 포함되어 있는 레코드만 필터링 + 나랑 관련된 사람.
