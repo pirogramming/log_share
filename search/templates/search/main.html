@@ -234,7 +234,6 @@
             {#$("input:radio[name='options']:radio[value='posts']").addClass('active');#}
             $('div[data-value="posts"]').addClass('active');
             $('#options-input').attr('value', 'posts');
-
         } // 선택하기
 
         $('.dropdown-menu.keep-open').click(function (e) {
@@ -339,6 +338,67 @@
         for (const group of groups) {
             console.log(new BtnGroup(group));
         }
+
+        {#검색바 클릭 이벤트#}
+        $(document).on('ready', function () {
+            $('.field').on('keydown', function (event) {
+                $('body').addClass('is-type');
+                if ((event.which === 8) && $(this).val() === '') {
+                    $('body').removeClass('is-type');
+                }
+            });
+
+        });
+
+        var getUrlParameter = function getUrlParameter(sParam) {
+            var sPageURL = decodeURIComponent(window.location.search.substring(1)),
+                sURLVariables = sPageURL.split('&'),
+                sParameterName,
+                i;
+
+            for (i = 0; i < sURLVariables.length; i++) {
+                sParameterName = sURLVariables[i].split('=');
+
+                if (sParameterName[0] === sParam) {
+                    return sParameterName[1] === undefined ? true : sParameterName[1];
+                }
+            }
+        };
+        // 정렬방식 셀렉트 박스 유지
+        $(document).ready(function () {
+            var groupid = {{ selected_groupid }}
+                console.log(groupid)
+            {#var sort = getUrlParameter('sort');#}
+            var date_start = getUrlParameter('date-start');
+            var date_end = getUrlParameter('date-end');
+            var category = getUrlParameter('filter-category');
+
+            if (date_start) {
+                console.log(date_start)
+                $('.filter-date input[name=date-start]').val(date_start)
+            }
+            if (date_end) {
+                console.log(date_end)
+                $('.filter-date input[name=date-end]').val(date_end)
+
+            }
+            if (category) {
+                console.log(category)
+                {#$('.filter-date input[name=date-end]').val(date_end)#}
+                var select = $("#category");
+                select.val(category).prop('selected', true);
+
+                var select_name = select.children("option:selected").text();
+                console.log('카테고리선택', select_name);
+                select.siblings("label").text(select_name);
+            }
+            if (groupid) {
+                groupid.map(function (e) {
+                    console.log(e)
+                    $('.filter-group >input[value="' + e + '"]').prop("checked", false);
+                })
+            }
+        });
     </script>
     {% include "search/Search_Ajax.html" %}
 {% endblock %}
