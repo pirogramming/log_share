@@ -68,7 +68,7 @@ def post_update(request, pk):
     if request.method == "GET":
         postform = PostModelForm(instance=post)
         context['postform'] = postform
-        return render(request, 'post/post_update.html', context)
+        return render(request, 'post/post_create.html', context)
     else:
         postform = PostModelForm(request.POST, request.FILES, instance=post)
         if postform.is_valid():
@@ -80,11 +80,11 @@ def post_update(request, pk):
             else:
                 context['error_message'] = '기간 설정이 올바르지 않습니다.'
                 context['postform'] = postform
-                return render(request, 'post/post_update.html', context)
+                return render(request, 'post/post_create.html', context)
         else:
             context['error_message'] = '입력 정보의 형식이 올바르지 않습니다.'
             context['postform'] = postform
-            return render(request, 'post/post_update.html', context)
+            return render(request, 'post/post_create.html', context)
     return redirect('post:post_detail', post.pk)
 
 
