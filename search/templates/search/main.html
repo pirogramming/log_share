@@ -327,7 +327,7 @@
 
         const groups = Array.prototype.slice.call(document.querySelectorAll('.btn-group'));
         for (const group of groups) {
-            {#console.log(new BtnGroup(group));#}
+            new BtnGroup(group);
         }
 
         {#검색바 클릭 이벤트#}
