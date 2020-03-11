@@ -33,6 +33,7 @@
         margin-bottom: 10px;
         width: 150px;
         height: 40px;
+        font-family: 나눔스퀘어, NanumSquare;
     }
 
     .post_detail_container button:hover {
@@ -65,12 +66,14 @@
         text-align: center;
         margin-right: 10px;
         margin-top: 20px;
+        font-family: 나눔스퀘어, NanumSquare;
     }
 
     .post_detail_container .post_date {
         width: 100%;
         text-align: center;
         margin-bottom: 40px;
+        font-family: 나눔스퀘어, NanumSquare;
     }
 
     .post_detail_container .post_user {
@@ -78,6 +81,7 @@
         margin-right: 20px;
         float: right;
         padding-top: 6px;
+        font-family: 나눔스퀘어, NanumSquare;
     }
 
     .post_detail_container .post_user a {
@@ -102,6 +106,7 @@
         display: inline;
         color: #514aac;
         font-weight: bold;
+        font-family: 나눔스퀘어, NanumSquare;
     }
 
     .post_bookmark_con {
@@ -113,14 +118,22 @@
         height: 70px;
     }
 
+    .post_content_container{
+        font-family: 나눔스퀘어, NanumSquare;
+        margin-left: 20px;
+        margin-top: 15px;
+    }
+
     .post_detail_container .post_url a {
         text-decoration: none;
         color: black;
+        font-family: 나눔스퀘어, NanumSquare;
     }
 
     .post_detail_container .post_tag a {
         text-decoration: none;
         color: black;
+        font-family: 나눔스퀘어, NanumSquare;
     }
 
     .post_detail_container .post_copy_button {
@@ -155,6 +168,7 @@
     .post_detail_container .post_url label {
         font-size: 15px;
         color: dodgerblue;
+        font-family: 나눔스퀘어, NanumSquare;
     }
 
     .post_tag {
@@ -179,15 +193,18 @@
     .post_detail_container .post_tag label {
         font-size: 15px;
         color: dodgerblue;
+        font-family: 나눔스퀘어, NanumSquare;
     }
 
     .post_detail_container .post_category {
         margin-bottom: 5px;
+        font-family: 나눔스퀘어, NanumSquare;
     }
 
     .post_detail_container .post_category label {
         font-size: 15px;
         color: dodgerblue;
+        font-family: 나눔스퀘어, NanumSquare;
     }
 
     {# ----------------구성요소- end--------------- #}
@@ -201,7 +218,8 @@
         color: #514aac;
         font-weight: bold;
     }
-    a{
+
+    a {
         width: 100%;
         height: 100%;
     }
@@ -307,7 +325,9 @@
                 })
             </script>
             <div class="margin2"></div>
-            <div id="post_content-{{ post.id }}">{{ post.contents | safe }}</div>
+            <div class="post_content_container">
+                <div id="post_content-{{ post.id }}">{{ post.contents | safe }}</div>
+            </div>
             <div class="post_url"><label>[참고 URL] </label>
                 {% if post.reference %}
                     <a href="{{ post.reference }}">{{ post.reference }}</a>

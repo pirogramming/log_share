@@ -4,7 +4,7 @@
         margin: 50px auto;
     }
 
-    form {
+    .post_form {
         background-color: white;
         border-radius: 5px;
         padding: 10px 10px;
@@ -15,20 +15,25 @@
         padding-left: 10%;
         box-sizing: border-box;
     }
-    form p{
+
+    .post_form p {
         background-color: transparent;
         margin-top: 20px;
     }
-    form label{
+
+    .post_form label {
         background-color: transparent;
     }
-    form div{
+
+    .post_form div {
         background-color: transparent;
     }
-    form div strong{
+
+    .post_form div strong {
         background-color: transparent;
     }
-    form .submit_btn{
+
+    .post_form .submit_btn {
         background-color: #1a237e;
         border-radius: 5px;
         color: white;
@@ -38,10 +43,12 @@
         height: 40px;
         margin-left: 30%;
     }
-    form .summernote-div{
+
+    .post_form .summernote-div {
         margin-top: 10px;
     }
-    input{
+
+    .post_form input {
         width: 200px;
         height: 30px;
         border-radius: 5px;
@@ -51,21 +58,39 @@
         padding-left: 10px;
 
     }
-    input[type=checkbox] {
+
+    .post_form input[type=checkbox] {
         border: solid 1px #b0bec9;
         width: 20px;
         height: 20px;
     }
 
-    textarea {
+    .post_form textarea {
         border: solid 1px darkgrey;
         border-radius: 5px;
     }
-    input[type=file]{
+
+    .post_form input[type=file] {
         border: none;
     }
-    strong{
+
+    .post_form strong {
         display: none;
+    }
+
+    .post_form .helptext{
+        color: #c2185b;
+        display: block;
+        padding-top: 15px;
+        font-size: 14px;
+        padding-left: 40px;
+    }
+
+    .post_form .star_desc{
+        color: #c2185b;
+        display: block;
+        font-size: 14px;
+        padding-left: 40px;
     }
 </style>
 
@@ -97,9 +122,8 @@
 
 
 {% block content %}
-<div class="temp">
-    <div>
-        <form action="" method="POST" enctype="multipart/form-data" autocomplete="off">
+    <div class="temp">
+        <form class="post_form" action="" method="POST" enctype="multipart/form-data" autocomplete="off">
             {% csrf_token %}
             <p>
                 {% if error_message %}
@@ -107,8 +131,8 @@
                 {% endif %}
                 {{ postform.as_p }}
             </p>
+            <p class="star_desc">추천도를 반드시 입력해주시기 바랍니다(1점~5점).</p>
             <button class="submit_btn" type="submit">제출</button>
         </form>
     </div>
-</div>
 {% endblock %}

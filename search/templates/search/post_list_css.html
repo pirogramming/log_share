@@ -17,68 +17,6 @@
         overflow: hidden;
     }
 
-    .post_list {
-        background-color: white;
-        border-radius: 5px;
-        padding: 10px 20px;
-        padding-bottom: 30px;
-        border: 0.5px solid #b0bec9;
-        box-shadow: 2px 2px 2px #b0bec9;
-    }
-
-    .post_list div {
-        background-color: transparent;
-    }
-
-    .post_list div a {
-        text-decoration: none;
-        color: black;
-    }
-
-    .post_list div a:hover {
-        color: #514aac;
-        font-weight: bold;
-    }
-
-    .post_list .post_score {
-        display: inline;
-    }
-
-    .post_list .bookmark_container {
-        display: inline;
-    }
-
-    .post_list_ajax {
-        background-color: white;
-        border-radius: 5px;
-        padding: 10px 20px;
-        box-shadow: 2px 2px 2px #b0bec9;
-        border: 0.5px solid #b0bec9;
-        padding-bottom: 30px;
-    }
-
-    .post_list_ajax div {
-        background-color: transparent;
-    }
-
-    .post_list_ajax div a {
-        text-decoration: none;
-        color: black;
-    }
-
-    .post_list_ajax div a:hover {
-        color: #514aac;
-        font-weight: bold;
-    }
-
-    .post_list_ajax .post_score {
-        display: inline;
-    }
-
-    .post_list_ajax .bookmark_container {
-        display: inline;
-    }
-
     {# 북마크 & 이메일 - ajax랑 동시에 적용됨#}
     .bookmark {
         background-color: transparent;
@@ -114,28 +52,34 @@
         font-size: 17px;
         border: none;
         border-radius: 5px;
-    {#text-align: center;#} margin: 0 auto;
+        margin: 0 auto;
     }
 
     {#------------new feed css------------#}
     .feed {
-        width: 100%;
-        height: 150px;
+        width: 95%;
         border: #e9ecef 1px solid;
-        border-radius: 10px;
+        border-radius: 5px;
         box-shadow: #b0bec9 2px 2px 2px;
+        font-family:나눔스퀘어, NanumSquare;
+        padding: 20px 20px;
+        margin-bottom: 20px;
     }
 
     .feed a {
         color: black;
     }
 
+    .feed a:hover{
+        font-weight: bold;
+        color: #514aac;
+    }
+
     .feed-content {
-    {#height: 100%;#} margin: 0px;
+        margin: 0px;
         padding: 10px;
         display: flex;
         flex-direction: column;
-    {#justify-content: space-around;#}
     }
 
     .feed-content > p {
@@ -149,7 +93,6 @@
     .feed-main {
         display: flex;
         justify-content: space-between;
-    {#padding: 0px 10px;#}
     }
 
     .feed-title {
@@ -157,6 +100,7 @@
         font-weight: bold;
         display: flex;
         align-items: center;
+        margin-bottom: 10px;
     }
 
     .meta-category {
@@ -171,11 +115,6 @@
         display: flex;
         flex-direction: column;
         align-items: center;
-    }
-
-    .feed-name p {
-        color: #1a237e;
-
     }
 
     .meta-bookmark {
@@ -219,7 +158,6 @@
     .meta-info > div {
         padding-right: 5px;
         margin-right: 5px;
-        border-right: 1px solid black;
     }
 
     div.meta-etc {

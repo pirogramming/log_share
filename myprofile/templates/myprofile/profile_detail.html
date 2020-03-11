@@ -66,6 +66,7 @@
         margin-right: 10px;
         display: inline;
         font-weight: lighter;
+        font-family: 나눔스퀘어, NanumSquare;
     }
 
     .depart_con {
@@ -88,6 +89,7 @@
         border-radius: 5px;
         margin-right: 10px;
         display: inline;
+        font-family: 나눔스퀘어, NanumSquare;
     }
 
     .profile_first_container .profile_first_content .profile_intro {
@@ -111,6 +113,7 @@
         margin-bottom: 10px;
         text-align: center;
         padding: 8px 0;
+        font-family: 나눔스퀘어, NanumSquare;
     }
 
     .photo_con {
@@ -142,6 +145,7 @@
         box-shadow: 2px 2px 2px #b0bec9;
         margin: 10px 0;
         border: 0.5px solid #b0bec9;
+        font-family: 나눔스퀘어, NanumSquare;
     }
 
     .recent_tag_label {
@@ -149,10 +153,12 @@
         color: #0086b3;
         padding: 0 10px;
         font-weight: bold;
+        font-size: 18px;
     }
 
     .profile_recent_tag span {
         background-color: transparent;
+        font-size: 18px;
     }
 
     .profile_recent_tag span a {
@@ -174,6 +180,7 @@
         background-color: white;
         padding: 20px 20px;
         border-bottom: 2px solid rgba(0, 134, 179, 0.5);
+        font-family: 나눔스퀘어, NanumSquare;
     }
 
     .profile_post_list div {
@@ -195,6 +202,7 @@
         background-color: white;
         padding: 20px 20px;
         border-bottom: 2px solid rgba(0, 134, 179, 0.5);
+        font-family: 나눔스퀘어, NanumSquare;
     }
 
     .profile_post_list_ajax div {
@@ -215,7 +223,7 @@
 
     .profile_post_title {
         font-weight: bold;
-        font-size: 20px;
+        font-size: 24px;
         display: inline;
         padding: 5px 0;
         padding-right: 10px;
@@ -293,6 +301,7 @@
         border-radius: 5px;
         margin-right: 10px;
         display: inline;
+        font-family: 나눔스퀘어, NanumSquare;
     }
 
     .interested_tag {
@@ -310,7 +319,7 @@
         outline: 2px groove #1a237e;
     }
 
-    .email_url_con{
+    .email_url_con {
         margin-top: 30px;
         margin-bottom: 15px;
     }
@@ -353,8 +362,8 @@
     .url_container {
         text-align: center;
         display: inline;
-        {#margin-left: 30%;#}
-        float: right;
+    {#margin-left: 30%;#} float: right;
+        font-family: 나눔스퀘어, NanumSquare;
     }
 
     .naver_label {
@@ -396,13 +405,23 @@
     .logofont {
         font-family: 나눔스퀘어 !important;
     }
-    .non_posting_alert{
-        display:flex;
+
+    .non_posting_alert {
+        display: flex;
         justify-content: center;
         margin-top: 60px;
         font-size: 20px;
         color: #1a237e;
     }
+
+    .top {
+            color: #1E88E5;
+            opacity: 0.5;
+            position: fixed;
+            left: 94%;
+            top: 90%;
+            font-size: 30px;
+        }
 </style>
 
 {% extends 'base.html' %}
@@ -534,20 +553,20 @@
             <div class="profile_margin"></div>
 
             <div class="profile_recent_tag">
-                <div class="recent_tag_label" style="font-size: 20px">최근태그목록</div>
+                <div class="recent_tag_label">최근태그목록</div>
                 {% for tag_name, tag_count in recent_tags_count.items %}
                     {% if tag_count >= 3 %} <!—숫자는 추후 조정—>
-                        <span style="font-size: 30px">
+                        <span>
                         <a href="{% url 'search:main_search' %}?q={{ tag_name }}&options=tags">
                             #{{ tag_name }}</a>
                         </span>
                     {% elif tag_count == 2 %}
-                        <span style="font-size: 25px">
+                        <span>
                         <a href="{% url 'search:main_search' %}?q={{ tag_name }}&options=tags">
                             #{{ tag_name }}</a>
                         </span>
                     {% else %}
-                        <span style="font-size: 20px">
+                        <span>
                             <a href="{% url 'search:main_search' %}?q={{ tag_name }}&options=tags">
                             #{{ tag_name }}
                             </a>
@@ -558,6 +577,7 @@
             <br>
             {% include 'post/myprofile_post_list.html' %}
         </div>
+        <a href="#" class="top"><i class="fas fa-caret-square-up"></i></a>
     </div>
     <script type="text/javascript">
         var get_random_RGB = function () {
@@ -569,8 +589,23 @@
         $('.interested_tag').each(function () {
             $(this).css('background-color', get_random_RGB);
         })
+
+        //맨 위로 올라가게 하기
+        $(document).ready(function () {
+            $(window).scroll(function () {
+                if ($(this).scrollTop() > 350) {
+                    $('.top').fadeIn();
+                } else {
+                    $('.top').fadeOut();
+                }
+            });
+            $('.top').click(function () {
+                $('html, body').animate({scrollTop: 0}, 400);
+                return false;
+            });
+        });
     </script>
-    {% include "myprofile/eventline.html"  %}
-{#    <script async src='{% static 'js/eventline.js' %}'></script>#}
+    {% include "myprofile/eventline.html" %}
+    {#    <script async src='{% static 'js/eventline.js' %}'></script>#}
 {% endblock %}
 

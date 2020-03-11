@@ -77,6 +77,13 @@
         padding-left: 40px;
     }
 
+    .post-form .star_desc{
+        color: #c2185b;
+        display: block;
+        font-size: 14px;
+        padding-left: 40px;
+    }
+
 </style>
 
 {% extends 'base.html' %}
@@ -120,6 +127,7 @@
                 {% endif %}
                 {{ postform.as_p }}
             </p>
+            <p class="star_desc">추천도를 반드시 입력해주시기 바랍니다(1점~5점).</p>
             <button class="submit_btn" type="submit">제출</button>
         </form>
     </div>
