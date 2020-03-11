@@ -380,7 +380,8 @@
                         <a class="a_tag" href="javascript:secede_group()">그룹 탈퇴</a><br><br>
                     {% else %}
                         {% if group.access_code == '' %}
-                            <a class="a_tag request_nocode" href="{% url 'group_management:request_group' group.id %}">가입 신청</a><br><br>
+                            <a class="a_tag request_nocode" href="{% url 'group_management:request_group' group.id %}">가입
+                                신청</a><br><br>
                         {% else %}
                             <a class="a_tag request_withcode" href="javascript:request_group_withcode()"
                                data-id="{{ group.access_code }}">가입 신청</a><br><br>
@@ -581,7 +582,6 @@
             }
             var member_id = $(this).attr('member_id');
             var group_id = $(this).attr('group_id');
-            {#var deleted_member_div = document.getElementById("delete_member_div-" + memeber.id);#}
 
             $.ajax({
                 type: "POST",
@@ -632,7 +632,7 @@
             }
         }
 
-        $(".request_nocode").click(function (){
+        $(".request_nocode").click(function () {
             alert('그룹 가입 신청을 완료했습니다. 그룹 관리자의 수락을 기다려주세요.')
         });
 

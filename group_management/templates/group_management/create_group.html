@@ -2,454 +2,454 @@
 {% load static %}
 
 {% block header %}
-<style>
-    .group_create_form {
-        padding: 10px 10px 10px 10px;
-    }
+    <style>
+        .group_create_form {
+            padding: 10px 10px 10px 10px;
+        }
 
-    form {
-        background-color: white;
-        width: 50%;
-        margin: 10px auto;
-        padding: 10px 10px 10px 10px;
-    }
+        form {
+            background-color: white;
+            width: 50%;
+            margin: 10px auto;
+            padding: 10px 10px 10px 10px;
+        }
 
-    .modal {
-        opacity: 0;
-        visibility: hidden;
-        position: fixed;
-        top: 0;
-        right: 0;
-        bottom: 0;
-        left: 0;
-        text-align: left;
-        background: rgba(0, 0, 0, 0.6);
-        transition: opacity .25s ease;
-    }
+        .modal {
+            opacity: 0;
+            visibility: hidden;
+            position: fixed;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            text-align: left;
+            background: rgba(0, 0, 0, 0.6);
+            transition: opacity .25s ease;
+        }
 
-    .modal_bg {
-        position: absolute;
-        top: 0;
-        right: 0;
-        bottom: 0;
-        left: 0;
-        cursor: pointer;
-    }
+        .modal_bg {
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            cursor: pointer;
+        }
 
-    .modal-state {
-        display: none;
-    }
+        .modal-state {
+            display: none;
+        }
 
-    .modal-state:checked + .modal {
-        opacity: 1;
-        visibility: visible;
-    }
+        .modal-state:checked + .modal {
+            opacity: 1;
+            visibility: visible;
+        }
 
-    .modal-state:checked + .modal .modal__inner {
-        top: 0;
-    }
-
-    .modal_inner {
-        transition: top .25s ease;
-        position: absolute;
-        top: -20%;
-        right: 0;
-        bottom: 0;
-        left: 0;
-        width: 50%;
-        margin: auto;
-        overflow: auto;
-        background: #fff;
-        border-radius: 5px;
-        padding: 1em 2em;
-        height: 70%;
-    }
-
-    .modal_close {
-        position: absolute;
-        right: 1em;
-        top: 1em;
-        width: 1.1em;
-        height: 1.1em;
-        cursor: pointer;
-    }
-
-    .modal_close:after, .modal_close:before {
-        content: '';
-        position: absolute;
-        width: 2px;
-        height: 1.5em;
-        background: #ccc;
-        display: block;
-        transform: rotate(45deg);
-        left: 50%;
-        margin: -3px 0 0 -1px;
-        top: 0;
-    }
-
-    .modal_close:hover:after, .modal_close:hover:before {
-        background: #aaa;
-    }
-
-    .modal_close:before {
-        transform: rotate(-45deg);
-    }
-
-    @media screen and (max-width: 768px) {
+        .modal-state:checked + .modal .modal__inner {
+            top: 0;
+        }
 
         .modal_inner {
-            width: 90%;
-            height: 90%;
-            box-sizing: border-box;
+            transition: top .25s ease;
+            position: absolute;
+            top: -20%;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            width: 50%;
+            margin: auto;
+            overflow: auto;
+            background: #fff;
+            border-radius: 5px;
+            padding: 1em 2em;
+            height: 70%;
         }
-    }
 
-    .btn {
-        cursor: pointer;
-        background-color: #00B0F0;
-        display: inline-block;
-        padding: .5em 1em;
-        color: white;
-        font-weight: bold;
-        border-radius: 5px;
-        border: 1px solid #00B0F0;
-        float: right;
-        transition: all .2s;
-    }
+        .modal_close {
+            position: absolute;
+            right: 1em;
+            top: 1em;
+            width: 1.1em;
+            height: 1.1em;
+            cursor: pointer;
+        }
 
-    .btn:hover,
-    .btn:focus {
-        background: #1E88E5;
-        color: white;
-        border: 1px solid #1E88E5;
-    }
+        .modal_close:after, .modal_close:before {
+            content: '';
+            position: absolute;
+            width: 2px;
+            height: 1.5em;
+            background: #ccc;
+            display: block;
+            transform: rotate(45deg);
+            left: 50%;
+            margin: -3px 0 0 -1px;
+            top: 0;
+        }
 
-    input {
-        width: 200px;
-        height: 30px;
-        border-radius: 5px;
-        border: solid 1px #b0bec9;
-        line-height: 20px;
-        align-content: center;
-        padding-left: 10px;
-        font-size: 16px;
-    }
+        .modal_close:hover:after, .modal_close:hover:before {
+            background: #aaa;
+        }
 
-    input[type=checkbox] {
-        border: solid 1px #b0bec9;
-        width: 20px;
-        height: 20px;
-    }
+        .modal_close:before {
+            transform: rotate(-45deg);
+        }
 
-    input[type=submit] {
-        margin-left: 103px;
-        background-color: #1a237e;
-        border-radius: 5px;
-        color: white;
-        margin-bottom: 40px;
-    }
+        @media screen and (max-width: 768px) {
 
-    h3 {
-        margin-bottom: 20px;
-    }
+            .modal_inner {
+                width: 90%;
+                height: 90%;
+                box-sizing: border-box;
+            }
+        }
 
-    textarea {
-        border: solid 1px darkgrey;
-        border-radius: 5px;
-    }
+        .btn {
+            cursor: pointer;
+            background-color: #00B0F0;
+            display: inline-block;
+            padding: .5em 1em;
+            color: white;
+            font-weight: bold;
+            border-radius: 5px;
+            border: 1px solid #00B0F0;
+            float: right;
+            transition: all .2s;
+        }
 
-    select {
-        width: 100px;
-        height: 30px;
-        border-radius: 5px;
-        border: solid 1px #b0bec9;
-    }
+        .btn:hover,
+        .btn:focus {
+            background: #1E88E5;
+            color: white;
+            border: 1px solid #1E88E5;
+        }
 
-    #id_group_category {
-        font-size: 16px;
-    }
+        input {
+            width: 200px;
+            height: 30px;
+            border-radius: 5px;
+            border: solid 1px #b0bec9;
+            line-height: 20px;
+            align-content: center;
+            padding-left: 10px;
+            font-size: 16px;
+        }
 
-    #id_notes {
-        margin-top: 10px;
-        font-size: 16px;
-        border: solid 1px #b0bec9;
-    }
+        input[type=checkbox] {
+            border: solid 1px #b0bec9;
+            width: 20px;
+            height: 20px;
+        }
 
-    .my_group {
-        width: 75%;
-        border-bottom: none;
-        margin: 60px auto;
-        border: 1px solid #b0bec9;
-        box-shadow: 2px 2px 2px #b0bec9;
-        border-radius: 5px;
-    }
+        input[type=submit] {
+            margin-left: 103px;
+            background-color: #1a237e;
+            border-radius: 5px;
+            color: white;
+            margin-bottom: 40px;
+        }
 
-    #topbar {
-        height: 35px;
-        padding: 20px 40px 10px;
-        border-bottom: 2px solid #b0bec9;
-    }
+        h3 {
+            margin-bottom: 20px;
+        }
 
-    #title {
-        float: left;
-        font-size: 20px;
-        color: #1a237e;
-        line-height: 35px;
-        font-weight: bold;
-    }
+        textarea {
+            border: solid 1px darkgrey;
+            border-radius: 5px;
+        }
 
-    .group {
-        color: black;
+        select {
+            width: 100px;
+            height: 30px;
+            border-radius: 5px;
+            border: solid 1px #b0bec9;
+        }
 
-    }
+        #id_group_category {
+            font-size: 16px;
+        }
 
-    #group_search_img {
-        width: 350px;
+        #id_notes {
+            margin-top: 10px;
+            font-size: 16px;
+            border: solid 1px #b0bec9;
+        }
 
-    }
+        .my_group {
+            width: 75%;
+            border-bottom: none;
+            margin: 60px auto;
+            border: 1px solid #b0bec9;
+            box-shadow: 2px 2px 2px #b0bec9;
+            border-radius: 5px;
+        }
 
-    .imgbox {
-        width: 420px;
-        margin: 40px auto;
-        line-height: 70px;
-    }
+        #topbar {
+            height: 35px;
+            padding: 20px 40px 10px;
+            border-bottom: 2px solid #b0bec9;
+        }
 
-    h4 {
-        width: 430px;
-        font-weight: normal;
-    }
+        #title {
+            float: left;
+            font-size: 20px;
+            color: #1a237e;
+            line-height: 35px;
+            font-weight: bold;
+        }
 
-    .btn_search {
-        width: 112.8px;
-        border: 2px solid #1a237e;
-        height: 38.4px;
-        border-radius: 5px;
-        color: white;
-        font-weight: bold;
-        text-align: center;
-        line-height: 38.4px;
-        margin: 0 auto;
-        background-color: #1a237e;
-    }
+        .group {
+            color: black;
 
-    .btn_search:hover {
-        background: white;
-        color: #1a237e;
+        }
 
-    }
+        #group_search_img {
+            width: 350px;
 
-    h2 {
-        margin-bottom: 20px;
-    }
+        }
 
-    #search_link {
-        display: block;
-        width: 100%;
-        height: 100%;
-        color: white;
-    }
+        .imgbox {
+            width: 420px;
+            margin: 40px auto;
+            line-height: 70px;
+        }
 
-    #search_link:hover {
-        color: #1a237e;
-        display: block;
-        width: 100%;
-        height: 100%;
-        font-weight: bold;
-    }
+        h4 {
+            width: 430px;
+            font-weight: normal;
+        }
 
-    .my_grouplist {
-        position: relative;
-        margin-right: 35px;
-        width: 300px;
-        height: 250px;
-        border: 1px solid #b0bec9;
-        box-shadow: 2px 2px 2px #b0bec9;
-        display: block;
-        float: left;
-        border-radius: 5px;
-        transition: all .2s;
-    }
+        .btn_search {
+            width: 112.8px;
+            border: 2px solid #1a237e;
+            height: 38.4px;
+            border-radius: 5px;
+            color: white;
+            font-weight: bold;
+            text-align: center;
+            line-height: 38.4px;
+            margin: 0 auto;
+            background-color: #1a237e;
+        }
 
-    .no_photo .group_content {
-        color: black;
-    }
+        .btn_search:hover {
+            background: white;
+            color: #1a237e;
 
-    .my_grouplist_alarm {
-        position: relative;
-        margin-right: 35px;
-        width: 300px;
-        height: 250px;
-        border: 5px solid lightcoral;
-        box-sizing: border-box;
-        box-shadow: 2px 2px 2px #b0bec9;
-        display: block;
-        float: left;
-        border-radius: 5px;
-        transition: all .2s;
-        z-index: 3;
-    }
+        }
 
-    .box_my_grouplist {
-        padding-top: 50px;
-        overflow: hidden;
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-    }
+        h2 {
+            margin-bottom: 20px;
+        }
 
-    .group_name {
-        width: 240px;
-        height: 40px;
-        background-color: #1a237e;
-        border-radius: 5px;
-        line-height: 40px;
-        margin: 25px auto;
-        text-align: center;
-        font-size: 20px;
-        color: white;
-        transition: all .2s;
-        z-index: 10;
-    }
+        #search_link {
+            display: block;
+            width: 100%;
+            height: 100%;
+            color: white;
+        }
 
-    .group_name:hover {
-        color: white;
-        background-color: #1E88E5;
-    }
+        #search_link:hover {
+            color: #1a237e;
+            display: block;
+            width: 100%;
+            height: 100%;
+            font-weight: bold;
+        }
 
-    .group_content {
-        margin: 28px;
-        line-height: 40px;
-        font-size: 20px;
-        color: white;
-    }
+        .my_grouplist {
+            position: relative;
+            margin-right: 35px;
+            width: 300px;
+            height: 250px;
+            border: 1px solid #b0bec9;
+            box-shadow: 2px 2px 2px #b0bec9;
+            display: block;
+            float: left;
+            border-radius: 5px;
+            transition: all .2s;
+        }
 
-    .mark {
-        display: inline-block;
-        position: relative;
-    }
+        .no_photo .group_content {
+            color: black;
+        }
 
-    #manage_img {
-        width: 50px;
-        position: relative;
-    }
+        .my_grouplist_alarm {
+            position: relative;
+            margin-right: 35px;
+            width: 300px;
+            height: 250px;
+            border: 5px solid lightcoral;
+            box-sizing: border-box;
+            box-shadow: 2px 2px 2px #b0bec9;
+            display: block;
+            float: left;
+            border-radius: 5px;
+            transition: all .2s;
+            z-index: 3;
+        }
 
-    .mark2 {
-        display: inline-block;
-        overflow: hidden;
-        width: 310px;
-        height: 350px;
-        margin-right: 30px;
-        text-align: center;
+        .box_my_grouplist {
+            padding-top: 50px;
+            overflow: hidden;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
 
-    }
+        .group_name {
+            width: 240px;
+            height: 40px;
+            background-color: #1a237e;
+            border-radius: 5px;
+            line-height: 40px;
+            margin: 25px auto;
+            text-align: center;
+            font-size: 20px;
+            color: white;
+            transition: all .2s;
+            z-index: 10;
+        }
 
-    .manager_text {
-        font-size: 15px;
-        color: #1a237e;
-        margin-bottom: 5px;
-    }
+        .group_name:hover {
+            color: white;
+            background-color: #1E88E5;
+        }
 
-</style>
+        .group_content {
+            margin: 28px;
+            line-height: 40px;
+            font-size: 20px;
+            color: white;
+        }
+
+        .mark {
+            display: inline-block;
+            position: relative;
+        }
+
+        #manage_img {
+            width: 50px;
+            position: relative;
+        }
+
+        .mark2 {
+            display: inline-block;
+            overflow: hidden;
+            width: 310px;
+            height: 350px;
+            margin-right: 30px;
+            text-align: center;
+
+        }
+
+        .manager_text {
+            font-size: 15px;
+            color: #1a237e;
+            margin-bottom: 5px;
+        }
+
+    </style>
 {% endblock %}
 
 {% block content %}
     <div class="background">
-    <div class="my_group">
-    <div id="topbar">
-        <div id="title">내 그룹 리스트</div>
-        <label class="btn" for="open-pop">그룹 만들기</label>
-    </div>
-    <div>
-    {% if not groups %}
-        <div class="imgbox">
-            <h2><a style="color: #1a237e; font-weight: bold; font-size: 35px;">Group</a>이 아직 없어요. <a
-                    style="font-size: 20px; color:black;">그룹을 찾아볼까요?</a></h2>
-            <img id="group_search_img" src="{% static 'img/group_search.png' %}" alt=""/>
-            <h4>가입하고 싶은 그룹을 검색하거나 원하는 그룹을 검색해 보세요.</h4>
-            <div class="btn_search"><a href="{% url 'group_management:search_group' %}" id="search_link">그룹
-                검색</a></div>
-        </div>
-    {% else %}
-        <div class="box_my_grouplist">
-        {% for group in groups %}
-            <div class="mark2">
-            {% if group.manager == request.user %}
-                <div class="mark"><img id="manage_img" src={% static 'img/관리자 왕관.png' %} alt="관리자이미"/></div>
-                <div class="manager_text">manager</div>
-                {% if group in requested_groups and group.photo %}
-                    <div class="my_grouplist_alarm"
-                    style="background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('{{ group.photo.url }}');background-size: cover;">
-                {% elif group in requested_groups %}
-                    <div class="my_grouplist_alarm no_photo">
-                {% elif group.photo %}
-                    <div class="my_grouplist"
-                         style="background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('{{ group.photo.url }}');background-size: cover;">
-                {% else %}
-                    <div class="my_grouplist no_photo">
-                {% endif %}
-            {% else %}
-                <div class="mark"><img id="manage_img" src="" alt="" style="visibility: hidden;"/>
-                </div>
-                <div class="manager_text"></div>
-                {% if group.photo %}
-                    <div class="my_grouplist"
-                         style="background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('{{ group.photo.url }}');background-size: cover;">
-                {% else %}
-                    <div class="my_grouplist no_photo">
-                {% endif %}
-            {% endif %}
-
-        <a class="group" href="{% url 'group_management:detail_group' group.id %}">
-            <div class="group_name"><p> {{ group.group_name }}</p></div>
-            <div class="group_content">
-                <p>관리자:{{ group.manager.user_profile.name }}({{ group.manager }})</p>
-                <p>카테고리 : {{ group.get_group_category_display }}</p>
-                <p>회원 수:{{ group.members.count }}</p>
+        <div class="my_group">
+            <div id="topbar">
+                <div id="title">내 그룹 리스트</div>
+                <label class="btn" for="open-pop">그룹 만들기</label>
             </div>
-        </a>
-        </div>
-
-
-        </div>
-        {% endfor %}
-    </div>
-    {% endif %}
-</div>
-</div>
-</div>
-
-    <input class="modal-state" id="open-pop" type="checkbox"/>
-    <div class="modal">
-        <label class="modal_bg" for="open-pop"></label>
-        <div class="modal_inner">
-            <label class="modal_close" for="open-pop"></label>
-            <div class="group_create_form">
-                <form action="" method="post" class="form-horizontal" enctype="multipart/form-data">
-                    {% csrf_token %}
-                    <h3>그룹을 생성해보세요</h3>
-                    {% for error in form.non_field_errors %}
-                        <div class="alert alert-danger">
-                            {{ error }}
-                        </div>
-                    {% endfor %}
-                    {% for field in form.visible_fields %}
-                        <div class="form-group">
-                            {{ field.label_tag }} {{ field }}
-                            {% if field.help_text %}
-                                <p class="help-block">
-                                    {{ field.help_text }}
-                                </p>
+            <div>
+                {% if not groups %}
+                    <div class="imgbox">
+                        <h2><a style="color: #1a237e; font-weight: bold; font-size: 35px;">Group</a>이 아직 없어요. <a
+                                style="font-size: 20px; color:black;">그룹을 찾아볼까요?</a></h2>
+                        <img id="group_search_img" src="{% static 'img/group_search.png' %}" alt=""/>
+                        <h4>가입하고 싶은 그룹을 검색하거나 원하는 그룹을 검색해 보세요.</h4>
+                        <div class="btn_search"><a href="{% url 'group_management:search_group' %}" id="search_link">그룹
+                            검색</a></div>
+                    </div>
+                {% else %}
+                    <div class="box_my_grouplist">
+                    {% for group in groups %}
+                        <div class="mark2">
+                        {% if group.manager == request.user %}
+                            <div class="mark"><img id="manage_img" src={% static 'img/관리자 왕관.png' %} alt="관리자이미"/></div>
+                            <div class="manager_text">manager</div>
+                            {% if group in requested_groups and group.photo %}
+                                <div class="my_grouplist_alarm"
+                                     style="background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('{{ group.photo.url }}');background-size: cover;">
+                            {% elif group in requested_groups %}
+                                <div class="my_grouplist_alarm no_photo">
+                            {% elif group.photo %}
+                                <div class="my_grouplist"
+                                     style="background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('{{ group.photo.url }}');background-size: cover;">
+                            {% else %}
+                                <div class="my_grouplist no_photo">
                             {% endif %}
-                            {% for error in field.errors %}
-                                <div class="alert alert-danger">
-                                    {{ error }}
-                                </div>
-                            {% endfor %}
-                        </div><br>
+                        {% else %}
+                            <div class="mark"><img id="manage_img" src="" alt="" style="visibility: hidden;"/>
+                            </div>
+                            <div class="manager_text"></div>
+                            {% if group.photo %}
+                                <div class="my_grouplist"
+                                     style="background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('{{ group.photo.url }}');background-size: cover;">
+                            {% else %}
+                                <div class="my_grouplist no_photo">
+                            {% endif %}
+                        {% endif %}
+
+                    <a class="group" href="{% url 'group_management:detail_group' group.id %}">
+                        <div class="group_name"><p> {{ group.group_name }}</p></div>
+                        <div class="group_content">
+                            <p>관리자:{{ group.manager.user_profile.name }}({{ group.manager }})</p>
+                            <p>카테고리 : {{ group.get_group_category_display }}</p>
+                            <p>회원 수:{{ group.members.count }}</p>
+                        </div>
+                    </a>
+                    </div>
+
+
+                    </div>
                     {% endfor %}
-                    <input type="submit" value="그룹 생성">
-                </form>
-            </div>
-        </div>
-    </div>
+                </div>
+                {% endif %}
+                </div>
+                </div>
+                </div>
+
+                <input class="modal-state" id="open-pop" type="checkbox"/>
+                <div class="modal">
+                    <label class="modal_bg" for="open-pop"></label>
+                    <div class="modal_inner">
+                        <label class="modal_close" for="open-pop"></label>
+                        <div class="group_create_form">
+                            <form action="" method="post" class="form-horizontal" enctype="multipart/form-data">
+                                {% csrf_token %}
+                                <h3>그룹을 생성해보세요</h3>
+                                {% for error in form.non_field_errors %}
+                                    <div class="alert alert-danger">
+                                        {{ error }}
+                                    </div>
+                                {% endfor %}
+                                {% for field in form.visible_fields %}
+                                    <div class="form-group">
+                                        {{ field.label_tag }} {{ field }}
+                                        {% if field.help_text %}
+                                            <p class="help-block">
+                                                {{ field.help_text }}
+                                            </p>
+                                        {% endif %}
+                                        {% for error in field.errors %}
+                                            <div class="alert alert-danger">
+                                                {{ error }}
+                                            </div>
+                                        {% endfor %}
+                                    </div><br>
+                                {% endfor %}
+                                <input type="submit" value="그룹 생성">
+                            </form>
+                        </div>
+                    </div>
+                </div>
 {% endblock %}
