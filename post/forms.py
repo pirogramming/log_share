@@ -18,6 +18,7 @@ class PostModelForm(ModelForm):
         }
         help_texts = {
             'tags': '띄어쓰기 없이 반점(,)을 이용하여 태그를 구별하세요. 최대 10개까지 입력됩니다.',
+            'score': '추천도를 반드시 입력해주시기 바랍니다(1점~5점).'
         }
         labels = {
             'tags': '태그',
