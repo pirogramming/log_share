@@ -5,72 +5,21 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.http import HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.decorators.http import require_POST
-from rest_framework import viewsets, status
-from rest_framework.response import Response
-from rest_framework.views import APIView
 
 from myprofile.models import BookMark, Profile
-from . import serializers
 from .forms import PostModelForm
 from .models import Post
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 
-# from .serializers import UserSerializer, GroupSerializer
-
-### Rest API 파트 ###
-
-# class UserViewSet(viewsets.ModelViewSet):
-#     '''
-#     '''
-#     queryset = User.objects.all().order_by('-date_joined')
-#     serializer_class = UserSerializer
-#
-# class GroupViewSet(viewsets.ModelViewSet):
-#     '''
-#     API endpoint that allows groups to be viewed or edited.
-#     '''
-#     queryset = Group.objects.all()
-#     serializer_class = GroupSerializer
 from .utils import remove_all_tags_without_objects, tag_count_check
 
-
-class Search(APIView):
-
-    def get(self, request, format=None):
-        # get의 첫번째 인자는 어떤 variable인지, 두번째인자는 default값
-        print(request.query_params)
-        tags = request.query_params.get('tags', None).split(",")
-        # 표시할 검색결과가 있을 때
-        if tags is not None:
-            posts = Post.objects.filter(tags__name__in=tags).distinct()
-            posts_data = serializers.PostSerializer(posts, many=True)
-            for post in posts_data.data:
-                # from taggit.models import Tag
-                # tag_names = [tag.name for tag in Tag.objects.all()]
-                # want = tag_names
-                # print('')
-                # print(want)
-                # print('')
-                pass
-
-            post_writer = User.objects.get(id=post['user']).user_profile.name
-
-            context = {
-                # 'post_data': posts_data,
-                'posts_data': posts_data.data,
-                'post_writer': post_writer,
-            }
-
-            return render(request, 'post/searched_post_list.html', context)
-        else:
-            return Response(status=status.HTTP_400_BAD_REQUEST)
-
-
-### Rest API 끝 ###
 
 
 def post_create(request):
     context = {}
+    postform = PostModelForm()
+    context['postform'] = postform
+
     if request.method == 'POST':
         # 포스트모델폼을 이용하여 정보를 받아온다.
         postform = PostModelForm(request.POST, request.FILES)
@@ -82,20 +31,17 @@ def post_create(request):
             if post.is_valid_date:
                 post.save()
             else:
-                # todo 에러메시지?
-                return
+                context['error_message'] = '기간 설정이 올바르지 않습니다.'
+                context['postform'] = PostModelForm(instance=post)
+                return render(request, 'post/post_create.html', context)
             # tag개수(최대10개) 제한
             tag_count_check(request, post)
             return redirect('myprofile:profile_detail', request.user.pk)
         else:
-            # todo 에러메세지
-            return
+            context['error_message'] = '입력 정보의 형식이 올바르지 않습니다.'
+            return render(request, 'post/post_create.html', context)
     else:
-        postform = PostModelForm()
-        context = {
-            'postform': postform,
-        }
-    return render(request, 'post/post_create.html', context)
+        return render(request, 'post/post_create.html', context)
 
 
 # pk: post_pk
@@ -108,7 +54,6 @@ def post_detail(request, pk):
 
     bm = request.user.user_bookmark.filter(post=post)
 
-
     context = {
         'post': post,
         'user': user,
@@ -119,11 +64,10 @@ def post_detail(request, pk):
 
 def post_update(request, pk):
     post = Post.objects.get(id=pk)
+    context = {}
     if request.method == "GET":
         postform = PostModelForm(instance=post)
-        context = {
-            'postform': postform,
-        }
+        context['postform'] = postform
         return render(request, 'post/post_update.html', context)
     else:
         postform = PostModelForm(request.POST, request.FILES, instance=post)
@@ -134,9 +78,14 @@ def post_update(request, pk):
                 # tag개수(최대10개) 제한
                 tag_count_check(request, post)
             else:
-                # todo 에러메시지?
-                return
-        return redirect('post:post_detail', post.pk)
+                context['error_message'] = '기간 설정이 올바르지 않습니다.'
+                context['postform'] = postform
+                return render(request, 'post/post_update.html', context)
+        else:
+            context['error_message'] = '입력 정보의 형식이 올바르지 않습니다.'
+            context['postform'] = postform
+            return render(request, 'post/post_update.html', context)
+    return redirect('post:post_detail', post.pk)
 
 
 def post_delete(request):
@@ -212,38 +161,6 @@ def post_list(request):
     return render(request, 'post/post_list.html', context)
 
 
-# 활동보기 무한스크롤 ajax
-def post_list_ajax(request):
-    user = request.user
-    post_list = Post.objects.none()  # Queryset 초기화 : <QuerySet []>
-
-    for group in user.user_groups.all():  # request.user의 그룹들 중에서
-        for group_user in group.members.all():  # 그 그룹에 속한 user
-            if group_user != user:
-                post_list |= group_user.user_post.all()  # add QuerySet
-
-    post_list = post_list.order_by('-start_date', '-end_date')
-    paginator = Paginator(post_list, 4)
-    page = request.POST.get('page')  # 현재 페이지 숫자
-
-    bm_list = user.user_bookmark.all()  # user의 북마크들
-    bm_post_list = []
-    for bm in bm_list:
-        bm_post_list.append(bm.post_id)  # user의 북마크의 포스트 리스트
-
-    try:
-        posts = paginator.page(page)  # 해당 페이지의 포스트(post_list) - Page 객체
-    except PageNotAnInteger:
-        posts = paginator.page(1)
-    except EmptyPage:
-        posts = paginator.page(paginator.num_pages)
-    context = {
-        'posts': posts,
-        'bm_post_list': bm_post_list,
-    }
-
-    return render(request, 'post/post_list_ajax.html', context)
-
 
 # 프로필_무한스크롤 ajax
 def profile_post_list_ajax(request):
@@ -260,8 +177,6 @@ def profile_post_list_ajax(request):
         posts = paginator.page(1)
     except EmptyPage:
         posts = paginator.page(paginator.num_pages)
-    print(page, posts)
-    print('--')
     context = {
         'posts': posts
     }

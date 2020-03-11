@@ -22,17 +22,15 @@ def date_upload_to(instance, filename):
 def remove_all_tags_without_objects():
   for tag in Tag.objects.all():
     if tag.taggit_taggeditem_items.count() == 0:
-      # print(f'Removing: {tag}')
       tag.delete()
     else:
-      # print(f'Keeping: {tag}')
       pass
 
 def tag_count_check(request, post):
   # request.POST.get('tags')로 tag를 가져오되, 없을시 None을 할당한다.
   tag_list = request.POST.get('tags')
-  # tag들을 10개+나머지로 분리하여 리스트화한다
-  tags = [str(tag) for tag in tag_list.split(',', maxsplit=11)]
+  # tag들을 10개+나머지로 분리하여 리스트화한다 + tag의 공백을 제거한다
+  tags = [str(tag).replace(' ', '') for tag in tag_list.split(',', maxsplit=11)]
   # 10개+나머지에서 나머지 제거
   if len(tags) >10:
     tags = tags[:-1]

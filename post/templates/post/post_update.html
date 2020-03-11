@@ -102,6 +102,9 @@
         <form action="" method="POST" enctype="multipart/form-data" autocomplete="off">
             {% csrf_token %}
             <p>
+                {% if error_message %}
+                    <p style="color: red;">{{ error_message }}</p>
+                {% endif %}
                 {{ postform.as_p }}
             </p>
             <button class="submit_btn" type="submit">제출</button>
