@@ -328,7 +328,7 @@
             position: relative;
         }
 
-        #manage_img {
+        .manage_img {
             width: 50px;
             position: relative;
         }
@@ -374,7 +374,7 @@
                     {% for group in groups %}
                         <div class="mark2">
                         {% if group.manager == request.user %}
-                            <div class="mark"><img id="manage_img" src={% static 'img/관리자 왕관.png' %} alt="관리자이미"/></div>
+                            <div class="mark"><img class="manage_img" src={% static 'img/관리자 왕관.png' %} alt="관리자이미지"/></div>
                             <div class="manager_text">manager</div>
                             {% if group in requested_groups and group.photo %}
                                 <div class="my_grouplist_alarm"
@@ -388,8 +388,9 @@
                                 <div class="my_grouplist no_photo">
                             {% endif %}
                         {% else %}
-                            <div class="mark"><img id="manage_img" src="" alt="" style="visibility: hidden;"/>
+                            <div class="mark"><img class="manage_img" src={% static 'img/관리자 왕관.png' %} alt="관리자이미지" style="visibility: hidden;"/>
                             </div>
+                            <div class="manager_text" style="visibility: hidden;">manager</div>
                             <div class="manager_text"></div>
                             {% if group.photo %}
                                 <div class="my_grouplist"
