@@ -8,9 +8,11 @@
 
 
 ## ❤️ Demo
-<video width="80%" controls>
-  <source src="demo.mov" type="video/mp4">
-</video>
+<img width="80%" alt="Screen Shot 2020-03-12 at 8 09 00 PM" src="https://user-images.githubusercontent.com/40483081/76516561-f4a0a300-649e-11ea-99c8-b7b99fd0af24.png" style="border: 1px solid black;">
+<img width="80%" alt="Screen Shot 2020-03-12 at 8 19 46 PM" src="https://user-images.githubusercontent.com/40483081/76516905-a049f300-649f-11ea-9d94-263cb5569f8a.png" style="border: 1px solid black;">
+<img width="80%" alt="Screen Shot 2020-03-12 at 8 21 44 PM" src="https://user-images.githubusercontent.com/40483081/76516657-2a458c00-649f-11ea-9592-38db7b9c2a39.png" style="border: 1px solid black;">
+<img width="80%" alt="Screen Shot 2020-03-12 at 8 05 00 PM" src="https://user-images.githubusercontent.com/40483081/76516574-f9fded80-649e-11ea-9958-b96ba4a80964.png" style="border: 1px solid black;">
+
 
 
 ## 🖍 App 주요 기능
