@@ -1,4 +1,5 @@
 <h1 align="center">🥳 Welcome to LOG SHARE 🎉</h1>
+<h2 align="center"> www.logshare.net </h2>
 <p align="center">
 &nbsp; <img width=300 alt="logo" src="https://user-images.githubusercontent.com/40483081/76491472-1a16b800-6471-11ea-9d3e-71ae9c76aeb3.png"><br></p>
 <p align="center">'LOG SHARE'는 자신이 한 활동을 📝기록(Log)하고 <br>
